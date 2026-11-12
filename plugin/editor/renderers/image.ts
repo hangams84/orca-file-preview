@@ -19,7 +19,7 @@ export async function render(ctx: PreviewContext): Promise<void> {
   const kind = sniff(bytes)
   if (!kind) {
     throw new PreviewError(
-      tr('이미지 형식을 인식할 수 없습니다', 'Unrecognized image format'),
+      'image-format',
       tr(`.${ctx.fileType} 파일의 내용이 이미지가 아니거나 손상되었습니다.`, `This .${ctx.fileType} file is not an image or is damaged.`)
     )
   }
@@ -29,14 +29,14 @@ export async function render(ctx: PreviewContext): Promise<void> {
     img = await loadImage(url)
   } catch {
     throw new PreviewError(
-      tr('이미지를 표시할 수 없습니다', 'Cannot display this image'),
+      'image-decode',
       tr('파일이 손상되었거나 이 브라우저가 지원하지 않는 변형입니다.', 'The file is damaged or uses a variant this browser cannot decode.')
     )
   }
   if (signal.aborted) return
   const width = img.naturalWidth
   const height = img.naturalHeight
-  const view = createImageView(ctx, img, { width, height }, { pixelate: true })
+  const view = createImageView(ctx, img, { width, height }, { pixelate: true, backdropKey: 'image' })
 
   const delays = kind.mime === 'image/gif' ? gifFrameDelays(bytes) : []
   const frames = delays.length

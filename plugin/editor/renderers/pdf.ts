@@ -103,20 +103,25 @@ interface Slot {
 function friendly(ctx: PreviewContext, err: unknown): Error {
   const e = err as { name?: string; message?: string }
   if (e?.name === 'PasswordException') {
-    return new PreviewError(ctx.tr('암호로 보호된 PDF입니다', 'This PDF is password-protected'), ctx.tr('암호를 입력해야 열 수 있습니다.', 'A password is required to open it.'))
+    return new PreviewError('pdf-password', ctx.tr('암호로 보호된 PDF입니다. 암호를 입력해야 열 수 있습니다.', 'This PDF is password-protected; a password is required to open it.'))
   }
   if (e?.name === 'InvalidPDFException' || e?.name === 'FormatError' || /Invalid PDF|No PDF header/i.test(e?.message ?? '')) {
     return new PreviewError(
-      ctx.tr('PDF 파일을 열 수 없습니다', 'Cannot open this PDF'),
+      'pdf',
       ctx.tr('파일이 손상되었거나 PDF 형식이 아닙니다.', 'The file is damaged or is not a PDF.')
     )
   }
-  return err instanceof Error ? err : new Error(String(err))
+  if (err instanceof PreviewError) return err
+  return new PreviewError(
+    'pdf',
+    ctx.tr('PDF를 읽는 중 오류가 발생했습니다. 파일이 손상되었을 수 있습니다.', 'Reading this PDF failed; the file may be damaged.')
+  )
 }
 
 export async function render(ctx: PreviewContext): Promise<() => void> {
   const { bytes, root, tr, signal } = ctx
-  GlobalWorkerOptions.workerSrc = asset('pdf.worker.min.js')
+  // media/pdf-worker.js wraps vendor/pdf.worker.min.js (it silences pdf.js' own unhandled rejections).
+  GlobalWorkerOptions.workerSrc = new URL('./media/pdf-worker.js', import.meta.url).href
   const task: PDFDocumentLoadingTask = getDocument({
     // pdf.js transfers the buffer to its worker; hand it a copy so ctx.bytes stays intact.
     data: bytes.slice(),
@@ -206,9 +211,10 @@ function passwordForm(ctx: PreviewContext, wrong: boolean, submit: (pw: string) 
 async function mount(ctx: PreviewContext, doc: PDFDocumentProxy, cleanups: (() => void)[]): Promise<void> {
   const { root, toolbar, tr, signal, bytes } = ctx
   const N = doc.numPages
-  const first = await doc.getPage(1)
+  // A damaged first page must not sink the document: fall back to A4 and let that page show its error.
+  const first = await doc.getPage(1).catch(() => null)
   if (signal.aborted) return
-  const vp1 = first.getViewport({ scale: 1 })
+  const vp1 = first ? first.getViewport({ scale: 1 }) : { width: 595, height: 842 }
 
   const style = h('style', undefined, STYLE)
   const container = h('div', 'fp-pdf')
@@ -249,11 +255,36 @@ async function mount(ctx: PreviewContext, doc: PDFDocumentProxy, cleanups: (() =
     return lo + 1
   }
 
+  /** The page whose top edge is nearest the viewport top; 1 at the very top, N at the very bottom. */
+  const currentPage = (): number => {
+    const top = root.scrollTop
+    if (top <= 1) return 1
+    if (top + root.clientHeight >= root.scrollHeight - 1) return slots.length
+    const i = pageAt(top) - 1
+    const a = slots[i]
+    const b = slots[i + 1]
+    if (!b) return i + 1
+    return Math.abs(b.el.offsetTop - top) < Math.abs(a.el.offsetTop - top) ? i + 2 : i + 1
+  }
+
   // ---- drawing -----------------------------------------------------------------------------
   let busy = false
   const draw = async (s: Slot) => {
     const target = k()
-    const page = await doc.getPage(s.n)
+    const failPage = () => {
+      s.failed = true
+      s.drawnAt = target
+      s.el.classList.add('drawn')
+      s.el.append(h('div', 'fp-pdf-err', tr('이 페이지를 그릴 수 없습니다', 'Cannot draw this page')))
+    }
+    let page: Awaited<ReturnType<PDFDocumentProxy['getPage']>>
+    try {
+      page = await doc.getPage(s.n)
+    } catch {
+      // damaged page tree / xref entry: show it on the page, keep the rest of the document
+      if (!signal.aborted) failPage()
+      return
+    }
     if (signal.aborted) return
     const vp = page.getViewport({ scale: target })
     let ratio = window.devicePixelRatio || 1
@@ -272,10 +303,7 @@ async function mount(ctx: PreviewContext, doc: PDFDocumentProxy, cleanups: (() =
       await t.promise
     } catch (err) {
       if ((err as Error)?.name === 'RenderingCancelledException') return
-      s.failed = true
-      s.drawnAt = target
-      s.el.classList.add('drawn')
-      s.el.append(h('div', 'fp-pdf-err', tr('이 페이지를 그릴 수 없습니다', 'Cannot draw this page')))
+      failPage()
       return
     } finally {
       if (s.task === t) s.task = undefined
@@ -321,7 +349,12 @@ async function mount(ctx: PreviewContext, doc: PDFDocumentProxy, cleanups: (() =
           .filter((s) => s.visible && !s.failed && s.drawnAt !== k())
           .sort((a, b) => Math.abs(a.n - current) - Math.abs(b.n - current))[0]
         if (!want) return
-        await draw(want)
+        try {
+          await draw(want)
+        } catch {
+          // never let one page stop the queue (or surface as an unhandled rejection)
+          want.failed = true
+        }
       }
     } finally {
       busy = false
@@ -348,7 +381,7 @@ async function mount(ctx: PreviewContext, doc: PDFDocumentProxy, cleanups: (() =
     visibleNow = next
   }
   const refresh = () => {
-    current = pageAt(root.scrollTop + root.clientHeight * 0.3)
+    current = currentPage()
     updateVisible()
     showCurrent()
     void pump()
@@ -487,7 +520,9 @@ async function mount(ctx: PreviewContext, doc: PDFDocumentProxy, cleanups: (() =
   void (async () => {
     for (let n = 2; n <= N; n++) {
       if (signal.aborted) return
-      const v = (await doc.getPage(n)).getViewport({ scale: 1 })
+      const p = await doc.getPage(n).catch(() => null)
+      if (!p) continue
+      const v = p.getViewport({ scale: 1 })
       const s = slots[n - 1]
       if (Math.abs(v.width - s.w) > 0.5 || Math.abs(v.height - s.h) > 0.5) {
         s.w = v.width

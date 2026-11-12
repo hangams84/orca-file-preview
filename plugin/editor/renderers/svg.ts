@@ -34,7 +34,7 @@ export async function render(ctx: PreviewContext): Promise<void> {
   const { text, encoding } = decodeText(bytes)
   if (!/<svg[\s>]/i.test(text)) {
     throw new PreviewError(
-      tr('SVG 파일이 아닙니다', 'Not an SVG file'),
+      'svg',
       tr('파일에서 <svg> 요소를 찾을 수 없습니다.', 'No <svg> element was found in the file.')
     )
   }
@@ -71,7 +71,7 @@ export async function render(ctx: PreviewContext): Promise<void> {
   }
 
   const natural = parsed ?? { width: img.naturalWidth || 300, height: img.naturalHeight || 150 }
-  const view = createImageView(ctx, img, natural, { pixelate: false, upscale: true })
+  const view = createImageView(ctx, img, natural, { pixelate: false, upscale: true, backdropKey: 'svg', defaultBackdrop: 'checker-light' })
   const sw = switchableZoom(view.zoom)
   let showingSource = false
   const btn = toolbar.button({

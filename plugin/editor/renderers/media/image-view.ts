@@ -11,13 +11,34 @@ const STYLE = `
   background-color: var(--c1);
   background-image: conic-gradient(var(--c2) 25%, var(--c1) 0 50%, var(--c2) 0 75%, var(--c1) 0);
   background-size: 16px 16px; }
-html:not(.light) .fp-img-box { --c1: #3b3b3b; --c2: #2b2b2b; }
+.fp-img-box.bg-checker-dark { --c1: #3b3b3b; --c2: #2b2b2b; }
+.fp-img-box.bg-white { background: #fff; }
+.fp-img-box.bg-black { background: #000; }
 .fp-img-box > img, .fp-img-box > canvas { display: block; width: 100%; height: 100%; user-select: none;
   -webkit-user-drag: none; }
 .fp-img-box > canvas { position: absolute; inset: 0; }
 .fp-img-box.pixelated > img, .fp-img-box.pixelated > canvas { image-rendering: pixelated; }
 .fp-img-dragging { cursor: grabbing !important; }
 `
+
+export type Backdrop = 'checker-light' | 'checker-dark' | 'white' | 'black'
+const BACKDROPS: Backdrop[] = ['checker-light', 'checker-dark', 'white', 'black']
+
+function storedBackdrop(key: string): Backdrop | null {
+  try {
+    const v = localStorage.getItem(`file-preview.backdrop.${key}`) as Backdrop | null
+    return v && BACKDROPS.includes(v) ? v : null
+  } catch {
+    return null
+  }
+}
+function storeBackdrop(key: string, v: Backdrop): void {
+  try {
+    localStorage.setItem(`file-preview.backdrop.${key}`, v)
+  } catch {
+    // storage unavailable (private mode, sandbox): the choice lasts for this view only
+  }
+}
 
 export interface ImageView {
   zoom: ZoomController
@@ -32,9 +53,17 @@ export function createImageView(
   ctx: PreviewContext,
   img: HTMLImageElement,
   natural: { width: number; height: number },
-  opts: { pixelate: boolean; /** Fit small images up to the window too (vectors stay sharp). */ upscale?: boolean }
+  opts: {
+    pixelate: boolean
+    /** Fit small images up to the window too (vectors stay sharp). */
+    upscale?: boolean
+    /** Remembered backdrop choice key ('image', 'svg'). */
+    backdropKey: string
+    /** Backdrop until the person picks one; omitted = checkerboard following the theme. */
+    defaultBackdrop?: Backdrop
+  }
 ): ImageView {
-  const { root, signal } = ctx
+  const { root, signal, tr, toolbar } = ctx
   const style = h('style', undefined, STYLE)
   const stage = h('div', 'fp-img-stage')
   const box = h('div', 'fp-img-box')
@@ -42,6 +71,34 @@ export function createImageView(
   img.draggable = false
   box.append(img)
   stage.append(box)
+
+  // Backdrop behind transparent pixels: light/dark checkerboard, white or black.
+  const themed = (): Backdrop => opts.defaultBackdrop ?? (ctx.theme() === 'light' ? 'checker-light' : 'checker-dark')
+  let picked = storedBackdrop(opts.backdropKey)
+  const setBackdrop = (b: Backdrop) => {
+    for (const x of BACKDROPS) box.classList.toggle(`bg-${x}`, x === b)
+  }
+  const select = toolbar.select(
+    tr('배경', 'Background'),
+    [
+      { value: 'checker-light', label: tr('▦ 밝은 체크', '▦ Light checker') },
+      { value: 'checker-dark', label: tr('▦ 어두운 체크', '▦ Dark checker') },
+      { value: 'white', label: tr('□ 흰색', '□ White') },
+      { value: 'black', label: tr('■ 검정', '■ Black') }
+    ],
+    (v) => {
+      picked = v as Backdrop
+      storeBackdrop(opts.backdropKey, picked)
+      setBackdrop(picked)
+    }
+  )
+  select.value = picked ?? themed()
+  setBackdrop(picked ?? themed())
+  ctx.onTheme(() => {
+    if (picked) return
+    select.value = themed()
+    setBackdrop(themed())
+  })
 
   const W = Math.max(1, natural.width)
   const H = Math.max(1, natural.height)
