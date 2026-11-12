@@ -3,6 +3,7 @@
  *  view. Toolbar: slide counter, previous/next, speaker notes toggle, zoom. */
 import { PreviewError, type PreviewContext } from '../core/types.ts'
 import { bindZoomGestures, clampZoom, createZoom, h } from '../core/ui.ts'
+import { installOfficeFonts } from './office/fonts.ts'
 import { OoxmlPackage } from './office/package.ts'
 import { notesText, readDeck, renderSlide, slideTitle } from './office/slides.ts'
 
@@ -53,6 +54,7 @@ export async function render(ctx: PreviewContext): Promise<() => void> {
   const deck = parsed
   if (!deck.slides.length) throw new PreviewError('pptx', tr('슬라이드가 없습니다.', 'This presentation has no slides.'))
 
+  installOfficeFonts()
   const style = h('style', undefined, STYLE)
   const list = h('div', 'fp-deck')
   list.setAttribute('role', 'list')

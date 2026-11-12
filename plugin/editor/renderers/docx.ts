@@ -4,11 +4,12 @@
 import { PreviewError, type PreviewContext } from '../core/types.ts'
 import { bindZoomGestures, cssZoom, h } from '../core/ui.ts'
 import { renderAsync } from '../../vendor/docx.js'
+import { installOfficeFonts, OFFICE_SANS, patchCssFonts, withFallback } from './office/fonts.ts'
 
 const SHADOW_STYLE = `
 :host { display: block; }
 .fp-docx-zoom { width: max-content; min-width: 100%; }
-.fp-docx-body { display: block; }
+.fp-docx-body { display: block; font-family: ${OFFICE_SANS}; }
 .fp-docx-body .docx-wrapper { background: transparent !important; padding: 16px 12px 24px !important;
   display: flex; flex-flow: column; align-items: center; }
 .fp-docx-body .docx-wrapper > section.docx { background: #fff; color: #000; margin: 0 0 16px !important;
@@ -28,6 +29,7 @@ export async function render(ctx: PreviewContext): Promise<void> {
     )
   }
 
+  installOfficeFonts()
   const host = h('div', 'fp-docx-host')
   const shadow = host.attachShadow({ mode: 'open' })
   const ownStyle = h('style', undefined, SHADOW_STYLE)
@@ -67,6 +69,12 @@ export async function render(ctx: PreviewContext): Promise<void> {
 
   // docx-preview's font blobs are object URLs it never revokes; it also adds <style> nodes only
   // into libStyle, which lives in the shadow root.
+  // Office fonts missing on this device: give every font-family a sans/serif fallback chain so the
+  // browser never drops to its default serif (aliases for known names come from installOfficeFonts).
+  for (const st of libStyle.querySelectorAll('style')) st.textContent = patchCssFonts(st.textContent ?? '')
+  for (const el of body.querySelectorAll<HTMLElement>('[style*="font-family"]')) {
+    el.style.fontFamily = withFallback(el.style.fontFamily)
+  }
   host.style.cssText = ''
   root.replaceChildren(host)
 
