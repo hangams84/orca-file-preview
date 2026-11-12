@@ -20,11 +20,21 @@ const STYLE = `
 .fp-html-note button { flex: none; font: inherit; min-width: 32px; min-height: 28px; border: 0; background: transparent;
   color: inherit; cursor: pointer; border-radius: var(--orca-radius, 6px); }
 .fp-html-note button:hover { background: var(--orca-accent, #e4e4e4); }
+.fp-html-link { flex-wrap: wrap; }
+.fp-html-link code { flex: 1 1 100%; overflow-wrap: anywhere; font: 12px/1.4 ui-monospace, Consolas, monospace; user-select: all; }
+.fp-html-link button { border: 1px solid var(--orca-input, var(--orca-border, #ccc)); padding: 0 10px; }
+.fp-html-link button.primary { background: var(--orca-primary, #333); color: var(--orca-primary-foreground, #fff); }
 `
 
 /** CSP inside the preview document: nothing may load except inline styles and data:/blob: media. */
 const INNER_CSP =
   "default-src 'none'; img-src data: blob:; media-src data: blob:; font-src data:; style-src 'unsafe-inline'; script-src 'none'; form-action 'none'; frame-src 'none'; base-uri 'none'"
+/** Sandbox tokens for the preview iframe: same origin (so the parent can wire link clicks, zoom
+ *  and keys on its document) but no allow-scripts, so even a sanitiser bypass cannot run script;
+ *  never allow-popups or allow-top-navigation. Orca did not render an iframe with sandbox="" (no
+ *  tokens); set this to null to fall back to the unsandboxed srcdoc iframe if this one does not
+ *  render either (the inner CSP still blocks script). */
+const FRAME_SANDBOX: string | null = 'allow-same-origin'
 /** Paper defaults applied before the page's own styles (it can override them). */
 const BASE_CSS = 'html{background:#fff;color:#000;color-scheme:light}'
 
@@ -59,13 +69,40 @@ interface Sanitized {
   scripts: number
 }
 
+/** CSS text with comments removed and escapes decoded, for detection only (never rendered). */
+function cssNormalise(text: string): string {
+  return text
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/\\([0-9a-fA-F]{1,6})[ \t\n\r\f]?/g, (_m, hex: string) => {
+      const cp = parseInt(hex, 16)
+      return cp > 0 && cp <= 0x10ffff ? String.fromCodePoint(cp) : '�'
+    })
+    .replace(/\\([^\n])/g, '$1')
+}
+/** Count of tokens that can load something: url(, image-set(, image(, cross-fade(, @import. */
+function loadTokens(text: string): number {
+  return (text.match(/\b(?:url|image-set|image|cross-fade)\(|@import\b/gi) ?? []).length
+}
+
 function sanitize(text: string): Sanitized {
   let blocked = 0
   DOMPurify.removeAllHooks()
   // url(...) and @import in CSS that is not inline data cannot load: neutralise them so nothing is
   // requested (the inner CSP would block them anyway) and count them for the notice.
-  const css = (text: string) =>
-    text
+  const css = (text: string) => {
+    // Escaped or comment-split forms (an escaped "@import", an escaped "url(", "@im/**/port") are never legitimate:
+    // when decoding CSS escapes and dropping comments reveals more loading tokens than the plain
+    // text has, drop the whole stylesheet / style attribute.
+    if (loadTokens(cssNormalise(text)) > loadTokens(text)) {
+      blocked++
+      return ''
+    }
+    return text
+      .replace(/(?:-webkit-)?image-set\((?:[^()]|\([^()]*\))*\)/gi, (m) => {
+        if (!/["'(]\s*(?!data:|blob:)[^"'()\s]/i.test(m.replace(/^(?:-webkit-)?image-set\(/i, ''))) return m
+        blocked++
+        return 'none'
+      })
       .replace(/@import\s+[^;]+;?/gi, () => {
         blocked++
         return ''
@@ -75,6 +112,7 @@ function sanitize(text: string): Sanitized {
         blocked++
         return 'none'
       })
+  }
   DOMPurify.addHook('uponSanitizeElement', (node) => {
     if (node.nodeName.toLowerCase() === 'style' && node.textContent) node.textContent = css(node.textContent)
   })
@@ -136,6 +174,7 @@ export async function render(ctx: PreviewContext): Promise<void> {
   const frame = h('iframe')
   frame.title = tr('HTML 미리보기', 'HTML preview')
   frame.setAttribute('referrerpolicy', 'no-referrer')
+  if (FRAME_SANDBOX !== null) frame.setAttribute('sandbox', FRAME_SANDBOX)
   frame.setAttribute('srcdoc', buildSrcdoc(text, sanitized))
 
   const notes: string[] = []
@@ -158,6 +197,39 @@ export async function render(ctx: PreviewContext): Promise<void> {
   }
   wrap.append(frame)
 
+  // http(s) links: show the full URL and ask before handing it to Orca (which may ask again).
+  let linkBar: HTMLElement | null = null
+  const confirmLink = (href: string) => {
+    linkBar?.remove()
+    const bar = h('div', 'fp-html-note fp-html-link')
+    bar.setAttribute('role', 'group')
+    bar.setAttribute('aria-label', tr('외부 링크', 'External link'))
+    const close = () => {
+      bar.remove()
+      if (linkBar === bar) linkBar = null
+    }
+    const cancel = h('button', undefined, tr('취소', 'Cancel'))
+    cancel.type = 'button'
+    cancel.addEventListener('click', close)
+    const shell = orca.shell
+    if (shell) {
+      const open = h('button', 'primary', tr('열기', 'Open'))
+      open.type = 'button'
+      open.addEventListener('click', () => {
+        close()
+        void shell.openExternal(href).catch(() => {})
+      })
+      bar.append(h('span', undefined, tr('이 링크를 브라우저에서 열까요?', 'Open this link in your browser?')), open, cancel, h('code', undefined, href))
+      open.focus()
+    } else {
+      cancel.textContent = tr('닫기', 'Close')
+      bar.append(h('span', undefined, tr('여기서는 링크를 열 수 없습니다. 주소:', 'Links cannot be opened here. Address:')), cancel, h('code', undefined, href))
+    }
+    wrap.insertBefore(bar, frame)
+    linkBar = bar
+    if (!shell) cancel.focus()
+  }
+
   let scale = 1
   const zoom = createZoom(scale, (s) => {
     scale = s
@@ -175,7 +247,7 @@ export async function render(ctx: PreviewContext): Promise<void> {
   showPreview()
   await Promise.race([loaded, new Promise((r) => setTimeout(r, 3000))])
   if (signal.aborted) return
-  wireFrame(ctx, frame, zoom, () => scale)
+  wireFrame(ctx, frame, zoom, () => scale, confirmLink)
 
   let showingSource = false
   const btn = toolbar.button({
@@ -191,7 +263,7 @@ export async function render(ctx: PreviewContext): Promise<void> {
         toolbar.zoom(source.zoom)
       } else {
         // Moving an iframe reloads it; wire the fresh document again.
-        frame.addEventListener('load', () => wireFrame(ctx, frame, zoom, () => scale), { once: true })
+        frame.addEventListener('load', () => wireFrame(ctx, frame, zoom, () => scale, confirmLink), { once: true })
         showPreview()
         sw.use(zoom)
         toolbar.zoom(zoom)
@@ -206,7 +278,13 @@ export async function render(ctx: PreviewContext): Promise<void> {
 }
 
 /** Click, submit and Ctrl+wheel handling inside the (same-origin, script-free) preview document. */
-function wireFrame(ctx: PreviewContext, frame: HTMLIFrameElement, zoom: ReturnType<typeof createZoom>, scale: () => number): void {
+function wireFrame(
+  ctx: PreviewContext,
+  frame: HTMLIFrameElement,
+  zoom: ReturnType<typeof createZoom>,
+  scale: () => number,
+  onExternal: (href: string) => void
+): void {
   const doc = frame.contentDocument
   if (!doc) return
   if (doc.documentElement) doc.documentElement.style.zoom = String(scale())
@@ -219,12 +297,19 @@ function wireFrame(ctx: PreviewContext, frame: HTMLIFrameElement, zoom: ReturnTy
       e.preventDefault()
       const href = a.getAttribute('href') ?? ''
       if (href.startsWith('#')) {
-        const id = decodeURIComponent(href.slice(1))
+        // A malformed escape (e.g. "#%E0%A4%A") is simply a fragment that is not found.
+        let id: string | null
+        try {
+          id = decodeURIComponent(href.slice(1))
+        } catch {
+          id = null
+        }
+        if (id === null) return
         const target = id ? (doc.getElementById(id) ?? doc.getElementsByName(id)[0]) : doc.body
         target?.scrollIntoView({ block: 'start' })
         return
       }
-      if (/^https?:/i.test(href)) void orca.shell?.openExternal(href).catch(() => {})
+      if (/^https?:/i.test(href)) onExternal(href)
     },
     { capture: true, signal }
   )

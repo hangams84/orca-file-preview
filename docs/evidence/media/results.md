@@ -1,30 +1,40 @@
 # Harness results
 
-24 / 24 passed · 2026-11-12T07:03:18.720Z
+34 / 34 passed · 2026-11-12T07:10:51.024Z
 
 | Result | Profile | File | State | Time (ms) | Notes |
 | --- | --- | --- | --- | ---: | --- |
-| ✅ | desktop-dark | `broken.pdf` | error (expect error) | 918 | console: Failed to load resource: the server responded with a status of 404 (Not Found) |
-| ✅ | desktop-dark | `sample-euckr.html` | ready (expect ready) | 767 | console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword,  |
-| ✅ | desktop-dark | `sample-html.doc` | ready (expect ready) | 761 |  |
-| ✅ | desktop-dark | `sample-large.pdf` | ready (expect ready) | 882 |  |
-| ✅ | desktop-dark | `sample-password.pdf` | ready (expect ready) | 893 |  |
-| ✅ | desktop-dark | `sample-slides.pdf` | ready (expect ready) | 880 |  |
-| ✅ | desktop-dark | `sample-viewbox.svg` | ready (expect ready) | 776 |  |
-| ✅ | desktop-dark | `sample.bmp` | ready (expect ready) | 775 |  |
-| ✅ | desktop-dark | `sample.gif` | ready (expect ready) | 791 |  |
-| ✅ | desktop-dark | `sample.html` | ready (expect ready) | 777 | console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword,  |
-| ✅ | desktop-dark | `sample.pdf` | ready (expect ready) | 997 |  |
-| ✅ | desktop-dark | `sample.svg` | ready (expect ready) | 778 |  |
-| ✅ | mobile-light | `broken.pdf` | error (expect error) | 885 |  |
-| ✅ | mobile-light | `sample-euckr.html` | ready (expect ready) | 776 | console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword,  |
-| ✅ | mobile-light | `sample-html.doc` | ready (expect ready) | 774 |  |
-| ✅ | mobile-light | `sample-large.pdf` | ready (expect ready) | 985 |  |
-| ✅ | mobile-light | `sample-password.pdf` | ready (expect ready) | 767 |  |
-| ✅ | mobile-light | `sample-slides.pdf` | ready (expect ready) | 979 |  |
-| ✅ | mobile-light | `sample-viewbox.svg` | ready (expect ready) | 788 |  |
-| ✅ | mobile-light | `sample.bmp` | ready (expect ready) | 783 |  |
-| ✅ | mobile-light | `sample.gif` | ready (expect ready) | 780 |  |
-| ✅ | mobile-light | `sample.html` | ready (expect ready) | 772 | console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword,  |
-| ✅ | mobile-light | `sample.pdf` | ready (expect ready) | 1018 |  |
-| ✅ | mobile-light | `sample.svg` | ready (expect ready) | 773 |  |
+| ✅ | desktop-dark | `broken.pdf` | error (expect error) | 809 | console: Failed to load resource: the server responded with a status of 404 (Not Found) |
+| ✅ | desktop-dark | `sample-euckr.html` | ready (expect ready) | 785 | console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword,  |
+| ✅ | desktop-dark | `sample-html.doc` | ready (expect ready) | 767 |  |
+| ✅ | desktop-dark | `sample-large.pdf` | ready (expect ready) | 871 |  |
+| ✅ | desktop-dark | `sample-password.pdf` | ready (expect ready) | 881 |  |
+| ✅ | desktop-dark | `sample-slides.pdf` | ready (expect ready) | 894 |  |
+| ✅ | desktop-dark | `sample-viewbox.svg` | ready (expect ready) | 773 |  |
+| ✅ | desktop-dark | `sample.bmp` | ready (expect ready) | 776 |  |
+| ✅ | desktop-dark | `sample.gif` | ready (expect ready) | 781 |  |
+| ✅ | desktop-dark | `sample.html` | ready (expect ready) | 782 | console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword,  |
+| ✅ | desktop-dark | `sample.pdf` | ready (expect ready) | 1018 |  |
+| ✅ | desktop-dark | `sample.svg` | ready (expect ready) | 777 |  |
+| ✅ | desktop-dark | `xss-css-escapes.html` | ready (expect ready) | 770 |  |
+| ✅ | desktop-dark | `xss-fragments.html` | ready (expect ready) | 773 | console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, <br>console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, <br>console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, <br>console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword,  |
+| ✅ | desktop-dark | `xss-html.doc` | ready (expect ready) | 773 | console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, <br>console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, <br>console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword,  |
+| ✅ | desktop-dark | `xss-vectors.html` | ready (expect ready) | 768 | console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, <br>console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, <br>console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, <br>console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, <br>console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, <br>console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, <br>console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, <br>console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, <br>console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, <br>console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword,  |
+| ✅ | desktop-dark | `xss-vectors.svg` | ready (expect ready) | 774 | console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, <br>console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, <br>console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword,  |
+| ✅ | mobile-light | `broken.pdf` | error (expect error) | 791 |  |
+| ✅ | mobile-light | `sample-euckr.html` | ready (expect ready) | 780 | console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword,  |
+| ✅ | mobile-light | `sample-html.doc` | ready (expect ready) | 778 |  |
+| ✅ | mobile-light | `sample-large.pdf` | ready (expect ready) | 874 |  |
+| ✅ | mobile-light | `sample-password.pdf` | ready (expect ready) | 876 |  |
+| ✅ | mobile-light | `sample-slides.pdf` | ready (expect ready) | 994 |  |
+| ✅ | mobile-light | `sample-viewbox.svg` | ready (expect ready) | 770 |  |
+| ✅ | mobile-light | `sample.bmp` | ready (expect ready) | 767 |  |
+| ✅ | mobile-light | `sample.gif` | ready (expect ready) | 785 |  |
+| ✅ | mobile-light | `sample.html` | ready (expect ready) | 763 | console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword,  |
+| ✅ | mobile-light | `sample.pdf` | ready (expect ready) | 1015 |  |
+| ✅ | mobile-light | `sample.svg` | ready (expect ready) | 783 |  |
+| ✅ | mobile-light | `xss-css-escapes.html` | ready (expect ready) | 778 |  |
+| ✅ | mobile-light | `xss-fragments.html` | ready (expect ready) | 773 | console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, <br>console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, <br>console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, <br>console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword,  |
+| ✅ | mobile-light | `xss-html.doc` | ready (expect ready) | 788 | console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, <br>console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, <br>console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword,  |
+| ✅ | mobile-light | `xss-vectors.html` | ready (expect ready) | 777 | console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, <br>console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, <br>console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, <br>console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, <br>console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, <br>console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, <br>console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, <br>console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, <br>console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, <br>console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword,  |
+| ✅ | mobile-light | `xss-vectors.svg` | ready (expect ready) | 774 | console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, <br>console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, <br>console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword,  |

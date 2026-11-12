@@ -232,3 +232,23 @@ the content area outside document paper with contrast < 4.5:1 is listed as a war
   renderers. Results: `docs/evidence/media/a11y/results.md`.
 
 Verification: `npx tsc -p plugin --noEmit` passes; media harness 24/24 normal and 24/24 `--no-raf`.
+
+### Security addendum (S-1, S-2, S-3, S-5) — `plugin/editor/renderers/html.ts`
+- **S-1** fragment links: `decodeURIComponent` is wrapped; an undecodable fragment (`#%E0%A4%A`) is treated as not
+  found (no uncaught URIError).
+- **S-2** the srcdoc iframe now carries `sandbox="allow-same-origin"` (constant `FRAME_SANDBOX`; set it to `null` to
+  return to the unsandboxed frame if Orca does not render it). No `allow-scripts`, `allow-popups`, `allow-forms` or
+  `allow-top-navigation`. Link interception, zoom and keys still work (the parent wires the same-origin document);
+  Chrome now also blocks form submission at the sandbox level. Renders in the harness — **needs confirmation in Orca**.
+- **S-3** CSS: a stylesheet or `style` attribute where decoding CSS escapes and dropping comments reveals more
+  loading tokens (`url(`, `image-set(`, `image(`, `cross-fade(`, `@import`) than its plain text is dropped entirely
+  (`@\69mport`, `u\72l(`, `@im/**/port`, `\75 rl(`); `image-set()` / `-webkit-image-set()` with non-data images
+  become `none`. New fixture `samples/xss-css-escapes.html`: all five vectors removed, the data: background kept.
+- **S-5** http(s) links show a bar with the full URL and Open / Cancel; `orca.shell.openExternal` is called only
+  from the Open click (verified with a stubbed shell: nothing opened before confirming, the URL after; the frame
+  stayed at `about:srcdoc`). Without `orca.shell` the bar shows the address and Close
+  (`security-link-confirm.desktop-light.png`).
+- Proof: fp-legacy's harness with its `XSS_CHECK` on fp-legacy's `xss-*` fixtures plus mine: **14 / 14** normal and
+  **14 / 14** `--no-raf` (desktop-dark + mobile-light), `docs/evidence/media/security/`. (Run against fp-legacy's
+  files before master has them; they are not committed on this branch.) Media harness 34/34 normal and `--no-raf`
+  (the html/svg filter also matched the xss fixtures at that time).
