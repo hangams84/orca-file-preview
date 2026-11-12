@@ -1,0 +1,10 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word">
+<head><meta charset="utf-8"><title>Saved as Web Page</title><style>p{color:red}</style></head>
+<body>
+<h1>HTML saved with a .doc suffix</h1>
+<p>Word and many web apps export "Word" files that are really HTML. 한글 문단입니다.</p>
+<p><b>Bold</b> and <i>italic</i> text.</p>
+<ul><li>First item</li><li>두 번째 항목</li></ul>
+<table border="1"><tr><td>A</td><td>B</td></tr><tr><td>1</td><td>2</td></tr></table>
+<script>document.body.innerHTML = 'SCRIPT RAN'</script>
+</body></html>
