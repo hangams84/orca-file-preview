@@ -8,9 +8,13 @@
   "scripts": {
     "vendor": "node tools/build-vendor.mjs",
     "samples": "python tools/make-samples.py",
-    "typecheck": "tsc -p .",
-    "test": "orca plugin test . --json",
-    "check": "orca plugin check . --json"
+    "typecheck": "tsc -p plugin",
+    "test": "orca plugin test plugin --json",
+    "check": "orca plugin check plugin --json",
+    "harness": "node tools/harness/run.mjs",
+    "verify": "node tools/verify.mjs",
+    "docs": "node tools/build-docs.mjs",
+    "dev": "orca plugin dev watch plugin"
   },
   "devDependencies": {
     "cfb": "^1.2.2",

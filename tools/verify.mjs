@@ -5,7 +5,8 @@
 //
 //   node tools/verify.mjs --round 1 [--skip-orca] [--skip-harness]
 import { execFileSync, spawnSync } from 'node:child_process'
-import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs'
+import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
 import { dirname, join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -43,7 +44,7 @@ const started = Date.now()
 
 // 1. Type check
 {
-  const r = sh('npx', ['tsc', '-p', '.', '--noEmit'])
+  const r = sh('npx', ['tsc', '-p', relative(ROOT, PLUGIN_DIR) || '.', '--noEmit'])
   checks.push({ name: 'TypeScript (tsc --noEmit)', ok: r.code === 0, detail: r.out.trim().split('\n').slice(0, 20).join('\n') })
 }
 // 2. Manifest / plugin validation
@@ -58,13 +59,22 @@ const started = Date.now()
 }
 // 3. Unit tests (orca plugin test runs *.test.ts in Node)
 {
-  const r = sh(ORCA, ['plugin', 'test', relative(ROOT, PLUGIN_DIR) || '.', '--json'])
-  const j = json(r.out)
-  const res = j?.result
+  // Orca's test loader on Windows refuses its own runtime import when the plugin lives on another
+  // drive than Orca (e.g. D: vs C:), so run the tests from a copy in the system temp folder.
+  let testDir = PLUGIN_DIR
+  if (isWin && PLUGIN_DIR.slice(0, 2).toLowerCase() !== (process.env.SystemDrive ?? 'C:').toLowerCase()) {
+    testDir = join(tmpdir(), `file-preview-test-${process.pid}`)
+    rmSync(testDir, { recursive: true, force: true })
+    cpSync(PLUGIN_DIR, testDir, { recursive: true, filter: (src) => !src.includes(`${join('plugin', '.orca')}`) })
+  }
+  const r = sh(ORCA, ['plugin', 'test', testDir, '--json'])
+  if (testDir !== PLUGIN_DIR) rmSync(testDir, { recursive: true, force: true })
+  const pass = r.out.match(/ℹ pass (\d+)/)?.[1]
+  const fail = r.out.match(/ℹ fail (\d+)/)?.[1]
   checks.push({
     name: 'orca plugin test (unit)',
     ok: r.code === 0,
-    detail: res ? `passed ${res.passed ?? '?'} · failed ${res.failed ?? '?'}` : r.out.trim().slice(-800)
+    detail: pass != null ? `passed ${pass} · failed ${fail}` : r.out.trim().slice(-800)
   })
 }
 // 4. Static check of every editor entry (syntax, imports, missing files)

@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const entriesDir = join(root, 'tools', 'vendor')
-const outDir = join(root, 'vendor')
+const outDir = join(root, 'plugin', 'vendor')
 mkdirSync(outDir, { recursive: true })
 
 const entries = readdirSync(entriesDir).filter((f) => f.endsWith('.entry.js'))
