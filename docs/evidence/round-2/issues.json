@@ -87,7 +87,7 @@
     "title": "Page box shows 2/3 when the first page is at the top",
     "cause": "Current page picked by the most visible page",
     "fix": "Page whose top is nearest the viewport top (fp-media)",
-    "status": "in progress"
+    "status": "fixed"
   },
   {
     "id": "R2-11",
@@ -96,7 +96,7 @@
     "title": "Black SVG text unreadable on the dark checkerboard",
     "cause": "Transparency background follows the dark theme only",
     "fix": "Background toggle (checker light/dark, white, black) (fp-media)",
-    "status": "in progress"
+    "status": "fixed"
   },
   {
     "id": "R2-12",
@@ -150,6 +150,15 @@
     "title": "Fuzz run stalled on a frozen page",
     "cause": "In-page checks had no timeout; same-origin pages share a renderer process",
     "fix": "Harness records 'did not settle' and continues in a fresh browser context",
+    "status": "fixed"
+  },
+  {
+    "id": "R2-18",
+    "severity": "medium",
+    "area": "pdf",
+    "title": "Damaged PDFs raised unhandled rejections (5-15 page errors per fuzzed file)",
+    "cause": "pdf.js prefetch promises without handlers; getPage failures thrown",
+    "fix": "Per-page error tiles, A4 fallback for page 1, worker entry that downgrades pdf.js internal rejections (fp-media)",
     "status": "fixed"
   }
 ]
