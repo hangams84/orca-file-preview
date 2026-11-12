@@ -42,6 +42,7 @@ export async function render(ctx: PreviewContext): Promise<void> {
   const delays = kind.mime === 'image/gif' ? gifFrameDelays(bytes) : []
   const frames = delays.length
   const player = frames > 1 ? await createGifPlayer(ctx, img, view.box, delays, { width, height }) : null
+  if (signal.aborted) return
   if (player) {
     const label = (playing: boolean) => {
       btn.textContent = playing ? '❚❚' : '▶'

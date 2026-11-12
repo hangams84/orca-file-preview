@@ -252,3 +252,32 @@ Verification: `npx tsc -p plugin --noEmit` passes; media harness 24/24 normal an
   **14 / 14** `--no-raf` (desktop-dark + mobile-light), `docs/evidence/media/security/`. (Run against fp-legacy's
   files before master has them; they are not committed on this branch.) Media harness 34/34 normal and `--no-raf`
   (the html/svg filter also matched the xss fixtures at that time).
+
+## Round 4
+
+- **#2 old engines (HIGH).** `tools/vendor/pdf.entry.js` and the worker copy in `tools/build-vendor.mjs` now use
+  `pdfjs-dist/legacy/build/` (`npm run vendor`: `pdf.js` 436 → 491 KB, `pdf.worker.min.js` 1242 → 1296 KB; no eval
+  path: the only `Function("return this")` is core-js's fallback when `globalThis` is missing; `isEvalSupported: false`
+  unchanged). The legacy build's core-js covers `Map#getOrInsertComputed`, `Math.sumPrecise`, `Uint8Array.fromBase64`
+  etc. but **not** `Promise.withResolvers` (30 call sites), `Array#findLast` or `structuredClone`, so
+  `plugin/editor/renderers/media/pdf-polyfills.js` (plain JS) adds those three; it is imported first by `pdf.ts` and by
+  the worker entry `media/pdf-worker.js`.
+  - Harness `--old-engine` (`tools/harness/run.mjs`): an init script deletes `Promise.withResolvers`,
+    `Map#getOrInsertComputed`/`getOrInsert`, `Math.sumPrecise`, `Uint8Array.fromBase64`/`fromHex`/`#toBase64`/`#toHex`,
+    `Array#findLast`/`findLastIndex` and `structuredClone` before page scripts, and wraps `Worker` so every worker
+    (module or classic) first runs the same deletions from a blob, then loads the real script (no eval).
+  - Proof: modern build + `--old-engine` → every PDF fails (`Promise.withResolvers is not a function`); legacy build
+    without the worker polyfill → `sample.pdf` hangs on the worker error (shows the worker stripping works); legacy
+    build + polyfills → media formats **38/38** (`old-engine/`) and **all fixtures 102/102** (`old-engine-all/`).
+- **#6 (MEDIUM)** `pdf.ts`: `if (signal.aborted) return` after `await pump()`; every await in pdf.ts is followed by an
+  abort check, and cleanup registered by `mount()` after the render was superseded runs immediately (`onCleanup`), so
+  no observer, timer or listener can outlive the document.
+- **#7 (MEDIUM)** cleanup zeroes every page canvas (also evicted, replaced, cancelled or never-attached canvases) to
+  free iOS canvas memory at once, and calls `pdfDocument.destroy()` in addition to `loadingTask.destroy()`.
+- **#8 (LOW)** `image.ts`: abort check after `await createGifPlayer(...)`; `gif-player.ts` also returns early when the
+  render was aborted during `ImageDecoder.isTypeSupported`.
+- **#9 (LOW)** `html.ts`: a persistent `load` listener wires every document the iframe loads (first load, and after
+  Source → Preview), instead of wiring whatever document exists when the 3 s wait ends.
+- Verification (desktop-dark + mobile-light unless noted): media `--only pdf,gif,bmp,svg,html` 38/38 normal, 38/38
+  `--no-raf`, 38/38 `--old-engine`; all fixtures `--old-engine` 102/102; fuzz (desktop-dark) 113/113
+  (`fuzz/`); xss 16/16 normal and 16/16 `--no-raf` (`security/`); `npx tsc -p plugin --noEmit` passes.

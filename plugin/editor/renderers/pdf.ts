@@ -3,6 +3,8 @@
  *  devicePixelRatio canvases as they scroll near the view; far-away canvases are released. A text
  *  layer makes text selectable. cMaps (Korean/CJK CID fonts), standard fonts and image decoders are
  *  vendored under vendor/pdf-assets because there is no network. */
+// Must run before vendor/pdf.js: fills built-ins the legacy build still assumes (see that file).
+import './media/pdf-polyfills.js'
 import {
   getDocument,
   GlobalWorkerOptions,
@@ -66,6 +68,12 @@ const STYLE = `
 .textLayer br::selection { background: transparent; }
 .textLayer .endOfContent { display: block; position: absolute; inset: 100% 0 0; z-index: 0; cursor: default; user-select: none; }
 `
+
+/** Drops a canvas's pixel memory right away (iOS Safari limits total canvas memory per page). */
+function releaseCanvas(c: HTMLCanvasElement): void {
+  c.width = 0
+  c.height = 0
+}
 
 /** True when animation frames are being delivered (probe: one rAF within 100 ms). */
 function framesRunning(): Promise<boolean> {
@@ -211,6 +219,12 @@ function passwordForm(ctx: PreviewContext, wrong: boolean, submit: (pw: string) 
 
 async function mount(ctx: PreviewContext, doc: PDFDocumentProxy, cleanups: (() => void)[]): Promise<void> {
   const { root, toolbar, tr, signal, bytes } = ctx
+  // Cleanup registered after the render was superseded runs at once (the shared list already ran).
+  const onCleanup = (fn: () => void) => {
+    if (signal.aborted) fn()
+    else cleanups.push(fn)
+  }
+  onCleanup(() => void doc.destroy().catch(() => {}))
   const N = doc.numPages
   // A damaged first page must not sink the document: fall back to A4 and let that page show its error.
   const first = await doc.getPage(1).catch(() => null)
@@ -297,21 +311,24 @@ async function mount(ctx: PreviewContext, doc: PDFDocumentProxy, cleanups: (() =
     // window is hidden or occluded (and during Orca's own window captures). Fall back to the
     // 'print' intent, which renders without rAF, whenever frames are not being delivered.
     const intent = (await framesRunning()) ? 'display' : 'print'
-    if (signal.aborted) return
+    if (signal.aborted) return releaseCanvas(canvas)
     const t = page.render({ canvas, viewport: vp, intent, transform: ratio !== 1 ? [ratio, 0, 0, ratio, 0, 0] : null })
     s.task = t
     try {
       await t.promise
     } catch (err) {
+      releaseCanvas(canvas)
       if ((err as Error)?.name === 'RenderingCancelledException') return
       failPage()
       return
     } finally {
       if (s.task === t) s.task = undefined
     }
-    if (signal.aborted) return
-    if (s.canvas) s.canvas.replaceWith(canvas)
-    else s.el.prepend(canvas)
+    if (signal.aborted) return releaseCanvas(canvas)
+    if (s.canvas) {
+      s.canvas.replaceWith(canvas)
+      releaseCanvas(s.canvas)
+    } else s.el.prepend(canvas)
     s.canvas = canvas
     s.drawnAt = target
     s.el.classList.add('drawn')
@@ -334,7 +351,10 @@ async function mount(ctx: PreviewContext, doc: PDFDocumentProxy, cleanups: (() =
     let excess = slots.filter((s) => s.canvas).length - KEEP
     for (const s of drawn) {
       if (excess-- <= 0) break
-      s.canvas?.remove()
+      if (s.canvas) {
+        s.canvas.remove()
+        releaseCanvas(s.canvas)
+      }
       s.canvas = undefined
       s.drawnAt = 0
       s.el.classList.remove('drawn')
@@ -389,11 +409,14 @@ async function mount(ctx: PreviewContext, doc: PDFDocumentProxy, cleanups: (() =
   }
   // IntersectionObserver stays as an extra trigger only.
   const io = new IntersectionObserver(() => refresh(), { root, rootMargin: '50% 0px 50% 0px' })
-  cleanups.push(() => io.disconnect())
-  cleanups.push(() => {
+  onCleanup(() => io.disconnect())
+  onCleanup(() => {
     for (const s of slots) {
       s.task?.cancel()
       s.text?.cancel()
+      // iOS caps total canvas memory per page; a zero-sized canvas releases its backing store now.
+      if (s.canvas) releaseCanvas(s.canvas)
+      s.canvas = undefined
     }
   })
 
@@ -436,7 +459,7 @@ async function mount(ctx: PreviewContext, doc: PDFDocumentProxy, cleanups: (() =
     auto = true
   }
   zoom.fit = () => setAuto(fitWidth())
-  cleanups.push(() => clearTimeout(redrawTimer))
+  onCleanup(() => clearTimeout(redrawTimer))
 
   // ---- toolbar -----------------------------------------------------------------------------
   const prev = toolbar.button({ label: '‹', title: tr('이전 페이지', 'Previous page'), onClick: () => go(current - 1) })
@@ -507,6 +530,7 @@ async function mount(ctx: PreviewContext, doc: PDFDocumentProxy, cleanups: (() =
   for (const s of slots) io.observe(s.el)
   updateVisible()
   await pump()
+  if (signal.aborted) return
 
   // ResizeObserver is paced by rendering too; window resize events are the fallback.
   let lastW = root.clientWidth
@@ -532,7 +556,7 @@ async function mount(ctx: PreviewContext, doc: PDFDocumentProxy, cleanups: (() =
   })
   ro.observe(root)
   window.addEventListener('resize', onResize, { signal })
-  cleanups.push(() => {
+  onCleanup(() => {
     ro.disconnect()
     clearTimeout(roTimer)
   })

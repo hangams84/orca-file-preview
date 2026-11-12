@@ -33,7 +33,7 @@ for (const file of entries) {
 }
 
 // Files copied as-is (already ESM, loaded separately such as a Web Worker script).
-const copies = [['node_modules/pdfjs-dist/build/pdf.worker.min.mjs', 'pdf.worker.min.js']]
+const copies = [['node_modules/pdfjs-dist/legacy/build/pdf.worker.min.mjs', 'pdf.worker.min.js']]
 for (const [from, to] of copies) {
   try {
     copyFileSync(join(root, from), join(outDir, to))

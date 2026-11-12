@@ -4,6 +4,7 @@
 // loads (and the affected pages report their error when they are drawn). Report those as warnings
 // instead of uncaught errors. Plain JS (not .ts) because it is loaded as a module Worker; when the
 // worker cannot start, pdf.js imports this same module on the main thread as its "fake worker".
+import './pdf-polyfills.js'
 import '../../../vendor/pdf.worker.min.js'
 
 const PDFJS_ERRORS = new Set([
