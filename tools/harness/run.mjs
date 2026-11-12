@@ -176,8 +176,12 @@ async function run() {
 
   const results = []
   for (const [pname, profile] of profiles) {
-    const context = await browser.newContext({ ...profile, theme: undefined, locale: undefined })
-    if (args['no-raf']) await context.addInitScript(NO_RAF_INIT)
+    const newContext = async () => {
+      const c = await browser.newContext({ ...profile, theme: undefined, locale: undefined })
+      if (args['no-raf']) await c.addInitScript(NO_RAF_INIT)
+      return c
+    }
+    let context = await newContext()
     for (const f of files) {
       const page = await context.newPage()
       const errors = []
@@ -200,6 +204,16 @@ async function run() {
         errors.push(`harness: ${e.message.split('\n')[0]}`)
       }
       const ms = Date.now() - started
+      if (state === 'timeout') {
+        // The page may be frozen (a renderer stuck in a loop): nothing more can run in it, and
+        // same-origin pages share its process, so start the next file in a fresh context.
+        const expected = expectedState(f)
+        results.push({ file: f, profile: pname, state, expected, ms, pass: false, checkError: 'did not settle (frozen or too slow)', overflowX: false, errors, shot: null })
+        console.log(`FAIL ${pname.padEnd(13)} ${f.padEnd(24)} timeout ${String(ms).padStart(6)}ms did not settle`)
+        await Promise.race([context.close(), new Promise((r) => setTimeout(r, 5000))])
+        context = await newContext()
+        continue
+      }
       let checkError = null
       if (checkFor(f)) checkError = await page.evaluate(checkFor(f)).catch((e) => `check failed: ${e.message}`)
       // "ready" must also mean something is on screen inside the content area's first viewport.
