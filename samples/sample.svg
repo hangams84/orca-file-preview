@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" width="400" height="240">
+  <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#2563eb"/><stop offset="1" stop-color="#9333ea"/></linearGradient></defs>
+  <rect width="400" height="240" rx="16" fill="url(#g)"/>
+  <circle cx="300" cy="120" r="70" fill="#facc15"/>
+  <text x="24" y="70" font-size="32" font-family="sans-serif" fill="#fff">SVG 미리보기</text>
+  <text x="24" y="110" font-size="16" font-family="sans-serif" fill="#e0e7ff">File Preview sample</text>
+  <script>document.querySelector('text').textContent='SCRIPT RAN'</script>
+</svg>

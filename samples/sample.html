@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><title>HTML sample</title>
+<style>
+ body { font-family: sans-serif; margin: 24px; }
+ h1 { color: #2563eb; }
+ table { border-collapse: collapse; } td, th { border: 1px solid #999; padding: 4px 8px; }
+ .box { padding: 12px; background: #fef3c7; border-radius: 8px; }
+</style></head>
+<body>
+<h1>File Preview — HTML sample</h1>
+<p>한글 미리보기 테스트 - 가나다라마바사</p>
+<div class="box">Styled box. <a href="https://example.com">A link</a></div>
+<table><tr><th>A</th><th>B</th></tr><tr><td>1</td><td>2</td></tr></table>
+<svg width="80" height="80"><circle cx="40" cy="40" r="30" fill="#16a34a"/></svg>
+<p id="js">Scripts must NOT run in the preview: this text stays.</p>
+<script>document.getElementById('js').textContent = 'SCRIPT RAN (unsafe)';</script>
+<img src="x" onerror="document.body.style.background='red'">
+</body></html>

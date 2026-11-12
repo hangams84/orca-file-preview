@@ -1,0 +1,6 @@
+* text=auto eol=lf
+samples/** binary
+vendor/*.js binary linguist-vendored
+docs/evidence/** binary
+*.png binary
+*.gif binary

@@ -1,0 +1,107 @@
+{
+  "manifestVersion": 2,
+  "id": "file-preview",
+  "name": "File Preview",
+  "version": "0.1.0",
+  "description": "Read-only previews for Office (doc, docx, ppt, pptx, xls, xlsx), PDF, text, CSV, HTML, SVG, GIF and BMP files on desktop, browser and mobile clients.",
+  "engines": {
+    "orca": ">=1.4.248"
+  },
+  "execution": "sandboxed-ui",
+  "pluginApi": 1,
+  "contributes": {
+    "customEditors": [
+      {
+        "id": "word",
+        "title": "Word Preview",
+        "extensions": [
+          ".docx",
+          ".doc"
+        ],
+        "entry": "editor/main.ts",
+        "contentKind": "bytes",
+        "frame": "any"
+      },
+      {
+        "id": "slides",
+        "title": "Slides Preview",
+        "extensions": [
+          ".pptx",
+          ".ppt"
+        ],
+        "entry": "editor/main.ts",
+        "contentKind": "bytes",
+        "frame": "any"
+      },
+      {
+        "id": "sheet",
+        "title": "Sheet Preview",
+        "extensions": [
+          ".xlsx",
+          ".xlsm",
+          ".xls",
+          ".ods"
+        ],
+        "entry": "editor/main.ts",
+        "contentKind": "bytes",
+        "frame": "any"
+      },
+      {
+        "id": "pdf",
+        "title": "PDF Preview",
+        "extensions": [
+          ".pdf"
+        ],
+        "entry": "editor/main.ts",
+        "contentKind": "bytes",
+        "frame": "any"
+      },
+      {
+        "id": "image",
+        "title": "Image Preview",
+        "extensions": [
+          ".gif",
+          ".bmp",
+          ".svg"
+        ],
+        "entry": "editor/main.ts",
+        "contentKind": "bytes",
+        "frame": "any"
+      },
+      {
+        "id": "web",
+        "title": "HTML Preview",
+        "extensions": [
+          ".html",
+          ".htm"
+        ],
+        "entry": "editor/main.ts",
+        "contentKind": "bytes",
+        "frame": "any"
+      },
+      {
+        "id": "csv",
+        "title": "Table Preview",
+        "extensions": [
+          ".csv",
+          ".tsv"
+        ],
+        "entry": "editor/main.ts",
+        "contentKind": "bytes",
+        "frame": "any"
+      },
+      {
+        "id": "text",
+        "title": "Text Preview",
+        "extensions": [
+          ".txt",
+          ".log"
+        ],
+        "entry": "editor/main.ts",
+        "contentKind": "bytes",
+        "frame": "any"
+      }
+    ]
+  },
+  "license": "MIT"
+}
