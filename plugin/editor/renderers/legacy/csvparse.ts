@@ -95,10 +95,15 @@ export function detectDelimiter(text: string, preferred: string): string {
   return best
 }
 
-const NUM = /^\s*[-+]?(?:[$€£¥₩]\s*)?(?:\d{1,3}(?:,\d{3})+|\d+)?(?:\.\d+)?(?:[eE][-+]?\d+)?\s*%?\s*$/
+/** Applied to trimmed cells only, so there are no whitespace runs at either end to backtrack over. */
+const NUM = /^[-+]?(?:[$€£¥₩] ?)?(?:\d{1,3}(?:,\d{3})+|\d+)?(?:\.\d+)?(?:[eE][-+]?\d+)? ?%?$/
+/** Longer cells are never treated as numbers (and never reach the regex). */
+const MAX_NUMERIC_LENGTH = 64
 
 export function isNumeric(s: string): boolean {
-  return s !== '' && /\d/.test(s) && NUM.test(s)
+  if (s === '' || s.length > MAX_NUMERIC_LENGTH * 4) return false
+  const t = s.trim()
+  return t !== '' && t.length <= MAX_NUMERIC_LENGTH && /\d/.test(t) && NUM.test(t)
 }
 
 export function toNumber(s: string): number {

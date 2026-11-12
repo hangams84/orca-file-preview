@@ -88,3 +88,13 @@ test('csv: 50,000 rows parse within the time bound', () => {
   assert.deepEqual(rows[50000], ['49999', 'name 49999', '서울', '99'])
   assert.ok(ms < 2000, `parse took ${ms} ms`)
 })
+
+test('csv: a very long whitespace cell does not make number detection backtrack', () => {
+  const evil = '1' + ' '.repeat(50000) + 'x'
+  const t = Date.now()
+  assert.equal(isNumeric(evil), false)
+  assert.equal(isNumeric(' 42 '), true)
+  assert.equal(isNumeric('9'.repeat(65)), false, 'cells over 64 characters are not numbers')
+  assert.equal(guessHeader([['name', 'v'], [evil, '1'], [evil, '2']]), true)
+  assert.ok(Date.now() - t < 200, `took ${Date.now() - t} ms`)
+})

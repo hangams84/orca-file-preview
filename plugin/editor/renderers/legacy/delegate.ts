@@ -11,7 +11,10 @@ export async function delegate(
 ): Promise<void | (() => void)> {
   try {
     const mod = await load()
+    // A newer render may have started while the module loaded: leave root and toolbar to it.
+    if (ctx.signal.aborted) return
     const cleanup = await mod.render(ctx)
+    if (ctx.signal.aborted) return cleanup
     if (note && !ctx.signal.aborted) ctx.root.prepend(banner(note))
     return cleanup
   } catch (e) {
@@ -19,7 +22,8 @@ export async function delegate(
     console.warn('delegate renderer failed, using text fallback', e)
     ctx.root.replaceChildren()
     try {
-      return await fallback()
+      const cleanup = await fallback()
+      return cleanup
     } catch (e2) {
       console.warn(e2)
       throw new PreviewError('ooxml', ctx.tr('문서 내용을 읽을 수 없습니다.', 'Could not read the document content.'))
@@ -37,7 +41,7 @@ function banner(text: string): HTMLElement {
   s.padding = '6px 10px'
   s.borderRadius = 'var(--orca-radius, 6px)'
   s.background = 'var(--orca-muted, #f4f4f5)'
-  s.color = 'var(--orca-muted-foreground, #555)'
+  s.color = 'var(--orca-foreground, #111)'
   s.fontSize = '12px'
   s.lineHeight = '1.4'
   return el

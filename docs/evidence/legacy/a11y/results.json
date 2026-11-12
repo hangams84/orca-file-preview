@@ -1,0 +1,234 @@
+[
+  {
+    "file": "broken.clx-loop.doc",
+    "state": "error",
+    "pass": true,
+    "controls": 0,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "broken.doc",
+    "state": "error",
+    "pass": true,
+    "controls": 0,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "broken.docx",
+    "state": "error",
+    "pass": true,
+    "controls": 0,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "broken.encrypted.doc",
+    "state": "error",
+    "pass": true,
+    "controls": 0,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "broken.encrypted.ppt",
+    "state": "error",
+    "pass": true,
+    "controls": 0,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "broken.ppt",
+    "state": "error",
+    "pass": true,
+    "controls": 0,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "broken.pptx",
+    "state": "error",
+    "pass": true,
+    "controls": 0,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "sample-docx.doc",
+    "state": "ready",
+    "pass": true,
+    "controls": 5,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "sample-euckr.csv",
+    "state": "ready",
+    "pass": true,
+    "controls": 8,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "sample-html.doc",
+    "state": "ready",
+    "pass": true,
+    "controls": 4,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "sample-large.csv",
+    "state": "ready",
+    "pass": true,
+    "controls": 8,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "sample-large.doc",
+    "state": "ready",
+    "pass": true,
+    "controls": 4,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "sample-large.ppt",
+    "state": "ready",
+    "pass": true,
+    "controls": 6,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "sample-longcell.csv",
+    "state": "ready",
+    "pass": true,
+    "controls": 8,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "sample-ppt97.ppt",
+    "state": "ready",
+    "pass": true,
+    "controls": 6,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "sample-pptx.ppt",
+    "state": "ready",
+    "pass": true,
+    "controls": 7,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "sample-rtf.doc",
+    "state": "ready",
+    "pass": true,
+    "controls": 4,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "sample-semicolon.csv",
+    "state": "ready",
+    "pass": true,
+    "controls": 8,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "sample-shapes.pptx",
+    "state": "ready",
+    "pass": true,
+    "controls": 7,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "sample-word97.doc",
+    "state": "ready",
+    "pass": true,
+    "controls": 4,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "sample.csv",
+    "state": "ready",
+    "pass": true,
+    "controls": 8,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "sample.doc",
+    "state": "ready",
+    "pass": true,
+    "controls": 4,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "sample.docx",
+    "state": "ready",
+    "pass": true,
+    "controls": 5,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "sample.ppt",
+    "state": "ready",
+    "pass": true,
+    "controls": 6,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "sample.pptx",
+    "state": "ready",
+    "pass": true,
+    "controls": 7,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "sample.tsv",
+    "state": "ready",
+    "pass": true,
+    "controls": 8,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "xss-cells.csv",
+    "state": "ready",
+    "pass": true,
+    "controls": 8,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "xss-html.doc",
+    "state": "ready",
+    "pass": true,
+    "controls": 4,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "xss-rtf.doc",
+    "state": "ready",
+    "pass": true,
+    "controls": 4,
+    "problems": [],
+    "keys": []
+  }
+]

@@ -1,5 +1,7 @@
 /** Just enough ZIP to read a few XML parts from an OOXML file that carries a legacy suffix
- *  (a .doc that is really .docx). Inflates with the browser's DecompressionStream. */
+ *  (a .doc that is really .docx). Inflates with the browser's DecompressionStream, or with fflate
+ *  where 'deflate-raw' is not supported (Safari before 16.4). */
+import { inflateSync } from '../../../vendor/zip.js'
 
 export interface ZipEntry {
   name: string
@@ -48,11 +50,27 @@ export async function readZipEntry(b: Uint8Array, e: ZipEntry): Promise<Uint8Arr
   const raw = b.subarray(start, start + e.compSize)
   if (e.method === 0) return raw
   if (e.method !== 8) throw new Error(`zip: method ${e.method}`)
-  const stream = new Blob([raw as BlobPart]).stream().pipeThrough(new DecompressionStream('deflate-raw'))
-  return new Uint8Array(await new Response(stream).arrayBuffer())
+  if (hasDeflateRaw()) {
+    const stream = new Blob([raw as BlobPart]).stream().pipeThrough(new DecompressionStream('deflate-raw'))
+    return new Uint8Array(await new Response(stream).arrayBuffer())
+  }
+  return inflateSync(raw)
 }
 
 export async function readZipText(b: Uint8Array, entries: ZipEntry[], name: string): Promise<string | null> {
   const e = entries.find((x) => x.name === name)
   return e ? new TextDecoder().decode(await readZipEntry(b, e)) : null
+}
+
+let deflateRaw: boolean | null = null
+/** DecompressionStream exists and accepts 'deflate-raw' (it throws on unknown formats). */
+export function hasDeflateRaw(): boolean {
+  if (deflateRaw != null) return deflateRaw
+  try {
+    new DecompressionStream('deflate-raw')
+    deflateRaw = true
+  } catch {
+    deflateRaw = false
+  }
+  return deflateRaw
 }

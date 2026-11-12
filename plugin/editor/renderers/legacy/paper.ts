@@ -32,7 +32,7 @@ const STYLE = `
 .fp-doc .obj { display: inline-block; padding: .1em .5em; border: 1px dashed #999; border-radius: 4px; color: #666; font-size: .85em; }
 .fp-doc .sect { margin: 1.6em 0 .6em; padding-top: .6em; border-top: 1px solid #ccc; color: #555; font-weight: 600; font-size: .9em; }
 .fp-doc-note { margin: 0 auto 8px; max-width: ${PAGE_EM}em; padding: 6px 10px; border-radius: var(--orca-radius, 6px); box-sizing: border-box;
-  background: var(--orca-muted, #f4f4f5); color: var(--orca-muted-foreground, #555); font-size: 12px; }
+  background: var(--orca-muted, #f4f4f5); color: var(--orca-foreground, #111); font-size: 12px; }
 .fp-doc.compact .fp-doc-note { max-width: none; }
 `
 

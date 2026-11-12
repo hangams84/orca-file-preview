@@ -21,13 +21,13 @@ const STYLE = `
 .fp-ppt { padding: 12px; display: flex; flex-direction: column; align-items: center; gap: 16px; box-sizing: border-box; }
 .fp-ppt.compact { padding: 8px; gap: 10px; }
 .fp-ppt .item { flex: none; display: flex; flex-direction: column; align-items: flex-start; }
-.fp-ppt .card { position: relative; flex: none; background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,.25); }
+.fp-ppt .card { position: relative; flex: none; background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,.25); margin: 0; }
 .fp-ppt .slide { position: absolute; left: 0; top: 0; transform-origin: 0 0; overflow: hidden; background: #fff; color: #000;
   font-family: "Calibri", ${KOREAN_STACK}; }
 .fp-ppt .num { margin-top: 4px; font-size: 11px; line-height: 16px; color: var(--orca-muted-foreground, #888);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 .fp-ppt .note { padding: 6px 10px; border-radius: var(--orca-radius, 6px); box-sizing: border-box; max-width: 100%;
-  background: var(--orca-muted, #f4f4f5); color: var(--orca-muted-foreground, #555); font-size: 12px; }
+  background: var(--orca-muted, #f4f4f5); color: var(--orca-foreground, #111); font-size: 12px; }
 .fp-ppt .sh { position: absolute; box-sizing: border-box; display: flex; flex-direction: column; overflow: visible; }
 .fp-ppt .sh.middle { justify-content: center; } .fp-ppt .sh.bottom { justify-content: flex-end; }
 .fp-ppt .sh p { margin: 0; line-height: 1.2; white-space: pre-wrap; overflow-wrap: anywhere; }
@@ -36,7 +36,7 @@ const STYLE = `
 .fp-ppt .sh img { width: 100%; height: 100%; object-fit: fill; display: block; }
 .fp-ppt .ph { width: 100%; height: 100%; border: 2px dashed #bbb; box-sizing: border-box; display: flex; align-items: center; justify-content: center; color: #888; font-size: 28px; }
 .fp-ppt .notes { margin-top: 4px; padding: 6px 10px; box-sizing: border-box; font-size: 12px; white-space: pre-wrap; border-radius: var(--orca-radius, 6px);
-  background: var(--orca-muted, #f4f4f5); color: var(--orca-muted-foreground, #555); }
+  background: var(--orca-muted, #f4f4f5); color: var(--orca-foreground, #111); }
 `
 
 export async function render(ctx: PreviewContext): Promise<void | (() => void)> {
@@ -103,7 +103,8 @@ function drawDeck(ctx: PreviewContext, doc: PptDoc, note?: string): () => void {
   const cards: { item: HTMLElement; card: HTMLElement; slide: PptSlide; built: HTMLElement | null; notes: HTMLElement | null }[] = []
   doc.slides.forEach((slide, i) => {
     const item = h('div', 'item')
-    const card = h('div', 'card')
+    // The slide is document "paper": its colours are the author's, not the Orca theme's.
+    const card = h('div', 'card fp-page')
     card.dataset.index = String(i)
     card.setAttribute('role', 'img')
     const title = slideTitle(slide)
@@ -154,8 +155,10 @@ function drawDeck(ctx: PreviewContext, doc: PptDoc, note?: string): () => void {
       const it = cards[i].item
       const y = it.offsetTop
       if (y > bottom) break
-      const area = Math.min(y + it.offsetHeight, viewBottom) - Math.max(y, viewTop)
-      if (area > bestArea + 1) [best, bestArea] = [i, area]
+      // the slide's visible fraction (notes excluded); ties go to the earlier slide
+      const ch = Math.max(1, cards[i].card.offsetHeight)
+      const frac = (Math.min(y + ch, viewBottom) - Math.max(y, viewTop)) / ch
+      if (frac > bestArea + 0.01) [best, bestArea] = [i, frac]
       if (y + it.offsetHeight >= top) build(cards[i])
     }
     build(cards[best])
@@ -370,6 +373,7 @@ async function pptxTextFallback(ctx: PreviewContext): Promise<() => void> {
   const slides: PptSlide[] = []
   for (const name of slideNames) {
     const xml = (await readZipText(ctx.bytes, entries, name)) ?? ''
+    if (ctx.signal.aborted) return () => {}
     const d = new DOMParser().parseFromString(xml, 'application/xml')
     const shapes: PptShape[] = []
     const H = 4320
