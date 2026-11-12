@@ -14,16 +14,16 @@ const EV = join(DOCS, 'evidence')
 mkdirSync(join(EV, 'charts'), { recursive: true })
 
 const FORMATS = [
-  ['.docx', 'Word', 'docx-preview (Apache-2.0) + JSZip', 'Pages, styles, tables, images, lists; zoom / fit width'],
-  ['.doc', 'Word 97-2003', 'Own OLE/CFB + piece-table parser', 'Text, paragraphs, tables, page breaks'],
-  ['.pptx', 'PowerPoint', 'Own OOXML renderer (fflate)', 'Positioned text, pictures, tables, fills, notes'],
-  ['.ppt', 'PowerPoint 97-2003', 'Own CFB record parser', 'Per-slide titles and body text, pictures'],
-  ['.xlsx .xlsm .xls .ods', 'Spreadsheets', 'SheetJS CE 0.20.3 (Apache-2.0)', 'Sheet picker, merged cells, formatted values, sticky headers'],
-  ['.pdf', 'PDF', 'pdf.js 6.5 (Apache-2.0)', 'Lazy page rendering, page navigation, zoom, CJK cMaps'],
-  ['.gif .bmp', 'Images', 'Browser decoder', 'Animated GIF, fit / zoom / pinch, dimensions'],
-  ['.svg', 'SVG', 'Browser <img> (scripts never run)', 'Zoom, source view'],
-  ['.html .htm', 'HTML', 'DOMPurify (Apache-2.0 / MPL-2.0)', 'Sanitised preview, source view, links blocked'],
-  ['.csv .tsv', 'Tables', 'Own RFC 4180 parser', 'Encoding + delimiter detection, sort, filter, raw view'],
+  ['.docx', 'Word', 'docx-preview (Apache-2.0) + JSZip', 'Pages or reading mode (default on phones), table styles, images, lists, safe links, font aliases'],
+  ['.doc', 'Word 97-2003', 'Own OLE/CFB + piece-table parser', 'Paragraphs, runs, tables, page breaks, pictures; .doc saved as RTF/HTML/DOCX detected'],
+  ['.pptx', 'PowerPoint', 'Own OOXML renderer (fflate)', 'Positioned text, theme colours, shapes, pictures, tables, notes, lazy slides'],
+  ['.ppt', 'PowerPoint 97-2003', 'Own CFB record parser', 'Master text styles, per-slide text and pictures, notes'],
+  ['.xlsx .xlsm .xls .ods', 'Spreadsheets', 'SheetJS CE 0.20.3 in a Web Worker', 'Sheet picker, merges, formatted values, formula fallback, virtual rows (20k cap)'],
+  ['.pdf', 'PDF', 'pdf.js 6.5 legacy build (Apache-2.0)', 'Lazy pages, text layer, page navigation, zoom, CJK cMaps, password prompt'],
+  ['.gif .bmp', 'Images', 'Browser decoder', 'Animated GIF (pause where supported), fit / zoom / pinch, backgrounds'],
+  ['.svg', 'SVG', 'Browser <img> (scripts never run)', 'Zoom, backgrounds, source view'],
+  ['.html .htm .xhtml', 'HTML', 'DOMPurify + sandboxed iframe', 'Sanitised preview, source view, links confirmed before opening'],
+  ['.csv .tsv', 'Tables', 'Own RFC 4180 parser', 'Encoding + delimiter detection, header toggle, sort, filter, raw view'],
   ['.txt .log', 'Text', 'Own', 'Encoding detection (UTF-8/16, EUC-KR, …), line numbers, wrap']
 ]
 

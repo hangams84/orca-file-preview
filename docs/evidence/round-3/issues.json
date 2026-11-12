@@ -68,8 +68,8 @@
     "area": "a11y",
     "title": "Muted text on muted fill 4.40:1 (below 4.5:1)",
     "cause": "Badge colours",
-    "fix": "Badge fixed in core/ui.ts; sheet headers and doc/ppt notes left for round 4",
-    "status": "in progress"
+    "fix": "Badge fixed in core/ui.ts; sheet headers and doc/ppt notes left for round 4; doc/ppt notes and sheet headers fixed in round 4 (theme-switch 0 warnings)",
+    "status": "fixed"
   },
   {
     "id": "R3-9",

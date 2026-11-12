@@ -8,16 +8,16 @@ Orca 데스크톱(Windows · macOS · Linux)과 브라우저/모바일 클라이
 
 | 확장자 | 종류 | 엔진 | 기능 |
 | --- | --- | --- | --- |
-| .docx | Word | docx-preview (Apache-2.0) + JSZip | Pages, styles, tables, images, lists; zoom / fit width |
-| .doc | Word 97-2003 | Own OLE/CFB + piece-table parser | Text, paragraphs, tables, page breaks |
-| .pptx | PowerPoint | Own OOXML renderer (fflate) | Positioned text, pictures, tables, fills, notes |
-| .ppt | PowerPoint 97-2003 | Own CFB record parser | Per-slide titles and body text, pictures |
-| .xlsx .xlsm .xls .ods | Spreadsheets | SheetJS CE 0.20.3 (Apache-2.0) | Sheet picker, merged cells, formatted values, sticky headers |
-| .pdf | PDF | pdf.js 6.5 (Apache-2.0) | Lazy page rendering, page navigation, zoom, CJK cMaps |
-| .gif .bmp | Images | Browser decoder | Animated GIF, fit / zoom / pinch, dimensions |
-| .svg | SVG | Browser <img> (scripts never run) | Zoom, source view |
-| .html .htm | HTML | DOMPurify (Apache-2.0 / MPL-2.0) | Sanitised preview, source view, links blocked |
-| .csv .tsv | Tables | Own RFC 4180 parser | Encoding + delimiter detection, sort, filter, raw view |
+| .docx | Word | docx-preview (Apache-2.0) + JSZip | Pages or reading mode (default on phones), table styles, images, lists, safe links, font aliases |
+| .doc | Word 97-2003 | Own OLE/CFB + piece-table parser | Paragraphs, runs, tables, page breaks, pictures; .doc saved as RTF/HTML/DOCX detected |
+| .pptx | PowerPoint | Own OOXML renderer (fflate) | Positioned text, theme colours, shapes, pictures, tables, notes, lazy slides |
+| .ppt | PowerPoint 97-2003 | Own CFB record parser | Master text styles, per-slide text and pictures, notes |
+| .xlsx .xlsm .xls .ods | Spreadsheets | SheetJS CE 0.20.3 in a Web Worker | Sheet picker, merges, formatted values, formula fallback, virtual rows (20k cap) |
+| .pdf | PDF | pdf.js 6.5 legacy build (Apache-2.0) | Lazy pages, text layer, page navigation, zoom, CJK cMaps, password prompt |
+| .gif .bmp | Images | Browser decoder | Animated GIF (pause where supported), fit / zoom / pinch, backgrounds |
+| .svg | SVG | Browser <img> (scripts never run) | Zoom, backgrounds, source view |
+| .html .htm .xhtml | HTML | DOMPurify + sandboxed iframe | Sanitised preview, source view, links confirmed before opening |
+| .csv .tsv | Tables | Own RFC 4180 parser | Encoding + delimiter detection, header toggle, sort, filter, raw view |
 | .txt .log | Text | Own | Encoding detection (UTF-8/16, EUC-KR, …), line numbers, wrap |
 
 ## 검증 라운드 요약 / Verification rounds
@@ -30,7 +30,7 @@ Orca 데스크톱(Windows · macOS · Linux)과 브라우저/모바일 클라이
 | --- | --- | --- | --- | --- | --- | --- |
 | [1](#round-1) | 2026-11-12 06:03 | `858c111` | 6/6 | 168/168 | 52/52 | 15/14 |
 | [2](#round-2) | 2026-11-12 06:33 | `7ed1655` | 7/7 | 168/168 | 52/52 | 18/18 |
-| [3](#round-3) | 2026-11-12 07:15 | `9d6ca3a` | 7/8 | 168/168 | 57/58 | 11/9 |
+| [3](#round-3) | 2026-11-12 07:15 | `9d6ca3a` | 7/8 | 168/168 | 57/58 | 11/10 |
 | [4](#round-4) | 2026-11-12 08:02 | `459a5dc` | 8/9 | 220/220 | 66/68 | 14/14 |
 | [5](#round-5) | 2026-11-12 08:31 | `0c7fc8c` | 10/10 | 220/220 | 68/68 | 5/1 |
 
@@ -134,7 +134,7 @@ Orca 데스크톱(Windows · macOS · Linux)과 브라우저/모바일 클라이
 | R3-5 | info | html | Link click opened the browser without showing the URL | Direct shell.openExternal | Confirm bar with the full URL first (S-5) | fixed |
 | R3-6 | info | html | CSP console errors from DOMPurify's inert documents ('base-uri none') | Inert DOMParser documents report CSP violations | Documented as noise; proven not executable | documented |
 | R3-7 | medium | sheet/docx | 100k-row .xlsx took 5.4 s to first content; zoom long tasks of 620-740 ms | Whole grid parsed and built | Parse at most 20,000 rows, virtualised rows; docx content-visibility: 2.2-2.4 s, no long task > 70 ms (fp-office) | fixed |
-| R3-8 | low | a11y | Muted text on muted fill 4.40:1 (below 4.5:1) | Badge colours | Badge fixed in core/ui.ts; sheet headers and doc/ppt notes left for round 4 | in progress |
+| R3-8 | low | a11y | Muted text on muted fill 4.40:1 (below 4.5:1) | Badge colours | Badge fixed in core/ui.ts; sheet headers and doc/ppt notes left for round 4; doc/ppt notes and sheet headers fixed in round 4 (theme-switch 0 warnings) | fixed |
 | R3-9 | low | core | '+' zoomed out above 800% | stepZoom edge case | Fixed with keyboard shortcuts (fp-media) | fixed |
 | R3-10 | info | html | UTF-16 and .xhtml HTML | Orca opens text-like files in Source; UTF-16 files open in the plugin directly | Added .xhtml; UTF-16 fixtures used to verify html.ts inside Orca | fixed |
 | R3-11 | low | tooling | Window captures not cropped (sidebar included) | Inline python -c mangled by shell quoting | tools/crop.py called without a shell | fixed |
