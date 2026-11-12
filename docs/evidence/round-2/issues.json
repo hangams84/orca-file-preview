@@ -133,5 +133,23 @@
     "cause": "'ready' state alone counted as a pass",
     "fix": "Harness requires visible text/image/canvas in the first viewport",
     "status": "fixed"
+  },
+  {
+    "id": "R2-16",
+    "severity": "high",
+    "area": "sheet",
+    "title": "A damaged (bit-flipped) .xlsx freezes the preview for about 60 s",
+    "cause": "SheetJS parses on the main thread and loops on corrupted input (found by the fuzz pass)",
+    "fix": "Parse in a time-limited Web Worker; friendly error on timeout (fp-office)",
+    "status": "in progress"
+  },
+  {
+    "id": "R2-17",
+    "severity": "medium",
+    "area": "tooling",
+    "title": "Fuzz run stalled on a frozen page",
+    "cause": "In-page checks had no timeout; same-origin pages share a renderer process",
+    "fix": "Harness records 'did not settle' and continues in a fresh browser context",
+    "status": "fixed"
   }
 ]
