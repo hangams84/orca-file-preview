@@ -6,7 +6,7 @@
     "title": "Crafted .doc could loop forever in the piece-table walk",
     "cause": "Signed skip length allowed p to stand still or move back",
     "fix": "Unsigned length, strictly increasing cursor, unit test (fp-legacy)",
-    "status": "in progress"
+    "status": "fixed"
   },
   {
     "id": "R4-2",
@@ -14,8 +14,8 @@
     "area": "pdf",
     "title": "PDFs fail on iOS 16-17.3, Safari 16 and older Android WebViews",
     "cause": "pdf.js modern build needs Promise.withResolvers and newer built-ins",
-    "fix": "pdf.js legacy build; harness --old-engine mode (fp-media)",
-    "status": "in progress"
+    "fix": "pdf.js legacy build + targeted polyfills (page and worker); harness --old-engine 55/55",
+    "status": "fixed"
   },
   {
     "id": "R4-3",
@@ -24,7 +24,7 @@
     "title": "A render superseded mid-load could write into the newer render and leak observers",
     "cause": "No abort checks after awaits; stale cleanup stored",
     "fix": "main.ts releases superseded renders; abort checks in delegate/fallbacks (fp-legacy)",
-    "status": "in progress"
+    "status": "fixed"
   },
   {
     "id": "R4-4",
@@ -33,7 +33,7 @@
     "title": "Document hyperlinks navigated the preview frame (incl. javascript: hrefs)",
     "cause": "docx-preview renders live <a href> from relationships",
     "fix": "Intercept clicks, confirm bar, http(s)/mailto only (fp-office)",
-    "status": "in progress"
+    "status": "fixed"
   },
   {
     "id": "R4-5",
@@ -42,7 +42,7 @@
     "title": "Object URLs for images/fonts leaked on every re-render",
     "cause": "docx-preview never revokes them",
     "fix": "Track and revoke on abort (fp-office)",
-    "status": "in progress"
+    "status": "fixed"
   },
   {
     "id": "R4-6",
@@ -51,7 +51,7 @@
     "title": "ResizeObserver could stay attached after a re-render; canvases kept alive",
     "cause": "Registered after an await without an abort check; no canvas release",
     "fix": "Abort checks; canvases zeroed; document destroyed (fp-media)",
-    "status": "in progress"
+    "status": "fixed"
   },
   {
     "id": "R4-7",
@@ -69,7 +69,7 @@
     "title": "GIF controls could land in a newer toolbar; HTML links unwired after a slow iframe load",
     "cause": "Missing abort check; wiring only once",
     "fix": "Abort check; re-wire on each load (fp-media)",
-    "status": "in progress"
+    "status": "fixed"
   },
   {
     "id": "R4-9",
@@ -78,7 +78,7 @@
     "title": "Quadratic work on many field pairs (.doc) or long-space cells (CSV)",
     "cause": "Per-character array scan; backtracking regex",
     "fix": "Counter; trim and length cap (fp-legacy)",
-    "status": "in progress"
+    "status": "fixed"
   },
   {
     "id": "R4-10",
@@ -87,7 +87,7 @@
     "title": "Text fallbacks fail before Safari 16.4; zip bombs inflate everything",
     "cause": "DecompressionStream('deflate-raw') unguarded; unzipSync without a filter",
     "fix": "Feature detection with fflate fallback; entry filter and size cap (fp-legacy, fp-office)",
-    "status": "in progress"
+    "status": "fixed"
   },
   {
     "id": "R4-11",
@@ -96,6 +96,33 @@
     "title": "Muted text contrast 4.40:1 in sheet headers",
     "cause": "--orca-muted-foreground on --orca-muted",
     "fix": "--orca-foreground on --orca-muted (fp-office); doc/ppt notes in progress (fp-legacy)",
-    "status": "in progress"
+    "status": "fixed"
+  },
+  {
+    "id": "R4-12",
+    "severity": "info",
+    "area": "core",
+    "title": "Round-3 ResizeObserver loop errors confirmed gone in Orca logs",
+    "cause": "-",
+    "fix": "Deferred observer work (R3-1) verified: 0 occurrences during round 4",
+    "status": "fixed"
+  },
+  {
+    "id": "R4-13",
+    "severity": "low",
+    "area": "html",
+    "title": "XSS fixture failed the Orca mount check with a CSP 'base-uri' report",
+    "cause": "DOMPurify's inert parse of a <base> vector triggered a CSP report (blocked, not executed)",
+    "fix": "Strip <base> tags before sanitising; Orca mount errors now empty",
+    "status": "fixed"
+  },
+  {
+    "id": "R4-14",
+    "severity": "info",
+    "area": "tooling",
+    "title": "Cross-engine coverage",
+    "cause": "Only Chromium was tested",
+    "fix": "Harness --engine webkit (Safari engine) added for round 5",
+    "status": "fixed"
   }
 ]

@@ -31,6 +31,7 @@ Orca 데스크톱(Windows · macOS · Linux)과 브라우저/모바일 클라이
 | [1](#round-1) | 2026-11-12 06:03 | `858c111` | 6/6 | 168/168 | 52/52 | 15/14 |
 | [2](#round-2) | 2026-11-12 06:33 | `7ed1655` | 7/7 | 168/168 | 52/52 | 18/18 |
 | [3](#round-3) | 2026-11-12 07:15 | `9d6ca3a` | 7/8 | 168/168 | 57/58 | 11/9 |
+| [4](#round-4) | 2026-11-12 08:02 | `459a5dc` | 8/9 | 220/220 | 66/68 | 14/14 |
 
 ### Round 1
 
@@ -138,6 +139,43 @@ Orca 데스크톱(Windows · macOS · Linux)과 브라우저/모바일 클라이
 | R3-11 | low | tooling | Window captures not cropped (sidebar included) | Inline python -c mangled by shell quoting | tools/crop.py called without a shell | fixed |
 
 증빙: [harness](evidence/round-3/harness/) · [orca](evidence/round-3/orca/) · [summary.json](evidence/round-3/summary.json)
+
+### Round 4
+
+커밋 `459a5dc` · 2026-11-12T08:02:50.349Z · Orca 1.4.257 · win32 x64
+
+| 검사 | 결과 | 상세 |
+| --- | --- | --- |
+| TypeScript (tsc --noEmit) | ✅ |  |
+| orca plugin validate | ✅ |  |
+| orca plugin test (unit) | ✅ | passed 72 · failed 0 |
+| orca plugin check (static) | ✅ | "" |
+| Browser harness (4 profiles) | ✅ | 220 / 220 passed |
+| Harness on an older engine (no Promise.withResolvers etc.) | ✅ | 55 / 55 passed |
+| Fuzz: damaged inputs settle without page errors | ✅ | 321 / 321 settled (152 as friendly errors) |
+| Harness without rAF/IntersectionObserver (hidden window) | ✅ | 55 / 55 passed |
+| Orca app: editor mounts without errors (plugin shot) | ❌ | 60 / 62 mounted in Orca; 48 open in Orca's own view first (preview via the view toggle) |
+
+**발견된 문제와 조치 / Issues and fixes**
+
+| ID | 심각도 | 영역 | 문제 | 원인 | 조치 | 상태 |
+| --- | --- | --- | --- | --- | --- | --- |
+| R4-1 | high | doc | Crafted .doc could loop forever in the piece-table walk | Signed skip length allowed p to stand still or move back | Unsigned length, strictly increasing cursor, unit test (fp-legacy) | fixed |
+| R4-2 | high | pdf | PDFs fail on iOS 16-17.3, Safari 16 and older Android WebViews | pdf.js modern build needs Promise.withResolvers and newer built-ins | pdf.js legacy build + targeted polyfills (page and worker); harness --old-engine 55/55 | fixed |
+| R4-3 | medium | core/legacy | A render superseded mid-load could write into the newer render and leak observers | No abort checks after awaits; stale cleanup stored | main.ts releases superseded renders; abort checks in delegate/fallbacks (fp-legacy) | fixed |
+| R4-4 | medium | docx | Document hyperlinks navigated the preview frame (incl. javascript: hrefs) | docx-preview renders live <a href> from relationships | Intercept clicks, confirm bar, http(s)/mailto only (fp-office) | fixed |
+| R4-5 | medium | docx | Object URLs for images/fonts leaked on every re-render | docx-preview never revokes them | Track and revoke on abort (fp-office) | fixed |
+| R4-6 | medium | pdf | ResizeObserver could stay attached after a re-render; canvases kept alive | Registered after an await without an abort check; no canvas release | Abort checks; canvases zeroed; document destroyed (fp-media) | fixed |
+| R4-7 | medium | core | Stale root.onscroll kept the previous document alive | reset() did not clear renderer handlers | reset() clears onscroll/onkeydown/style | fixed |
+| R4-8 | low | image/html | GIF controls could land in a newer toolbar; HTML links unwired after a slow iframe load | Missing abort check; wiring only once | Abort check; re-wire on each load (fp-media) | fixed |
+| R4-9 | low | doc/csv | Quadratic work on many field pairs (.doc) or long-space cells (CSV) | Per-character array scan; backtracking regex | Counter; trim and length cap (fp-legacy) | fixed |
+| R4-10 | low | zip | Text fallbacks fail before Safari 16.4; zip bombs inflate everything | DecompressionStream('deflate-raw') unguarded; unzipSync without a filter | Feature detection with fflate fallback; entry filter and size cap (fp-legacy, fp-office) | fixed |
+| R4-11 | low | a11y | Muted text contrast 4.40:1 in sheet headers | --orca-muted-foreground on --orca-muted | --orca-foreground on --orca-muted (fp-office); doc/ppt notes in progress (fp-legacy) | fixed |
+| R4-12 | info | core | Round-3 ResizeObserver loop errors confirmed gone in Orca logs | - | Deferred observer work (R3-1) verified: 0 occurrences during round 4 | fixed |
+| R4-13 | low | html | XSS fixture failed the Orca mount check with a CSP 'base-uri' report | DOMPurify's inert parse of a <base> vector triggered a CSP report (blocked, not executed) | Strip <base> tags before sanitising; Orca mount errors now empty | fixed |
+| R4-14 | info | tooling | Cross-engine coverage | Only Chromium was tested | Harness --engine webkit (Safari engine) added for round 5 | fixed |
+
+증빙: [harness](evidence/round-4/harness/) · [orca](evidence/round-4/orca/) · [summary.json](evidence/round-4/summary.json)
 
 ## 영역별 개발 노트 / Development notes
 

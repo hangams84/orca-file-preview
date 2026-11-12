@@ -10,6 +10,7 @@
 //   node tools/harness/run.mjs --no-raf ...   # stub requestAnimationFrame + IntersectionObserver (hidden window)
 //   node tools/harness/run.mjs --old-engine ...  # delete Promise.withResolvers, findLast, structuredClone, ... (also in workers)
 //   node tools/harness/run.mjs --dir samples/fuzz --fuzz --no-shots   # damaged inputs: must settle, never hang/crash
+//   node tools/harness/run.mjs --engine webkit ...   # Safari engine (npx playwright-core install webkit)
 import { transform } from 'esbuild'
 import { createServer } from 'node:http'
 import { mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
@@ -258,7 +259,7 @@ async function run() {
     console.log(`serving ${ROOT} at ${base}/harness?file=samples/sample.docx&theme=dark&locale=ko`)
     return
   }
-  const { chromium } = await import('playwright-core')
+  const { chromium, webkit } = await import('playwright-core')
   const executablePath =
     args.chrome ??
     [
@@ -274,7 +275,9 @@ async function run() {
         return false
       }
     })
-  const browser = await chromium.launch({ executablePath, headless: true })
+  // --engine webkit: Safari's engine (Playwright's bundled WebKit), the closest stand-in for iOS.
+  const browser =
+    args.engine === 'webkit' ? await webkit.launch({ headless: true }) : await chromium.launch({ executablePath, headless: true })
   const out = join(ROOT, args.out ?? '.orca/harness-shots')
   mkdirSync(out, { recursive: true })
   const only = typeof args.only === 'string' ? args.only.split(',') : null

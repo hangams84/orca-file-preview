@@ -135,7 +135,9 @@ function sanitize(text: string): Sanitized {
   })
   let html: string
   try {
-    html = DOMPurify.sanitize(text, {
+    // <base> is forbidden below anyway; dropping its tags first stops DOMPurify's inert parse from
+    // attempting a base-URI change that the frame's CSP then reports as a violation.
+    html = DOMPurify.sanitize(text.replace(/<base\b[^>]*>/gi, ''), {
       WHOLE_DOCUMENT: true,
       FORBID_TAGS: ['base', 'link', 'meta', 'iframe', 'frame', 'frameset', 'object', 'embed', 'portal'],
       FORBID_ATTR: ['action', 'formaction', 'target', 'ping', 'http-equiv']

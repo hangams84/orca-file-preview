@@ -129,6 +129,21 @@ if (!args['skip-harness']) {
       detail: `${old.filter((h) => h.pass).length} / ${old.length} passed${old.filter((h) => !h.pass).map((h) => `\n✗ ${h.file}: ${h.state} ${h.checkError ?? ''}`).join('')}`
     })
   }
+  // Safari's engine (iOS stand-in), when Playwright's WebKit is installed.
+  if (!args['skip-webkit']) {
+    const wk = sh('node', ['tools/harness/run.mjs', '--engine', 'webkit', '--out', relative(ROOT, join(OUT, 'harness-webkit')), '--profiles', 'mobile-light,desktop-dark'])
+    let wkr = []
+    try {
+      wkr = JSON.parse(readFileSync(join(OUT, 'harness-webkit', 'results.json'), 'utf8'))
+    } catch {
+      wkr = []
+    }
+    checks.push({
+      name: 'Harness on WebKit (Safari engine, phone + desktop)',
+      ok: wk.code === 0 && wkr.length > 0,
+      detail: `${wkr.filter((h) => h.pass).length} / ${wkr.length} passed${wkr.filter((h) => !h.pass).map((h) => `\n✗ ${h.profile} ${h.file}: ${h.state} ${h.checkError ?? ''} ${(h.errors ?? []).join('; ').slice(0, 160)}`).join('')}`
+    })
+  }
   // Damaged inputs: every fuzzed file must settle (ready or a friendly error) without page errors.
   if (!args['skip-fuzz']) {
     sh('node', ['tools/make-fuzz.mjs'])
