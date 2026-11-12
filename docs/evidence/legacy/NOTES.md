@@ -134,3 +134,20 @@ Merged `master` (harness content check, `--no-raf`, `--fuzz`, `tools/make-fuzz.m
 | Fuzz | `node tools/make-fuzz.mjs && node tools/harness/run.mjs --dir samples/fuzz --fuzz --no-shots --profiles desktop-dark --timeout 15000 --only .doc,.ppt,.csv,.tsv` → **133 / 133** settle (ready or error) with no page errors. The CFB reader already guards chains with visited sets and sector bounds, and record walkers stop at bad lengths. No change was needed. |
 
 Harness after the fixes: normal **38 / 38**, `--no-raf` **38 / 38** (desktop-dark + mobile-light, `.doc,.ppt,csv,tsv`; other areas' `.docx`/`.pptx` rows removed).
+
+## Round 3: unit tests
+
+Merged `master`. Pure Node unit tests (no DOM) live in `plugin/editor/renderers/legacy/*.test.ts` and use `orca/testing`. They run with `orca plugin test`. On this machine the runner only works from the C: drive, so they run from a copy of `plugin/` under `%LOCALAPPDATA%\Temp`, the same way `tools/verify.mjs` does it.
+`legacy/testkit.ts` holds the helpers. It builds tiny synthetic compound files (version 3, 512-byte sectors, FAT, mini-FAT, directory) and binary records in memory, so the tests need no `node:fs` and no fixtures.
+
+| File | Tests | Assertions | Covers |
+| --- | ---: | ---: | --- |
+| `csvparse.test.ts` | 11 | 32 | LF / CRLF / CR rows, trailing newline, quotes with delimiters, `""` escapes, embedded CR/LF, empty and empty-quoted fields, trailing delimiter, ragged rows, unterminated / stray quotes, `parseChunk` limit + resume, delimiter detection for `,` `;` tab `|` + single-column fallback, UTF-8 BOM, header guess, numeric detection, 50,000-row parse (< 2 s bound; ~35 ms measured) |
+| `cfb.test.ts` | 6 | 15 | signature + sector-shift validation, mini-FAT and FAT stream round-trip, case-insensitive names, FAT cycle terminates, out-of-range start sectors (FAT and mini-FAT) → empty streams, truncated file, directory sibling cycle |
+| `word.test.ts` | 8 | 15 | compressed cp1252 + UTF-16LE pieces in one story, `\r` / `\x0B` / `\x0C`, `\x07` cell/row → table, fields (result only, nested), `\x08` `\x02` `\x1F` `\x1E` handling, `\x01` placeholder, `fEncrypted` → `WordError('encrypted')`, missing stream / bad FIB / missing table → `corrupt`, ccpText past the pieces |
+| `rtf.test.ts` | 8 | 18 | signature, group-scoped bold/italic, `\uN` + `\ucN` skip (incl. `\'hh` fallbacks, negative values), `\'hh` with `\ansicpg949` (한글) and cp1252, `\colortbl` + `\cf` / `\highlight` / `\fs` scoped to groups, skipped destinations and escapes, `\cell` / `\row` tables, `\page`, unbalanced braces |
+| `pptbin.test.ts` | 7 | 15 | TextCharsAtom (UTF-16LE) vs TextBytesAtom (cp1252), `\r` paragraphs, `\x0B` line break, TextHeader type and default bullets, DocumentAtom size, ClientAnchor rectangle, slide order, oversized recLen stops the walk safely, truncated top-level record, missing DocumentContainer / stream → `corrupt`, encrypted Current User token |
+| **Total** | **40** | **95** | all pass |
+
+`orca plugin test` result (whole plugin, including other areas' tests): **57 / 57 pass**. `npx tsc -p plugin --noEmit` and `orca plugin check plugin` are clean.
+The new tests found no bugs: the guards added in rounds 1-2 (chain visited-sets, bounds-checked record reads, lenient CSV quotes) held under every synthetic corruption tried. No renderer code changed this round.
