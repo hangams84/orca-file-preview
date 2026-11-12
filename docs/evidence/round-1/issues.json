@@ -1,12 +1,12 @@
 [
   {
     "id": "R1-1",
-    "severity": "high",
+    "severity": "medium",
     "area": "pdf",
-    "title": "PDF pages stay blank in the Orca app (placeholder only)",
-    "cause": "Rendering waited on IntersectionObserver and pdf.js's requestAnimationFrame loop, both paused while Orca's window is hidden or occluded",
-    "fix": "Visibility computed from scroll offsets; non-rAF render path; harness --no-raf check (fp-media)",
-    "status": "in progress"
+    "title": "PDF pages blank in Orca captures and in hidden/occluded windows",
+    "cause": "Orca captures at first paint (mostly a timing artifact); drawing also relied on IntersectionObserver and pdf.js requestAnimationFrame, which pause in hidden windows",
+    "fix": "Visibility from scroll geometry, rAF-free print-intent fallback, harness --no-raf mode with pixel check (24/24)",
+    "status": "fixed"
   },
   {
     "id": "R1-2",
@@ -52,5 +52,86 @@
     "cause": "Orca always treats suffixes it opens itself (and text-looking files) as priority 'option'",
     "fix": "Documented: switch with the view toggle at the tab's top right; preview editors are registered for these suffixes",
     "status": "documented"
+  },
+  {
+    "id": "R1-7",
+    "severity": "high",
+    "area": "core",
+    "title": "A .doc that is really DOCX stayed on the spinner in Orca captures; every file rendered twice",
+    "cause": "Orca delivers the same document more than once; the dedupe compared object identity",
+    "fix": "main.ts dedupes by file type and bytes; verify.mjs opens, waits, then captures",
+    "status": "fixed"
+  },
+  {
+    "id": "R1-8",
+    "severity": "medium",
+    "area": "ppt",
+    "title": "Extra \"기타 그림\" gallery with a placeholder picture after the last slide",
+    "cause": "All unplaced blips (thumbnail/master pictures) were shown",
+    "fix": "Only slide-referenced, decodable pictures (fp-legacy)",
+    "status": "in progress"
+  },
+  {
+    "id": "R1-9",
+    "severity": "low",
+    "area": "ppt",
+    "title": "PPT 97 slide text smaller and tighter than the same slide elsewhere",
+    "cause": "Font size / master text style defaults",
+    "fix": "Read sizes from master text styles (fp-legacy)",
+    "status": "in progress"
+  },
+  {
+    "id": "R1-10",
+    "severity": "low",
+    "area": "ppt/doc",
+    "title": "Korean glyphs heavier than Latin, lines nearly touch",
+    "cause": "Font stack without Korean fallbacks",
+    "fix": "Korean font fallbacks and line-height (fp-legacy)",
+    "status": "in progress"
+  },
+  {
+    "id": "R1-11",
+    "severity": "medium",
+    "area": "docx",
+    "title": "DOCX unreadable on phones (page fitted at ~43%, ~5 px text)",
+    "cause": "Fixed page width scaled down to fit",
+    "fix": "Reading/reflow mode by default on phones (fp-office)",
+    "status": "in progress"
+  },
+  {
+    "id": "R1-12",
+    "severity": "medium",
+    "area": "docx",
+    "title": "Word table style and cell padding not applied",
+    "cause": "docx-preview ignores conditional table formatting and default cell margins",
+    "fix": "CSS fallbacks for header/banding and padding (fp-office)",
+    "status": "in progress"
+  },
+  {
+    "id": "R1-13",
+    "severity": "low",
+    "area": "docx",
+    "title": "List bullets without hanging indent",
+    "cause": "Numbering indents not applied",
+    "fix": "Numbering CSS (fp-office)",
+    "status": "in progress"
+  },
+  {
+    "id": "R1-14",
+    "severity": "low",
+    "area": "sheet",
+    "title": "Dates cut off in narrow columns",
+    "cause": "No overflow into empty neighbours",
+    "fix": "Excel-like overflow / minimum widths (fp-office)",
+    "status": "in progress"
+  },
+  {
+    "id": "R1-15",
+    "severity": "low",
+    "area": "sheet",
+    "title": ".xls column widths about twice the .xlsx widths",
+    "cause": "BIFF width unit conversion",
+    "fix": "Prefer wpx, then wch (fp-office)",
+    "status": "in progress"
   }
 ]
