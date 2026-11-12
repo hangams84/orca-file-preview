@@ -23,7 +23,7 @@ const STYLE = `
 .fp-frame img { max-width: 100%; max-height: 100%; }
 .fp-frame-label { font-size: 28px; opacity: .6; }
 .fp-txt { position: absolute; inset: 0; display: flex; flex-direction: column; box-sizing: border-box; overflow: visible;
-  line-height: 1.2; overflow-wrap: break-word; }
+  line-height: 1.2; overflow-wrap: normal; word-break: keep-all; }
 .fp-txt.nowrap { white-space: nowrap; }
 .fp-txt.nowrap .fp-paras p { white-space: pre; }
 .fp-paras p { margin: 0; white-space: pre-wrap; }

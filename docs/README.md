@@ -32,6 +32,7 @@ Orca 데스크톱(Windows · macOS · Linux)과 브라우저/모바일 클라이
 | [2](#round-2) | 2026-11-12 06:33 | `7ed1655` | 7/7 | 168/168 | 52/52 | 18/18 |
 | [3](#round-3) | 2026-11-12 07:15 | `9d6ca3a` | 7/8 | 168/168 | 57/58 | 11/9 |
 | [4](#round-4) | 2026-11-12 08:02 | `459a5dc` | 8/9 | 220/220 | 66/68 | 14/14 |
+| [5](#round-5) | 2026-11-12 08:31 | `0c7fc8c` | 10/10 | 220/220 | 68/68 | 5/1 |
 
 ### Round 1
 
@@ -176,6 +177,35 @@ Orca 데스크톱(Windows · macOS · Linux)과 브라우저/모바일 클라이
 | R4-14 | info | tooling | Cross-engine coverage | Only Chromium was tested | Harness --engine webkit (Safari engine) added for round 5 | fixed |
 
 증빙: [harness](evidence/round-4/harness/) · [orca](evidence/round-4/orca/) · [summary.json](evidence/round-4/summary.json)
+
+### Round 5
+
+커밋 `0c7fc8c` · 2026-11-12T08:31:39.063Z · Orca 1.4.257 · win32 x64
+
+| 검사 | 결과 | 상세 |
+| --- | --- | --- |
+| TypeScript (tsc --noEmit) | ✅ |  |
+| orca plugin validate | ✅ |  |
+| orca plugin test (unit) | ✅ | passed 72 · failed 0 |
+| orca plugin check (static) | ✅ | "" |
+| Browser harness (4 profiles) | ✅ | 220 / 220 passed |
+| Harness on an older engine (no Promise.withResolvers etc.) | ✅ | 55 / 55 passed |
+| Harness on WebKit (Safari engine, phone + desktop) | ✅ | 110 / 110 passed |
+| Fuzz: damaged inputs settle without page errors | ✅ | 321 / 321 settled (152 as friendly errors) |
+| Harness without rAF/IntersectionObserver (hidden window) | ✅ | 55 / 55 passed |
+| Orca app: editor mounts without errors (plugin shot) | ✅ | 62 / 62 mounted in Orca; 48 open in Orca's own view first (preview via the view toggle) |
+
+**발견된 문제와 조치 / Issues and fixes**
+
+| ID | 심각도 | 영역 | 문제 | 원인 | 조치 | 상태 |
+| --- | --- | --- | --- | --- | --- | --- |
+| R5-1 | medium | pptx | 'Chevron' label broke mid-word into a column of letters | overflow-wrap: break-word splits words that do not fit the shape's text rectangle | overflow-wrap: normal; word-break: keep-all (words never split, like PowerPoint); pptx harness re-run 8/8 after the round-5 run (evidence: fix-sample-shapes.pptx.desktop-dark.png) | fixed |
+| R5-2 | low | html | A long unbreakable string in an HTML <listing> is cut at the right edge (Chromium) | Author content without wrap points; the preview keeps the page's own CSS | Documented: horizontal scroll inside the preview reaches it | documented |
+| R5-3 | low | html (WebKit) | WebKit: the harness's target=_top click shows no 'links cannot be opened here' bar | Click event path differs in WebKit's iframe; navigation is still blocked (security checks pass) | Documented; manual check on Safari recommended | documented |
+| R5-4 | info | gif (WebKit) | No GIF pause button in WebKit | ImageDecoder is unavailable; GIF animates natively (intended fallback) | Documented | documented |
+| R5-5 | info | evidence | Last toolbar button clipped at the right edge in window captures | Crop box edge (Orca's own toolbar is clipped at the same x) | Capture artifact, not a plugin defect | documented |
+
+증빙: [harness](evidence/round-5/harness/) · [orca](evidence/round-5/orca/) · [summary.json](evidence/round-5/summary.json)
 
 ## 영역별 개발 노트 / Development notes
 

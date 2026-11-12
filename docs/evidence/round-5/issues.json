@@ -1,0 +1,47 @@
+[
+  {
+    "id": "R5-1",
+    "severity": "medium",
+    "area": "pptx",
+    "title": "'Chevron' label broke mid-word into a column of letters",
+    "cause": "overflow-wrap: break-word splits words that do not fit the shape's text rectangle",
+    "fix": "overflow-wrap: normal; word-break: keep-all (words never split, like PowerPoint); pptx harness re-run 8/8 after the round-5 run (evidence: fix-sample-shapes.pptx.desktop-dark.png)",
+    "status": "fixed"
+  },
+  {
+    "id": "R5-2",
+    "severity": "low",
+    "area": "html",
+    "title": "A long unbreakable string in an HTML <listing> is cut at the right edge (Chromium)",
+    "cause": "Author content without wrap points; the preview keeps the page's own CSS",
+    "fix": "Documented: horizontal scroll inside the preview reaches it",
+    "status": "documented"
+  },
+  {
+    "id": "R5-3",
+    "severity": "low",
+    "area": "html (WebKit)",
+    "title": "WebKit: the harness's target=_top click shows no 'links cannot be opened here' bar",
+    "cause": "Click event path differs in WebKit's iframe; navigation is still blocked (security checks pass)",
+    "fix": "Documented; manual check on Safari recommended",
+    "status": "documented"
+  },
+  {
+    "id": "R5-4",
+    "severity": "info",
+    "area": "gif (WebKit)",
+    "title": "No GIF pause button in WebKit",
+    "cause": "ImageDecoder is unavailable; GIF animates natively (intended fallback)",
+    "fix": "Documented",
+    "status": "documented"
+  },
+  {
+    "id": "R5-5",
+    "severity": "info",
+    "area": "evidence",
+    "title": "Last toolbar button clipped at the right edge in window captures",
+    "cause": "Crop box edge (Orca's own toolbar is clipped at the same x)",
+    "fix": "Capture artifact, not a plugin defect",
+    "status": "documented"
+  }
+]
