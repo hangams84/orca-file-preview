@@ -15,6 +15,7 @@ import {
 import { formatBytes } from '../core/i18n.ts'
 import { PreviewError, type PreviewContext } from '../core/types.ts'
 import { bindZoomGestures, clampZoom, createZoom, h, showMessage } from '../core/ui.ts'
+import { isTyping, zoomKeyHandler } from './media/keys.ts'
 
 const asset = (p: string) => new URL(`../../vendor/${p}`, import.meta.url).href
 
@@ -478,17 +479,24 @@ async function mount(ctx: PreviewContext, doc: PDFDocumentProxy, cleanups: (() =
 
   // Scroll events still arrive while frames are paused; the work per event is a binary search.
   root.onscroll = () => refresh()
-  root.addEventListener(
-    'keydown',
-    (e) => {
-      if (e.target !== root || e.ctrlKey || e.metaKey || e.altKey) return
-      if (e.key === 'n' || e.key === 'j') go(current + 1)
-      else if (e.key === 'p' || e.key === 'k') go(current - 1)
-      else return
-      e.preventDefault()
-    },
-    { signal }
-  )
+  // Keys while the content area (or the page body) has focus: PageDown/Space and PageUp/Shift+Space
+  // scroll by a screen, Home/End go to the first/last page, n/j and p/k step pages, +/-/0 zoom.
+  const zoomKey = zoomKeyHandler(zoom)
+  const onKey = (e: KeyboardEvent) => {
+    if (e.defaultPrevented || isTyping(e)) return
+    if (e.target !== root && e.target !== document.body && !root.contains(e.target as Node)) return
+    if (zoomKey(e)) return
+    const screen = Math.max(40, root.clientHeight - 40)
+    if (e.key === 'PageDown' || (e.key === ' ' && !e.shiftKey)) root.scrollTop += screen
+    else if (e.key === 'PageUp' || (e.key === ' ' && e.shiftKey)) root.scrollTop -= screen
+    else if (e.key === 'Home') go(1)
+    else if (e.key === 'End') go(N)
+    else if (e.key === 'n' || e.key === 'j') go(current + 1)
+    else if (e.key === 'p' || e.key === 'k') go(current - 1)
+    else return
+    e.preventDefault()
+  }
+  window.addEventListener('keydown', onKey, { signal })
 
   // ---- show --------------------------------------------------------------------------------
   root.replaceChildren(style, container)
@@ -511,10 +519,23 @@ async function mount(ctx: PreviewContext, doc: PDFDocumentProxy, cleanups: (() =
     if (auto && widthChanged) setAuto(autoScale())
     refresh()
   }
-  const ro = new ResizeObserver(onResize)
+  // Layout work runs after the observer callback (a synchronous re-fit can toggle scrollbars and
+  // resize the observed box again in the same frame: "ResizeObserver loop completed with
+  // undelivered notifications").
+  let roTimer = 0
+  const ro = new ResizeObserver(() => {
+    if (roTimer) return
+    roTimer = window.setTimeout(() => {
+      roTimer = 0
+      if (!signal.aborted) onResize()
+    }, 0)
+  })
   ro.observe(root)
   window.addEventListener('resize', onResize, { signal })
-  cleanups.push(() => ro.disconnect())
+  cleanups.push(() => {
+    ro.disconnect()
+    clearTimeout(roTimer)
+  })
 
   // Real sizes of the other pages, in the background (mixed page sizes and rotations).
   void (async () => {

@@ -29,7 +29,7 @@ body {
 .fp-toolbar .fp-info { color: var(--orca-muted-foreground, #666); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 60vw; }
 .fp-toolbar .fp-zoom-label { min-width: 44px; text-align: center; font-variant-numeric: tabular-nums; }
 .fp-badge { font-weight: 600; letter-spacing: .02em; text-transform: uppercase; font-size: 11px;
-  padding: 1px 6px; border-radius: 4px; background: var(--orca-muted, #eee); color: var(--orca-muted-foreground, #555); }
+  padding: 1px 6px; border-radius: 4px; background: var(--orca-muted, #eee); color: var(--orca-foreground, #222); }
 .fp-content { flex: 1 1 auto; overflow: auto; position: relative; -webkit-overflow-scrolling: touch; touch-action: pan-x pan-y; outline: none; }
 .fp-state { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
   min-height: 100%; padding: 24px; box-sizing: border-box; text-align: center; color: var(--orca-muted-foreground, #666); }
@@ -161,8 +161,9 @@ function zoomControls(z: ZoomController): HTMLElement[] {
 
 const STEPS = [0.1, 0.25, 0.33, 0.5, 0.67, 0.75, 0.9, 1, 1.1, 1.25, 1.5, 1.75, 2, 2.5, 3, 4, 5, 6, 8]
 export function stepZoom(current: number, dir: 1 | -1): number {
-  if (dir > 0) return STEPS.find((s) => s > current + 0.001) ?? STEPS[STEPS.length - 1]
-  return [...STEPS].reverse().find((s) => s < current - 0.001) ?? STEPS[0]
+  // Beyond the table (e.g. a small SVG fitted at 1000 %), keep moving in the asked direction.
+  if (dir > 0) return STEPS.find((s) => s > current + 0.001) ?? current * 1.25
+  return [...STEPS].reverse().find((s) => s < current - 0.001) ?? current / 1.25
 }
 
 export function clampZoom(s: number, min = 0.1, max = 8): number {

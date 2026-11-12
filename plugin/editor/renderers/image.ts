@@ -4,6 +4,7 @@ import { formatBytes } from '../core/i18n.ts'
 import { PreviewError, type PreviewContext } from '../core/types.ts'
 import { bindZoomGestures, objectUrl } from '../core/ui.ts'
 import { createGifPlayer } from './media/gif-player.ts'
+import { bindZoomKeys } from './media/keys.ts'
 import { createImageView, gifFrameDelays, loadImage } from './media/image-view.ts'
 
 function sniff(b: Uint8Array): { mime: string; label: string } | null {
@@ -59,4 +60,5 @@ export async function render(ctx: PreviewContext): Promise<void> {
   toolbar.info(parts.join(' · '))
   toolbar.zoom(view.zoom)
   bindZoomGestures(ctx.root, view.zoom, signal)
+  bindZoomKeys(ctx.root, view.zoom, signal)
 }

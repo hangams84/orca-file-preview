@@ -5,6 +5,7 @@ import { formatBytes } from '../core/i18n.ts'
 import { PreviewError, type PreviewContext } from '../core/types.ts'
 import { bindZoomGestures, h, objectUrl } from '../core/ui.ts'
 import { createImageView, loadImage } from './media/image-view.ts'
+import { bindZoomKeys } from './media/keys.ts'
 import { createSourceView, switchableZoom } from './media/source-view.ts'
 
 /** Intrinsic size from width/height or the viewBox, parsed as inert XML. */
@@ -67,6 +68,7 @@ export async function render(ctx: PreviewContext): Promise<void> {
     info('')
     toolbar.zoom(source.zoom)
     bindZoomGestures(root, sw.ctl, signal)
+    bindZoomKeys(root, sw.ctl, signal)
     return
   }
 
@@ -95,4 +97,5 @@ export async function render(ctx: PreviewContext): Promise<void> {
   info(`${Math.round(natural.width)} × ${Math.round(natural.height)}`)
   toolbar.zoom(view.zoom)
   bindZoomGestures(root, sw.ctl, signal)
+  bindZoomKeys(root, sw.ctl, signal)
 }

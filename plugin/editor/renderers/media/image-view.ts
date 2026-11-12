@@ -163,10 +163,27 @@ export function createImageView(
     lastH = root.clientHeight
     if (auto && stage.isConnected) autoFit(!!opts.upscale)
   }
-  const ro = new ResizeObserver(onResize)
+  // Layout work runs after the observer callback (a synchronous re-fit can toggle scrollbars and
+  // resize the observed box again in the same frame: "ResizeObserver loop completed with
+  // undelivered notifications").
+  let roTimer = 0
+  const ro = new ResizeObserver(() => {
+    if (roTimer) return
+    roTimer = window.setTimeout(() => {
+      roTimer = 0
+      if (!signal.aborted) onResize()
+    }, 0)
+  })
   ro.observe(root)
   window.addEventListener('resize', onResize, { signal })
-  signal.addEventListener('abort', () => ro.disconnect(), { once: true })
+  signal.addEventListener(
+    'abort',
+    () => {
+      ro.disconnect()
+      clearTimeout(roTimer)
+    },
+    { once: true }
+  )
 
   // Drag to pan with a mouse (touch already pans natively).
   let drag: { x: number; y: number; l: number; t: number } | null = null

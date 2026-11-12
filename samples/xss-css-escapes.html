@@ -1,0 +1,14 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>CSS escape vectors</title>
+<style>@\69mport "https://example.com/escaped-import.css"; body { font-family: sans-serif; }</style>
+<style>@im/**/port url(https://example.com/comment-import.css);</style>
+<style>.a { background: u\72l(https://example.com/escaped-url.png); }</style>
+<style>.b { background-image: image-set("https://example.com/set.png" 1x, "https://example.com/set2.png" 2x); }</style>
+<style>.c { background-image: -webkit-image-set(url(https://example.com/wk.png) 1x); }</style>
+<style>.ok { color: #16a34a; background: url("data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="); }</style>
+</head><body>
+<h1 class="ok">CSS escape fixture</h1>
+<p class="a" style="background:\75 rl(https://example.com/inline-escaped.png)">Escaped url() in a style attribute.</p>
+<p class="b">image-set() with remote images.</p>
+<p class="c">-webkit-image-set() with url().</p>
+</body></html>
