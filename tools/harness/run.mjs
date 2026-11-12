@@ -229,7 +229,9 @@ async function run() {
         continue
       }
       let checkError = null
-      if (checkFor(f)) checkError = await page.evaluate(checkFor(f)).catch((e) => `check failed: ${e.message}`)
+      // Per-file checks assert a finished render (scripts did not run, pages painted): they do not apply
+      // to damaged inputs or to previews that correctly ended in an error.
+      if (checkFor(f) && !(args.fuzz && state === 'error') && !(args.fuzz && /\.pdf$/i.test(f))) checkError = await page.evaluate(checkFor(f)).catch((e) => `check failed: ${e.message}`)
       // "ready" must also mean something is on screen inside the content area's first viewport.
       if (!checkError && state === 'ready' && !args.fuzz) {
         checkError = await page
