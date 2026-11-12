@@ -107,10 +107,30 @@ const api = orca.document
 if (!api) {
   showMessage(shell.root, 'File Preview', tr('이 파일은 편집기 탭에서만 열 수 있습니다.', 'This page runs as a custom editor.'))
 } else {
-  let last: unknown = null
+  // Orca can deliver the same document more than once (the replay on subscribe, a re-open, a
+  // capture): re-render only when the bytes or the file type really changed.
+  let lastBytes: Uint8Array | null = null
+  let lastType = ''
   api.onDidChange((doc) => {
-    if (doc.content === last) return
-    last = doc.content
-    void show(toBytes(doc.content), (doc.fileType ?? '').replace(/^\./, '').toLowerCase())
+    const bytes = toBytes(doc.content)
+    const type = (doc.fileType ?? '').replace(/^\./, '').toLowerCase()
+    if (type === lastType && lastBytes && sameBytes(lastBytes, bytes)) return
+    lastBytes = bytes
+    lastType = type
+    void show(bytes, type)
   })
+}
+
+export function sameBytes(a: Uint8Array, b: Uint8Array): boolean {
+  if (a === b) return true
+  if (a.byteLength !== b.byteLength) return false
+  // Compare 4 bytes at a time where alignment allows; files are at most tens of MB.
+  const n4 = a.byteOffset % 4 === 0 && b.byteOffset % 4 === 0 ? a.byteLength >> 2 : 0
+  if (n4) {
+    const a4 = new Uint32Array(a.buffer, a.byteOffset, n4)
+    const b4 = new Uint32Array(b.buffer, b.byteOffset, n4)
+    for (let i = 0; i < n4; i++) if (a4[i] !== b4[i]) return false
+  }
+  for (let i = n4 << 2; i < a.byteLength; i++) if (a[i] !== b[i]) return false
+  return true
 }

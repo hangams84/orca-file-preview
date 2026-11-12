@@ -66,6 +66,25 @@ const STYLE = `
 .textLayer .endOfContent { display: block; position: absolute; inset: 100% 0 0; z-index: 0; cursor: default; user-select: none; }
 `
 
+/** True when animation frames are being delivered (probe: one rAF within 100 ms). */
+function framesRunning(): Promise<boolean> {
+  if (document.visibilityState === 'hidden' || typeof requestAnimationFrame !== 'function') return Promise.resolve(false)
+  return new Promise((resolve) => {
+    let done = false
+    const finish = (v: boolean) => {
+      if (done) return
+      done = true
+      resolve(v)
+    }
+    try {
+      requestAnimationFrame(() => finish(true))
+    } catch {
+      finish(false)
+    }
+    setTimeout(() => finish(false), 100)
+  })
+}
+
 interface Slot {
   n: number
   el: HTMLDivElement
@@ -242,7 +261,12 @@ async function mount(ctx: PreviewContext, doc: PDFDocumentProxy, cleanups: (() =
     const canvas = h('canvas')
     canvas.width = Math.max(1, Math.floor(vp.width * ratio))
     canvas.height = Math.max(1, Math.floor(vp.height * ratio))
-    const t = page.render({ canvas, viewport: vp, transform: ratio !== 1 ? [ratio, 0, 0, ratio, 0, 0] : null })
+    // pdf.js paces 'display' renders with requestAnimationFrame, which is paused while Orca's
+    // window is hidden or occluded (and during Orca's own window captures). Fall back to the
+    // 'print' intent, which renders without rAF, whenever frames are not being delivered.
+    const intent = (await framesRunning()) ? 'display' : 'print'
+    if (signal.aborted) return
+    const t = page.render({ canvas, viewport: vp, intent, transform: ratio !== 1 ? [ratio, 0, 0, ratio, 0, 0] : null })
     s.task = t
     try {
       await t.promise
@@ -304,16 +328,33 @@ async function mount(ctx: PreviewContext, doc: PDFDocumentProxy, cleanups: (() =
     }
   }
 
-  const io = new IntersectionObserver(
-    (entries) => {
-      for (const e of entries) {
-        const s = slots[Number((e.target as HTMLElement).dataset.page) - 1]
-        if (s) s.visible = e.isIntersecting
-      }
-      void pump()
-    },
-    { root, rootMargin: '50% 0px 50% 0px' }
-  )
+  // Which pages are in or near the view, from scroll position and page offsets. This does not
+  // depend on IntersectionObserver or rAF, which stop while the window is hidden or occluded.
+  let visibleNow: Slot[] = []
+  const updateVisible = () => {
+    for (const s of visibleNow) s.visible = false
+    const vh = Math.max(root.clientHeight, 1)
+    const top = root.scrollTop - vh * 0.5
+    const bottom = root.scrollTop + vh * 1.5
+    const next: Slot[] = []
+    for (let i = Math.max(0, pageAt(top) - 1); i < slots.length; i++) {
+      const s = slots[i]
+      if (s.el.offsetTop > bottom) break
+      if (s.el.offsetTop + s.el.offsetHeight >= top) next.push(s)
+    }
+    const cur = slots[current - 1]
+    if (cur && !next.includes(cur)) next.push(cur)
+    for (const s of next) s.visible = true
+    visibleNow = next
+  }
+  const refresh = () => {
+    current = pageAt(root.scrollTop + root.clientHeight * 0.3)
+    updateVisible()
+    showCurrent()
+    void pump()
+  }
+  // IntersectionObserver stays as an extra trigger only.
+  const io = new IntersectionObserver(() => refresh(), { root, rootMargin: '50% 0px 50% 0px' })
   cleanups.push(() => io.disconnect())
   cleanups.push(() => {
     for (const s of slots) {
@@ -346,7 +387,10 @@ async function mount(ctx: PreviewContext, doc: PDFDocumentProxy, cleanups: (() =
       root.scrollLeft = cur.el.offsetLeft + Math.min(1, Math.max(0, fx)) * cur.el.offsetWidth - root.clientWidth / 2
       for (const sl of slots) if (sl.task) sl.task.cancel()
       clearTimeout(redrawTimer)
-      redrawTimer = window.setTimeout(() => void pump(), 150)
+      redrawTimer = window.setTimeout(() => {
+        updateVisible()
+        void pump()
+      }, 150)
     },
     undefined,
     { min: 0.1, max: 8 }
@@ -399,16 +443,8 @@ async function mount(ctx: PreviewContext, doc: PDFDocumentProxy, cleanups: (() =
   toolbar.zoom(zoom)
   bindZoomGestures(root, zoom, signal)
 
-  let raf = 0
-  root.onscroll = () => {
-    if (raf) return
-    raf = requestAnimationFrame(() => {
-      raf = 0
-      current = pageAt(root.scrollTop + root.clientHeight * 0.3)
-      showCurrent()
-    })
-  }
-  cleanups.push(() => cancelAnimationFrame(raf))
+  // Scroll events still arrive while frames are paused; the work per event is a binary search.
+  root.onscroll = () => refresh()
   root.addEventListener(
     'keydown',
     (e) => {
@@ -428,16 +464,23 @@ async function mount(ctx: PreviewContext, doc: PDFDocumentProxy, cleanups: (() =
   clearTimeout(redrawTimer)
   showCurrent()
   for (const s of slots) io.observe(s.el)
-  slots[0].visible = true
+  updateVisible()
   await pump()
 
+  // ResizeObserver is paced by rendering too; window resize events are the fallback.
   let lastW = root.clientWidth
-  const ro = new ResizeObserver(() => {
-    if (Math.abs(root.clientWidth - lastW) < 2) return
+  let lastH = root.clientHeight
+  const onResize = () => {
+    if (Math.abs(root.clientWidth - lastW) < 2 && Math.abs(root.clientHeight - lastH) < 2) return
+    const widthChanged = Math.abs(root.clientWidth - lastW) >= 2
     lastW = root.clientWidth
-    if (auto) setAuto(autoScale())
-  })
+    lastH = root.clientHeight
+    if (auto && widthChanged) setAuto(autoScale())
+    refresh()
+  }
+  const ro = new ResizeObserver(onResize)
   ro.observe(root)
+  window.addEventListener('resize', onResize, { signal })
   cleanups.push(() => ro.disconnect())
 
   // Real sizes of the other pages, in the background (mixed page sizes and rotations).
@@ -450,6 +493,8 @@ async function mount(ctx: PreviewContext, doc: PDFDocumentProxy, cleanups: (() =
         s.w = v.width
         s.h = v.height
         sizeSlot(s)
+        updateVisible()
+        void pump()
       }
       if (n % 50 === 0) await new Promise((r) => setTimeout(r, 0))
     }

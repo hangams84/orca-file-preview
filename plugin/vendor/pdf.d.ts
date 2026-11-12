@@ -24,6 +24,8 @@ export interface PDFPageProxy {
     canvas: HTMLCanvasElement
     canvasContext?: CanvasRenderingContext2D
     viewport: PageViewport
+    /** 'display' (default) is paced by requestAnimationFrame; 'print' is not. */
+    intent?: 'display' | 'print'
     transform?: number[] | null
     background?: string
   }): RenderTask

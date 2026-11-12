@@ -119,6 +119,10 @@ if (!args['skip-orca']) {
   for (const f of files) {
     for (const [label, extra] of sizes) {
       const shot = `${f}.${label}.png`
+      // A shot captures at the editor's first paint. Open the file first and let it finish
+      // rendering; the preview ignores the shot's repeated delivery of the same bytes.
+      sh(ORCA, ['plugin', 'open', pluginKey, '--editor', `samples/${f}`, '--json'])
+      await new Promise((res) => setTimeout(res, Number(args['orca-wait']) || 2500))
       const r = sh(ORCA, ['plugin', 'shot', pluginKey, '--editor', `samples/${f}`, '--out', relative(ROOT, join(OUT, 'orca', shot)), '--json', ...extra])
       const j = json(r.out)
       const native = /not on screen/i.test(j?.error?.message ?? '')
