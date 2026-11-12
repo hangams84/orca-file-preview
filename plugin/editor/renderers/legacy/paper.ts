@@ -11,13 +11,13 @@ const PAGE_EM = 794 / BASE_PX
 const STYLE = `
 .fp-doc { padding: 12px; box-sizing: border-box; font-size: ${BASE_PX}px; }
 .fp-doc .fp-page { width: ${PAGE_EM}em; max-width: none; padding: 4.5em 5em; box-sizing: border-box; min-height: ${1123 / BASE_PX}em;
-  font: 1em/1.5 "Calibri", "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
+  font: 1em/1.6 "Calibri", "Segoe UI", "Malgun Gothic", "맑은 고딕", "Apple SD Gothic Neo", "Noto Sans KR", "Noto Sans CJK KR", NanumGothic, "나눔고딕", system-ui, sans-serif;
   overflow-wrap: anywhere; }
 .fp-doc.compact { padding: 8px; }
 .fp-doc.compact .fp-page { width: auto; min-height: 0; padding: 1.4em 1.2em; margin: 0 0 10px; }
 .fp-doc .fp-page:last-child { margin-bottom: 24px; }
 .fp-doc p { margin: 0 0 .55em; white-space: pre-wrap; min-height: 1.2em; }
-.fp-doc h1, .fp-doc h2, .fp-doc h3, .fp-doc h4, .fp-doc h5, .fp-doc h6 { margin: .9em 0 .4em; line-height: 1.25; white-space: pre-wrap; color: #17365d; }
+.fp-doc h1, .fp-doc h2, .fp-doc h3, .fp-doc h4, .fp-doc h5, .fp-doc h6 { margin: .9em 0 .4em; line-height: 1.35; white-space: pre-wrap; color: #17365d; }
 .fp-doc h1.title { font-size: 2.1em; color: #17365d; border-bottom: 1px solid #4f81bd; padding-bottom: .2em; margin-top: 0; }
 .fp-doc h1 { font-size: 1.55em; } .fp-doc h2 { font-size: 1.3em; } .fp-doc h3 { font-size: 1.15em; }
 .fp-doc h4, .fp-doc h5, .fp-doc h6 { font-size: 1em; }

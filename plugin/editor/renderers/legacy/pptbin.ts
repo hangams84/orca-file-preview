@@ -22,6 +22,8 @@ export interface PptRun {
   /** Points. */
   size?: number
   color?: string
+  /** Face name from the font collection. */
+  font?: string
 }
 
 export interface PptPara {
@@ -29,6 +31,10 @@ export interface PptPara {
   level: number
   bullet?: string
   align?: 'left' | 'center' | 'right' | 'justify'
+  /** Multiple of single line spacing (1 = 100 %). */
+  lineSpacing?: number
+  /** Space before, in lines. */
+  spaceBefore?: number
 }
 
 export interface PptShape {
@@ -60,8 +66,35 @@ export interface PptDoc {
   slides: PptSlide[]
   /** BStore pictures, index 0 = blip id 1. Null for metafiles / unsupported. */
   pictures: (Picture | null)[]
-  /** Blip ids not placed on any slide. */
-  unplaced: number[]
+}
+
+interface PF {
+  bullet?: boolean
+  char?: string
+  align?: number
+  lineSpacing?: number
+  spaceBefore?: number
+}
+
+interface CF {
+  b?: boolean
+  i?: boolean
+  u?: boolean
+  size?: number
+  color?: string
+  colorIndex?: number
+  font?: string
+  eaFont?: string
+}
+
+/** Text type -> per indent level master styles. */
+type MasterStyles = Map<number, { pf: PF; cf: CF }[]>
+const PARENT_TYPE: Record<number, number> = { 5: 1, 6: 0, 7: 1, 8: 1 }
+
+function pick<T extends object>(...xs: (T | undefined)[]): T {
+  const out = {} as T
+  for (const x of xs) if (x) for (const [k, v] of Object.entries(x)) if (v !== undefined) (out as Record<string, unknown>)[k] = v
+  return out
 }
 
 interface Rec {
@@ -211,7 +244,6 @@ export function readPpt(cfb: Cfb): PptDoc {
       pictures.push(pic)
     }
   }
-  const placed = new Set<number>()
 
   // SlideListWithText: per slide, the placeholder texts (for OutlineTextRefAtom) and notes ids.
   const lists = kids(doc).filter((r) => r.type === T.SlideListWithText)
@@ -250,6 +282,64 @@ export function readPpt(cfb: Cfb): PptDoc {
     .filter((x) => x.rec && x.rec.type === T.Slide)
   if (!slideRecs.length) slideRecs = top.filter((r) => r.type === T.Slide).map((r) => ({ rec: r }))
 
+  // Font collection (Environment > FontCollection > FontEntityAtom, instance = index).
+  const fonts: string[] = []
+  const env = first(doc, T.Environment)
+  const fc = env && first(env, 0x07d5)
+  if (fc) {
+    for (const fe of kids(fc)) {
+      if (fe.type !== 0x0fb7 || fe.len < 64) continue
+      let name = ''
+      for (let k = 0; k < 32; k++) {
+        const c = u16(fe.body + k * 2)
+        if (!c) break
+        name += String.fromCharCode(c)
+      }
+      fonts[fe.inst] = name
+    }
+  }
+
+  // Master text styles: the Environment defaults, then each main master's TxMasterStyleAtoms.
+  const readMaster = (container: Rec | undefined): MasterStyles => {
+    const out: MasterStyles = new Map()
+    if (!container) return out
+    for (const r of kids(container)) {
+      if (r.type !== 0x0fa3) continue
+      try {
+        const levels: { pf: PF; cf: CF }[] = []
+        const n = Math.min(5, u16(r.body))
+        let o = r.body + 2
+        for (let k = 0; k < n && o < r.body + r.len; k++) {
+          if (r.inst >= 5) o += 2
+          const a = readPF(o)
+          const b = readCF(a.o, [])
+          o = b.o
+          levels.push({ pf: a.pf, cf: b.cf })
+        }
+        out.set(r.inst, levels)
+      } catch {
+        // ignore a damaged style atom
+      }
+    }
+    return out
+  }
+  const envStyles = readMaster(env)
+  const masterList = lists.find((r) => r.inst === 1)
+  const masters = new Map<number, MasterStyles>()
+  let firstMaster: MasterStyles | null = null
+  for (const e of entries(masterList)) {
+    const mr = rec(persist.get(e.persistId) ?? -1)
+    if (!mr) continue
+    const ms = readMaster(mr)
+    masters.set(e.slideId, ms)
+    if (!firstMaster && ms.size) firstMaster = ms
+  }
+  const merged = (ms: MasterStyles | null | undefined): MasterStyles => {
+    const out: MasterStyles = new Map(envStyles)
+    if (ms) for (const [t, lv] of ms) out.set(t, lv.map((l, k) => ({ pf: pick(out.get(t)?.[k]?.pf, l.pf), cf: pick(out.get(t)?.[k]?.cf, l.cf) })))
+    return out
+  }
+
   const scheme = (r: Rec): string[] => {
     const cs = kids(r).find((k) => k.type === T.ColorScheme)
     if (!cs || cs.len < 32) return []
@@ -258,6 +348,8 @@ export function readPpt(cfb: Cfb): PptDoc {
 
   const slides: PptSlide[] = slideRecs.map(({ rec: sr, entry }) => {
     const colors = scheme(sr)
+    const slideAtom = first(sr, T.SlideAtom)
+    const master = merged(slideAtom && slideAtom.len >= 16 ? (masters.get(u32(slideAtom.body + 12)) ?? firstMaster) : firstMaster)
     const shapes: PptShape[] = []
     const drawing = first(sr, T.PPDrawing)
     const dg = drawing && first(drawing, T.DgContainer)
@@ -336,7 +428,6 @@ export function readPpt(cfb: Cfb): PptDoc {
       const pib = props.get(0x104)
       if (pib && pib > 0) {
         shape.picture = pib
-        placed.add(pib)
       }
       const fillBools = props.get(0x1bf)
       const filled = fillBools == null ? props.has(0x181) : fillBools & 0x100000 ? (fillBools & 0x10) !== 0 : true
@@ -371,7 +462,7 @@ export function readPpt(cfb: Cfb): PptDoc {
       }
       if (text != null && text.length) {
         shape.textType = type ?? 4
-        shape.paras = styleText(text, style, shape.textType, colors)
+        shape.paras = styleText(text, style, shape.textType, colors, master)
         if (shape.valign == null && (type === 0 || type === 6)) shape.valign = 'middle'
       }
       if (!shape.paras && !shape.picture && !shape.fill && !shape.line) return null
@@ -394,12 +485,92 @@ export function readPpt(cfb: Cfb): PptDoc {
     return out.join('\n')
   }
 
-  function styleText(text: string, style: Rec | undefined, type: number, colors: string[]): PptPara[] {
+  /** TextPFException at `o` (masks first). */
+  function readPF(o: number): { pf: PF; o: number } {
+    const masks = u32(o)
+    o += 4
+    const pf: PF = {}
+    if (masks & 0x0f) {
+      const flags = u16(o)
+      if (masks & 0x1) pf.bullet = (flags & 1) !== 0
+      o += 2
+    }
+    if (masks & 0x80) {
+      pf.char = String.fromCharCode(u16(o))
+      o += 2
+    }
+    if (masks & 0x10) o += 2
+    if (masks & 0x40) o += 2
+    if (masks & 0x20) o += 4
+    if (masks & 0x800) {
+      pf.align = u16(o)
+      o += 2
+    }
+    if (masks & 0x1000) {
+      pf.lineSpacing = i16(o)
+      o += 2
+    }
+    if (masks & 0x2000) {
+      pf.spaceBefore = i16(o)
+      o += 2
+    }
+    if (masks & 0x4000) o += 2
+    if (masks & 0x100) o += 2
+    if (masks & 0x400) o += 2
+    if (masks & 0x8000) o += 2
+    if (masks & 0x100000) o += 2 + u16(o) * 4
+    if (masks & 0x10000) o += 2
+    if (masks & 0xe0000) o += 2
+    if (masks & 0x200000) o += 2
+    return { pf, o }
+  }
+
+  /** TextCFException at `o` (masks first). */
+  function readCF(o: number, colors: string[]): { cf: CF; o: number } {
+    const masks = u32(o)
+    o += 4
+    const cf: CF = {}
+    if (masks & 0x3ef7) {
+      const fs = u16(o)
+      if (masks & 1) cf.b = (fs & 1) !== 0
+      if (masks & 2) cf.i = (fs & 2) !== 0
+      if (masks & 4) cf.u = (fs & 4) !== 0
+      o += 2
+    }
+    if (masks & 0x10000) {
+      cf.font = fonts[u16(o)]
+      o += 2
+    }
+    if (masks & 0x200000) {
+      cf.eaFont = fonts[u16(o)]
+      o += 2
+    }
+    if (masks & 0x400000) o += 2
+    if (masks & 0x800000) o += 2
+    if (masks & 0x20000) {
+      cf.size = u16(o)
+      o += 2
+    }
+    if (masks & 0x40000) {
+      const idx = s[o + 3]
+      cf.color = idx === 0xfe ? rgb(s[o], s[o + 1], s[o + 2]) : colors[idx]
+      cf.colorIndex = idx === 0xfe ? undefined : idx
+      o += 4
+    }
+    if (masks & 0x80000) o += 2
+    if (masks & 0x100000) o += 4
+    if (masks & 0x1000000) o += 2
+    if (masks & 0x2000000) o += 2
+    if (masks & 0x4000000) o += 4
+    return { cf, o }
+  }
+
+  function styleText(text: string, style: Rec | undefined, type: number, colors: string[], master: MasterStyles): PptPara[] {
     const parts = text.split('\r')
     const paras: PptPara[] = parts.map(() => ({ runs: [], level: 0 }))
     const bodyBullets = type === 1 || type === 7 || type === 8
-    const pf: { level: number; bullet?: boolean; char?: string; align?: number }[] = []
-    const cf: { len: number; b?: boolean; i?: boolean; u?: boolean; size?: number; color?: string }[] = []
+    const pf: (PF & { level: number })[] = []
+    const cf: (CF & { len: number })[] = []
     if (style) {
       try {
         let o = style.body
@@ -408,35 +579,9 @@ export function readPpt(cfb: Cfb): PptDoc {
         while (covered < text.length + 1 && o + 10 <= end) {
           const count = u32(o)
           const level = u16(o + 4)
-          const masks = u32(o + 6)
-          o += 10
-          const entry: { level: number; bullet?: boolean; char?: string; align?: number } = { level }
-          if (masks & 0x0f) {
-            const flags = u16(o)
-            if (masks & 0x1) entry.bullet = (flags & 1) !== 0
-            o += 2
-          }
-          if (masks & 0x80) {
-            entry.char = String.fromCharCode(u16(o))
-            o += 2
-          }
-          if (masks & 0x10) o += 2
-          if (masks & 0x40) o += 2
-          if (masks & 0x20) o += 4
-          if (masks & 0x800) {
-            entry.align = u16(o)
-            o += 2
-          }
-          if (masks & 0x1000) o += 2
-          if (masks & 0x2000) o += 2
-          if (masks & 0x4000) o += 2
-          if (masks & 0x100) o += 2
-          if (masks & 0x400) o += 2
-          if (masks & 0x8000) o += 2
-          if (masks & 0x100000) o += 2 + u16(o) * 4
-          if (masks & 0x10000) o += 2
-          if (masks & 0xe0000) o += 2
-          if (masks & 0x200000) o += 2
+          const r = readPF(o + 6)
+          o = r.o
+          const entry = { ...r.pf, level }
           // one PF run covers `count` characters, which may span several paragraphs
           let pos = 0
           for (let p = 0; p < parts.length; p++) {
@@ -449,59 +594,51 @@ export function readPpt(cfb: Cfb): PptDoc {
         while (cfCovered < text.length + 1 && o + 8 <= end) {
           const count = u32(o)
           cfCovered += count
-          const masks = u32(o + 4)
-          o += 8
-          const run: { len: number; b?: boolean; i?: boolean; u?: boolean; size?: number; color?: string } = { len: count }
-          if (masks & 0x3ef7) {
-            const fs = u16(o)
-            if (masks & 1) run.b = (fs & 1) !== 0
-            if (masks & 2) run.i = (fs & 2) !== 0
-            if (masks & 4) run.u = (fs & 4) !== 0
-            o += 2
-          }
-          if (masks & 0x10000) o += 2
-          if (masks & 0x200000) o += 2
-          if (masks & 0x400000) o += 2
-          if (masks & 0x800000) o += 2
-          if (masks & 0x20000) {
-            run.size = u16(o)
-            o += 2
-          }
-          if (masks & 0x40000) {
-            const idx = s[o + 3]
-            run.color = idx === 0xfe ? rgb(s[o], s[o + 1], s[o + 2]) : colors[idx]
-            o += 4
-          }
-          if (masks & 0x80000) o += 2
-          if (masks & 0x100000) o += 4
-          if (masks & 0x1000000) o += 2
-          if (masks & 0x2000000) o += 2
-          if (masks & 0x4000000) o += 4
-          cf.push(run)
+          const r = readCF(o + 4, colors)
+          o = r.o
+          cf.push({ ...r.cf, len: count })
           if (o > end) break
         }
       } catch {
         // malformed style atom: plain text
       }
     }
-    // Split character runs over paragraphs.
+    // Split character runs over paragraphs; unset properties come from the master text styles.
     let ci = 0
     let left = cf[0]?.len ?? Number.POSITIVE_INFINITY
     parts.forEach((part, p) => {
       const para = paras[p]
       const e = pf[p]
       para.level = Math.min(4, e?.level ?? 0)
-      const hasBullet = e?.bullet ?? bodyBullets
-      if (hasBullet && part.trim()) para.bullet = e?.char && e.char.charCodeAt(0) >= 0x20 && e.char.charCodeAt(0) < 0xf000 ? e.char : '•'
-      if (e?.align != null) para.align = (['left', 'center', 'right', 'justify'] as const)[e.align] ?? undefined
+      const m = masterLevel(master, type, para.level)
+      const hasBullet = e?.bullet ?? m.pf.bullet ?? bodyBullets
+      const ch = e?.char ?? m.pf.char
+      if (hasBullet && part.trim()) para.bullet = ch && ch.charCodeAt(0) >= 0x20 && ch.charCodeAt(0) < 0xf000 ? ch : '•'
+      const align = e?.align ?? m.pf.align
+      if (align != null) para.align = (['left', 'center', 'right', 'justify'] as const)[align] ?? undefined
       else if (type === 6 || type === 5) para.align = 'center'
+      const ls = e?.lineSpacing ?? m.pf.lineSpacing
+      if (ls != null && ls > 0) para.lineSpacing = ls / 100
+      const sb = e?.spaceBefore ?? m.pf.spaceBefore
+      if (sb != null && sb > 0 && p > 0) para.spaceBefore = sb / 100
       let k = 0
       const str = part + '\r'
       while (k < str.length) {
         const run = cf[ci]
         const take = Math.max(1, Math.min(left, str.length - k))
         const piece = str.slice(k, k + take).replace(/\r$/, '').replace(/\x0b/g, '\n')
-        if (piece) para.runs.push({ text: piece, b: run?.b, i: run?.i, u: run?.u, size: run?.size, color: run?.color })
+        if (piece) {
+          const color = run?.color ?? (m.cf.colorIndex != null ? colors[m.cf.colorIndex] : m.cf.color)
+          para.runs.push({
+            text: piece,
+            b: run?.b ?? m.cf.b,
+            i: run?.i ?? m.cf.i,
+            u: run?.u ?? m.cf.u,
+            size: run?.size ?? m.cf.size,
+            color,
+            font: run?.font ?? m.cf.font
+          })
+        }
         k += take
         left -= take
         if (left <= 0 && ci < cf.length - 1) {
@@ -513,11 +650,16 @@ export function readPpt(cfb: Cfb): PptDoc {
     return paras
   }
 
-  const unplaced: number[] = []
-  pictures.forEach((p, k) => {
-    if (p && !placed.has(k + 1)) unplaced.push(k + 1)
-  })
-  return { width, height, slides, pictures, unplaced }
+  return { width, height, slides, pictures }
+}
+
+/** Master style for a text type and indent level; centre/half/quarter types inherit body or title. */
+function masterLevel(master: MasterStyles, type: number, level: number): { pf: PF; cf: CF } {
+  const parent = PARENT_TYPE[type]
+  const at = (t: number | undefined) => (t == null ? undefined : (master.get(t)?.[level] ?? master.get(t)?.[0]))
+  const a = at(parent)
+  const b = at(type)
+  return { pf: pick<PF>(a?.pf, b?.pf), cf: pick<CF>(a?.cf, b?.cf) }
 }
 
 function decodeTextAtom(s: Uint8Array, r: Rec): string {

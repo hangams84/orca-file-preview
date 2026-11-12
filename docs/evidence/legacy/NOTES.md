@@ -106,3 +106,16 @@ Extra interaction shots (Playwright, desktop 1100×700): `interact-csv-sort-filt
 
 ## Shared files
 None changed (`editor/core/*`, `main.ts`, manifest, harness untouched). `.ppt`/`.doc` hand-off uses dynamic `import('./docx.ts')` / `import('./pptx.ts')`.
+
+## Round 1 fixes
+
+Merged `master` (plugin now lives in `plugin/`; typecheck `npx tsc -p plugin --noEmit` passes; `main.ts` untouched).
+
+| Item | Fix |
+| --- | --- |
+| R1-8 "Other pictures" gallery in `sample.ppt` | The extra picture is a picture *fill* (`fillBlip`) on a LibreOffice master/layout shape, used by no slide. The gallery is removed: only pictures drawn by slide shapes are shown (`PptDoc.unplaced` dropped). Master/layout shapes stay undrawn, so master-only pictures are dropped. |
+| R1-9 `sample-ppt97.ppt` slide 2 bullets small/tight | PowerPoint leaves size, spacing and bullets to the master. The parser now reads `TxMasterStyleAtom`s (Environment defaults + the slide's main master via `SlideAtom.masterIdRef`, centre/half/quarter types inherit body/title) per text type and indent level, for size, bold/italic/underline, colour (scheme index resolved per slide), font, bullet, alignment, line spacing and space-before. Slide 2 now uses 32 pt with 20 % space-before, the same as `sample.ppt`. PF/CF parsing is shared (`readPF`/`readCF`). |
+| R1-10 Hangul larger/heavier, lines touching (`sample-large.ppt`) | Font face names come from the FontCollection (`FontEntityAtom`) and the run's font goes first, followed by a shared Korean-aware stack (`"Segoe UI", "Malgun Gothic", "맑은 고딕", "Apple SD Gothic Neo", "Noto Sans KR", "Noto Sans CJK KR", NanumGothic, …`). Line height is now 1.2 × the paragraph's line spacing (was a fixed 1.15), measured from the paragraph's largest run. The `.doc` paper uses the same Korean fallbacks with line-height 1.6 (headings 1.35). Note: in `sample-large.ppt`, "슬라이드"/"요점" really are 18 pt in the file (the fixture set only the Latin size), so they stay slightly smaller. |
+| Delegated DOCX/PPTX note dropped | `delegate()` takes a `note`; after the DOCX/PPTX renderer succeeds, a slim banner ("이 .doc 파일은 실제로 DOCX…" / ".ppt … PPTX") is prepended to the content (see `sample-docx.doc.*.png`, `sample-pptx.ppt.*.png`, which now go through the real docx/pptx renderers from master). |
+
+Harness after the fixes: **38 / 38 pass** (desktop-dark + mobile-light, `.doc,.ppt,csv,tsv`; the `.docx`/`.pptx` rows of other areas were removed). The interaction shots were re-run with no page errors.

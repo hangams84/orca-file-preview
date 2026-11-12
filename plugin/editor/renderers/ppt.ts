@@ -14,34 +14,39 @@ const MU = 96 / 576
 /** Points to CSS px. */
 const PT = 96 / 72
 
+/** Latin UI fonts, then Korean fonts with similar metrics, then generic. */
+export const KOREAN_STACK = '"Segoe UI", "Malgun Gothic", "맑은 고딕", "Apple SD Gothic Neo", "Noto Sans KR", "Noto Sans CJK KR", NanumGothic, "나눔고딕", system-ui, sans-serif'
+
 const STYLE = `
 .fp-ppt { padding: 12px; display: flex; flex-direction: column; align-items: center; gap: 16px; box-sizing: border-box; }
 .fp-ppt.compact { padding: 8px; gap: 10px; }
 .fp-ppt .card { position: relative; flex: none; }
 .fp-ppt .slide { position: absolute; left: 0; top: 0; transform-origin: 0 0; overflow: hidden; background: #fff; color: #000;
-  box-shadow: 0 1px 4px rgba(0,0,0,.3); font-family: "Calibri", "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif; }
+  box-shadow: 0 1px 4px rgba(0,0,0,.3); font-family: "Calibri", ${KOREAN_STACK}; }
 .fp-ppt .num { position: absolute; right: 4px; bottom: 4px; min-width: 18px; padding: 0 5px; border-radius: 9px; text-align: center;
   font-size: 11px; line-height: 18px; background: rgba(0,0,0,.45); color: #fff; pointer-events: none; }
 .fp-ppt .note { padding: 6px 10px; border-radius: var(--orca-radius, 6px); box-sizing: border-box; max-width: 100%;
   background: var(--orca-muted, #f4f4f5); color: var(--orca-muted-foreground, #555); font-size: 12px; }
 .fp-ppt .sh { position: absolute; box-sizing: border-box; display: flex; flex-direction: column; overflow: visible; }
 .fp-ppt .sh.middle { justify-content: center; } .fp-ppt .sh.bottom { justify-content: flex-end; }
-.fp-ppt .sh p { margin: 0; line-height: 1.15; white-space: pre-wrap; overflow-wrap: anywhere; }
+.fp-ppt .sh p { margin: 0; line-height: 1.2; white-space: pre-wrap; overflow-wrap: anywhere; }
 .fp-ppt .sh p.bl { position: relative; }
 .fp-ppt .sh p.bl::before { content: attr(data-b); position: absolute; left: -.9em; }
 .fp-ppt .sh img { width: 100%; height: 100%; object-fit: fill; display: block; }
 .fp-ppt .ph { width: 100%; height: 100%; border: 2px dashed #bbb; box-sizing: border-box; display: flex; align-items: center; justify-content: center; color: #888; font-size: 28px; }
 .fp-ppt .notes { margin-top: 6px; padding: 6px 10px; box-sizing: border-box; font-size: 12px; white-space: pre-wrap; border-radius: var(--orca-radius, 6px);
   background: var(--orca-muted, #f4f4f5); color: var(--orca-muted-foreground, #555); }
-.fp-ppt .gallery { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
-.fp-ppt .gallery img { max-width: min(100%, 320px); max-height: 240px; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.3); }
-.fp-ppt h3 { margin: 8px 0 0; font-size: 13px; color: var(--orca-muted-foreground, #666); font-weight: 600; }
 `
 
 export async function render(ctx: PreviewContext): Promise<void | (() => void)> {
   const { bytes, tr } = ctx
   if (isZip(bytes)) {
-    return delegate(ctx, () => import('./pptx.ts'), () => pptxTextFallback(ctx))
+    return delegate(
+      ctx,
+      () => import('./pptx.ts'),
+      () => pptxTextFallback(ctx),
+      tr('이 .ppt 파일은 실제로 PPTX(PowerPoint 2007+) 형식입니다.', 'This .ppt file is actually a PPTX (PowerPoint 2007+) presentation.')
+    )
   }
   if (!isCfb(bytes)) throw new PreviewError('format', tr('PowerPoint 프레젠테이션 형식이 아닙니다.', 'This is not a PowerPoint presentation.'))
   let cfb: Cfb
@@ -109,21 +114,6 @@ function drawDeck(ctx: PreviewContext, doc: PptDoc, note?: string): () => void {
       wrap.append(n)
     }
   })
-  if (doc.unplaced.length) {
-    wrap.append(h('h3', undefined, tr('기타 그림', 'Other pictures')))
-    const g = h('div', 'gallery')
-    for (const id of doc.unplaced) {
-      const u = picUrl(id)
-      if (!u) continue
-      const img = h('img')
-      img.src = u
-      img.alt = tr('그림', 'Picture')
-      img.loading = 'lazy'
-      g.append(img)
-    }
-    wrap.append(g)
-  }
-
   const layout = () => {
     for (const c of cards) {
       c.card.style.width = `${natW * scale}px`
@@ -298,12 +288,19 @@ function shapeEl(s: PptShape, natW: number, natH: number, picUrl: (id: number) =
       }
       if (p.align && p.align !== 'left') pe.style.textAlign = p.align
       const sizes = p.runs.map((r) => r.size ?? def)
-      pe.style.fontSize = `${(sizes[0] ?? def) * PT}px`
-      if (title) pe.style.fontWeight = '600'
+      const base = Math.max(...sizes, 1)
+      pe.style.fontSize = `${base * PT}px`
+      // PowerPoint's single spacing is about 1.2 font heights; mixed Latin/Hangul needs that room.
+      pe.style.lineHeight = String(Math.max(0.8, Math.min(3, 1.2 * (p.lineSpacing ?? 1))))
+      if (p.spaceBefore) pe.style.marginTop = `${Math.min(2, p.spaceBefore) * 1.2}em`
+      if (title && p.runs.every((r) => r.b == null)) pe.style.fontWeight = '600'
+      const font = p.runs.find((r) => r.font)?.font
+      if (font) pe.style.fontFamily = fontStack(font)
       for (const r of p.runs) {
         const span = h('span', undefined, r.text)
         const rs = span.style
-        if (r.size && r.size !== sizes[0]) rs.fontSize = `${r.size * PT}px`
+        if (r.size && r.size !== base) rs.fontSize = `${r.size * PT}px`
+        if (r.font && r.font !== font) rs.fontFamily = fontStack(r.font)
         if (r.b) rs.fontWeight = '700'
         if (r.i) rs.fontStyle = 'italic'
         if (r.u) rs.textDecoration = 'underline'
@@ -315,6 +312,12 @@ function shapeEl(s: PptShape, natW: number, natH: number, picUrl: (id: number) =
     }
   }
   return el
+}
+
+/** The slide's own font first, then fonts with matching Hangul so mixed text stays even. */
+export function fontStack(font: string): string {
+  const name = font.replace(/["\\]/g, '')
+  return `"${name}", ${KOREAN_STACK}`
 }
 
 /** A .ppt that is really .pptx, when the PPTX renderer cannot run: slide texts from the XML. */
@@ -350,5 +353,5 @@ async function pptxTextFallback(ctx: PreviewContext): Promise<() => void> {
     slides.push({ shapes, notes: '' })
   }
   const note = ctx.tr('이 .ppt 파일은 실제로 PPTX(PowerPoint 2007+) 형식입니다. 텍스트만 표시합니다.', 'This .ppt file is actually a PPTX (PowerPoint 2007+) presentation. Showing text only.')
-  return drawDeck(ctx, { width: 5760, height: 4320, slides, pictures: [], unplaced: [] }, note)
+  return drawDeck(ctx, { width: 5760, height: 4320, slides, pictures: [] }, note)
 }
