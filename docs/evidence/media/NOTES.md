@@ -163,3 +163,33 @@ and the password one): the first page canvas must contain non-white pixels (`pag
 - Scripted under the same stubs on `sample-large.pdf`: scrolling 5000 px drew pages 5–6 and moved the counter to 5,
   jumping to page 200 drew 199–200, zooming re-rendered at the new size
   (`no-raf/interact-norf-large-p200-zoomed.desktop-dark.png`).
+
+## Round 2 fixes
+
+- **R2-10 page counter** (`pdf.ts`): the current page is the page whose top edge is nearest the viewport top; it is
+  always 1 when scrolled to the very top and N at the very bottom (checked on a phone viewport: top → 1, bottom of
+  `sample-large.pdf` → 300; `sample-slides.pdf` fits the phone screen, so it stays at 1).
+- **R2-11 backdrop** (`media/image-view.ts`, `image.ts`, `svg.ts`): a "Background" select (light checker, dark checker,
+  white, black) for GIF/BMP/SVG, remembered per kind (`image`, `svg`) in localStorage (wrapped in try/catch; without
+  storage it lasts for the view). Defaults: SVG = light checker regardless of theme (black SVG text stays readable);
+  GIF/BMP = checker following the theme until the person picks one. Verified: choice survives a reload.
+- **R2-12 error codes**: `PreviewError` codes are now short — `pdf`, `pdf-password`, `image-format`, `image-decode`,
+  `svg`; the sentence moved to the hint. Any other pdf.js load failure is wrapped as `pdf` with a "may be damaged" hint.
+- **Fuzz** (`node tools/make-fuzz.mjs && node tools/harness/run.mjs --dir samples/fuzz --fuzz --no-shots
+  --profiles desktop-dark --timeout 15000 --only pdf,gif,bmp,svg,html`, results in `fuzz-results.md`): every damaged
+  file settles (0 timeouts) with **0 page errors** (was 5 for `sample-large.flip.pdf`, 15 for `sample-large.zero.pdf`).
+  - Cause of the page errors: pdf.js 6.5's worker prefetches page dictionaries (`Catalog.getPageDict`:
+    `pageDictCache.put(kid, xref.fetchAsync(kid))`) and never handles the failed fetches, so damaged objects became
+    unhandled `FormatError` rejections in the worker, which Playwright reports as page errors. The worker is now started
+    from `plugin/editor/renderers/media/pdf-worker.js` (hand-written, 20 lines), which imports
+    `vendor/pdf.worker.min.js` and turns unhandled rejections whose name is a pdf.js parse error (`FormatError`,
+    `XRef*Exception`, `InvalidPDFException`, …) into `console.warn`. Other errors are untouched.
+  - `pdf.ts`: a page whose `getPage()` fails (damaged page tree / xref entry) shows the per-page "Cannot draw this page"
+    message instead of rejecting; a damaged page 1 falls back to A4 placeholder size; the background size pass skips
+    unreadable pages; the draw queue never stops on one bad page.
+  - The 11 remaining fuzz "FAIL" rows are only the harness's own `*.pdf` painted-pixels check (`no page canvas was
+    drawn` / `page canvas is blank`) firing on fuzzed PDFs that correctly end in the error state (truncated files with
+    no trailer) or whose damaged first page legitimately draws blank. That check lives in `tools/harness/run.mjs`
+    (out of my scope this round); it should be skipped under `--fuzz` or when the state is `error`.
+- Verification: normal run 24/24 and `--no-raf` run 24/24 (`--only pdf,gif,bmp,svg,html --profiles
+  desktop-dark,mobile-light`); `npx tsc -p plugin --noEmit` passes.
