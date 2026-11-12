@@ -32,6 +32,8 @@ export interface Workbook {
   /** Canonical sheet name for a reference (case-insensitive match), or null when it does not exist. */
   sheet(name: string): string | null
   cell(sheet: string, row: number, col: number): CellInput | null | undefined
+  /** False for cells whose content is not available (outside a transferred window). */
+  known?(sheet: string, row: number, col: number): boolean
 }
 
 export type EvalResult = { ok: true; value: Scalar } | { ok: false; reason: string }
@@ -96,6 +98,7 @@ export class FormulaEngine {
 
   /** Value of one referenced cell. */
   private ref(sheet: string, row: number, col: number, depth: number): Scalar {
+    if (this.wb.known && !this.wb.known(sheet, row, col)) throw new Unsupported('cell not loaded')
     const c = this.wb.cell(sheet, row, col)
     if (!c) return null
     const hasValue = c.v !== undefined && c.t !== 'z'
@@ -123,6 +126,7 @@ export class FormulaEngine {
         const c0 = Math.min(n.c1, n.c2)
         const c1 = Math.max(n.c1, n.c2)
         if ((r1 - r0 + 1) * (c1 - c0 + 1) > MAX_RANGE_CELLS) throw new Unsupported('range too large')
+        if (this.wb.known && (!this.wb.known(sh, r1, c1) || !this.wb.known(sh, r0, c0))) throw new Unsupported('cell not loaded')
         const cells: Scalar[] = []
         for (let r = r0; r <= r1; r++) for (let c = c0; c <= c1; c++) cells.push(this.ref(sh, r, c, depth))
         return { range: cells }

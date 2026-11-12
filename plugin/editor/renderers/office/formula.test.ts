@@ -127,3 +127,12 @@ test('general number format', () => {
   assert.equal(formatGeneral(0.1 + 0.2), '0.3')
   assert.equal(formatGeneral(1 / 3), '0.3333333333')
 })
+
+test('cells outside the loaded window make the formula unsupported, not zero', () => {
+  const base = book({ S: { A1: 1, A2: 2 } })
+  const wb = { ...base, known: (_s: string, r: number) => r < 2 }
+  const eng = new FormulaEngine(wb)
+  assert.equal(eng.evaluate('A1+A2', 'S').ok, true)
+  assert.equal(eng.evaluate('A1+A3', 'S').ok, false)
+  assert.equal(eng.evaluate('SUM(A1:A9)', 'S').ok, false)
+})

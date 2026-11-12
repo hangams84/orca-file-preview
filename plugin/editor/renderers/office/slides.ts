@@ -329,7 +329,17 @@ function drawShape(box: HTMLElement, env: SlideEnv, l: Layer, el: Element, map: 
   const txBody = kid(el, 'txBody')
   if (txBody && hasText(txBody)) {
     const fontRef = style ? kid(style, 'fontRef') : null
-    node.append(textBody(env, l, txBody, chain, ph, fontRef ? resolveColor(colorChild(fontRef), env.cc) : null, rect))
+    const tb = textBody(env, l, txBody, chain, ph, fontRef ? resolveColor(colorChild(fontRef), env.cc) : null, rect)
+    // Text sits in the preset's text rectangle (inside the triangle, between a chevron's notches).
+    const ins = textInsets(geom, rect.w, rect.h, path(spPr, 'prstGeom', 'avLst'))
+    if (ins) {
+      tb.style.inset = 'auto'
+      tb.style.left = `${ins.l}px`
+      tb.style.top = `${ins.t}px`
+      tb.style.right = `${ins.r}px`
+      tb.style.bottom = `${ins.b}px`
+    }
+    node.append(tb)
   }
   box.append(node)
 }
@@ -483,6 +493,65 @@ function geometry(prst: string, r: Rect, fill: string | null, s: Stroke | null, 
 }
 
 /** An adjust value (`<a:gd fmla="val 16667"/>`) as a fraction, by position. */
+/** Insets of a preset shape's text rectangle (ECMA-376 presetShapeDefinitions `<a:rect>`), in px. */
+function textInsets(prst: string, w: number, hh: number, avLst: Element | null): { l: number; t: number; r: number; b: number } | null {
+  const ss = Math.min(w, hh)
+  switch (prst) {
+    case 'ellipse':
+    case 'circle': {
+      // idx = wd2 * cos(45°): the inscribed rectangle
+      const k = (1 - Math.SQRT1_2) / 2
+      return { l: w * k, t: hh * k, r: w * k, b: hh * k }
+    }
+    case 'roundRect': {
+      const x1 = ss * adj(avLst, 16667) * 0.29289
+      return { l: x1, t: x1, r: x1, b: x1 }
+    }
+    case 'triangle': {
+      const a = adj(avLst, 50000)
+      const x1 = (w * a) / 2
+      const x3 = x1 + w / 2
+      return { l: x1, t: hh / 2, r: w - x3, b: 0 }
+    }
+    case 'rtTriangle':
+      return { l: w / 12, t: (hh * 7) / 12, r: (w * 5) / 12, b: 0 }
+    case 'diamond':
+      return { l: w / 4, t: hh / 4, r: w / 4, b: hh / 4 }
+    case 'parallelogram': {
+      const a = Math.min(adj(avLst, 25000), w / ss)
+      const x2 = ss * a
+      // il = wd2 * a / maxAdj (approximately half the slant), it = hd2 * …: keep the slanted parts free
+      const il = (x2 * 5) / 12
+      return { l: il + x2 / 2, t: (hh * x2) / (w * 4), r: il + x2 / 2, b: (hh * x2) / (w * 4) }
+    }
+    case 'hexagon': {
+      const x1 = ss * adj(avLst, 25000)
+      return { l: x1 / 2, t: hh / 8, r: x1 / 2, b: hh / 8 }
+    }
+    case 'homePlate': {
+      const dx = ss * adj(avLst, 50000)
+      return { l: 0, t: 0, r: dx / 2, b: 0 }
+    }
+    case 'chevron': {
+      const x1 = ss * adj(avLst, 50000)
+      return x1 < w - x1 ? { l: x1, t: 0, r: x1, b: 0 } : { l: 0, t: 0, r: 0, b: 0 }
+    }
+    case 'rightArrow':
+    case 'leftArrow': {
+      const a1 = adj(avLst, 50000, 0)
+      const dx2 = ss * adj(avLst, 50000, 1)
+      const dy1 = (hh * a1) / 2
+      const y1 = hh / 2 - dy1
+      const dx1 = (y1 * dx2) / (hh / 2)
+      const head = dx2 - dx1 // part of the head that the text may still use
+      return prst === 'rightArrow'
+        ? { l: 0, t: y1, r: Math.max(0, head), b: y1 }
+        : { l: Math.max(0, head), t: y1, r: 0, b: y1 }
+    }
+  }
+  return null
+}
+
 function adj(avLst: Element | null, fallback: number, index = 0): number {
   const gd = kids(avLst, 'gd')[index]
   const m = /val\s+(-?\d+)/.exec(attr(gd, 'fmla') ?? '')

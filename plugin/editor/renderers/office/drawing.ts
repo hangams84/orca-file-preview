@@ -1,5 +1,6 @@
 /** DrawingML basics shared by the slide renderer: theme colours and fonts, colour modifiers,
  *  fills and outlines. Colours resolve to CSS strings. */
+import { applyColorMods, cssOf, hslToRgb, parseHex, toHex } from './color.ts'
 import { attr, kid, kids, num, path } from './xml.ts'
 
 export interface Theme {
@@ -107,45 +108,10 @@ export function resolveColor(el: Element | null, cc: ColorCtx): string | null {
       break
     }
   }
-  if (!hex || !/^[0-9a-f]{6}$/i.test(hex)) return null
-  let r = parseInt(hex.slice(0, 2), 16)
-  let g = parseInt(hex.slice(2, 4), 16)
-  let b = parseInt(hex.slice(4, 6), 16)
-  let alpha = 1
-  for (const m of kids(el)) {
-    const v = (num(m, 'val', 0) ?? 0) / 100000
-    switch (m.localName) {
-      case 'alpha':
-        alpha = v
-        break
-      case 'lumMod':
-      case 'lumOff': {
-        const [hh, s, l] = rgbToHsl(r, g, b)
-        const nl = m.localName === 'lumMod' ? l * v : l + v
-        ;[r, g, b] = hslToRgb(hh, s, Math.min(1, Math.max(0, nl)))
-        break
-      }
-      case 'tint':
-        r = r + (255 - r) * (1 - v)
-        g = g + (255 - g) * (1 - v)
-        b = b + (255 - b) * (1 - v)
-        break
-      case 'shade':
-        r *= v
-        g *= v
-        b *= v
-        break
-      case 'satMod': {
-        const [hh, s, l] = rgbToHsl(r, g, b)
-        ;[r, g, b] = hslToRgb(hh, Math.min(1, s * v), l)
-        break
-      }
-    }
-  }
-  const R = Math.round(r)
-  const G = Math.round(g)
-  const B = Math.round(b)
-  return alpha < 1 ? `rgba(${R},${G},${B},${alpha.toFixed(3)})` : `#${toHex(R, G, B)}`
+  const base = hex ? parseHex(hex) : null
+  if (!base) return null
+  const mods = kids(el).map((m) => ({ name: m.localName, val: num(m, 'val', 0) ?? 0 }))
+  return cssOf(applyColorMods(base, mods))
 }
 
 /** Hex (no #) of a resolved colour, for `phClr` substitution. */
@@ -156,41 +122,8 @@ export function hexOf(css: string | null): string | undefined {
   return m ? toHex(+m[1], +m[2], +m[3]) : undefined
 }
 
-function toHex(r: number, g: number, b: number): string {
-  return [r, g, b].map((v) => Math.round(Math.min(255, Math.max(0, v))).toString(16).padStart(2, '0')).join('')
-}
 
-function rgbToHsl(r: number, g: number, b: number): [number, number, number] {
-  r /= 255
-  g /= 255
-  b /= 255
-  const max = Math.max(r, g, b)
-  const min = Math.min(r, g, b)
-  const l = (max + min) / 2
-  if (max === min) return [0, 0, l]
-  const d = max - min
-  const s = l > 0.5 ? d / (2 - max - min) : d / (max + min)
-  let hh = 0
-  if (max === r) hh = (g - b) / d + (g < b ? 6 : 0)
-  else if (max === g) hh = (b - r) / d + 2
-  else hh = (r - g) / d + 4
-  return [hh / 6, s, l]
-}
 
-function hslToRgb(hh: number, s: number, l: number): [number, number, number] {
-  if (s === 0) return [l * 255, l * 255, l * 255]
-  const q = l < 0.5 ? l * (1 + s) : l + s - l * s
-  const p = 2 * l - q
-  const f = (t: number) => {
-    if (t < 0) t += 1
-    if (t > 1) t -= 1
-    if (t < 1 / 6) return p + (q - p) * 6 * t
-    if (t < 1 / 2) return q
-    if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6
-    return p
-  }
-  return [f(hh + 1 / 3) * 255, f(hh) * 255, f(hh - 1 / 3) * 255]
-}
 
 /** A fill as CSS `background` (solid or gradient); `null` = no fill specified, `'none'` = noFill. */
 export function fillCss(parent: Element | null, cc: ColorCtx): string | null {
