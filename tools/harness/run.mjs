@@ -192,16 +192,30 @@ async function run() {
       const started = Date.now()
       const url = `${base}/harness?file=${SAMPLE_DIR}/${encodeURIComponent(f)}&theme=${profile.theme}&locale=${profile.locale}`
       let state = 'timeout'
+      const limit = Number(args.timeout) || 30000
+      let timer
       try {
-        await page.goto(url, { waitUntil: 'load' })
-        await page.waitForFunction(() => ['ready', 'error'].includes(document.body.dataset.state ?? ''), null, {
-          timeout: Number(args.timeout) || 30000,
-          polling: 100 // not 'raf': frames may be stubbed out (--no-raf)
-        })
-        state = await page.evaluate(() => document.body.dataset.state)
-        await page.waitForTimeout(600)
+        // Playwright's own polling runs inside the page, so a frozen page never times out:
+        // enforce the limit from Node as well.
+        await Promise.race([
+          (async () => {
+            await page.goto(url, { waitUntil: 'load', timeout: limit })
+            await page.waitForFunction(() => ['ready', 'error'].includes(document.body.dataset.state ?? ''), null, {
+              timeout: limit,
+              polling: 100 // not 'raf': frames may be stubbed out (--no-raf)
+            })
+            state = await page.evaluate(() => document.body.dataset.state)
+            await page.waitForTimeout(600)
+          })(),
+          new Promise((_, reject) => {
+            timer = setTimeout(() => reject(new Error(`did not settle within ${limit} ms`)), limit + 5000)
+          })
+        ])
       } catch (e) {
+        if (state !== 'ready' && state !== 'error') state = 'timeout'
         errors.push(`harness: ${e.message.split('\n')[0]}`)
+      } finally {
+        clearTimeout(timer)
       }
       const ms = Date.now() - started
       if (state === 'timeout') {
