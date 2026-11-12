@@ -84,8 +84,19 @@ async function show(bytes: Uint8Array, fileType: string): Promise<void> {
   try {
     const mod = await load()
     if (gen !== generation) return
-    cleanup = await mod.render(ctx)
-    if (gen === generation) document.body.dataset.state = 'ready'
+    const done = await mod.render(ctx)
+    if (gen !== generation) {
+      // A newer render started while this one ran: release this one's resources, never let it
+      // replace the newer render's cleanup.
+      try {
+        done?.()
+      } catch {
+        // ignore
+      }
+      return
+    }
+    cleanup = done
+    document.body.dataset.state = 'ready'
   } catch (err) {
     if (gen !== generation) return
     document.body.dataset.state = 'error'

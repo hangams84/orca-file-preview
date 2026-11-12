@@ -127,6 +127,10 @@ export function createShell(): Shell {
       right.replaceChildren()
       info.textContent = ''
       root.replaceChildren()
+      // Renderers assign these; a stale handler would keep the previous document alive.
+      root.onscroll = null
+      root.onkeydown = null
+      root.style.cssText = ''
       root.scrollTo(0, 0)
     },
     setBadge(text) {
