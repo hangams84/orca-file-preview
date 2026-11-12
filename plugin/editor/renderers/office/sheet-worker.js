@@ -14,7 +14,9 @@ self.postMessage({ loaded: true })
 self.onmessage = (e) => {
   const { bytes, maxRows, maxCols } = e.data
   try {
-    const wb = read(new Uint8Array(bytes), { type: 'array', dense: true, cellStyles: true, cellNF: false, cellHTML: false })
+    // sheetRows stops parsing after the rows the grid shows (a big speed-up for huge sheets);
+    // SheetJS records the real size in !fullref.
+    const wb = read(new Uint8Array(bytes), { type: 'array', dense: true, cellStyles: true, cellNF: false, cellHTML: false, sheetRows: maxRows })
     const Sheets = {}
     for (const name of wb.SheetNames) Sheets[name] = slim(wb.Sheets[name], maxRows, maxCols)
     const hidden = (wb.Workbook && wb.Workbook.Sheets ? wb.Workbook.Sheets : []).map((s) => ({ Hidden: s && s.Hidden ? s.Hidden : 0 }))
@@ -36,6 +38,7 @@ function slim(ws, maxRows, maxCols) {
   const r1 = Math.min(range.e.r, r0 + maxRows - 1)
   const c1 = Math.min(range.e.c, c0 + maxCols - 1)
   out['!ref'] = ref
+  if (ws['!fullref']) out['!fullref'] = ws['!fullref']
   out['!window'] = { r0, c0, r1, c1 }
   if (ws['!merges']) out['!merges'] = ws['!merges'].filter((m) => m.s.r <= r1 && m.s.c <= c1)
   if (ws['!cols']) out['!cols'] = ws['!cols'].slice(0, c1 + 1).map(col)

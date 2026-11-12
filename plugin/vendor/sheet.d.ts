@@ -17,6 +17,8 @@ export interface RowInfo { hpx?: number; hpt?: number; hidden?: boolean }
 export interface WorkSheet {
   [cell: string]: CellObject | unknown
   '!ref'?: string
+  /** Real sheet size when parsing stopped at `sheetRows`. */
+  '!fullref'?: string
   /** Set by office/sheet-worker.js: the cell window that was transferred. */
   '!window'?: { r0: number; c0: number; r1: number; c1: number }
   /** Present when read with `dense: true`: rows of cells. */
