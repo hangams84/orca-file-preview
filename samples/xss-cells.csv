@@ -1,0 +1,4 @@
+name,value
+"<img src=x onerror=""(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' csv-img';d.title='X'+'SS';d.body.append('PW'+'NED:csv-img')})()"">",1
+"<script>(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' csv-script';d.title='X'+'SS';d.body.append('PW'+'NED:csv-script')})()</script>",2
+=HYPERLINK("javascript:alert(1)"),3

@@ -112,7 +112,79 @@ const PDF_PAINTED = `(() => {
   return ink > 20 ? null : 'page canvas is blank'
 })()`
 
+/** Security fixtures (samples/xss-*): nothing inside may execute, navigate, load, or cover the
+ *  toolbar. Clicks every link/button in same-origin frames first (interaction-triggered vectors),
+ *  then looks for the markers the fixtures set when a payload runs, plus dangerous leftovers. */
+const XSS_CHECK = `(async () => {
+  const problems = []
+  const frames = () => {
+    const out = []
+    const walk = (doc, depth) => {
+      if (!doc || depth > 4) return
+      out.push(doc)
+      for (const f of doc.querySelectorAll('iframe, frame, object, embed')) {
+        try { walk(f.contentDocument, depth + 1) } catch { problems.push('cross-origin frame present: ' + f.tagName) }
+      }
+    }
+    walk(document, 0)
+    return out
+  }
+  const start = location.href
+  // interaction-triggered vectors
+  for (const doc of frames().slice(1)) {
+    for (const el of doc.querySelectorAll('a, button, input, details, summary, [onclick], [onfocus]')) {
+      try { el.focus?.(); el.click?.(); el.dispatchEvent(new MouseEvent('mouseover', { bubbles: true })) } catch {}
+    }
+  }
+  await new Promise((r) => setTimeout(r, 500))
+  if (location.href !== start) problems.push('top frame navigated to ' + location.href)
+  const docs = frames()
+  if (document.title === 'XSS') problems.push('top document.title set to XSS')
+  for (const doc of docs) {
+    const w = doc.defaultView
+    const where = doc === document ? 'top' : 'frame ' + (doc.URL || '').slice(0, 30)
+    if (doc.body?.dataset?.pwned) problems.push(where + ' marker from:' + doc.body.dataset.pwned)
+    if (doc.title === 'XSS' && doc !== document) problems.push(where + ' title set')
+    if ((doc.body?.textContent ?? '').includes('PWNED')) problems.push(where + ' contains PWNED text')
+    if (doc === document) continue
+    // dangerous leftovers in the sanitized preview document
+    for (const el of doc.querySelectorAll('*')) {
+      for (const a of el.attributes) {
+        const n = a.name.toLowerCase()
+        const v = a.value.replace(/[\\s\\u0000-\\u001f]/g, '').toLowerCase()
+        if (n.startsWith('on')) problems.push(where + ' event handler kept: <' + el.localName + ' ' + n + '>')
+        if (/^(javascript|vbscript):/.test(v) || (/^data:text\\/html/.test(v) && n !== 'title')) problems.push(where + ' script URL kept: <' + el.localName + ' ' + n + '>')
+      }
+      const tag = el.localName
+      if (['script', 'iframe', 'frame', 'object', 'embed', 'base', 'link', 'portal'].includes(tag)) problems.push(where + ' element kept: <' + tag + '>')
+      if (tag === 'meta' && /refresh/i.test(el.getAttribute('http-equiv') || '')) problems.push(where + ' meta refresh kept')
+      if ((tag === 'animate' || tag === 'set') && /href|^on/i.test(el.getAttribute('attributeName') || '')) problems.push(where + ' <' + tag + ' attributeName=' + el.getAttribute('attributeName') + '> kept')
+    }
+    // fixed elements must stay inside the preview, never over the toolbar
+    const barEl = document.querySelector('.fp-toolbar')
+    const bar = barEl?.getBoundingClientRect()
+    if (bar) {
+      for (const x of [bar.left + 4, (bar.left + bar.right) / 2, bar.right - 4]) {
+        const hit = document.elementFromPoint(x, (bar.top + bar.bottom) / 2)
+        if (hit && !barEl.contains(hit)) problems.push('something covers the toolbar: <' + hit.localName + '>')
+      }
+    }
+    const host = w?.frameElement?.getBoundingClientRect?.()
+    if (bar && host) {
+      if (host.top < bar.bottom - 1) problems.push('preview frame overlaps the toolbar')
+      for (const el of doc.querySelectorAll('*')) {
+        if (w.getComputedStyle(el).position !== 'fixed') continue
+        const r = el.getBoundingClientRect()
+        const top = host.top + Math.max(r.top, 0)
+        if (r.height > 0 && top < bar.bottom - 1) problems.push('position:fixed element covers the toolbar')
+      }
+    }
+  }
+  return problems.length ? [...new Set(problems)].join('; ').slice(0, 1500) : null
+})()`
+
 function checkFor(name) {
+  if (name.startsWith('xss-')) return XSS_CHECK
   if (CHECKS[name]) return CHECKS[name]
   if (name.endsWith('.pdf') && !name.startsWith('broken.') && !name.includes('password')) return PDF_PAINTED
   return null

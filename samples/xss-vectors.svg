@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="320" height="200" viewBox="0 0 320 200" onload="(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' svg-root-onload';d.title='X'+'SS';d.body.append('PW'+'NED:svg-root-onload')})()">
+  <script>(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' svg-script';d.title='X'+'SS';d.body.append('PW'+'NED:svg-script')})()</script>
+  <script href="data:text/javascript,(function()%7Bvar%20d%3Dtop.document%3Bd.body.dataset.pwned%3D(d.body.dataset.pwned%7C%7C'')%2B'%20svg-script-href'%3Bd.title%3D'X'%2B'SS'%3Bd.body.append('PW'%2B'NED%3Asvg-script-href')%7D)()"/>
+  <rect width="320" height="200" fill="#e0f2fe"/>
+  <text x="16" y="40" font-size="18" font-family="sans-serif">SVG xss fixture</text>
+  <a xlink:href="javascript:(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' svg-xlink';d.title='X'+'SS';d.body.append('PW'+'NED:svg-xlink')})()"><text x="16" y="80">xlink:href link</text></a>
+  <a><animate attributeName="href" values="javascript:(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' svg-animate';d.title='X'+'SS';d.body.append('PW'+'NED:svg-animate')})()"/><text x="16" y="110">animate href</text></a>
+  <set attributeName="onmouseover" to="(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' svg-set';d.title='X'+'SS';d.body.append('PW'+'NED:svg-set')})()"/>
+  <image href="x" onerror="(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' svg-image-onerror';d.title='X'+'SS';d.body.append('PW'+'NED:svg-image-onerror')})()" width="1" height="1"/>
+  <use href="data:image/svg+xml;base64,PHN2ZyBpZD0idSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48c2NyaXB0PihmdW5jdGlvbigpe3ZhciBkPXRvcC5kb2N1bWVudDtkLmJvZHkuZGF0YXNldC5wd25lZD0oZC5ib2R5LmRhdGFzZXQucHduZWR8fCcnKSsnIHN2Zy11c2UnO2QudGl0bGU9J1gnKydTUyc7ZC5ib2R5LmFwcGVuZCgnUFcnKydORUQ6c3ZnLXVzZScpfSkoKTwvc2NyaXB0Pjwvc3ZnPg==#u"/>
+  <foreignObject x="16" y="130" width="280" height="40"><div xmlns="http://www.w3.org/1999/xhtml"><img src="x" onerror="(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' svg-foreign';d.title='X'+'SS';d.body.append('PW'+'NED:svg-foreign')})()"/>foreignObject</div></foreignObject>
+  <style>@import url(https://example.com/x.css); rect { fill: url(https://example.com/x.svg#p) }</style>
+  <iframe xmlns="http://www.w3.org/1999/xhtml" srcdoc="&lt;script&gt;(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' svg-iframe';d.title='X'+'SS';d.body.append('PW'+'NED:svg-iframe')})()&lt;/script&gt;"/>
+</svg>

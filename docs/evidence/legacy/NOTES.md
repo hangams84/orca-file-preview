@@ -151,3 +151,7 @@ Merged `master`. Pure Node unit tests (no DOM) live in `plugin/editor/renderers/
 
 `orca plugin test` result (whole plugin, including other areas' tests): **57 / 57 pass**. `npx tsc -p plugin --noEmit` and `orca plugin check plugin` are clean.
 The new tests found no bugs: the guards added in rounds 1-2 (chain visited-sets, bounds-checked record reads, lenient CSV quotes) held under every synthetic corruption tried. No renderer code changed this round.
+
+## Round 3: security review
+
+See `security-review.md`. Six `samples/xss-*` fixtures (43 HTML vectors, 8 fragment/raw-text vectors, 13 SVG vectors, HTML-with-script and RTF-with-javascript in `.doc`, markup in CSV cells), plus an `XSS_CHECK` in `tools/harness/run.mjs` for every `xss-*` file. No vector executed or covered the toolbar (normal and `--no-raf`, desktop-dark + mobile-light). `xss-vectors.html` fails on purpose until S-1 (`decodeURIComponent` URIError in `html.ts` link handling) is fixed. Recommended hardening: S-2, `sandbox="allow-same-origin"` on the preview iframe.
