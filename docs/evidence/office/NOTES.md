@@ -233,3 +233,17 @@ See [perf.md](perf.md) for inputs, method, the before/after table and chart. Sum
 - Tools: `tools/make-perf.py`, `tools/make-perf-sheets.mjs` (inputs, `samples/perf/` is git-ignored),
   `tools/perf.mjs` (timings, long tasks, heap; `--shots`), `tools/perf-report.mjs` (table + `perf/chart.svg`).
 - Regression: harness 22/22 normal and 22/22 `--no-raf`; fuzz 70/70; unit tests unchanged.
+
+## Round 4 — contrast and accessibility
+
+- `tools/harness/theme-switch.mjs --only docx,pptx,xls,ods`: the only finding in this area was the sheet column/row
+  header cells (`th`), muted text on the muted fill at 4.40:1 in the light theme. They now use `--orca-foreground`
+  on `--orca-muted` (weight 400), which clears 4.5:1 in both themes; the warnings are gone. All 11 fixtures pass the
+  live dark→light switch (toolbar and backgrounds follow, no ResizeObserver errors); screenshots of both states are
+  in `theme/`. The two remaining warnings in that run are the legacy `.doc`/`.ppt` banners (other area).
+- Other muted text in this area was already on a plain background: slide captions and the large-sheet notice use
+  `--orca-muted-foreground` on `--orca-background`, empty speaker notes on `--orca-card`; uncalculated formulas
+  (`td.f`) are muted text on the background. Slide/page content is document "paper" and keeps document colours.
+- `tools/harness/a11y.mjs --only docx,pptx,xls,ods --keys`: 11/11 — every toolbar button/select has an accessible
+  name (reading toggle, slide prev/next, notes, sheet picker, zoom) and the content area is focusable. Results in `a11y/`.
+- Regression: harness 22/22 normal and 22/22 `--no-raf`.

@@ -1,0 +1,219 @@
+[
+  {
+    "file": "broken.docx",
+    "state": "error",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "broken.pptx",
+    "state": "error",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample-docx.doc",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [
+      "light: div.fp-format-note \"This .doc file is actual\" 4.40:1"
+    ],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": [
+        "div.fp-format-note \"This .doc file is actual\" 4.40:1"
+      ]
+    }
+  },
+  {
+    "file": "sample-large.xlsx",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample-pptx.ppt",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [
+      "light: div.fp-format-note \"This .ppt file is actual\" 4.40:1"
+    ],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": [
+        "div.fp-format-note \"This .ppt file is actual\" 4.40:1"
+      ]
+    }
+  },
+  {
+    "file": "sample-shapes.pptx",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample.docx",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample.ods",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample.pptx",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample.xls",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample.xlsx",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  }
+]
