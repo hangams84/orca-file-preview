@@ -174,7 +174,7 @@ ready or error, no timeouts, no page errors). Unit tests (`orca plugin test` on 
   needs no TypeScript transpile; loaded with `new Worker(new URL('./office/sheet-worker.js', import.meta.url),
   { type: 'module' })`, same pattern as the PDF worker). The bytes are copied and transferred.
 - The worker returns only what the grid needs: sheet names/hidden flags and, per sheet, `!ref`, merges, column/row
-  info and the cell values (`t v w f z`) for the rendered window (5,000 × 200). The window is recorded so the formula
+  info and the cell values (`t v w f z`) for the rendered window (20,000 × 200). The window is recorded so the formula
   evaluator treats cells outside it as unknown (formula stays uncalculated) instead of blank.
 - Time limit 10 s (below the harness's 15 s): the worker is terminated and the friendly error
   "too complex or damaged to read in time" is shown. Aborting a render terminates the worker.
@@ -218,3 +218,18 @@ ready or error, no timeouts, no page errors). Unit tests (`orca plugin test` on 
 `plugin/editor/renderers/{docx,pptx,sheet}.ts`, `office/{docx-fixes,drawing,formula,formula.test,slides}.ts`,
 new `office/{color,color.test}.ts` and `office/sheet-worker.js`, `plugin/vendor/sheet.d.ts` (`!window`).
 No core/, main.ts or tools/ changes.
+
+## Round 3 — performance and scale
+
+See [perf.md](perf.md) for inputs, method, the before/after table and chart. Summary:
+- Spreadsheets missed the 3 s budget (100k rows: 5.4 s) and had 0.6–1.7 s zoom stalls. Now the worker parses at most
+  20,000 rows (`sheetRows`, real size from `!fullref`) and the grid rows are virtualised (spacer rows + fixed row
+  heights, merges clipped per window). 100k-row file: first content 2.2–2.4 s, no long task > 70 ms afterwards.
+  The row cap is now 20,000 (was 5,000); `sample-large.xlsx` (6,001 rows) is shown completely.
+- DOCX pages use `content-visibility: auto`: zoom on a 301-page document 650 ms → < 160 ms.
+- PPTX was already within budget (lazy slide building); unchanged.
+- Multi-line cell text wraps only when the stored row height has room (rows have fixed heights for virtualisation);
+  otherwise it shows on one line with the full text in the tooltip.
+- Tools: `tools/make-perf.py`, `tools/make-perf-sheets.mjs` (inputs, `samples/perf/` is git-ignored),
+  `tools/perf.mjs` (timings, long tasks, heap; `--shots`), `tools/perf-report.mjs` (table + `perf/chart.svg`).
+- Regression: harness 22/22 normal and 22/22 `--no-raf`; fuzz 70/70; unit tests unchanged.
