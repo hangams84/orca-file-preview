@@ -4,7 +4,7 @@
 import { formatBytes } from '../core/i18n.ts'
 import { PreviewError, type PreviewContext } from '../core/types.ts'
 import { bindZoomGestures, createZoom, h } from '../core/ui.ts'
-import { read, SSF, utils, type CellObject, type WorkBook, type WorkSheet } from '../../vendor/sheet.js'
+import { read, SSF, utils, type CellObject, type ColInfo, type WorkBook, type WorkSheet } from '../../vendor/sheet.js'
 import { FormulaEngine, FormulaError, formatGeneral, type Scalar } from './office/formula.ts'
 import { installOfficeFonts, OFFICE_SANS } from './office/fonts.ts'
 
@@ -19,6 +19,7 @@ const STYLE = `
 .fp-sheet td.b, .fp-sheet td.e { text-align: center; }
 .fp-sheet td.e { color: #d33; }
 .fp-sheet td.wrap { white-space: pre-wrap; }
+.fp-sheet td.spill { overflow: visible; text-overflow: clip; position: relative; }
 .fp-sheet td.f { color: var(--orca-muted-foreground, #777); font-style: italic; }
 .fp-sheet td.calc { background-image: linear-gradient(135deg, var(--orca-muted-foreground, #999) 0 4px, transparent 4px); }
 .fp-sheet th { position: sticky; background: var(--orca-muted, #f1f1f1); color: var(--orca-muted-foreground, #555);
@@ -34,7 +35,10 @@ const STYLE = `
 const CHUNK = 300
 const MAX_ROWS = 5000
 const MAX_COLS = 200
-const DEFAULT_COL_PX = 80
+const DEFAULT_COL_PX = 64
+/** Rows scanned to widen columns whose numbers/dates would not fit (Excel shows ### there). */
+const AUTOFIT_ROWS = 200
+const AUTOFIT_MAX_PX = 260
 
 export async function render(ctx: PreviewContext): Promise<void> {
   const { bytes, root, toolbar, tr, signal } = ctx
@@ -152,11 +156,24 @@ function renderSheet(
   rowHeadCol.style.width = `${Math.max(40, String(r0 + nRows).length * 8 + 16)}px`
   colgroup.append(rowHeadCol)
   const cols = ws['!cols'] ?? []
+  // Numbers and dates never spill into neighbours, so widen their columns to the widest of the
+  // first rows (formatted text at ~7 px per character, the default 11 pt digit width).
+  const fit: number[] = []
+  for (let r = r0; r <= Math.min(rEnd, r0 + AUTOFIT_ROWS); r++) {
+    const row = data[r]
+    if (!row) continue
+    for (let c = c0; c <= cEnd; c++) {
+      const cell = row[c] as CellObject | undefined
+      if (!cell || (cell.t !== 'n' && cell.t !== 'd') || covered.has(key(r, c)) || spans.has(key(r, c))) continue
+      const w = Math.min(AUTOFIT_MAX_PX, cellText(cell).length * 7 + 12)
+      if (w > (fit[c] ?? 0)) fit[c] = w
+    }
+  }
   let tableWidth = 0
   for (let c = c0; c <= cEnd; c++) {
     const ci = cols[c]
     const col = h('col')
-    const px = ci?.hidden ? 0 : Math.round(ci?.wpx ?? (ci?.wch ? ci.wch * 7 + 5 : DEFAULT_COL_PX))
+    const px = ci?.hidden ? 0 : Math.max(colWidthPx(ci), fit[c] ?? 0)
     col.style.width = `${Math.max(px, ci?.hidden ? 0 : 24)}px`
     tableWidth += px
     colgroup.append(col)
@@ -212,6 +229,11 @@ function renderSheet(
           td.textContent = text
           if (text.includes('\n')) td.classList.add('wrap')
           if (text.length > 12 && !td.title) td.title = text
+          // Text overflows into empty cells on its right, as in Excel.
+          if (!td.className && text && !text.includes('\n') && c < cEnd && !spans.has(k)) {
+            const next = row?.[c + 1] as CellObject | undefined
+            if ((!next || (next.t === 'z' && !next.f) || cellText(next) === '') && !covered.has(key(r, c + 1))) td.classList.add('spill')
+          }
         }
         const sp = spans.get(k)
         if (sp) {
@@ -252,6 +274,17 @@ function renderSheet(
     root.removeEventListener('scroll', onScroll)
     cancelAnimationFrame(raf)
   }
+}
+
+/** Column width in CSS px. SheetJS's `wpx` for BIFF (.xls) assumes a 14 px digit and comes out
+ *  about twice too wide, so use the character width (`width`, Excel's column units incl. padding)
+ *  at 7 px per unit for every format, then `wch`, then `wpx`. */
+function colWidthPx(ci: ColInfo | undefined): number {
+  if (!ci) return DEFAULT_COL_PX
+  if (ci.width != null && ci.width > 0) return Math.round(ci.width * 7)
+  if (ci.wch != null && ci.wch > 0) return Math.round(ci.wch * 7 + 5)
+  if (ci.wpx != null && ci.wpx > 0) return Math.round(ci.wpx)
+  return DEFAULT_COL_PX
 }
 
 function classOf(v: Scalar): string {
