@@ -2,7 +2,8 @@
 
 Area `media`, branch `fp-media`. Harness:
 `node tools/harness/run.mjs --out docs/evidence/media --only pdf,gif,bmp,svg,html --profiles desktop-dark,mobile-light`
-→ **22 / 22 passed** (see `results.md`). `npx tsc -p . --noEmit` passes.
+→ **24 / 24 passed** (see `results.md`; the filter also matches `sample-html.doc` from the legacy area), and
+**24 / 24 with `--no-raf`** (`no-raf/results.md`). `npx tsc -p plugin --noEmit` passes. Paths below are now under `plugin/`.
 
 ## What was built
 
@@ -129,3 +130,36 @@ Extra interaction screenshots (scripted with Playwright against `run.mjs --serve
 `interact-large-p5-landscape-fit`, `interact-svg-source`, `interact-html-source`, `interact-gif-paused-zoomed`.
 After scrolling 30 screens through `sample-large.pdf`, 12 canvases were alive (eviction works); clicking an http link
 left the frame at `about:srcdoc`.
+
+## Round 1 fix: R1-1 PDF pages blank in Orca (hidden/occluded window)
+
+**Cause.** Orca captures (and users see) the frame while its window is hidden or occluded, where
+`requestAnimationFrame` and `IntersectionObserver`/`ResizeObserver` callbacks are paused. The PDF viewer marked pages
+visible only from IntersectionObserver, and pdf.js paces `intent: 'display'` renders with rAF, so page 1 stayed a
+numbered placeholder.
+
+**Fix (`plugin/editor/renderers/pdf.ts`).**
+- Visibility is computed from geometry (`scrollTop` vs. page `offsetTop`, ±½ screen, binary search, the current page
+  always included) on first layout, on every scroll event, on resize (ResizeObserver **and** `window` `resize`), after
+  zoom and when background page sizing changes a page. IntersectionObserver is only an extra trigger.
+- Before each page render a probe asks for one animation frame; if none arrives within 100 ms (or
+  `document.visibilityState === 'hidden'`), the page renders with `intent: 'print'`, which pdf.js runs without rAF.
+  Effect of `print`: annotations are drawn by their Print flag instead of NoView, and optional content uses its print
+  state; for ordinary documents the output is identical. When frames run again, later renders use `display`.
+- The page counter no longer waits for rAF: the scroll handler updates it directly (a binary search per event).
+- `vendor/pdf.d.ts` declares `intent`.
+
+**Other renderers.** `image.ts` / `svg.ts`: the initial fit was already synchronous; `media/image-view.ts` now also
+refits on `window` `resize` (ResizeObserver is paused while hidden) and `loadImage()` resolves on the `load` event as
+well as `decode()`. `html.ts` waits for the iframe `load` event (with a 3 s timeout), which is not paced by rendering.
+
+**Proof.** `tools/harness/run.mjs` gained `--no-raf` (shared file, small change): an init script replaces
+`requestAnimationFrame` with a no-op and `IntersectionObserver` with a class that never calls back; the harness also
+polls its ready state with a 100 ms interval instead of rAF. New check for every `*.pdf` fixture (except `broken.*`
+and the password one): the first page canvas must contain non-white pixels (`page canvas is blank` /
+`no page canvas was drawn` otherwise).
+- Before the fix, `--no-raf`: `sample.pdf` and `sample-slides.pdf` FAIL (`timeout`, `no page canvas was drawn`).
+- After the fix: normal run 24/24, `--no-raf` run 24/24 (`docs/evidence/media/no-raf/`), all PDFs painted.
+- Scripted under the same stubs on `sample-large.pdf`: scrolling 5000 px drew pages 5–6 and moved the counter to 5,
+  jumping to page 200 drew 199–200, zooming re-rendered at the new size
+  (`no-raf/interact-norf-large-p200-zoomed.desktop-dark.png`).
