@@ -88,13 +88,16 @@ async function show(bytes: Uint8Array, fileType: string): Promise<void> {
   } catch (err) {
     if (gen !== generation) return
     document.body.dataset.state = 'error'
-    console.error(err)
     const e = err as Error
+    // An expected refusal (damaged, encrypted, unsupported) is not a plugin fault.
+    if (e instanceof PreviewError) console.warn(`preview refused: ${e.message}`)
+    else console.error(err)
     showMessage(
       shell.root,
       tr('미리보기를 표시할 수 없습니다', 'Cannot preview this file'),
       e instanceof PreviewError ? (e.hint ?? e.message) : tr('파일이 손상되었거나 지원하지 않는 변형일 수 있습니다.', 'The file may be damaged or use an unsupported variant.'),
-      `${e?.name ?? 'Error'}: ${e?.message ?? String(err)} · ${formatBytes(bytes.byteLength)}`
+      `${e instanceof PreviewError ? `code: ${e.message}` : `${e?.name ?? 'Error'}: ${e?.message ?? String(err)}`} · .${fileType} · ${formatBytes(bytes.byteLength)}`,
+      tr('자세히', 'Details')
     )
   }
 }

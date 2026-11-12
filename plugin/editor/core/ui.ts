@@ -34,7 +34,9 @@ body {
 .fp-state { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
   min-height: 100%; padding: 24px; box-sizing: border-box; text-align: center; color: var(--orca-muted-foreground, #666); }
 .fp-state h2 { margin: 0; font-size: 15px; color: var(--orca-foreground, inherit); }
-.fp-state pre { max-width: 100%; overflow: auto; text-align: left; font-size: 12px; opacity: .8; white-space: pre-wrap; }
+.fp-state pre { max-width: 100%; overflow: auto; text-align: left; font-size: 12px; opacity: .8; white-space: pre-wrap; margin: 6px 0 0; }
+.fp-details { max-width: min(560px, 100%); font-size: 12px; }
+.fp-details summary { cursor: pointer; color: var(--orca-muted-foreground, #666); }
 .fp-spinner { width: 22px; height: 22px; border-radius: 50%; border: 3px solid var(--orca-border, #ccc);
   border-top-color: var(--orca-primary, #333); animation: fp-spin .8s linear infinite; }
 @keyframes fp-spin { to { transform: rotate(360deg); } }
@@ -43,7 +45,9 @@ body {
 @media (max-width: 600px) {
   .fp-toolbar { gap: 3px; padding: 4px; }
   .fp-toolbar button, .fp-toolbar select { min-height: 32px; min-width: 34px; padding: 0 6px; }
-  .fp-toolbar .fp-info { max-width: 40vw; }
+  /* File info gets its own full-width row instead of being cut off. */
+  .fp-toolbar .fp-info { order: 10; flex: 1 0 100%; max-width: none; white-space: normal; overflow: visible; font-size: 12px; }
+  .fp-toolbar .fp-spacer { display: none; }
   .fp-hide-compact { display: none !important; }
 }
 `
@@ -271,12 +275,23 @@ export function showLoading(root: HTMLElement, text: string): void {
   root.replaceChildren(box)
 }
 
-export function showMessage(root: HTMLElement, title: string, detail?: string, extra?: string): HTMLElement {
+export function showMessage(
+  root: HTMLElement,
+  title: string,
+  detail?: string,
+  extra?: string,
+  extraLabel = 'Details'
+): HTMLElement {
   const box = h('div', 'fp-state')
   box.setAttribute('role', 'alert')
   box.append(h('h2', undefined, title))
   if (detail) box.append(h('div', undefined, detail))
-  if (extra) box.append(h('pre', undefined, extra))
+  if (extra) {
+    // Diagnostics for bug reports stay out of the way until asked for.
+    const more = h('details', 'fp-details')
+    more.append(h('summary', undefined, extraLabel), h('pre', undefined, extra))
+    box.append(more)
+  }
   root.replaceChildren(box)
   return box
 }

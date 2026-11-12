@@ -1,17 +1,137 @@
 [
-  {"id": "R2-1", "severity": "high", "area": "ppt", "title": "Legacy .ppt slides blank in a hidden/occluded window", "cause": "Slides were built only from IntersectionObserver callbacks; the harness counted 'ready' as a pass", "fix": "Geometry-based visibility fallback like pdf.ts (fp-legacy); harness now requires visible content for 'ready'", "status": "in progress"},
-  {"id": "R2-2", "severity": "medium", "area": "doc (RTF)", "title": "RTF character colour and size ignored (red 14pt text shown black)", "cause": "RTF reader dropped \\cfN / \\fsN inside groups", "fix": "Colour table and font size per run (fp-legacy)", "status": "in progress"},
-  {"id": "R2-3", "severity": "low", "area": "ppt", "title": "Legacy .ppt subtitle colour differs from the .pptx", "cause": "Master/theme text colour not resolved", "fix": "Resolve master colour scheme (fp-legacy)", "status": "in progress"},
-  {"id": "R2-4", "severity": "low", "area": "ppt", "title": "Korean run in a .ppt title smaller and not bold", "cause": "East Asian run formatting not inherited", "fix": "Inherit size/bold for CJK runs (fp-legacy)", "status": "in progress"},
-  {"id": "R2-5", "severity": "low", "area": "pptx/ppt", "title": "Slide frames differ between .pptx and .ppt", "cause": "Two renderers with separate frame styles", "fix": "One frame style: shadow, no double border, same number badge (fp-office, fp-legacy)", "status": "in progress"},
-  {"id": "R2-6", "severity": "medium", "area": "docx", "title": "DOCX reading mode: tight table cells, headings flush on content, list indent, large gap at page breaks", "cause": "Reading-mode CSS drops cell margins and paragraph spacing; page break rendered as a spacer", "fix": "Reading-mode spacing rules (fp-office)", "status": "in progress"},
-  {"id": "R2-7", "severity": "low", "area": "pptx", "title": "Tinted theme colours too dark (subtitle #404040 instead of #898989)", "cause": "Tint applied in RGB instead of PowerPoint's HSL luminance formula", "fix": "PowerPoint tint/shade maths (fp-office)", "status": "in progress"},
-  {"id": "R2-8", "severity": "low", "area": "pptx", "title": "Shape labels cross the shape outline (chevron, triangle)", "cause": "Text placed in the bounding box, not the preset's text rectangle", "fix": "Preset text insets (fp-office)", "status": "in progress"},
-  {"id": "R2-9", "severity": "low", "area": "sheet", "title": "Formula indicator marks poke past cell borders", "cause": "Overlay positioned outside the cell", "fix": "Clip indicator inside the cell (fp-office)", "status": "in progress"},
-  {"id": "R2-10", "severity": "low", "area": "pdf", "title": "Page box shows 2/3 when the first page is at the top", "cause": "Current page picked by the most visible page", "fix": "Page whose top is nearest the viewport top (fp-media)", "status": "in progress"},
-  {"id": "R2-11", "severity": "low", "area": "svg/image", "title": "Black SVG text unreadable on the dark checkerboard", "cause": "Transparency background follows the dark theme only", "fix": "Background toggle (checker light/dark, white, black) (fp-media)", "status": "in progress"},
-  {"id": "R2-12", "severity": "low", "area": "core", "title": "Error cards show developer text ('PreviewError: cfb · 35 B')", "cause": "Diagnostic line always visible", "fix": "Moved into a collapsed Details element; consistent error codes", "status": "in progress"},
-  {"id": "R2-13", "severity": "low", "area": "core", "title": "Toolbar file info cut off with … on phones", "cause": "Single-line ellipsis", "fix": "Info gets its own wrapping row on phones", "status": "in progress"},
-  {"id": "R2-14", "severity": "medium", "area": "tooling", "title": "Orca editor captures show the loading state for slow renderers; verify left sample tabs open", "cause": "plugin shot mounts a fresh frame and captures at first paint", "fix": "plugin shot used as a mount/error check; finished renders captured from a few real open tabs (window capture, cropped)", "status": "fixed"},
-  {"id": "R2-15", "severity": "medium", "area": "tooling", "title": "Harness passed previews that were blank", "cause": "'ready' state alone counted as a pass", "fix": "Harness requires visible text/image/canvas in the first viewport", "status": "fixed"}
+  {
+    "id": "R2-1",
+    "severity": "high",
+    "area": "ppt",
+    "title": "Legacy .ppt slides blank in a hidden/occluded window",
+    "cause": "Slides were built only from IntersectionObserver callbacks; the harness counted 'ready' as a pass",
+    "fix": "Geometry-based visibility fallback like pdf.ts (fp-legacy); harness now requires visible content for 'ready'",
+    "status": "in progress"
+  },
+  {
+    "id": "R2-2",
+    "severity": "medium",
+    "area": "doc (RTF)",
+    "title": "RTF character colour and size ignored (red 14pt text shown black)",
+    "cause": "RTF reader dropped \\cfN / \\fsN inside groups",
+    "fix": "Colour table and font size per run (fp-legacy)",
+    "status": "in progress"
+  },
+  {
+    "id": "R2-3",
+    "severity": "low",
+    "area": "ppt",
+    "title": "Legacy .ppt subtitle colour differs from the .pptx",
+    "cause": "Master/theme text colour not resolved",
+    "fix": "Resolve master colour scheme (fp-legacy)",
+    "status": "in progress"
+  },
+  {
+    "id": "R2-4",
+    "severity": "low",
+    "area": "ppt",
+    "title": "Korean run in a .ppt title smaller and not bold",
+    "cause": "East Asian run formatting not inherited",
+    "fix": "Inherit size/bold for CJK runs (fp-legacy)",
+    "status": "in progress"
+  },
+  {
+    "id": "R2-5",
+    "severity": "low",
+    "area": "pptx/ppt",
+    "title": "Slide frames differ between .pptx and .ppt",
+    "cause": "Two renderers with separate frame styles",
+    "fix": "One frame style: shadow, no double border, same number badge (fp-office, fp-legacy)",
+    "status": "in progress"
+  },
+  {
+    "id": "R2-6",
+    "severity": "medium",
+    "area": "docx",
+    "title": "DOCX reading mode: tight table cells, headings flush on content, list indent, large gap at page breaks",
+    "cause": "Reading-mode CSS drops cell margins and paragraph spacing; page break rendered as a spacer",
+    "fix": "Reading-mode spacing rules (fp-office)",
+    "status": "in progress"
+  },
+  {
+    "id": "R2-7",
+    "severity": "low",
+    "area": "pptx",
+    "title": "Tinted theme colours too dark (subtitle #404040 instead of #898989)",
+    "cause": "Tint applied in RGB instead of PowerPoint's HSL luminance formula",
+    "fix": "PowerPoint tint/shade maths (fp-office)",
+    "status": "in progress"
+  },
+  {
+    "id": "R2-8",
+    "severity": "low",
+    "area": "pptx",
+    "title": "Shape labels cross the shape outline (chevron, triangle)",
+    "cause": "Text placed in the bounding box, not the preset's text rectangle",
+    "fix": "Preset text insets (fp-office)",
+    "status": "in progress"
+  },
+  {
+    "id": "R2-9",
+    "severity": "low",
+    "area": "sheet",
+    "title": "Formula indicator marks poke past cell borders",
+    "cause": "Overlay positioned outside the cell",
+    "fix": "Clip indicator inside the cell (fp-office)",
+    "status": "in progress"
+  },
+  {
+    "id": "R2-10",
+    "severity": "low",
+    "area": "pdf",
+    "title": "Page box shows 2/3 when the first page is at the top",
+    "cause": "Current page picked by the most visible page",
+    "fix": "Page whose top is nearest the viewport top (fp-media)",
+    "status": "in progress"
+  },
+  {
+    "id": "R2-11",
+    "severity": "low",
+    "area": "svg/image",
+    "title": "Black SVG text unreadable on the dark checkerboard",
+    "cause": "Transparency background follows the dark theme only",
+    "fix": "Background toggle (checker light/dark, white, black) (fp-media)",
+    "status": "in progress"
+  },
+  {
+    "id": "R2-12",
+    "severity": "low",
+    "area": "core",
+    "title": "Error cards show developer text ('PreviewError: cfb · 35 B')",
+    "cause": "Diagnostic line always visible",
+    "fix": "Moved into a collapsed Details element; consistent error codes",
+    "status": "fixed"
+  },
+  {
+    "id": "R2-13",
+    "severity": "low",
+    "area": "core",
+    "title": "Toolbar file info cut off with … on phones",
+    "cause": "Single-line ellipsis",
+    "fix": "Info gets its own wrapping row on phones",
+    "status": "fixed"
+  },
+  {
+    "id": "R2-14",
+    "severity": "medium",
+    "area": "tooling",
+    "title": "Orca editor captures show the loading state for slow renderers; verify left sample tabs open",
+    "cause": "plugin shot mounts a fresh frame and captures at first paint",
+    "fix": "plugin shot used as a mount/error check; finished renders captured from a few real open tabs (window capture, cropped)",
+    "status": "fixed"
+  },
+  {
+    "id": "R2-15",
+    "severity": "medium",
+    "area": "tooling",
+    "title": "Harness passed previews that were blank",
+    "cause": "'ready' state alone counted as a pass",
+    "fix": "Harness requires visible text/image/canvas in the first viewport",
+    "status": "fixed"
+  }
 ]
