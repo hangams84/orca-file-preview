@@ -21,7 +21,8 @@ const STYLE = `
 .fp-sheet td.wrap { white-space: pre-wrap; }
 .fp-sheet td.spill { overflow: visible; text-overflow: clip; position: relative; }
 .fp-sheet td.f { color: var(--orca-muted-foreground, #777); font-style: italic; }
-.fp-sheet td.calc { background-image: linear-gradient(135deg, var(--orca-muted-foreground, #999) 0 4px, transparent 4px); }
+.fp-sheet td.calc { background: linear-gradient(135deg, var(--orca-muted-foreground, #999) 0 50%, transparent 50%)
+  no-repeat 0 0 / 5px 5px; background-origin: padding-box; background-clip: padding-box; }
 .fp-sheet th { position: sticky; background: var(--orca-muted, #f1f1f1); color: var(--orca-muted-foreground, #555);
   font-weight: 500; text-align: center; z-index: 1; }
 .fp-sheet thead th { top: 0; z-index: 2; }
@@ -40,19 +41,101 @@ const DEFAULT_COL_PX = 64
 const AUTOFIT_ROWS = 200
 const AUTOFIT_MAX_PX = 260
 
-export async function render(ctx: PreviewContext): Promise<void> {
-  const { bytes, root, toolbar, tr, signal } = ctx
-  installOfficeFonts()
-  let wb: WorkBook
-  try {
-    wb = read(bytes, { type: 'array', dense: true, cellStyles: true, cellNF: false, cellHTML: false })
-  } catch (err) {
-    console.error(err)
-    throw new PreviewError(
+/** Parsing gets this long before the worker is stopped and the file reported as too complex. */
+const PARSE_TIMEOUT_MS = 10000
+
+/** Parses the workbook in a Web Worker (office/sheet-worker.js) with a time limit, so damaged
+ *  files that make SheetJS loop never freeze the page. Falls back to the main thread only when
+ *  the worker cannot start at all. */
+async function loadBook(ctx: PreviewContext): Promise<WorkBook> {
+  const { bytes, tr, signal } = ctx
+  const damaged = () =>
+    new PreviewError(
       'sheet',
       tr('스프레드시트를 읽을 수 없습니다. 파일이 손상되었거나 암호로 보호되어 있을 수 있습니다.', 'Cannot read this spreadsheet. It may be damaged or password-protected.')
     )
+  let worker: Worker
+  try {
+    worker = new Worker(new URL('./office/sheet-worker.js', import.meta.url), { type: 'module' })
+  } catch (err) {
+    console.warn('sheet: worker unavailable, parsing on the main thread', err)
+    return parseHere(bytes, damaged)
   }
+  return new Promise<WorkBook>((resolve, reject) => {
+    let settled = false
+    const finish = (fn: () => void) => {
+      if (settled) return
+      settled = true
+      clearTimeout(timer)
+      signal.removeEventListener('abort', onAbort)
+      worker.terminate()
+      fn()
+    }
+    const timer = setTimeout(
+      () =>
+        finish(() =>
+          reject(
+            new PreviewError(
+              'sheet-timeout',
+              tr('스프레드시트가 너무 복잡하거나 손상되어 시간 안에 읽지 못했습니다.', 'This spreadsheet is too complex or damaged to read in time.')
+            )
+          )
+        ),
+      PARSE_TIMEOUT_MS
+    )
+    const onAbort = () => finish(() => reject(new DOMException('aborted', 'AbortError')))
+    signal.addEventListener('abort', onAbort, { once: true })
+    let loaded = false
+    worker.onmessage = (e: MessageEvent<{ loaded?: boolean; ok?: boolean; book?: WorkBook; message?: string }>) => {
+      if (e.data.loaded) {
+        loaded = true
+        return
+      }
+      finish(() => {
+        if (e.data.ok && e.data.book) resolve(e.data.book)
+        else {
+          console.error('sheet:', e.data.message)
+          reject(damaged())
+        }
+      })
+    }
+    // The worker script itself failed to load: parse here instead. A crash after it loaded
+    // (out of memory on a damaged file) is reported as damage, never retried on the main thread.
+    worker.onerror = (e) => {
+      e.preventDefault()
+      if (loaded) {
+        console.error('sheet: worker crashed', e.message)
+        finish(() => reject(damaged()))
+        return
+      }
+      finish(() => {
+        console.warn('sheet: worker failed, parsing on the main thread', e.message)
+        try {
+          resolve(parseHere(bytes, damaged))
+        } catch (err) {
+          reject(err)
+        }
+      })
+    }
+    const copy = bytes.slice()
+    worker.postMessage({ bytes: copy.buffer, maxRows: MAX_ROWS, maxCols: MAX_COLS }, [copy.buffer])
+  })
+}
+
+function parseHere(bytes: Uint8Array, damaged: () => Error): WorkBook {
+  try {
+    return read(bytes, { type: 'array', dense: true, cellStyles: true, cellNF: false, cellHTML: false })
+  } catch (err) {
+    console.error(err)
+    throw damaged()
+  }
+}
+
+export async function render(ctx: PreviewContext): Promise<void> {
+  const { bytes, root, toolbar, tr, signal } = ctx
+  installOfficeFonts()
+  const wb = await loadBook(ctx)
+  if (signal.aborted) return
   if (!wb.SheetNames.length) throw new PreviewError('sheet', tr('시트가 없습니다.', 'This workbook has no sheets.'))
 
   const style = h('style', undefined, STYLE)
@@ -91,7 +174,12 @@ export async function render(ctx: PreviewContext): Promise<void> {
   // Formula cells saved without a cached result are calculated on demand (office/formula.ts).
   const engine = new FormulaEngine({
     sheet: (name) => wb.SheetNames.find((n) => n.toLowerCase() === name.toLowerCase()) ?? null,
-    cell: (sheet, r, c) => (wb.Sheets[sheet]?.['!data']?.[r]?.[c] as CellObject | undefined) ?? null
+    cell: (sheet, r, c) => (wb.Sheets[sheet]?.['!data']?.[r]?.[c] as CellObject | undefined) ?? null,
+    // Cells outside what the worker sent are unknown, not blank: such formulas stay uncalculated.
+    known: (sheet, r, c) => {
+      const w = wb.Sheets[sheet]?.['!window']
+      return !w || (r <= w.r1 && c <= w.c1)
+    }
   })
 
   let stop: (() => void) | null = null
