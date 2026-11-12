@@ -38,7 +38,13 @@ export async function render(ctx: PreviewContext): Promise<void | (() => void)> 
 
   if (isZip(bytes)) {
     const note = tr('이 .doc 파일은 실제로 DOCX(Word 2007+) 형식입니다.', 'This .doc file is actually a DOCX (Word 2007+) document.')
-    return delegate(ctx, () => import('./docx.ts'), async () => renderPaper(ctx, await readDocxText(bytes), { note: note + ' ' + tr('텍스트만 표시합니다.', 'Showing text only.') }), note)
+    return delegate(ctx, () => import('./docx.ts'), async () => {
+        const model = await readDocxText(bytes)
+        if (ctx.signal.aborted) return
+        return renderPaper(ctx, model, { note: note + ' ' + tr('텍스트만 표시합니다.', 'Showing text only.') })
+      },
+      note
+    )
   }
   if (isRtf(bytes)) {
     return renderPaper(ctx, readRtf(bytes), { note: tr('이 .doc 파일은 실제로 RTF 형식입니다.', 'This .doc file is actually in Rich Text Format (RTF).') })

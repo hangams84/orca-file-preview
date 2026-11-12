@@ -155,3 +155,32 @@ The new tests found no bugs: the guards added in rounds 1-2 (chain visited-sets,
 ## Round 3: security review
 
 See `security-review.md`. Six `samples/xss-*` fixtures (43 HTML vectors, 8 fragment/raw-text vectors, 13 SVG vectors, HTML-with-script and RTF-with-javascript in `.doc`, markup in CSV cells), plus an `XSS_CHECK` in `tools/harness/run.mjs` for every `xss-*` file. No vector executed or covered the toolbar (normal and `--no-raf`, desktop-dark + mobile-light). `xss-vectors.html` fails on purpose until S-1 (`decodeURIComponent` URIError in `html.ts` link handling) is fixed. Recommended hardening: S-2, `sandbox="allow-same-origin"` on the preview iframe.
+
+## Round 4: contrast, accessibility and review fixes
+
+Merged `master` twice (theme-switch / a11y scripts, then the core cleanup changes).
+
+**Contrast (theme-switch):**
+- The format banners (`.fp-format-note` from `delegate.ts`, `.fp-doc-note` in `paper.ts`) and the PPT `.note` / speaker-notes boxes now use `--orca-foreground` on `--orca-muted`. They were `--orca-muted-foreground` on `--orca-muted`, at 4.40:1.
+- Slide cards carry `fp-page` ("paper"): their text colours are the author's, like a .doc page. Example: the 3.4:1 grey subtitle in `sample.ppt`, which matches the reference PDF.
+- `node tools/harness/theme-switch.mjs --only .doc,.ppt,csv,tsv` → **29 / 29, 0 content warnings** (was 8 fixtures with warnings). Output in `theme/`.
+
+**Accessibility:**
+- `node tools/harness/a11y.mjs --keys --only .doc,.ppt,csv,tsv` → **29 / 29**: every control is named and the content area is focusable. Output in `a11y/`.
+- The `--keys` mode only drives media fixtures, so I checked PPT keys by hand: End → 3/3, PageUp → 2/3, Home → 1/3, ArrowRight → 2/3, and Ctrl+= zooms in PPT and DOC.
+- Fixed: the PPT counter picked the slide with the largest visible block, notes included, so on phones it showed "2 / 3" at the top. It now uses the visible fraction of the slide itself, and ties go to the earlier slide.
+
+**Review findings:**
+
+| # | Fix | Regression |
+| --- | --- | --- |
+| 1 HIGH | `word.ts` CLX walk: `cbGrpprl` is read unsigned and the offset must strictly increase. A crafted `0xfffd` (-3) used to spin forever on the main thread, and other negatives walked backwards. The Pcdt piece count is also capped to the CLX bytes. | unit test (valid Prc, `0xfffd`, `0x8000`), fixture `samples/broken.clx-loop.doc` (sample.doc with the CLX patched) → friendly error |
+| 3 MEDIUM | `delegate.ts` returns without touching root or toolbar when `ctx.signal` aborted during `await load()` or the delegated render. The .doc→DOCX text fallback and `pptxTextFallback` check `signal.aborted` after each await. | harness, normal + `--no-raf` |
+| 10 LOW | Field-code hiding keeps a counter of fields in their code part instead of `fields.some()` per character (was quadratic). | unit test: 20,000 nested `\x13…\x14` pairs parse in ~5 ms |
+| 11 LOW | `isNumeric` trims first, rejects cells over 64 characters (and anything over 256 before trimming), and the regex has no leading/trailing whitespace runs left to backtrack over. | unit test (`"1" + 50k spaces + "x"`), fixture `samples/sample-longcell.csv` |
+| 12 LOW | `zip.ts` checks for `DecompressionStream('deflate-raw')` and falls back to fflate `inflateSync` (Safari < 16.4). `inflateSync` was added to `tools/vendor/zip.entry.js` and `plugin/vendor/zip.d.ts`, and `npm run vendor` rebuilt `vendor/zip.js` (exports only added). | `zip.test.ts`: stored + deflated entries, fflate output equals DecompressionStream output, bad EOCD / unknown method |
+
+**Checks after the fixes:**
+- Unit tests: **69 / 69** for the whole plugin. The legacy suites have 46 tests: the round-3 ones plus Prc loop, field pairs, long cell, and 2 zip tests.
+- Harness: normal **48 / 48** and `--no-raf` **48 / 48** (other areas' `.docx`/`.pptx` rows removed).
+- Fuzz (`.doc,.ppt,.csv,.tsv`): **158 / 158** settled with no page errors.

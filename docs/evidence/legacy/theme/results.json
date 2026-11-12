@@ -1,0 +1,553 @@
+[
+  {
+    "file": "broken.clx-loop.doc",
+    "state": "error",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "broken.doc",
+    "state": "error",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "broken.docx",
+    "state": "error",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "broken.encrypted.doc",
+    "state": "error",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "broken.encrypted.ppt",
+    "state": "error",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "broken.ppt",
+    "state": "error",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "broken.pptx",
+    "state": "error",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample-docx.doc",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample-euckr.csv",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample-html.doc",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample-large.csv",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample-large.doc",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample-large.ppt",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample-longcell.csv",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample-ppt97.ppt",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample-pptx.ppt",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample-rtf.doc",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample-semicolon.csv",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample-shapes.pptx",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample-word97.doc",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample.csv",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample.doc",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample.docx",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample.ppt",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample.pptx",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample.tsv",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "xss-cells.csv",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "xss-html.doc",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "xss-rtf.doc",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  }
+]

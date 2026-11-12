@@ -117,15 +117,18 @@ export function readWord(cfb: Cfb): DocModel {
   const pieces: Piece[] = []
   let p = fcClx
   const clxEnd = Math.min(table.length, fcClx + lcbClx)
-  while (p < clxEnd) {
+  while (p + 5 <= clxEnd) {
     if (table[p] === 0x01) {
-      p += 3 + tdv.getInt16(p + 1, true)
+      // Prc: cbGrpprl is unsigned in practice; the offset must strictly increase.
+      const next = p + 3 + tdv.getUint16(p + 1, true)
+      if (next <= p) break
+      p = next
       continue
     }
     if (table[p] !== 0x02) break
     const lcb = tdv.getUint32(p + 1, true)
     const start = p + 5
-    const n = Math.floor((lcb - 4) / 12)
+    const n = Math.max(0, Math.min(Math.floor((lcb - 4) / 12), Math.floor((clxEnd - start - 4) / 12)))
     for (let k = 0; k < n; k++) {
       const cpStart = tdv.getUint32(start + k * 4, true)
       const cpEnd = tdv.getUint32(start + (k + 1) * 4, true)
@@ -290,6 +293,7 @@ export function readWord(cfb: Cfb): DocModel {
     let cur: Run | null = null
     let curProps: CharProps | null = null
     const fields: boolean[] = [] // true while in a field's code part
+    let inCode = 0 // how many entries of `fields` are true
     let tableRows: Block[][][] | null = null
     let row: Block[][] = []
     let cell: Block[] = []
@@ -363,21 +367,25 @@ export function readWord(cfb: Cfb): DocModel {
         const code = ch.charCodeAt(0)
         if (code === 0x13) {
           fields.push(true)
+          inCode++
           continue
         }
         if (code === 0x14) {
-          if (fields.length) fields[fields.length - 1] = false
+          if (fields.length && fields[fields.length - 1]) {
+            fields[fields.length - 1] = false
+            inCode--
+          }
           continue
         }
         if (code === 0x15) {
-          fields.pop()
+          if (fields.pop()) inCode--
           continue
         }
         if (code === 0x0d || code === 0x07) {
           endPara(ch, fc)
           continue
         }
-        if (fields.some((f) => f)) continue
+        if (inCode > 0) continue
         const props = charProps(fc)
         if (props.hidden) continue
         if (code === 0x0c) {

@@ -10,8 +10,8 @@ interface Piece {
 }
 
 /** A minimal Word 97 WordDocument + 1Table pair: FIB, text pieces at 0x400, a CLX piece table. */
-function wordFile(pieces: Piece[], opts: { encrypted?: boolean } = {}) {
-  const wd = new Uint8Array(0x1000)
+function wordFile(pieces: Piece[], opts: { encrypted?: boolean; prc?: Uint8Array } = {}) {
+  const wd = new Uint8Array(0x600 + pieces.reduce((n, p) => n + p.text.length * 2, 0))
   const dv = new DataView(wd.buffer)
   dv.setUint16(0, 0xa5ec, true)
   dv.setUint16(2, 0xc1, true)
@@ -38,9 +38,11 @@ function wordFile(pieces: Piece[], opts: { encrypted?: boolean } = {}) {
     cps.push(cps[cps.length - 1] + p.text.length)
   }
   const plcLen = cps.length * 4 + pcds.length * 8
-  const table = new Uint8Array(64 + plcLen)
+  const prc = opts.prc ?? new Uint8Array(0)
+  const table = new Uint8Array(64 + prc.length + plcLen)
   const tv = new DataView(table.buffer)
-  const clx = 16
+  table.set(prc, 16)
+  const clx = 16 + prc.length
   table[clx] = 0x02
   tv.setUint32(clx + 1, plcLen, true)
   cps.forEach((cp, i) => tv.setUint32(clx + 5 + i * 4, cp, true))
@@ -48,8 +50,8 @@ function wordFile(pieces: Piece[], opts: { encrypted?: boolean } = {}) {
     const o = clx + 5 + cps.length * 4 + i * 8
     tv.setUint32(o + 2, compressed ? (fc * 2) | 0x40000000 : fc, true)
   })
-  dv.setUint32(0x9a + 33 * 8, clx, true) // fcClx
-  dv.setUint32(0x9a + 33 * 8 + 4, 5 + plcLen, true) // lcbClx
+  dv.setUint32(0x9a + 33 * 8, 16, true) // fcClx (Prc records first, then the Pcdt)
+  dv.setUint32(0x9a + 33 * 8 + 4, prc.length + 5 + plcLen, true) // lcbClx
   return fakeCfb({ WordDocument: wd, '1Table': table })
 }
 
@@ -112,4 +114,30 @@ test('word: a piece pointing past the stream end does not throw', () => {
   new DataView(wd.buffer).setUint32(0x40 + 3 * 4, 100000, true) // ccpText far beyond the pieces
   const m = readWord(cfb)
   assert.deepEqual(paras(m.blocks), ['abc'])
+})
+
+test('word: Prc records before the Pcdt are skipped; a negative or huge cbGrpprl cannot loop', () => {
+  // a valid Prc (0x01, cbGrpprl = 2, two bytes of grpprl) then the piece table
+  const ok = readWord(wordFile([{ text: 'after prc\r', compressed: true }], { prc: Uint8Array.of(0x01, 2, 0, 0xaa, 0xbb) }))
+  assert.deepEqual(paras(ok.blocks), ['after prc'])
+  // cbGrpprl = 0xfffd (-3 as int16) used to make the offset stand still forever
+  const t = Date.now()
+  assert.throws(
+    () => readWord(wordFile([{ text: 'x\r', compressed: true }], { prc: Uint8Array.of(0x01, 0xfd, 0xff) })),
+    (e) => e instanceof WordError && e.code === 'corrupt'
+  )
+  // other negative values used to walk backwards into earlier records
+  assert.throws(
+    () => readWord(wordFile([{ text: 'x\r', compressed: true }], { prc: Uint8Array.of(0x01, 0x00, 0x80) })),
+    (e) => e instanceof WordError
+  )
+  assert.ok(Date.now() - t < 1000, 'crafted CLX returns at once')
+})
+
+test('word: thousands of field begin/separator pairs stay linear', () => {
+  const text = '\x13 F \x14'.repeat(20000) + 'end' + '\x15'.repeat(20000) + '\r'
+  const t = Date.now()
+  const m = readWord(wordFile([{ text, compressed: true }]))
+  assert.deepEqual(paras(m.blocks), ['end'])
+  assert.ok(Date.now() - t < 1500, `took ${Date.now() - t} ms`)
 })
