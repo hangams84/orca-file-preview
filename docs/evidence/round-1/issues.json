@@ -15,7 +15,7 @@
     "title": "Formula cells without cached values show '=C2*D2' instead of a result",
     "cause": "Files written by scripts (openpyxl) store no cached values; SheetJS CE does not calculate",
     "fix": "Safe formula evaluator (no eval) for common operators and functions, with unit tests (fp-office)",
-    "status": "in progress"
+    "status": "fixed"
   },
   {
     "id": "R1-3",
@@ -23,8 +23,8 @@
     "area": "docx/pptx",
     "title": "Body text falls back to a serif font when Office fonts are missing",
     "cause": "Documents name Calibri/Cambria/맑은 고딕, which macOS, Linux and phones lack",
-    "fix": "@font-face local() aliases to metric-compatible or platform fonts (fp-office)",
-    "status": "in progress"
+    "fix": "@font-face local() aliases to metric-compatible or platform fonts (fp-office); note: sample.docx body is Cambria by design, so it stays serif where a Cambria alias exists",
+    "status": "fixed"
   },
   {
     "id": "R1-4",
@@ -69,7 +69,7 @@
     "title": "Extra \"기타 그림\" gallery with a placeholder picture after the last slide",
     "cause": "All unplaced blips (thumbnail/master pictures) were shown",
     "fix": "Only slide-referenced, decodable pictures (fp-legacy)",
-    "status": "in progress"
+    "status": "fixed"
   },
   {
     "id": "R1-9",
@@ -78,7 +78,7 @@
     "title": "PPT 97 slide text smaller and tighter than the same slide elsewhere",
     "cause": "Font size / master text style defaults",
     "fix": "Read sizes from master text styles (fp-legacy)",
-    "status": "in progress"
+    "status": "fixed"
   },
   {
     "id": "R1-10",
@@ -87,7 +87,7 @@
     "title": "Korean glyphs heavier than Latin, lines nearly touch",
     "cause": "Font stack without Korean fallbacks",
     "fix": "Korean font fallbacks and line-height (fp-legacy)",
-    "status": "in progress"
+    "status": "fixed"
   },
   {
     "id": "R1-11",
@@ -96,7 +96,7 @@
     "title": "DOCX unreadable on phones (page fitted at ~43%, ~5 px text)",
     "cause": "Fixed page width scaled down to fit",
     "fix": "Reading/reflow mode by default on phones (fp-office)",
-    "status": "in progress"
+    "status": "fixed"
   },
   {
     "id": "R1-12",
@@ -105,7 +105,7 @@
     "title": "Word table style and cell padding not applied",
     "cause": "docx-preview ignores conditional table formatting and default cell margins",
     "fix": "CSS fallbacks for header/banding and padding (fp-office)",
-    "status": "in progress"
+    "status": "fixed"
   },
   {
     "id": "R1-13",
@@ -114,7 +114,7 @@
     "title": "List bullets without hanging indent",
     "cause": "Numbering indents not applied",
     "fix": "Numbering CSS (fp-office)",
-    "status": "in progress"
+    "status": "fixed"
   },
   {
     "id": "R1-14",
@@ -123,7 +123,7 @@
     "title": "Dates cut off in narrow columns",
     "cause": "No overflow into empty neighbours",
     "fix": "Excel-like overflow / minimum widths (fp-office)",
-    "status": "in progress"
+    "status": "fixed"
   },
   {
     "id": "R1-15",
@@ -132,6 +132,6 @@
     "title": ".xls column widths about twice the .xlsx widths",
     "cause": "BIFF width unit conversion",
     "fix": "Prefer wpx, then wch (fp-office)",
-    "status": "in progress"
+    "status": "fixed"
   }
 ]
