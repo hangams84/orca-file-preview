@@ -22,6 +22,8 @@ const MIME: Record<string, string> = {
   tiff: 'image/tiff'
 }
 
+const SKIP = /^(?:[^/]+\/(?:embeddings|fonts|customXml)\/|docProps\/thumbnail|customXml\/)|printerSettings|vbaProject\.bin$/i
+
 export class OoxmlPackage {
   private xmlCache = new Map<string, Document | null>()
   private relCache = new Map<string, Map<string, Rel>>()
@@ -33,8 +35,11 @@ export class OoxmlPackage {
   ) {}
 
   /** Throws when the bytes are not a readable zip. */
+  /** Throws when the bytes are not a readable zip. Callers run office/zipguard.ts first, so the
+   *  declared sizes are sane; parts the slide renderer never reads (embedded OLE objects and fonts,
+   *  thumbnails, printer settings, VBA, custom XML) are not inflated at all. */
   static open(bytes: Uint8Array, signal: AbortSignal): OoxmlPackage {
-    return new OoxmlPackage(unzipSync(bytes), signal)
+    return new OoxmlPackage(unzipSync(bytes, { filter: (f) => !SKIP.test(f.name) }), signal)
   }
 
   has(path: string): boolean {

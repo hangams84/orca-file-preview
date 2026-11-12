@@ -247,3 +247,29 @@ See [perf.md](perf.md) for inputs, method, the before/after table and chart. Sum
 - `tools/harness/a11y.mjs --only docx,pptx,xls,ods --keys`: 11/11 — every toolbar button/select has an accessible
   name (reading toggle, slide prev/next, notes, sheet picker, zoom) and the content area is focusable. Results in `a11y/`.
 - Regression: harness 22/22 normal and 22/22 `--no-raf`.
+
+### Round 4 — review findings #4, #5, #12
+
+- **#4 Document links (docx).** docx-preview turns hyperlink relationships into live `<a href>`. New
+  `office/links.ts`: after rendering, `javascript:`, `data:`, `vbscript:`, `file:`, `blob:`, empty and other
+  non-web targets lose their `href` (`aria-disabled`, the address kept as a tooltip); a capturing click (and
+  auxclick) handler on the shadow root `preventDefault()`s every link. `#bookmark` links scroll inside the
+  document; http(s)/mailto links show a sticky bar with the full address and "Open"/"Cancel", and only "Open" calls
+  `orca.shell.openExternal` (where Orca may ask again); without `orca.shell` the bar just shows the address. Checked
+  with the new `samples/sample-links.docx` (web, mail, javascript:, data:, empty, bookmark): unsafe links do nothing,
+  the frame never navigates, the web link shows the bar, the bookmark scrolls. PPTX does not render `a:hlinkClick` as
+  links (text only), so there is nothing to guard there.
+- **#5 Object URL leak (docx).** While `renderAsync` runs, `URL.createObjectURL` is wrapped to record every URL
+  docx-preview makes (images, embedded fonts); they are revoked when the render fails or `ctx.signal` aborts (the
+  preview is replaced). Verified in the browser: 1 live URL for `sample.docx` while shown, 0 after abort.
+- **#12 Zip bombs.** New `office/zipguard.ts` reads each entry's declared sizes through fflate's `filter`
+  (returning `false`, so nothing is inflated) and refuses packages over 200 MB total / 120 MB per entry, or with a
+  compression ratio > 1000:1 on an entry over 20 MB, with a friendly PreviewError. It runs before docx-preview
+  (JSZip), before the PPTX unzip and before the sheet worker (sheets: 400 MB limits, since sheet XML is legitimately
+  large and parsing is worker-isolated; the 28 MB perf workbook unpacks to 66 MB). The PPTX unzip now also skips parts
+  the renderer never reads (embedded OLE objects and fonts, thumbnails, printer settings, VBA, custom XML). No
+  `DecompressionStream` is used. New fixture `samples/broken.bomb.docx` (367 bytes, declares 300 MB) ends in
+  "This file expands to an abnormal size when unpacked"; unit tests in `office/zipguard.test.ts` build zips with
+  forged sizes and cover the link classifier.
+- Verification: harness 26/26 normal and 26/26 `--no-raf` (adds `sample-links.docx`, `broken.bomb.docx`), fuzz
+  70/70, `orca plugin test` 67/67, perf probe unchanged (100k xlsx 2.4 s, docx 0.37 s, pptx 0.33 s).
