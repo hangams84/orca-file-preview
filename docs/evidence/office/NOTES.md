@@ -124,7 +124,40 @@ contains `new Function`, on a path taken only when a string (not a function) is 
   that paragraph is meant to be serif, as in Word; on devices without Cambria it now renders in Caladea/Georgia/Times
   rather than the browser's default font. Headings use Calibri → sans.
 
+### R1-11 DOCX reading layout
+- New toolbar toggle **읽기 / Reading** (aria-pressed) on every screen size; it is on by default when
+  `ctx.compact` (phones). Reading layout drops the paper's fixed width, margins, minimum height and page
+  headers/footers (`section.docx { width:auto; max-width:100%; padding:16px }`), so text wraps at the device
+  width at 100 % zoom; images get `max-width:100%`, and every top-level table sits in its own horizontally
+  scrolling box. Page layout is unchanged (fit-to-width when the paper is wider than the view). Zoom still works
+  in reading mode (text reflows at the zoomed size; fit = 100 %).
+
+### R1-12 DOCX table styles
+- docx-preview emits the CSS for table-style conditional formatting but only tags rows/cells with
+  `first-row`, `odd-row`, `first-col`, … when each row carries `w:cnfStyle` (Word writes it; python-docx and most
+  generators do not). `office/docx-fixes.ts#applyTableLook` derives the classes from the table look
+  (`first-row`, `last-row`, `first-col`, `last-col`, `no-hband`, `no-vband` on the `<table>`), skipping tables that
+  already have cnfStyle classes. `sample.docx`'s Light Grid Accent 1 now shows the bold header with the thick
+  rule, bold first column and banded #D3DFEE rows.
+- `padTableCells`: cells that end up with no vertical padding get 1.5 pt top/bottom (and 5.4 pt left/right when
+  those are zero too), so text no longer touches the top border.
+
+### R1-13 DOCX list indents
+- docx-preview draws list markers as `::before` content followed by a tab that collapses to a space.
+  `listIndentCss` reads each `p.docx-num-N-L { text-indent: -X }` rule and adds
+  `::before { display:inline-block; min-width:X }`, so text starts at the hanging indent as in Word.
+
+### R1-14 Sheet: cut-off numbers and dates
+- Numeric/date columns are widened to the widest formatted value among the first 200 rows (~7 px per char,
+  max 260 px) — Excel would show `###`, we show the value. Text cells overflow into empty cells on their right
+  (Excel behaviour) instead of being clipped with an ellipsis. `sample-large.xlsx` column E shows full dates.
+
+### R1-15 Sheet: .xls column widths
+- SheetJS's `wpx` for BIFF files assumes a 14 px max digit width (MDW), so .xls columns came out about twice as wide.
+  Widths now come from `width` (Excel column units) × 7 px for every format, then `wch` × 7 + 5, then `wpx`;
+  default 64 px (Excel's). `sample.xls` column B is 90 px vs 98 px in `sample.xlsx`.
+
 ### Changed files (round 1)
 `plugin/editor/renderers/office/{formula,formula.test,fonts,fonts.test}.ts` (new), `sheet.ts`, `docx.ts`,
-`pptx.ts`, `office/slides.ts`, `plugin/vendor/sheet.d.ts` (adds `SSF.format` and `CellObject.z`; the bundle
+`pptx.ts`, `office/slides.ts`, `office/docx-fixes.ts` (new, R1-12/13/11), `plugin/vendor/sheet.d.ts` (adds `SSF.format` and `CellObject.z`; the bundle
 already exported SSF, so `npm run vendor` was not needed). No shared core files changed.
