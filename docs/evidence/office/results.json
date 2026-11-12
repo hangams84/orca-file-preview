@@ -1,0 +1,231 @@
+[
+  {
+    "file": "broken.docx",
+    "profile": "desktop-dark",
+    "state": "error",
+    "expected": "error",
+    "ms": 815,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "console: Error: Corrupted zip: can't find end of central directory\n    at f.readEndOfCentral (http://127.0.0.1:8664/vendor/docx.js:2:32683)\n    at f.load (http://127.0.0.1:8664/vendor/docx.js:2:34395)\n    at http://127.0.0.1:8664/vendor/docx.js:2:5392\n    at async a.load (http://127.0.0.1:8664/vendor/docx.js:2:97714)\n    at async a.load (http://127.0.0.1:8664/vendor/docx.js:2:110351)\n    at async Yr (http://127.0.0.1:8664/vendor/docx.js:23:2407)\n    at async Module.render (http://127.0.0.1:8664/editor/renderers/docx.ts:35:5)\n    at async show (http://127.0.0.1:8664/editor/main.ts:76:15)",
+      "console: PreviewError: docx\n    at Module.render (http://127.0.0.1:8664/editor/renderers/docx.ts:52:11)\n    at async show (http://127.0.0.1:8664/editor/main.ts:76:15)"
+    ],
+    "shot": "broken.docx.desktop-dark.png"
+  },
+  {
+    "file": "broken.pptx",
+    "profile": "desktop-dark",
+    "state": "error",
+    "expected": "error",
+    "ms": 783,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Error: invalid zip data\n    at Lr (http://127.0.0.1:8664/vendor/zip.js:1:5079)\n    at OoxmlPackage.open (http://127.0.0.1:8664/editor/renderers/office/package.ts:27:29)\n    at Module.render (http://127.0.0.1:8664/editor/renderers/pptx.ts:41:24)\n    at show (http://127.0.0.1:8664/editor/main.ts:76:25)",
+      "console: PreviewError: pptx\n    at Module.render (http://127.0.0.1:8664/editor/renderers/pptx.ts:44:11)\n    at show (http://127.0.0.1:8664/editor/main.ts:76:25)"
+    ],
+    "shot": "broken.pptx.desktop-dark.png"
+  },
+  {
+    "file": "sample-large.xlsx",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 1044,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-large.xlsx.desktop-dark.png"
+  },
+  {
+    "file": "sample-shapes.pptx",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 748,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-shapes.pptx.desktop-dark.png"
+  },
+  {
+    "file": "sample.docx",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 833,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.docx.desktop-dark.png"
+  },
+  {
+    "file": "sample.ods",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 937,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.ods.desktop-dark.png"
+  },
+  {
+    "file": "sample.pptx",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 740,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.pptx.desktop-dark.png"
+  },
+  {
+    "file": "sample.xls",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 774,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.xls.desktop-dark.png"
+  },
+  {
+    "file": "sample.xlsx",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 782,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.xlsx.desktop-dark.png"
+  },
+  {
+    "file": "broken.docx",
+    "profile": "mobile-light",
+    "state": "error",
+    "expected": "error",
+    "ms": 696,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Error: Corrupted zip: can't find end of central directory\n    at f.readEndOfCentral (http://127.0.0.1:8664/vendor/docx.js:2:32683)\n    at f.load (http://127.0.0.1:8664/vendor/docx.js:2:34395)\n    at http://127.0.0.1:8664/vendor/docx.js:2:5392\n    at async a.load (http://127.0.0.1:8664/vendor/docx.js:2:97714)\n    at async a.load (http://127.0.0.1:8664/vendor/docx.js:2:110351)\n    at async Yr (http://127.0.0.1:8664/vendor/docx.js:23:2407)\n    at async Module.render (http://127.0.0.1:8664/editor/renderers/docx.ts:35:5)\n    at async show (http://127.0.0.1:8664/editor/main.ts:76:15)",
+      "console: PreviewError: docx\n    at Module.render (http://127.0.0.1:8664/editor/renderers/docx.ts:52:11)\n    at async show (http://127.0.0.1:8664/editor/main.ts:76:15)"
+    ],
+    "shot": "broken.docx.mobile-light.png"
+  },
+  {
+    "file": "broken.pptx",
+    "profile": "mobile-light",
+    "state": "error",
+    "expected": "error",
+    "ms": 791,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Error: invalid zip data\n    at Lr (http://127.0.0.1:8664/vendor/zip.js:1:5079)\n    at OoxmlPackage.open (http://127.0.0.1:8664/editor/renderers/office/package.ts:27:29)\n    at Module.render (http://127.0.0.1:8664/editor/renderers/pptx.ts:41:24)\n    at show (http://127.0.0.1:8664/editor/main.ts:76:25)",
+      "console: PreviewError: pptx\n    at Module.render (http://127.0.0.1:8664/editor/renderers/pptx.ts:44:11)\n    at show (http://127.0.0.1:8664/editor/main.ts:76:25)"
+    ],
+    "shot": "broken.pptx.mobile-light.png"
+  },
+  {
+    "file": "sample-large.xlsx",
+    "profile": "mobile-light",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 1058,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-large.xlsx.mobile-light.png"
+  },
+  {
+    "file": "sample-shapes.pptx",
+    "profile": "mobile-light",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 780,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-shapes.pptx.mobile-light.png"
+  },
+  {
+    "file": "sample.docx",
+    "profile": "mobile-light",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 1207,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.docx.mobile-light.png"
+  },
+  {
+    "file": "sample.ods",
+    "profile": "mobile-light",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 853,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.ods.mobile-light.png"
+  },
+  {
+    "file": "sample.pptx",
+    "profile": "mobile-light",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 703,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.pptx.mobile-light.png"
+  },
+  {
+    "file": "sample.xls",
+    "profile": "mobile-light",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 766,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.xls.mobile-light.png"
+  },
+  {
+    "file": "sample.xlsx",
+    "profile": "mobile-light",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 772,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.xlsx.mobile-light.png"
+  }
+]
