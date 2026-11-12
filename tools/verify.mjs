@@ -190,7 +190,7 @@ if (!args['skip-orca']) {
     const r = sh(ORCA, ['plugin', 'shot', pluginKey, '--window', '--out', relative(ROOT, raw), '--json'])
     let cropped = false
     if (r.code === 0 && py) {
-      const c = sh(py, ['-c', `from PIL import Image; Image.open(r'${raw}').crop((${crop.join(',')})).save(r'${join(OUT, 'orca', shot)}')`])
+      const c = sh(py, [join(ROOT, 'tools', 'crop.py'), raw, join(OUT, 'orca', shot), ...crop.map(String)], { shell: false })
       cropped = c.code === 0
       if (cropped) rmSync(raw, { force: true })
     }
