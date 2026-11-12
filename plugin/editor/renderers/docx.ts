@@ -17,6 +17,10 @@ const SHADOW_STYLE = `
 .fp-docx-body .docx-wrapper > section.docx { background: #fff; color: #000; margin: 0 0 16px !important;
   box-shadow: 0 1px 4px rgba(0,0,0,.3); box-sizing: border-box; }
 .fp-docx-body .docx-wrapper > section.docx > article { overflow-wrap: break-word; }
+/* Long documents: pages off screen skip layout and paint (zoom and first paint stay fast); the
+   browser remembers each page's real size once it has been shown. */
+.fp-docx-body .docx-wrapper > section.docx { content-visibility: auto; contain-intrinsic-size: auto 816px auto 1056px; }
+.reading .docx-wrapper > section.docx { contain-intrinsic-size: auto 390px auto 1400px; }
 /* Reading layout: no fixed page width, margins or page height; text wraps at the viewport. */
 .fp-docx-zoom.reading { width: auto; min-width: 0; }
 .reading .docx-wrapper { padding: 0 !important; align-items: stretch; }
