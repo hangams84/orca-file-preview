@@ -4,12 +4,13 @@
 import { formatBytes } from '../core/i18n.ts'
 import { PreviewError, type PreviewContext } from '../core/types.ts'
 import { bindZoomGestures, createZoom, h } from '../core/ui.ts'
-import { read, utils, type CellObject, type WorkBook, type WorkSheet } from '../../vendor/sheet.js'
+import { read, SSF, utils, type CellObject, type WorkBook, type WorkSheet } from '../../vendor/sheet.js'
+import { FormulaEngine, FormulaError, formatGeneral, type Scalar } from './office/formula.ts'
+import { installOfficeFonts, OFFICE_SANS } from './office/fonts.ts'
 
 const STYLE = `
 .fp-sheet-wrap { display: inline-block; min-width: 100%; box-sizing: border-box; }
-.fp-sheet { border-collapse: separate; border-spacing: 0; font: 12px/1.35 system-ui, -apple-system, "Segoe UI",
-  "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif; color: var(--orca-foreground, #111);
+.fp-sheet { border-collapse: separate; border-spacing: 0; font: 12px/1.35 Calibri, "맑은 고딕", ${OFFICE_SANS}; color: var(--orca-foreground, #111);
   background: var(--orca-background, #fff); table-layout: fixed; }
 .fp-sheet td, .fp-sheet th { border-right: 1px solid var(--orca-border, #ddd); border-bottom: 1px solid var(--orca-border, #ddd);
   padding: 2px 5px; height: 20px; box-sizing: border-box; white-space: pre; overflow: hidden; text-overflow: ellipsis;
@@ -19,6 +20,7 @@ const STYLE = `
 .fp-sheet td.e { color: #d33; }
 .fp-sheet td.wrap { white-space: pre-wrap; }
 .fp-sheet td.f { color: var(--orca-muted-foreground, #777); font-style: italic; }
+.fp-sheet td.calc { background-image: linear-gradient(135deg, var(--orca-muted-foreground, #999) 0 4px, transparent 4px); }
 .fp-sheet th { position: sticky; background: var(--orca-muted, #f1f1f1); color: var(--orca-muted-foreground, #555);
   font-weight: 500; text-align: center; z-index: 1; }
 .fp-sheet thead th { top: 0; z-index: 2; }
@@ -36,6 +38,7 @@ const DEFAULT_COL_PX = 80
 
 export async function render(ctx: PreviewContext): Promise<void> {
   const { bytes, root, toolbar, tr, signal } = ctx
+  installOfficeFonts()
   let wb: WorkBook
   try {
     wb = read(bytes, { type: 'array', dense: true, cellStyles: true, cellNF: false, cellHTML: false })
@@ -81,11 +84,17 @@ export async function render(ctx: PreviewContext): Promise<void> {
   toolbar.zoom(zoom)
   bindZoomGestures(root, zoom, signal)
 
+  // Formula cells saved without a cached result are calculated on demand (office/formula.ts).
+  const engine = new FormulaEngine({
+    sheet: (name) => wb.SheetNames.find((n) => n.toLowerCase() === name.toLowerCase()) ?? null,
+    cell: (sheet, r, c) => (wb.Sheets[sheet]?.['!data']?.[r]?.[c] as CellObject | undefined) ?? null
+  })
+
   let stop: (() => void) | null = null
   const show = (index: number) => {
     stop?.()
     root.scrollTo(0, 0)
-    stop = renderSheet(ctx, wrap, wb.Sheets[wb.SheetNames[index]], scale, (info) =>
+    stop = renderSheet(ctx, wrap, wb.Sheets[wb.SheetNames[index]], wb.SheetNames[index], engine, scale, (info) =>
       toolbar.info(`${wb.SheetNames[index]} · ${info} · ${formatBytes(bytes.byteLength)}`)
     )
   }
@@ -97,6 +106,8 @@ function renderSheet(
   ctx: PreviewContext,
   wrap: HTMLElement,
   ws: WorkSheet,
+  sheetName: string,
+  engine: FormulaEngine,
   scale: number,
   info: (text: string) => void
 ): () => void {
@@ -181,15 +192,24 @@ function renderSheet(
         const cell = row?.[c] as CellObject | undefined
         const td = h('td')
         if (cell) {
-          const text = cellText(cell)
-          td.textContent = text
+          let text = cellText(cell)
           if (cell.t === 'n' || cell.t === 'd') td.className = 'n'
           else if (cell.t === 'b' || cell.t === 'e') td.className = cell.t
           else if (cell.t === 'z' && cell.f) {
-            // A formula saved without a cached result (some generators do this): show the formula.
-            td.className = 'f'
-            td.title = tr('계산된 값이 저장되지 않은 수식', 'Formula without a saved result')
+            // A formula saved without a cached result (openpyxl, scripts): calculate it here, or
+            // show the formula text when it uses something the evaluator does not support.
+            const res = engine.evaluateCell(sheetName, r, c, cell.f)
+            if (res.ok) {
+              text = formatResult(res.value, cell.z)
+              td.className = classOf(res.value)
+              td.classList.add('calc')
+              td.title = `${tr('미리보기에서 계산됨', 'Calculated by the preview')}: =${cell.f}`
+            } else {
+              td.className = 'f'
+              td.title = tr('계산되지 않은 수식 (저장된 결과 없음)', 'Formula not calculated (no saved result)')
+            }
           }
+          td.textContent = text
           if (text.includes('\n')) td.classList.add('wrap')
           if (text.length > 12 && !td.title) td.title = text
         }
@@ -232,6 +252,28 @@ function renderSheet(
     root.removeEventListener('scroll', onScroll)
     cancelAnimationFrame(raf)
   }
+}
+
+function classOf(v: Scalar): string {
+  if (typeof v === 'number') return 'n'
+  if (typeof v === 'boolean') return 'b'
+  if (v instanceof FormulaError) return 'e'
+  return ''
+}
+
+function formatResult(v: Scalar, fmt: string | number | undefined): string {
+  if (v === null) return ''
+  if (typeof v === 'boolean') return v ? 'TRUE' : 'FALSE'
+  if (v instanceof FormulaError) return v.code
+  if (typeof v === 'string') return v
+  if (fmt != null && fmt !== 'General') {
+    try {
+      return SSF.format(fmt, v)
+    } catch {
+      // fall through to General
+    }
+  }
+  return formatGeneral(v)
 }
 
 function cellText(cell: CellObject): string {
