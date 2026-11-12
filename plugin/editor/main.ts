@@ -14,6 +14,7 @@ export const RENDERERS: Record<string, Loader> = {
   tsv: () => import('./renderers/csv.ts'),
   html: () => import('./renderers/html.ts'),
   htm: () => import('./renderers/html.ts'),
+  xhtml: () => import('./renderers/html.ts'),
   svg: () => import('./renderers/svg.ts'),
   gif: () => import('./renderers/image.ts'),
   bmp: () => import('./renderers/image.ts'),

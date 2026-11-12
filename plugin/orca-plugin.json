@@ -73,7 +73,8 @@
         "title": "HTML Preview",
         "extensions": [
           ".html",
-          ".htm"
+          ".htm",
+          ".xhtml"
         ],
         "entry": "editor/main.ts",
         "contentKind": "bytes",

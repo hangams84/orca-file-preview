@@ -1,0 +1,101 @@
+[
+  {
+    "id": "R3-1",
+    "severity": "medium",
+    "area": "core/renderers",
+    "title": "'ResizeObserver loop completed' errors in Orca logs; fails the Orca mount check for a .ppt delegated to the .pptx renderer at 390px",
+    "cause": "ResizeObserver callbacks changed layout synchronously",
+    "fix": "All 5 observers defer and coalesce layout work and skip unchanged sizes (fp-media); confirm in round 4",
+    "status": "fixed"
+  },
+  {
+    "id": "R3-2",
+    "severity": "low",
+    "area": "html",
+    "title": "Malformed fragment link (#%E0%A4%A) threw an uncaught URIError",
+    "cause": "decodeURIComponent without try/catch",
+    "fix": "Undecodable fragments treated as not found (security review S-1)",
+    "status": "fixed"
+  },
+  {
+    "id": "R3-3",
+    "severity": "medium",
+    "area": "html",
+    "title": "Defense in depth: preview iframe was unsandboxed",
+    "cause": "srcdoc iframe without sandbox (sandbox=\"\" does not render in Orca)",
+    "fix": "sandbox=\"allow-same-origin\" without allow-scripts; verified rendering in real Orca with UTF-16 .xhtml fixtures (S-2)",
+    "status": "fixed"
+  },
+  {
+    "id": "R3-4",
+    "severity": "low",
+    "area": "html",
+    "title": "CSS filter missed escaped @import and image-set()",
+    "cause": "Regex on raw CSS text",
+    "fix": "Normalise escapes; drop loading tokens (S-3)",
+    "status": "fixed"
+  },
+  {
+    "id": "R3-5",
+    "severity": "info",
+    "area": "html",
+    "title": "Link click opened the browser without showing the URL",
+    "cause": "Direct shell.openExternal",
+    "fix": "Confirm bar with the full URL first (S-5)",
+    "status": "fixed"
+  },
+  {
+    "id": "R3-6",
+    "severity": "info",
+    "area": "html",
+    "title": "CSP console errors from DOMPurify's inert documents ('base-uri none')",
+    "cause": "Inert DOMParser documents report CSP violations",
+    "fix": "Documented as noise; proven not executable",
+    "status": "documented"
+  },
+  {
+    "id": "R3-7",
+    "severity": "medium",
+    "area": "sheet/docx",
+    "title": "100k-row .xlsx took 5.4 s to first content; zoom long tasks of 620-740 ms",
+    "cause": "Whole grid parsed and built",
+    "fix": "Parse at most 20,000 rows, virtualised rows; docx content-visibility: 2.2-2.4 s, no long task > 70 ms (fp-office)",
+    "status": "fixed"
+  },
+  {
+    "id": "R3-8",
+    "severity": "low",
+    "area": "a11y",
+    "title": "Muted text on muted fill 4.40:1 (below 4.5:1)",
+    "cause": "Badge colours",
+    "fix": "Badge fixed in core/ui.ts; sheet headers and doc/ppt notes left for round 4",
+    "status": "in progress"
+  },
+  {
+    "id": "R3-9",
+    "severity": "low",
+    "area": "core",
+    "title": "'+' zoomed out above 800%",
+    "cause": "stepZoom edge case",
+    "fix": "Fixed with keyboard shortcuts (fp-media)",
+    "status": "fixed"
+  },
+  {
+    "id": "R3-10",
+    "severity": "info",
+    "area": "html",
+    "title": "UTF-16 and .xhtml HTML",
+    "cause": "Orca opens text-like files in Source; UTF-16 files open in the plugin directly",
+    "fix": "Added .xhtml; UTF-16 fixtures used to verify html.ts inside Orca",
+    "status": "fixed"
+  },
+  {
+    "id": "R3-11",
+    "severity": "low",
+    "area": "tooling",
+    "title": "Window captures not cropped (sidebar included)",
+    "cause": "Inline python -c mangled by shell quoting",
+    "fix": "tools/crop.py called without a shell",
+    "status": "fixed"
+  }
+]
