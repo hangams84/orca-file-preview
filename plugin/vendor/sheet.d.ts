@@ -4,6 +4,8 @@ export interface CellObject {
   v?: string | number | boolean | Date
   w?: string
   f?: string
+  /** Number format string. */
+  z?: string | number
   s?: unknown
 }
 export interface Range {
@@ -43,3 +45,4 @@ export const utils: {
   encode_col(c: number): string
   encode_cell(cell: { r: number; c: number }): string
 }
+export const SSF: { format(fmt: string | number, value: unknown): string }

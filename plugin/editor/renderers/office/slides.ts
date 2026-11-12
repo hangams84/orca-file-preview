@@ -3,6 +3,7 @@
  *  bodies, pictures, simple tables, preset geometry (rect, ellipse, round rect, a few polygons,
  *  lines) and solid/gradient fills. Anything else degrades to its text. */
 import { h } from '../../core/ui.ts'
+import { withFallback } from './fonts.ts'
 import { colorChild, fillCss, hexOf, parseClrMap, parseTheme, resolveColor, type ColorCtx, type Theme } from './drawing.ts'
 import type { OoxmlPackage } from './package.ts'
 import { attr, bool, find, findAll, kid, kids, num, path, relAttr } from './xml.ts'
@@ -899,7 +900,7 @@ function fontFamily(env: SlideEnv, latin: string | null, ea: string | null): str
   const faces = [resolve(latin) ?? env.theme.minorLatin, resolve(ea) ?? env.theme.minorEa]
     .filter((f): f is string => !!f)
     .map((f) => `"${f.replace(/"/g, '')}"`)
-  return [...faces, 'system-ui', '-apple-system', '"Segoe UI"', '"Malgun Gothic"', '"Apple SD Gothic Neo"', '"Noto Sans KR"', 'sans-serif'].join(', ')
+  return withFallback(faces.join(', '))
 }
 
 /** Speaker notes text for a slide (the notes page body placeholder). */
