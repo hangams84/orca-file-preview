@@ -63,20 +63,21 @@ export function renderPaper(ctx: PreviewContext, model: DocModel, opts: PaperOpt
       return img
     }
     if (r.object) return h('span', 'obj', r.object === 'OLE' ? tr('[개체]', '[Object]') : tr('[그림]', '[Picture]'))
-    if (!r.b && !r.i && !r.u && !r.s && !r.color && !(r.pt && Math.abs(r.pt - basePt) > 0.4) && !r.sup && !r.sub) return document.createTextNode(r.text)
+    if (!r.b && !r.i && !r.u && !r.s && !r.color && !r.bg && !(r.pt && Math.abs(r.pt - basePt) > 0.4) && !r.sup && !r.sub) return document.createTextNode(r.text)
     const el = h(r.sup ? 'sup' : r.sub ? 'sub' : 'span', undefined, r.text)
     const st = el.style
     if (r.b) st.fontWeight = '700'
     if (r.i) st.fontStyle = 'italic'
     if (r.u || r.s) st.textDecoration = [r.u ? 'underline' : '', r.s ? 'line-through' : ''].join(' ').trim()
     if (r.color && r.color !== '#000000') st.color = r.color
+    if (r.bg) st.background = r.bg
     if (r.pt && Math.abs(r.pt - basePt) > 0.4) st.fontSize = `${Math.min(4, Math.max(0.5, r.pt / basePt))}em`
     return el
   }
   const paraEl = (p: Paragraph): HTMLElement => {
     const el =
       p.heading != null ? h(`h${Math.max(1, p.heading)}` as 'h1', p.heading === 0 ? 'title' : undefined) : h('p', p.list ? 'li' : undefined)
-    for (const r of p.runs) el.append(runEl(r))
+    for (const r of p.runs) el.append(runEl(p.heading != null ? { ...r, pt: undefined } : r))
     if (p.align && p.align !== 'left') el.style.textAlign = p.align
     if (p.indent) el.style.marginLeft = `${Math.min(p.indent, 300) / BASE_PX}em`
     return el

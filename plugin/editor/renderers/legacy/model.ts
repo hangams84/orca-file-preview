@@ -10,6 +10,8 @@ export interface Run {
   color?: string
   /** Font size in points. */
   pt?: number
+  /** Highlight / shading colour. */
+  bg?: string
   sup?: boolean
   sub?: boolean
   /** Inline picture. */

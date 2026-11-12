@@ -9,6 +9,12 @@ interface State {
   s: boolean
   sup: boolean
   sub: boolean
+  /** Index into the colour table (0 = auto). */
+  cf: number
+  /** Highlight / background colour index. */
+  cb: number
+  /** Font size in half-points (0 = default). */
+  fs: number
   skip: boolean
   uc: number
   pict: { mime: string; hex: string[]; w?: number; h?: number } | null
@@ -41,7 +47,8 @@ export function readRtf(bytes: Uint8Array): DocModel {
   const blocks: Block[] = []
   let runs: Run[] = []
   let pendingBytes: number[] = []
-  let st: State = { b: false, i: false, u: false, s: false, sup: false, sub: false, skip: false, uc: 1, pict: null, fldinst: false }
+  const colors = readColorTable(src)
+  let st: State = { b: false, i: false, u: false, s: false, sup: false, sub: false, cf: 0, cb: 0, fs: 0, skip: false, uc: 1, pict: null, fldinst: false }
   const stack: State[] = []
   let ucSkip = 0
   let inTable = false
@@ -61,9 +68,15 @@ export function readRtf(bytes: Uint8Array): DocModel {
   const addText = (text: string) => {
     if (st.skip || !text) return
     const last = runs[runs.length - 1]
-    if (last && !last.image && last.b === st.b && last.i === st.i && last.u === st.u && last.s === st.s && last.sup === st.sup && last.sub === st.sub) {
+    const color = colors[st.cf] || undefined
+    const bg = colors[st.cb] || undefined
+    const pt = st.fs ? st.fs / 2 : undefined
+    if (
+      last && !last.image && last.b === st.b && last.i === st.i && last.u === st.u && last.s === st.s && last.sup === st.sup &&
+      last.sub === st.sub && last.color === color && last.bg === bg && last.pt === pt
+    ) {
       last.text += text
-    } else runs.push({ text, b: st.b, i: st.i, u: st.u, s: st.s, sup: st.sup, sub: st.sub })
+    } else runs.push({ text, b: st.b, i: st.i, u: st.u, s: st.s, sup: st.sup, sub: st.sub, color, bg, pt })
   }
   const endPara = () => {
     flushBytes()
@@ -250,6 +263,18 @@ export function readRtf(bytes: Uint8Array): DocModel {
           break
         case 'plain':
           st.b = st.i = st.u = st.s = st.sup = st.sub = false
+          st.cf = st.cb = st.fs = 0
+          break
+        case 'cf':
+          st.cf = arg ?? 0
+          break
+        case 'cb':
+        case 'highlight':
+        case 'chcbpat':
+          st.cb = arg ?? 0
+          break
+        case 'fs':
+          st.fs = arg ?? 0
           break
         case 'uc':
           st.uc = arg ?? 1
@@ -342,6 +367,26 @@ function pictFromHex(p: { mime: string; hex: string[]; w?: number; h?: number })
   const bytes = new Uint8Array(hex.length >> 1)
   for (let k = 0; k < bytes.length; k++) bytes[k] = parseInt(hex.substr(k * 2, 2), 16)
   return { bytes, mime: p.mime, width: p.w, height: p.h }
+}
+
+/** The \colortbl group: index -> CSS colour ('' for the "auto" entry). */
+function readColorTable(src: string): string[] {
+  const at = src.indexOf('{\\colortbl')
+  if (at < 0) return []
+  const end = src.indexOf('}', at + 10)
+  if (end < 0 || end - at > 100000) return []
+  return src
+    .slice(at + 10, end)
+    .split(';')
+    .slice(0, -1)
+    .map((entry) => {
+      const r = /\\red(\d+)/.exec(entry)
+      const g = /\\green(\d+)/.exec(entry)
+      const b = /\\blue(\d+)/.exec(entry)
+      if (!r && !g && !b) return ''
+      const v = (m: RegExpExecArray | null) => Math.min(255, Number(m?.[1] ?? 0))
+      return `rgb(${v(r)},${v(g)},${v(b)})`
+    })
 }
 
 /** Style numbers whose names are "heading N" or "Title" in the style sheet. */

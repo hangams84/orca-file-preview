@@ -119,3 +119,18 @@ Merged `master` (plugin now lives in `plugin/`; typecheck `npx tsc -p plugin --n
 | Delegated DOCX/PPTX note dropped | `delegate()` takes a `note`; after the DOCX/PPTX renderer succeeds, a slim banner ("이 .doc 파일은 실제로 DOCX…" / ".ppt … PPTX") is prepended to the content (see `sample-docx.doc.*.png`, `sample-pptx.ppt.*.png`, which now go through the real docx/pptx renderers from master). |
 
 Harness after the fixes: **38 / 38 pass** (desktop-dark + mobile-light, `.doc,.ppt,csv,tsv`; the `.docx`/`.pptx` rows of other areas were removed). The interaction shots were re-run with no page errors.
+
+## Round 2 fixes
+
+Merged `master` (harness content check, `--no-raf`, `--fuzz`, `tools/make-fuzz.mjs`). `main.ts`, `core/` and `tools/` are untouched.
+
+| Item | Fix |
+| --- | --- |
+| R2-1 blank `.ppt` slides with no rAF/IO | `ppt.ts` now builds slides from scroll geometry (`offsetTop`/`offsetHeight` against `scrollTop` ± one viewport). This runs on the initial layout, on scroll, on zoom/layout, on ResizeObserver plus `window.resize`, and on two settle timers (50/400 ms). IntersectionObserver is only an extra trigger. The current slide is the most visible one. `doc.ts`/`paper.ts` (scroll events + `setTimeout` idle fill) and `csv.ts` (scroll events + `setTimeout` parse slices) never depended on IO/rAF; under `--no-raf` they pass unchanged. **`--no-raf`: 38 / 38** (`results-noraf.md`). |
+| R2-2 RTF colours/sizes | `\colortbl` is parsed; `\cfN`, `\cbN`/`\highlightN`/`\chcbpatN` and `\fsN` are tracked per group (reset by `\plain`) and stored on runs (`color`, `bg`, `pt`). "and coloured text." is now red (192,38,38) at 14 pt. Heading paragraphs ignore run sizes so they don't compound with heading CSS. |
+| R2-3 subtitle grey | Checked against `samples/sample-slides.pdf`: the reference draws the subtitle in **#8B8B8B**. `sample.ppt` renders #8B8B8B (explicit CF colour), and the PowerPoint-saved `sample-ppt97.ppt` renders #898989 (master TxMasterStyle + colour scheme, round 1). Both match the reference. The difference is on the `.pptx` side: `tx1` + `tint 75000` must be applied in linear (scRGB) space, giving ≈#898989, not linearly in sRGB (#404040). This was reported to the coordinator for the office worker. |
+| R2-4 small, non-bold Hangul in `sample-large.ppt` title | The parser was right, the fixture was wrong. In the old file, the Hangul CF run carried only a colour (no size/bold mask bits), so per spec it inherits the master's 18 pt regular. My generated FODP had set only Western `fo:font-size/weight`, not the Asian variants. I regenerated `samples/sample-large.ppt` with `style:font-size-asian` / `style:font-weight-asian`, and the title now reads 32 pt bold across both scripts. Runs inherit only what the file leaves unset, from the master text style. |
+| R2-5 slide frame | No border; the card has `box-shadow: 0 1px 4px rgba(0,0,0,.25)` and a white slide on the Orca background. A muted caption under the slide's left edge reads "N" or "N · title" (title from the title/centre-title placeholder, max 60 chars). The speaker notes block sits below it. |
+| Fuzz | `node tools/make-fuzz.mjs && node tools/harness/run.mjs --dir samples/fuzz --fuzz --no-shots --profiles desktop-dark --timeout 15000 --only .doc,.ppt,.csv,.tsv` → **133 / 133** settle (ready or error) with no page errors. The CFB reader already guards chains with visited sets and sector bounds, and record walkers stop at bad lengths. No change was needed. |
+
+Harness after the fixes: normal **38 / 38**, `--no-raf` **38 / 38** (desktop-dark + mobile-light, `.doc,.ppt,csv,tsv`; other areas' `.docx`/`.pptx` rows removed).

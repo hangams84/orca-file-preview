@@ -20,11 +20,12 @@ export const KOREAN_STACK = '"Segoe UI", "Malgun Gothic", "맑은 고딕", "Appl
 const STYLE = `
 .fp-ppt { padding: 12px; display: flex; flex-direction: column; align-items: center; gap: 16px; box-sizing: border-box; }
 .fp-ppt.compact { padding: 8px; gap: 10px; }
-.fp-ppt .card { position: relative; flex: none; }
+.fp-ppt .item { flex: none; display: flex; flex-direction: column; align-items: flex-start; }
+.fp-ppt .card { position: relative; flex: none; background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,.25); }
 .fp-ppt .slide { position: absolute; left: 0; top: 0; transform-origin: 0 0; overflow: hidden; background: #fff; color: #000;
-  box-shadow: 0 1px 4px rgba(0,0,0,.3); font-family: "Calibri", ${KOREAN_STACK}; }
-.fp-ppt .num { position: absolute; right: 4px; bottom: 4px; min-width: 18px; padding: 0 5px; border-radius: 9px; text-align: center;
-  font-size: 11px; line-height: 18px; background: rgba(0,0,0,.45); color: #fff; pointer-events: none; }
+  font-family: "Calibri", ${KOREAN_STACK}; }
+.fp-ppt .num { margin-top: 4px; font-size: 11px; line-height: 16px; color: var(--orca-muted-foreground, #888);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 .fp-ppt .note { padding: 6px 10px; border-radius: var(--orca-radius, 6px); box-sizing: border-box; max-width: 100%;
   background: var(--orca-muted, #f4f4f5); color: var(--orca-muted-foreground, #555); font-size: 12px; }
 .fp-ppt .sh { position: absolute; box-sizing: border-box; display: flex; flex-direction: column; overflow: visible; }
@@ -34,7 +35,7 @@ const STYLE = `
 .fp-ppt .sh p.bl::before { content: attr(data-b); position: absolute; left: -.9em; }
 .fp-ppt .sh img { width: 100%; height: 100%; object-fit: fill; display: block; }
 .fp-ppt .ph { width: 100%; height: 100%; border: 2px dashed #bbb; box-sizing: border-box; display: flex; align-items: center; justify-content: center; color: #888; font-size: 28px; }
-.fp-ppt .notes { margin-top: 6px; padding: 6px 10px; box-sizing: border-box; font-size: 12px; white-space: pre-wrap; border-radius: var(--orca-radius, 6px);
+.fp-ppt .notes { margin-top: 4px; padding: 6px 10px; box-sizing: border-box; font-size: 12px; white-space: pre-wrap; border-radius: var(--orca-radius, 6px);
   background: var(--orca-muted, #f4f4f5); color: var(--orca-muted-foreground, #555); }
 `
 
@@ -99,19 +100,23 @@ function drawDeck(ctx: PreviewContext, doc: PptDoc, note?: string): () => void {
   }
 
   let scale = 1
-  const cards: { card: HTMLElement; slide: PptSlide; built: HTMLElement | null; notes: HTMLElement | null }[] = []
+  const cards: { item: HTMLElement; card: HTMLElement; slide: PptSlide; built: HTMLElement | null; notes: HTMLElement | null }[] = []
   doc.slides.forEach((slide, i) => {
+    const item = h('div', 'item')
     const card = h('div', 'card')
     card.dataset.index = String(i)
     card.setAttribute('role', 'img')
-    card.setAttribute('aria-label', `${tr('슬라이드', 'Slide')} ${i + 1}`)
-    const entry = { card, slide, built: null as HTMLElement | null, notes: null as HTMLElement | null }
+    const title = slideTitle(slide)
+    card.setAttribute('aria-label', `${tr('슬라이드', 'Slide')} ${i + 1}${title ? ` · ${title}` : ''}`)
+    const caption = h('div', 'num', title ? `${i + 1} · ${title}` : String(i + 1))
+    item.append(card, caption)
+    const entry = { item, card, slide, built: null as HTMLElement | null, notes: null as HTMLElement | null }
     cards.push(entry)
-    wrap.append(card)
+    wrap.append(item)
     if (slide.notes) {
       const n = h('div', 'notes', `${tr('메모', 'Notes')}: ${slide.notes}`)
       entry.notes = n
-      wrap.append(n)
+      item.append(n)
     }
   })
   const layout = () => {
@@ -119,47 +124,57 @@ function drawDeck(ctx: PreviewContext, doc: PptDoc, note?: string): () => void {
       c.card.style.width = `${natW * scale}px`
       c.card.style.height = `${natH * scale}px`
       if (c.built) c.built.style.transform = `scale(${scale})`
-      if (c.notes) c.notes.style.width = `${natW * scale}px`
+      c.item.style.width = `${natW * scale}px`
     }
+    refresh()
   }
   const build = (c: (typeof cards)[number]) => {
     if (c.built) return
     const el = slideEl(c.slide, natW, natH, picUrl, tr)
     el.style.transform = `scale(${scale})`
-    const num = h('span', 'num', String(Number(c.card.dataset.index) + 1))
-    c.card.append(el, num)
+    c.card.append(el)
     c.built = el
   }
 
-  // Build slides near the viewport; keep the counter in step with the most visible slide.
+  // Build slides in or near the view and track the current one from scroll geometry. This works
+  // without IntersectionObserver or requestAnimationFrame, which stop while the window is hidden
+  // or occluded; the observer only adds an extra trigger.
   let current = 0
   const counter = () => toolbar.info(`${current + 1} / ${cards.length} · ${formatBytes(ctx.bytes.byteLength)}`)
-  const io = new IntersectionObserver(
-    (list) => {
-      for (const e of list) if (e.isIntersecting) build(cards[Number((e.target as HTMLElement).dataset.index)])
-    },
-    { root, rootMargin: '800px 0px' }
-  )
-  for (const c of cards) io.observe(c.card)
-  const onScroll = () => {
-    const top = root.getBoundingClientRect().top + root.clientHeight * 0.35
+  function refresh(): void {
+    if (!cards.length) return
+    const vh = Math.max(root.clientHeight, 1)
+    const top = root.scrollTop - vh
+    const bottom = root.scrollTop + vh * 2
+    const viewTop = root.scrollTop
+    const viewBottom = viewTop + vh
     let best = 0
+    let bestArea = -1
     for (let i = 0; i < cards.length; i++) {
-      if (cards[i].card.getBoundingClientRect().top <= top) best = i
-      else break
+      const it = cards[i].item
+      const y = it.offsetTop
+      if (y > bottom) break
+      const area = Math.min(y + it.offsetHeight, viewBottom) - Math.max(y, viewTop)
+      if (area > bestArea + 1) [best, bestArea] = [i, area]
+      if (y + it.offsetHeight >= top) build(cards[i])
     }
+    build(cards[best])
     if (best !== current) {
       current = best
       counter()
       sync()
     }
   }
-  root.addEventListener('scroll', onScroll, { passive: true, signal })
+  const io = new IntersectionObserver(() => refresh(), { root, rootMargin: '100% 0px' })
+  for (const c of cards) io.observe(c.card)
+  root.addEventListener('scroll', refresh, { passive: true, signal })
 
   const go = (i: number) => {
-    current = Math.max(0, Math.min(cards.length - 1, i))
-    build(cards[current])
-    root.scrollTo({ top: cards[current].card.offsetTop - (ctx.compact ? 22 : 26) })
+    const target = Math.max(0, Math.min(cards.length - 1, i))
+    build(cards[target])
+    root.scrollTo({ top: cards[target].item.offsetTop - (ctx.compact ? 8 : 12) })
+    refresh()
+    current = target
     counter()
     sync()
   }
@@ -213,14 +228,27 @@ function drawDeck(ctx: PreviewContext, doc: PptDoc, note?: string): () => void {
   layout()
   counter()
   sync()
-  const ro = new ResizeObserver(() => {
+  refresh()
+  const onResize = () => {
     if (fitted) zoom.set(fitScale())
-  })
+    refresh()
+  }
+  const ro = new ResizeObserver(onResize)
   ro.observe(root)
+  window.addEventListener('resize', onResize, { signal })
+  // Layout may settle after the first paint (fonts, toolbar wrap): re-check on timers too.
+  const timers = [setTimeout(onResize, 50), setTimeout(onResize, 400)]
   return () => {
     io.disconnect()
     ro.disconnect()
+    for (const t of timers) clearTimeout(t)
   }
+}
+
+function slideTitle(slide: PptSlide): string {
+  const t = slide.shapes.find((s) => (s.textType === 0 || s.textType === 6) && s.paras?.length)
+  const text = t?.paras?.map((p) => p.runs.map((r) => r.text).join('')).join(' ').replace(/\s+/g, ' ').trim() ?? ''
+  return text.length > 60 ? text.slice(0, 59) + '…' : text
 }
 
 function slideEl(
