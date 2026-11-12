@@ -113,6 +113,22 @@ if (!args['skip-harness']) {
   } catch {
     noRaf = []
   }
+  // Older engines (iOS 16 / Safari 16 / older Android WebView): newer built-ins removed in the page
+  // and in workers.
+  {
+    const oe = sh('node', ['tools/harness/run.mjs', '--old-engine', '--no-shots', '--out', relative(ROOT, join(OUT, 'harness-old-engine')), '--profiles', 'mobile-light'])
+    let old = []
+    try {
+      old = JSON.parse(readFileSync(join(OUT, 'harness-old-engine', 'results.json'), 'utf8'))
+    } catch {
+      old = []
+    }
+    checks.push({
+      name: 'Harness on an older engine (no Promise.withResolvers etc.)',
+      ok: oe.code === 0 && old.length > 0,
+      detail: `${old.filter((h) => h.pass).length} / ${old.length} passed${old.filter((h) => !h.pass).map((h) => `\n✗ ${h.file}: ${h.state} ${h.checkError ?? ''}`).join('')}`
+    })
+  }
   // Damaged inputs: every fuzzed file must settle (ready or a friendly error) without page errors.
   if (!args['skip-fuzz']) {
     sh('node', ['tools/make-fuzz.mjs'])
