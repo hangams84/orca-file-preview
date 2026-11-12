@@ -5,6 +5,7 @@ import { PreviewError, type PreviewContext } from '../core/types.ts'
 import { bindZoomGestures, clampZoom, createZoom, h } from '../core/ui.ts'
 import { installOfficeFonts } from './office/fonts.ts'
 import { OoxmlPackage } from './office/package.ts'
+import { guardZip } from './office/zipguard.ts'
 import { notesText, readDeck, renderSlide, slideTitle } from './office/slides.ts'
 
 const STYLE = `
@@ -41,6 +42,7 @@ const STYLE = `
 
 export async function render(ctx: PreviewContext): Promise<() => void> {
   const { bytes, root, toolbar, tr, signal } = ctx
+  guardZip(bytes, tr)
   let pkg: OoxmlPackage
   try {
     pkg = OoxmlPackage.open(bytes, signal)

@@ -7,6 +7,7 @@ import { bindZoomGestures, createZoom, h } from '../core/ui.ts'
 import { read, SSF, utils, type CellObject, type ColInfo, type WorkBook, type WorkSheet } from '../../vendor/sheet.js'
 import { FormulaEngine, FormulaError, formatGeneral, type Scalar } from './office/formula.ts'
 import { installOfficeFonts, OFFICE_SANS } from './office/fonts.ts'
+import { guardZip, SHEET_ZIP_LIMITS } from './office/zipguard.ts'
 
 const STYLE = `
 .fp-sheet-wrap { display: inline-block; min-width: 100%; box-sizing: border-box; }
@@ -52,6 +53,8 @@ const PARSE_TIMEOUT_MS = 10000
  *  the worker cannot start at all. */
 async function loadBook(ctx: PreviewContext): Promise<WorkBook> {
   const { bytes, tr, signal } = ctx
+  // .xlsx/.xlsm/.ods are zips: refuse bombs before anything inflates them (.xls is not a zip).
+  guardZip(bytes, tr, SHEET_ZIP_LIMITS)
   const damaged = () =>
     new PreviewError(
       'sheet',

@@ -6,6 +6,8 @@ import { PreviewError, type PreviewContext } from '../core/types.ts'
 import { bindZoomGestures, cssZoom, h } from '../core/ui.ts'
 import { renderAsync } from '../../vendor/docx.js'
 import { applyTableLook, listIndentCss, markSectionTails, padTableCells, wrapTables } from './office/docx-fixes.ts'
+import { guardLinks, neutraliseLinks } from './office/links.ts'
+import { guardZip } from './office/zipguard.ts'
 import { installOfficeFonts, OFFICE_SANS, patchCssFonts, withFallback } from './office/fonts.ts'
 
 const SHADOW_STYLE = `
@@ -51,6 +53,8 @@ export async function render(ctx: PreviewContext): Promise<void> {
       tr('올바른 Word(.docx) 파일이 아닙니다. 파일이 손상되었을 수 있습니다.', 'This is not a valid Word (.docx) file. It may be damaged.')
     )
   }
+  // Refuse zip bombs before JSZip inflates anything.
+  guardZip(bytes, tr)
 
   installOfficeFonts()
   const host = h('div', 'fp-docx-host')
@@ -65,6 +69,19 @@ export async function render(ctx: PreviewContext): Promise<void> {
   // Render off-screen first (attached so docx-preview can measure), then swap in.
   host.style.cssText = 'position:absolute;visibility:hidden;left:0;top:0;width:100%'
   root.append(host)
+  // docx-preview creates object URLs for images and embedded fonts and never revokes them: record
+  // every URL made while it renders and revoke them when this preview is replaced or fails.
+  const created: string[] = []
+  const revokeAll = () => {
+    for (const u of created.splice(0)) URL.revokeObjectURL(u)
+  }
+  signal.addEventListener('abort', revokeAll, { once: true })
+  const createObjectURL = URL.createObjectURL
+  URL.createObjectURL = (obj: Blob | MediaSource) => {
+    const u = createObjectURL.call(URL, obj)
+    created.push(u)
+    return u
+  }
   try {
     await renderAsync(bytes, body, libStyle, {
       className: 'docx',
@@ -82,15 +99,24 @@ export async function render(ctx: PreviewContext): Promise<void> {
     })
   } catch (err) {
     host.remove()
+    revokeAll()
     console.error(err)
     throw new PreviewError(
       'docx',
       tr('Word 문서를 읽을 수 없습니다. 파일이 손상되었거나 지원하지 않는 변형일 수 있습니다.', 'Cannot read this Word document. It may be damaged or use an unsupported variant.')
     )
+  } finally {
+    URL.createObjectURL = createObjectURL
   }
-  if (signal.aborted) return
+  if (signal.aborted) {
+    revokeAll()
+    return
+  }
+  // Links: unsafe targets neutralised, clicks handled here (bookmarks scroll, web links confirm).
+  neutraliseLinks(body)
+  guardLinks({ target: shadow, root, tr, signal })
 
-  // docx-preview's font blobs are object URLs it never revokes; it also adds <style> nodes only
+  // docx-preview adds its <style> nodes only
   // into libStyle, which lives in the shadow root.
   // Office fonts missing on this device: give every font-family a sans/serif fallback chain so the
   // browser never drops to its default serif (aliases for known names come from installOfficeFonts).
