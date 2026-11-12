@@ -1,7 +1,7 @@
 # Office (OOXML) renderers — evidence notes
 
 Harness: `node tools/harness/run.mjs --out docs/evidence/office --only docx,pptx,xls,ods --profiles desktop-dark,mobile-light`
-→ **18 / 18 passed** (see `results.md`). `interact-*.png` come from an extra ad-hoc Playwright pass
+→ **22 / 22 passed** after round 1 (the filter now also matches the legacy fixtures `sample-docx.doc` and `sample-pptx.ppt` from master) (see `results.md`). `interact-*.png` come from an extra ad-hoc Playwright pass
 (notes toggle + next slide, second sheet, scroll to the end of a 6,000-row sheet).
 
 ## What was built
@@ -55,7 +55,7 @@ contains `new Function`, on a path taken only when a string (not a function) is 
 - Sheet picker (`toolbar.select`, hidden sheets labelled), info `sheet · rows × cols · size`.
 - Grid with column letters and row numbers, both sticky; column widths from `!cols`, row heights / hidden rows from `!rows`.
 - Merged cells → `colspan`/`rowspan`; formatted values from `cell.w`; numbers/dates right-aligned, booleans and
-  errors centred; formulas saved without a cached result show as `=SUM(C2:C5)` in muted italics.
+  errors centred; formulas saved without a cached result are calculated by `office/formula.ts` (round 1, below).
 - Progressive rendering: 300 rows per chunk appended on scroll, capped at **5,000 rows × 200 columns** with a notice.
 - Zoom (CSS zoom on the table, 25–400 %, starts at 90 % on phones) with Ctrl+wheel / pinch.
 
@@ -84,3 +84,47 @@ contains `new Function`, on a path taken only when a string (not a function) is 
 | `sample.xls` | BIFF8 via LibreOffice, cached formula results | PASS | PASS |
 | `sample.ods` (new) | OpenDocument spreadsheet (converted from sample.xls by SheetJS) | PASS | PASS |
 | `sample-large.xlsx` (new) | 6,001 × 12 sheet (row cap notice) and a 5 × 250 sheet (column cap notice) | PASS | PASS |
+
+## Round 1 fixes
+
+### R1-2 Formula cells without a cached value
+- New `plugin/editor/renderers/office/formula.ts`: tokenizer + recursive-descent parser + interpreter
+  (no `eval`/`Function`). Numbers, strings, TRUE/FALSE, refs `A1`, `$A$1`, `Sheet!A1`, `'Sheet name'!A1`
+  (Korean sheet names too), ranges, `+ - * / ^ &`, unary `-`, postfix `%`, `= <> < > <= >=`, parentheses;
+  SUM, AVERAGE, MIN, MAX, COUNT, COUNTA, IF, ROUND (half away from zero), ABS, AND, OR, NOT, CONCAT
+  (also `_xlfn.CONCAT`), CONCATENATE, LEN, UPPER, LOWER. Excel-style coercion and ordering;
+  `#DIV/0!` / `#VALUE!` / `#NUM!` are results, not failures.
+- Referenced formula cells are evaluated recursively, memoized per workbook, with a cycle guard and a
+  depth limit of 64; ranges over 200,000 cells are refused.
+- Used only when a cell has `f` but no value (`t: 'z'`). A calculated cell gets a small corner marker and the
+  tooltip "미리보기에서 계산됨 / Calculated by the preview: =C2*D2"; numbers use the cell's number format (SSF)
+  or Excel "General". Anything unsupported (other functions, whole-column refs, names, arrays, empty args)
+  keeps the formula text in muted italics with the tooltip "Formula not calculated (no saved result)".
+- `sample.xlsx` (openpyxl, no cached values) now shows E2..E5 = 15000/12000/10500/60000, C6 = 33,
+  E6 = 97500, identical to `sample.xls`, which LibreOffice saved with results.
+- Unit tests: `formula.test.ts` (9 tests) and `fonts.test.ts` (3 tests). `orca plugin test` on a copy of
+  `plugin/` on C: → 17/17 pass (including the existing encoding tests).
+
+### R1-3 Office font fallback
+- New `plugin/editor/renderers/office/fonts.ts`: `installOfficeFonts()` adds `@font-face` aliases to
+  `document.head` (not the shadow root) for Calibri, Calibri Light, Aptos, Arial/Helvetica, Segoe UI/Tahoma/Verdana,
+  Cambria, Times New Roman, Georgia/Garamond family, Courier New, Consolas, 맑은 고딕/Malgun Gothic, 굴림/Gulim,
+  돋움/Dotum, 나눔고딕, 바탕/Batang, 궁서/Gungsuh, 나눔명조, 함초롬바탕/돋움. Each maps to `local()` candidates,
+  real font first, e.g. Calibri → Calibri, Carlito, Segoe UI, Helvetica Neue, Helvetica, Arial, Liberation Sans,
+  Roboto…; Cambria → Cambria, Caladea, Georgia, Times New Roman…; 맑은 고딕 → Malgun Gothic, Apple SD Gothic Neo,
+  Noto Sans KR, NanumGothic; 바탕 → Batang, AppleMyungjo, Noto Serif KR, NanumMyeongjo. Regular (100–599) and
+  bold (600–900) faces are declared separately; italics are synthesized.
+- DOCX: every `font-family` in docx-preview's generated CSS and inline styles gets a generic sans/serif chain
+  appended (`patchCssFonts` / `withFallback`), and the paper root has a sans chain, so an unknown font never
+  drops to the browser's default serif. Verified in Chrome: the Calibri/Cambria faces report `loaded` and the
+  run "Mixed bold, italic…" computes to `Cambria, "Segoe UI", …, sans-serif`.
+- PPTX: slide text uses the same `withFallback` chain after the theme/latin/ea fonts. Sheets: the grid uses
+  `Calibri, "맑은 고딕"` + the sans chain (Excel's defaults).
+- Note: `sample.docx` (python-docx default template) sets its body text to **Cambria** (theme minor font), so
+  that paragraph is meant to be serif, as in Word; on devices without Cambria it now renders in Caladea/Georgia/Times
+  rather than the browser's default font. Headings use Calibri → sans.
+
+### Changed files (round 1)
+`plugin/editor/renderers/office/{formula,formula.test,fonts,fonts.test}.ts` (new), `sheet.ts`, `docx.ts`,
+`pptx.ts`, `office/slides.ts`, `plugin/vendor/sheet.d.ts` (adds `SSF.format` and `CellObject.z`; the bundle
+already exported SSF, so `npm run vendor` was not needed). No shared core files changed.
