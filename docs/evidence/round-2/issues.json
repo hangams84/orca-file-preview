@@ -42,7 +42,7 @@
     "title": "Slide frames differ between .pptx and .ppt",
     "cause": "Two renderers with separate frame styles",
     "fix": "One frame style: shadow, no double border, same number badge (fp-office, fp-legacy)",
-    "status": "in progress"
+    "status": "fixed"
   },
   {
     "id": "R2-6",
@@ -51,7 +51,7 @@
     "title": "DOCX reading mode: tight table cells, headings flush on content, list indent, large gap at page breaks",
     "cause": "Reading-mode CSS drops cell margins and paragraph spacing; page break rendered as a spacer",
     "fix": "Reading-mode spacing rules (fp-office)",
-    "status": "in progress"
+    "status": "fixed"
   },
   {
     "id": "R2-7",
@@ -59,8 +59,8 @@
     "area": "pptx",
     "title": "Tinted theme colours too dark (subtitle #404040 instead of #898989)",
     "cause": "Tint applied in RGB instead of PowerPoint's HSL luminance formula",
-    "fix": "PowerPoint tint/shade maths (fp-office)",
-    "status": "in progress"
+    "fix": "Office colour transforms in linear RGB (tinted tx1 = #898989) with unit tests",
+    "status": "fixed"
   },
   {
     "id": "R2-8",
@@ -69,7 +69,7 @@
     "title": "Shape labels cross the shape outline (chevron, triangle)",
     "cause": "Text placed in the bounding box, not the preset's text rectangle",
     "fix": "Preset text insets (fp-office)",
-    "status": "in progress"
+    "status": "fixed"
   },
   {
     "id": "R2-9",
@@ -78,7 +78,7 @@
     "title": "Formula indicator marks poke past cell borders",
     "cause": "Overlay positioned outside the cell",
     "fix": "Clip indicator inside the cell (fp-office)",
-    "status": "in progress"
+    "status": "fixed"
   },
   {
     "id": "R2-10",
@@ -140,8 +140,8 @@
     "area": "sheet",
     "title": "A damaged (bit-flipped) .xlsx freezes the preview for about 60 s",
     "cause": "SheetJS parses on the main thread and loops on corrupted input (found by the fuzz pass)",
-    "fix": "Parse in a time-limited Web Worker; friendly error on timeout (fp-office)",
-    "status": "in progress"
+    "fix": "Spreadsheets parse in a module Web Worker with a 10 s limit; damaged file now shows a friendly error at ~10.8 s with the page responsive; verified in Orca",
+    "status": "fixed"
   },
   {
     "id": "R2-17",
