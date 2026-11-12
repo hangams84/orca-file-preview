@@ -113,6 +113,23 @@ if (!args['skip-harness']) {
   } catch {
     noRaf = []
   }
+  // Damaged inputs: every fuzzed file must settle (ready or a friendly error) without page errors.
+  if (!args['skip-fuzz']) {
+    sh('node', ['tools/make-fuzz.mjs'])
+    const fz = sh('node', ['tools/harness/run.mjs', '--dir', 'samples/fuzz', '--fuzz', '--no-shots', '--profiles', 'desktop-dark', '--timeout', '15000', '--out', relative(ROOT, join(OUT, 'fuzz'))])
+    let fuzz = []
+    try {
+      fuzz = JSON.parse(readFileSync(join(OUT, 'fuzz', 'results.json'), 'utf8'))
+    } catch {
+      fuzz = []
+    }
+    const bad = fuzz.filter((h) => !h.pass)
+    checks.push({
+      name: 'Fuzz: damaged inputs settle without page errors',
+      ok: fz.code === 0 && fuzz.length > 0,
+      detail: `${fuzz.length - bad.length} / ${fuzz.length} settled (${fuzz.filter((h) => h.state === 'error').length} as friendly errors)${bad.map((h) => `\n✗ ${h.file}: ${h.state} ${h.checkError ?? ''} ${(h.errors ?? []).join('; ').slice(0, 160)}`).join('')}`
+    })
+  }
   checks.push({
     name: 'Harness without rAF/IntersectionObserver (hidden window)',
     ok: nr.code === 0 && noRaf.length > 0,
