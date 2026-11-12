@@ -161,3 +161,60 @@ contains `new Function`, on a path taken only when a string (not a function) is 
 `plugin/editor/renderers/office/{formula,formula.test,fonts,fonts.test}.ts` (new), `sheet.ts`, `docx.ts`,
 `pptx.ts`, `office/slides.ts`, `office/docx-fixes.ts` (new, R1-12/13/11), `plugin/vendor/sheet.d.ts` (adds `SSF.format` and `CellObject.z`; the bundle
 already exported SSF, so `npm run vendor` was not needed). No shared core files changed.
+
+## Round 2 fixes
+
+Verification: harness `--only docx,pptx,xls,ods --profiles desktop-dark,mobile-light` **22/22** (normal) and
+**22/22** with `--no-raf`; fuzz `node tools/make-fuzz.mjs && node tools/harness/run.mjs --dir samples/fuzz --fuzz
+--no-shots --profiles desktop-dark --timeout 15000 --only docx,pptx,xls,ods` → **70/70** (every damaged file ends
+ready or error, no timeouts, no page errors). Unit tests (`orca plugin test` on a C: copy): **24/24**.
+
+### R2-16 Damaged spreadsheets froze the page
+- SheetJS now parses in a module Web Worker, `plugin/editor/renderers/office/sheet-worker.js` (plain JS, so it
+  needs no TypeScript transpile; loaded with `new Worker(new URL('./office/sheet-worker.js', import.meta.url),
+  { type: 'module' })`, same pattern as the PDF worker). The bytes are copied and transferred.
+- The worker returns only what the grid needs: sheet names/hidden flags and, per sheet, `!ref`, merges, column/row
+  info and the cell values (`t v w f z`) for the rendered window (5,000 × 200). The window is recorded so the formula
+  evaluator treats cells outside it as unknown (formula stays uncalculated) instead of blank.
+- Time limit 10 s (below the harness's 15 s): the worker is terminated and the friendly error
+  "too complex or damaged to read in time" is shown. Aborting a render terminates the worker.
+- The worker posts `{ loaded: true }` on start; only if it fails *before* that (script cannot load) does the renderer
+  fall back to parsing on the main thread. A crash after loading is reported as a damaged file.
+- `samples/fuzz/sample-large.flip.xlsx` now ends in the error state after ~10.8 s with the page responsive.
+- DOCX/PPTX: no fuzzed .docx/.pptx froze (all settle well under the limit), so they stay on the main thread.
+
+### R2-6 DOCX reading layout polish
+- Page breaks are a thin dashed separator: empty paragraphs that end a page are hidden (`markSectionTails`), the next
+  page's first element loses its space-before, and the section top padding is 12 px (the ~100 px band is gone).
+- Headings keep 6 px below them in reading mode; table cells get 3 px top/bottom padding.
+- docx-preview's `line-height: 1.00` (Word "single") becomes 1.15, closer to Word's single spacing; Korean text no
+  longer touches cell borders (both layouts).
+- List markers: the marker box keeps the hanging-indent width but no longer renders docx-preview's tab with
+  `white-space: pre` (which expanded it to 8 spaces), so the text starts at the hanging indent (18 pt for this file's
+  List Bullet: left 360 / hanging 360, i.e. bullet at the margin, as in Word).
+
+### R2-7 Tinted theme colours
+- New `office/color.ts` (pure, unit-tested in `color.test.ts`): `tint`/`shade` are applied in linear RGB like Office
+  (`c' = c·t + (1−t)`, `c' = c·s`), `lumMod`/`lumOff`/`lum`, `satMod`/`satOff`/`sat`, `hue*` in HSL, `alpha*`,
+  per-channel `red/green/blueMod/Off`, `gray`, `inv`, `comp`. Black + tint 75 % → `#898989` (slide 1 subtitle now
+  matches the PDF); accent1 `4472C4` lighter 40 % → `#8FAADC`, darker 25 % → `#2F5597` (Office's values).
+
+### R2-8 Preset text rectangles
+- Text in ellipse, roundRect, triangle, rtTriangle, diamond, parallelogram, hexagon, homePlate, chevron,
+  right/leftArrow is laid out in the preset's text rectangle (from presetShapeDefinitions), then the bodyPr insets.
+  "Tri" now sits inside the triangle's lower half. The fixture's chevron is small (1.8″ wide with the default 50 %
+  notch), so its text rectangle is only ~0.4″ wide and "Chevron" breaks across lines, as PowerPoint does for words
+  that do not fit; it no longer crosses the notch.
+
+### R2-9 Formula marker
+- The calculated-cell marker is a 5 × 5 px corner drawn in the cell's padding box (no-repeat, clipped), so it never
+  overlaps borders. Tooltip unchanged.
+
+### R2-5 Slide frame
+- PPTX slides: white slide, `box-shadow: 0 1px 4px rgba(0,0,0,.25)`, no current-slide outline (the double grey
+  border is gone), caption under the left edge "3" or "3 · title" in small muted text (hidden slides add a tag).
+
+### Changed files (round 2)
+`plugin/editor/renderers/{docx,pptx,sheet}.ts`, `office/{docx-fixes,drawing,formula,formula.test,slides}.ts`,
+new `office/{color,color.test}.ts` and `office/sheet-worker.js`, `plugin/vendor/sheet.d.ts` (`!window`).
+No core/, main.ts or tools/ changes.
