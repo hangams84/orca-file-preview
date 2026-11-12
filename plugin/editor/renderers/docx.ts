@@ -1,9 +1,11 @@
 /** Word (.docx) via docx-preview (Apache-2.0). The document renders inside a shadow root so the
- *  library's injected styles stay scoped and never reach the toolbar. Pages are white paper on the
- *  Orca background; zoom is CSS zoom with fit-to-width (the default on phones). */
+ *  library's injected styles stay scoped and never reach the toolbar. Two layouts: "page" (white
+ *  paper at its real width, CSS zoom with fit-to-width) and "reading" (the paper's fixed width and
+ *  margins dropped so text wraps at the viewport width at 100 %; the default on phones). */
 import { PreviewError, type PreviewContext } from '../core/types.ts'
 import { bindZoomGestures, cssZoom, h } from '../core/ui.ts'
 import { renderAsync } from '../../vendor/docx.js'
+import { applyTableLook, listIndentCss, padTableCells, wrapTables } from './office/docx-fixes.ts'
 import { installOfficeFonts, OFFICE_SANS, patchCssFonts, withFallback } from './office/fonts.ts'
 
 const SHADOW_STYLE = `
@@ -14,6 +16,16 @@ const SHADOW_STYLE = `
   display: flex; flex-flow: column; align-items: center; }
 .fp-docx-body .docx-wrapper > section.docx { background: #fff; color: #000; margin: 0 0 16px !important;
   box-shadow: 0 1px 4px rgba(0,0,0,.3); box-sizing: border-box; }
+.fp-docx-body .docx-wrapper > section.docx > article { overflow-wrap: break-word; }
+/* Reading layout: no fixed page width, margins or page height; text wraps at the viewport. */
+.fp-docx-zoom.reading { width: auto; min-width: 0; }
+.reading .docx-wrapper { padding: 0 !important; align-items: stretch; }
+.reading .docx-wrapper > section.docx { width: auto !important; max-width: 100% !important; min-height: 0 !important;
+  padding: 16px !important; margin: 0 0 2px !important; box-shadow: none; }
+.reading .docx-wrapper > section.docx > header, .reading .docx-wrapper > section.docx > footer { display: none; }
+.reading img, .reading svg, .reading canvas { max-width: 100% !important; height: auto !important; }
+.reading .fp-docx-tscroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; }
+.reading p, .reading span { overflow-wrap: anywhere; }
 `
 
 function isZip(b: Uint8Array): boolean {
@@ -71,7 +83,16 @@ export async function render(ctx: PreviewContext): Promise<void> {
   // into libStyle, which lives in the shadow root.
   // Office fonts missing on this device: give every font-family a sans/serif fallback chain so the
   // browser never drops to its default serif (aliases for known names come from installOfficeFonts).
-  for (const st of libStyle.querySelectorAll('style')) st.textContent = patchCssFonts(st.textContent ?? '')
+  const libCss: string[] = []
+  for (const st of libStyle.querySelectorAll('style')) {
+    st.textContent = patchCssFonts(st.textContent ?? '')
+    libCss.push(st.textContent)
+  }
+  // List markers aligned at the hanging indent, table-style bands, cell padding, scrollable tables.
+  libStyle.append(h('style', undefined, listIndentCss(libCss.join('\n'))))
+  applyTableLook(body)
+  wrapTables(body)
+  padTableCells(body)
   for (const el of body.querySelectorAll<HTMLElement>('[style*="font-family"]')) {
     el.style.fontFamily = withFallback(el.style.fontFamily)
   }
@@ -82,14 +103,30 @@ export async function render(ctx: PreviewContext): Promise<void> {
   const count = pages.length
   toolbar.info(count ? `${count.toLocaleString()} ${tr('쪽', count === 1 ? 'page' : 'pages')}` : '')
 
+  let reading = ctx.compact
   const naturalWidth = () => {
+    if (reading) return root.clientWidth - 24 // fit = 100 %: text already wraps at the viewport
     let w = 0
     for (const p of pages) w = Math.max(w, (p as HTMLElement).offsetWidth)
     return w + 24
   }
+  const modeBtn = toolbar.button({
+    label: tr('읽기', 'Reading'),
+    title: tr('읽기 모드 (화면 폭에 맞춰 줄바꿈) / 페이지 모드', 'Reading layout (wrap to the screen) / page layout'),
+    onClick: () => setMode(!reading)
+  })
   const zoom = cssZoom(zoomBox, root, naturalWidth)
   toolbar.zoom(zoom)
   bindZoomGestures(root, zoom, signal)
-  // Phones (and any viewport narrower than the paper) start fitted to the width.
-  if (ctx.compact || naturalWidth() > root.clientWidth) zoom.fit?.()
+  const setMode = (next: boolean) => {
+    reading = next
+    zoomBox.classList.toggle('reading', reading)
+    modeBtn.setAttribute('aria-pressed', String(reading))
+    if (reading) zoom.set(1)
+    else if (ctx.compact || naturalWidth() > root.clientWidth) zoom.fit?.()
+    else zoom.set(1)
+    root.scrollTo(0, 0)
+  }
+  // Phones read reflowed text; wider screens get pages, fitted when the paper is wider than the view.
+  setMode(reading)
 }
