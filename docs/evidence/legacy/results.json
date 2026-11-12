@@ -1,0 +1,475 @@
+[
+  {
+    "file": "broken.doc",
+    "profile": "desktop-dark",
+    "state": "error",
+    "expected": "error",
+    "ms": 833,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "console: PreviewError: notword\n    at oleGuards (http://127.0.0.1:13671/editor/renderers/doc.ts:68:11)\n    at Module.render (http://127.0.0.1:13671/editor/renderers/doc.ts:19:5)\n    at show (http://127.0.0.1:13671/editor/main.ts:76:25)"
+    ],
+    "shot": "broken.doc.desktop-dark.png"
+  },
+  {
+    "file": "broken.encrypted.doc",
+    "profile": "desktop-dark",
+    "state": "error",
+    "expected": "error",
+    "ms": 889,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: PreviewError: encrypted\n    at encrypted (http://127.0.0.1:13671/editor/renderers/doc.ts:57:10)\n    at Module.render (http://127.0.0.1:13671/editor/renderers/doc.ts:25:67)\n    at show (http://127.0.0.1:13671/editor/main.ts:76:25)"
+    ],
+    "shot": "broken.encrypted.doc.desktop-dark.png"
+  },
+  {
+    "file": "broken.encrypted.ppt",
+    "profile": "desktop-dark",
+    "state": "error",
+    "expected": "error",
+    "ms": 958,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: PreviewError: encrypted\n    at encrypted (http://127.0.0.1:13671/editor/renderers/ppt.ts:66:10)\n    at Module.render (http://127.0.0.1:13671/editor/renderers/ppt.ts:58:64)\n    at show (http://127.0.0.1:13671/editor/main.ts:76:25)"
+    ],
+    "shot": "broken.encrypted.ppt.desktop-dark.png"
+  },
+  {
+    "file": "broken.ppt",
+    "profile": "desktop-dark",
+    "state": "error",
+    "expected": "error",
+    "ms": 714,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: PreviewError: cfb\n    at Module.render (http://127.0.0.1:13671/editor/renderers/ppt.ts:43:11)\n    at show (http://127.0.0.1:13671/editor/main.ts:76:25)"
+    ],
+    "shot": "broken.ppt.desktop-dark.png"
+  },
+  {
+    "file": "sample-docx.doc",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 756,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-docx.doc.desktop-dark.png"
+  },
+  {
+    "file": "sample-euckr.csv",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 731,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-euckr.csv.desktop-dark.png"
+  },
+  {
+    "file": "sample-html.doc",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 731,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-html.doc.desktop-dark.png"
+  },
+  {
+    "file": "sample-large.csv",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 767,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-large.csv.desktop-dark.png"
+  },
+  {
+    "file": "sample-large.doc",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 828,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-large.doc.desktop-dark.png"
+  },
+  {
+    "file": "sample-large.ppt",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 709,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-large.ppt.desktop-dark.png"
+  },
+  {
+    "file": "sample-ppt97.ppt",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 687,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-ppt97.ppt.desktop-dark.png"
+  },
+  {
+    "file": "sample-pptx.ppt",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 695,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-pptx.ppt.desktop-dark.png"
+  },
+  {
+    "file": "sample-rtf.doc",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 773,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-rtf.doc.desktop-dark.png"
+  },
+  {
+    "file": "sample-semicolon.csv",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 691,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-semicolon.csv.desktop-dark.png"
+  },
+  {
+    "file": "sample-word97.doc",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 920,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-word97.doc.desktop-dark.png"
+  },
+  {
+    "file": "sample.csv",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 728,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.csv.desktop-dark.png"
+  },
+  {
+    "file": "sample.doc",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 867,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.doc.desktop-dark.png"
+  },
+  {
+    "file": "sample.ppt",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 2203,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.ppt.desktop-dark.png"
+  },
+  {
+    "file": "sample.tsv",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 723,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.tsv.desktop-dark.png"
+  },
+  {
+    "file": "broken.doc",
+    "profile": "mobile-light",
+    "state": "error",
+    "expected": "error",
+    "ms": 720,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: PreviewError: notword\n    at oleGuards (http://127.0.0.1:13671/editor/renderers/doc.ts:68:11)\n    at Module.render (http://127.0.0.1:13671/editor/renderers/doc.ts:19:5)\n    at show (http://127.0.0.1:13671/editor/main.ts:76:25)"
+    ],
+    "shot": "broken.doc.mobile-light.png"
+  },
+  {
+    "file": "broken.encrypted.doc",
+    "profile": "mobile-light",
+    "state": "error",
+    "expected": "error",
+    "ms": 729,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: PreviewError: encrypted\n    at encrypted (http://127.0.0.1:13671/editor/renderers/doc.ts:57:10)\n    at Module.render (http://127.0.0.1:13671/editor/renderers/doc.ts:25:67)\n    at show (http://127.0.0.1:13671/editor/main.ts:76:25)"
+    ],
+    "shot": "broken.encrypted.doc.mobile-light.png"
+  },
+  {
+    "file": "broken.encrypted.ppt",
+    "profile": "mobile-light",
+    "state": "error",
+    "expected": "error",
+    "ms": 683,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: PreviewError: encrypted\n    at encrypted (http://127.0.0.1:13671/editor/renderers/ppt.ts:66:10)\n    at Module.render (http://127.0.0.1:13671/editor/renderers/ppt.ts:58:64)\n    at show (http://127.0.0.1:13671/editor/main.ts:76:25)"
+    ],
+    "shot": "broken.encrypted.ppt.mobile-light.png"
+  },
+  {
+    "file": "broken.ppt",
+    "profile": "mobile-light",
+    "state": "error",
+    "expected": "error",
+    "ms": 936,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: PreviewError: cfb\n    at Module.render (http://127.0.0.1:13671/editor/renderers/ppt.ts:43:11)\n    at show (http://127.0.0.1:13671/editor/main.ts:76:25)"
+    ],
+    "shot": "broken.ppt.mobile-light.png"
+  },
+  {
+    "file": "sample-docx.doc",
+    "profile": "mobile-light",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 983,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-docx.doc.mobile-light.png"
+  },
+  {
+    "file": "sample-euckr.csv",
+    "profile": "mobile-light",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 764,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-euckr.csv.mobile-light.png"
+  },
+  {
+    "file": "sample-html.doc",
+    "profile": "mobile-light",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 1124,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-html.doc.mobile-light.png"
+  },
+  {
+    "file": "sample-large.csv",
+    "profile": "mobile-light",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 848,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-large.csv.mobile-light.png"
+  },
+  {
+    "file": "sample-large.doc",
+    "profile": "mobile-light",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 792,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-large.doc.mobile-light.png"
+  },
+  {
+    "file": "sample-large.ppt",
+    "profile": "mobile-light",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 699,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-large.ppt.mobile-light.png"
+  },
+  {
+    "file": "sample-ppt97.ppt",
+    "profile": "mobile-light",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 848,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-ppt97.ppt.mobile-light.png"
+  },
+  {
+    "file": "sample-pptx.ppt",
+    "profile": "mobile-light",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 706,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-pptx.ppt.mobile-light.png"
+  },
+  {
+    "file": "sample-rtf.doc",
+    "profile": "mobile-light",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 718,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-rtf.doc.mobile-light.png"
+  },
+  {
+    "file": "sample-semicolon.csv",
+    "profile": "mobile-light",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 696,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-semicolon.csv.mobile-light.png"
+  },
+  {
+    "file": "sample-word97.doc",
+    "profile": "mobile-light",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 731,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-word97.doc.mobile-light.png"
+  },
+  {
+    "file": "sample.csv",
+    "profile": "mobile-light",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 741,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.csv.mobile-light.png"
+  },
+  {
+    "file": "sample.doc",
+    "profile": "mobile-light",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 733,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.doc.mobile-light.png"
+  },
+  {
+    "file": "sample.ppt",
+    "profile": "mobile-light",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 697,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.ppt.mobile-light.png"
+  },
+  {
+    "file": "sample.tsv",
+    "profile": "mobile-light",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 729,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.tsv.mobile-light.png"
+  }
+]
