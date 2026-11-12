@@ -1,0 +1,90 @@
+[
+  {
+    "file": "broken.docx",
+    "state": "error",
+    "pass": true,
+    "controls": 0,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "broken.pptx",
+    "state": "error",
+    "pass": true,
+    "controls": 0,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "sample-docx.doc",
+    "state": "ready",
+    "pass": true,
+    "controls": 5,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "sample-large.xlsx",
+    "state": "ready",
+    "pass": true,
+    "controls": 4,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "sample-pptx.ppt",
+    "state": "ready",
+    "pass": true,
+    "controls": 7,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "sample-shapes.pptx",
+    "state": "ready",
+    "pass": true,
+    "controls": 7,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "sample.docx",
+    "state": "ready",
+    "pass": true,
+    "controls": 5,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "sample.ods",
+    "state": "ready",
+    "pass": true,
+    "controls": 4,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "sample.pptx",
+    "state": "ready",
+    "pass": true,
+    "controls": 7,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "sample.xls",
+    "state": "ready",
+    "pass": true,
+    "controls": 4,
+    "problems": [],
+    "keys": []
+  },
+  {
+    "file": "sample.xlsx",
+    "state": "ready",
+    "pass": true,
+    "controls": 4,
+    "problems": [],
+    "keys": []
+  }
+]

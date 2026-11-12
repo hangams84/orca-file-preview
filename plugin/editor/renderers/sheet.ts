@@ -24,8 +24,8 @@ const STYLE = `
 .fp-sheet td.f { color: var(--orca-muted-foreground, #777); font-style: italic; }
 .fp-sheet td.calc { background: linear-gradient(135deg, var(--orca-muted-foreground, #999) 0 50%, transparent 50%)
   no-repeat 0 0 / 5px 5px; background-origin: padding-box; background-clip: padding-box; }
-.fp-sheet th { position: sticky; background: var(--orca-muted, #f1f1f1); color: var(--orca-muted-foreground, #555);
-  font-weight: 500; text-align: center; z-index: 1; }
+.fp-sheet th { position: sticky; background: var(--orca-muted, #f1f1f1); color: var(--orca-foreground, #111);
+  font-weight: 400; text-align: center; z-index: 1; }
 .fp-sheet thead th { top: 0; z-index: 2; }
 .fp-sheet tbody th { left: 0; min-width: 40px; padding: 2px 6px; text-align: right; }
 .fp-sheet thead th.corner { left: 0; z-index: 3; }
