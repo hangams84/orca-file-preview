@@ -10,8 +10,7 @@ import { notesText, readDeck, renderSlide, slideTitle } from './office/slides.ts
 const STYLE = `
 .fp-deck { padding: 12px 12px 24px; display: flex; flex-direction: column; align-items: center; gap: 16px; }
 .fp-slide-item { display: flex; flex-direction: column; align-items: stretch; max-width: none; }
-.fp-slide-frame { position: relative; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.3); background: #fff; }
-.fp-slide-frame.current { outline: 2px solid var(--orca-ring, #48f); outline-offset: 2px; }
+.fp-slide-frame { position: relative; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.25); background: #fff; }
 .fp-slide { position: absolute !important; left: 0; top: 0; margin: 0 !important; transform-origin: 0 0; overflow: hidden;
   font-family: system-ui, -apple-system, "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
   box-shadow: none !important; }
@@ -30,8 +29,8 @@ const STYLE = `
 .fp-bu { display: inline-block; text-indent: 0; }
 .fp-tbl { border-collapse: collapse; table-layout: fixed; width: 100%; color: #000; }
 .fp-tbl td { border: 1px solid #fff; overflow: hidden; }
-.fp-slide-meta { display: flex; gap: 8px; align-items: baseline; padding: 4px 2px 0; font-size: 12px;
-  color: var(--orca-muted-foreground, #888); }
+.fp-slide-meta { display: flex; gap: 6px; align-items: baseline; padding: 4px 0 0; font-size: 12px; line-height: 1.4;
+  color: var(--orca-muted-foreground, #888); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .fp-slide-meta .hidden-tag { border: 1px solid currentColor; border-radius: 4px; padding: 0 4px; font-size: 11px; }
 .fp-notes { margin-top: 6px; padding: 8px 10px; border-radius: var(--orca-radius, 6px); white-space: pre-wrap;
   background: var(--orca-card, #f6f6f6); color: var(--orca-card-foreground, inherit); border: 1px solid var(--orca-border, #ddd);
@@ -77,13 +76,11 @@ export async function render(ctx: PreviewContext): Promise<() => void> {
     const frame = h('div', 'fp-slide-frame')
     frame.dataset.index = String(ref.index)
     const meta = h('div', 'fp-slide-meta')
-    meta.append(h('span', undefined, `${ref.index + 1}`))
-    if (ref.hidden) meta.append(h('span', 'hidden-tag', tr('숨김', 'hidden')))
+    // Caption under the slide's left edge: "3" or "3 · title" (same spec as the .ppt renderer).
     const title = slideTitle(pkg, ref)
-    if (title) {
-      frame.setAttribute('aria-label', title)
-      meta.append(h('span', undefined, title))
-    }
+    meta.append(h('span', undefined, title ? `${ref.index + 1} · ${title}` : `${ref.index + 1}`))
+    if (title) frame.setAttribute('aria-label', title)
+    if (ref.hidden) meta.append(h('span', 'hidden-tag', tr('숨김', 'hidden')))
     const text = notesText(pkg, ref)
     const notes = h('div', text ? 'fp-notes' : 'fp-notes empty', text || tr('발표자 노트 없음', 'No speaker notes'))
     el.append(frame, meta, notes)
@@ -147,7 +144,6 @@ export async function render(ctx: PreviewContext): Promise<() => void> {
   const syncNav = () => {
     prev.disabled = current <= 0
     next.disabled = current >= items.length - 1
-    items.forEach((it, i) => it.frame.classList.toggle('current', i === current && items.length > 1))
     info()
   }
   const go = (i: number) => {
