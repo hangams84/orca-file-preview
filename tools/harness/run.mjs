@@ -8,6 +8,7 @@
 //   node tools/harness/run.mjs --out docs/evidence/round1 [--only docx,pdf] [--profiles desktop-dark,mobile-light]
 //   node tools/harness/run.mjs --serve        # just serve, print the URL, for manual checks
 //   node tools/harness/run.mjs --no-raf ...   # stub requestAnimationFrame + IntersectionObserver (hidden window)
+//   node tools/harness/run.mjs --old-engine ...  # delete Promise.withResolvers, findLast, structuredClone, ... (also in workers)
 //   node tools/harness/run.mjs --dir samples/fuzz --fuzz --no-shots   # damaged inputs: must settle, never hang/crash
 import { transform } from 'esbuild'
 import { createServer } from 'node:http'
@@ -205,6 +206,45 @@ const NO_RAF_INIT = () => {
   }
 }
 
+/** --old-engine: simulate iOS 16-17.3 / Safari 16 / older Android WebViews by deleting newer
+ *  built-ins before any page script runs, and inside every Worker (each Worker is wrapped in a blob
+ *  that deletes them first, then loads the real script). */
+const OLD_ENGINE_INIT = () => {
+  const stripFn = () => {
+    const del = (o, k) => {
+      try {
+        if (o && k in o) delete o[k]
+      } catch {}
+    }
+    del(Promise, 'withResolvers')
+    del(Map.prototype, 'getOrInsertComputed')
+    del(Map.prototype, 'getOrInsert')
+    del(Math, 'sumPrecise')
+    del(Uint8Array, 'fromBase64')
+    del(Uint8Array, 'fromHex')
+    del(Uint8Array.prototype, 'toBase64')
+    del(Uint8Array.prototype, 'toHex')
+    del(Array.prototype, 'findLast')
+    del(Array.prototype, 'findLastIndex')
+    del(globalThis, 'structuredClone')
+  }
+  stripFn()
+  // No eval (the page CSP forbids it): the same function's source goes into each worker's blob.
+  const strip = `(${stripFn.toString()})();`
+  const Native = window.Worker
+  window.Worker = class extends Native {
+    constructor(url, opts = {}) {
+      const abs = new URL(String(url), location.href).href
+      const pre = URL.createObjectURL(new Blob([strip], { type: 'text/javascript' }))
+      const src =
+        opts.type === 'module'
+          ? `import ${JSON.stringify(pre)}; import ${JSON.stringify(abs)};`
+          : `importScripts(${JSON.stringify(pre)}, ${JSON.stringify(abs)});`
+      super(URL.createObjectURL(new Blob([src], { type: 'text/javascript' })), opts)
+    }
+  }
+}
+
 function expectedState(name) {
   if (args.fuzz) return 'ready|error' // fuzzed input: any settled state, never a hang or a crash
   return name.startsWith('broken.') ? 'error' : 'ready'
@@ -251,6 +291,7 @@ async function run() {
     const newContext = async () => {
       const c = await browser.newContext({ ...profile, theme: undefined, locale: undefined })
       if (args['no-raf']) await c.addInitScript(NO_RAF_INIT)
+      if (args['old-engine']) await c.addInitScript(OLD_ENGINE_INIT)
       return c
     }
     let context = await newContext()

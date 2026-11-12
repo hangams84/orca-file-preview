@@ -33,6 +33,7 @@ export async function createGifPlayer(
   const Impl = (globalThis as { ImageDecoder?: DecoderClass }).ImageDecoder
   if (!Impl || delays.length < 2) return null
   if (!(await Impl.isTypeSupported('image/gif').catch(() => false))) return null
+  if (ctx.signal.aborted) return null
   const { signal, bytes } = ctx
   const started = performance.now()
   const total = delays.reduce((a, b) => a + b, 0)

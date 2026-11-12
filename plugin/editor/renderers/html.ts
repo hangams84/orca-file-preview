@@ -237,6 +237,9 @@ export async function render(ctx: PreviewContext): Promise<void> {
     if (d?.documentElement) d.documentElement.style.zoom = String(s)
   }, undefined, { min: 0.25, max: 4 })
 
+  // Wire every document the frame loads (the first load, and again after Source -> Preview moves
+  // the iframe), never a placeholder document that exists before the srcdoc has loaded.
+  frame.addEventListener('load', () => wireFrame(ctx, frame, zoom, () => scale, confirmLink), { signal })
   const loaded = new Promise<void>((resolve) => frame.addEventListener('load', () => resolve(), { once: true }))
   const source = createSourceView(ctx, text)
   const sw = switchableZoom(zoom)
@@ -247,7 +250,6 @@ export async function render(ctx: PreviewContext): Promise<void> {
   showPreview()
   await Promise.race([loaded, new Promise((r) => setTimeout(r, 3000))])
   if (signal.aborted) return
-  wireFrame(ctx, frame, zoom, () => scale, confirmLink)
 
   let showingSource = false
   const btn = toolbar.button({
@@ -262,8 +264,7 @@ export async function render(ctx: PreviewContext): Promise<void> {
         sw.use(source.zoom)
         toolbar.zoom(source.zoom)
       } else {
-        // Moving an iframe reloads it; wire the fresh document again.
-        frame.addEventListener('load', () => wireFrame(ctx, frame, zoom, () => scale, confirmLink), { once: true })
+        // Moving an iframe reloads it; the load listener above wires the fresh document.
         showPreview()
         sw.use(zoom)
         toolbar.zoom(zoom)
