@@ -1,0 +1,157 @@
+// One verification round: type check, manifest validation, unit tests, browser harness on every
+// fixture and profile, and real Orca screenshots of the plugin's editors. Writes everything to
+// docs/evidence/round-<n>/ with summary.json, then `node tools/build-docs.mjs` turns the rounds
+// into docs/README.md and docs/index.html.
+//
+//   node tools/verify.mjs --round 1 [--skip-orca] [--skip-harness]
+import { execFileSync, spawnSync } from 'node:child_process'
+import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs'
+import { dirname, join, relative } from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
+const PLUGIN_DIR = existsSync(join(ROOT, 'plugin', 'orca-plugin.json')) ? join(ROOT, 'plugin') : ROOT
+const args = Object.fromEntries(
+  process.argv.slice(2).reduce((acc, a, i, all) => {
+    if (a.startsWith('--')) acc.push([a.slice(2), all[i + 1] && !all[i + 1].startsWith('--') ? all[i + 1] : true])
+    return acc
+  }, [])
+)
+const round = String(args.round ?? '0')
+const OUT = join(ROOT, 'docs', 'evidence', `round-${round}`)
+mkdirSync(OUT, { recursive: true })
+const ORCA = process.env.ORCA_CLI_COMMAND || 'orca'
+const isWin = process.platform === 'win32'
+
+function sh(cmd, argv, opts = {}) {
+  const r = spawnSync(cmd, argv, { cwd: ROOT, encoding: 'utf8', shell: isWin, maxBuffer: 64 * 1024 * 1024, ...opts })
+  return { code: r.status ?? 1, out: `${r.stdout ?? ''}${r.stderr ?? ''}` }
+}
+function json(text) {
+  const start = text.indexOf('{')
+  try {
+    return JSON.parse(text.slice(start))
+  } catch {
+    return null
+  }
+}
+
+const manifest = JSON.parse(readFileSync(join(PLUGIN_DIR, 'orca-plugin.json'), 'utf8'))
+const pluginKey = `local.${manifest.id}`
+const checks = []
+const started = Date.now()
+
+// 1. Type check
+{
+  const r = sh('npx', ['tsc', '-p', '.', '--noEmit'])
+  checks.push({ name: 'TypeScript (tsc --noEmit)', ok: r.code === 0, detail: r.out.trim().split('\n').slice(0, 20).join('\n') })
+}
+// 2. Manifest / plugin validation
+{
+  const r = sh(ORCA, ['plugin', 'validate', relative(ROOT, PLUGIN_DIR) || '.', '--json'])
+  const j = json(r.out)
+  checks.push({
+    name: 'orca plugin validate',
+    ok: r.code === 0 && j?.result?.valid !== false,
+    detail: j?.error?.message ?? (j?.result?.errors ?? []).join('\n')
+  })
+}
+// 3. Unit tests (orca plugin test runs *.test.ts in Node)
+{
+  const r = sh(ORCA, ['plugin', 'test', relative(ROOT, PLUGIN_DIR) || '.', '--json'])
+  const j = json(r.out)
+  const res = j?.result
+  checks.push({
+    name: 'orca plugin test (unit)',
+    ok: r.code === 0,
+    detail: res ? `passed ${res.passed ?? '?'} · failed ${res.failed ?? '?'}` : r.out.trim().slice(-800)
+  })
+}
+// 4. Static check of every editor entry (syntax, imports, missing files)
+{
+  const r = sh(ORCA, ['plugin', 'check', relative(ROOT, PLUGIN_DIR) || '.', '--json'])
+  const j = json(r.out)
+  checks.push({
+    name: 'orca plugin check (static)',
+    ok: r.code === 0,
+    detail: j?.error?.message ?? JSON.stringify(j?.result?.issues ?? j?.result?.warnings ?? '').slice(0, 800)
+  })
+}
+
+// 5. Browser harness on every fixture and profile
+let harness = []
+if (!args['skip-harness']) {
+  const r = sh('node', [
+    'tools/harness/run.mjs',
+    '--out',
+    relative(ROOT, join(OUT, 'harness')),
+    '--profiles',
+    'desktop-dark,desktop-light,mobile-light,tablet-dark'
+  ])
+  try {
+    harness = JSON.parse(readFileSync(join(OUT, 'harness', 'results.json'), 'utf8'))
+  } catch {
+    harness = []
+  }
+  const passed = harness.filter((h) => h.pass).length
+  checks.push({ name: 'Browser harness (4 profiles)', ok: r.code === 0 && harness.length > 0, detail: `${passed} / ${harness.length} passed` })
+}
+
+// 6. Real Orca: screenshots of each fixture in the plugin's own editor
+const orca = []
+if (!args['skip-orca']) {
+  mkdirSync(join(OUT, 'orca'), { recursive: true })
+  const files = readdirSync(join(ROOT, 'samples')).filter((f) => statSync(join(ROOT, 'samples', f)).isFile()).sort()
+  const sizes = [
+    ['desktop', []],
+    ['narrow', ['--width', '390', '--height', '844']]
+  ]
+  for (const f of files) {
+    for (const [label, extra] of sizes) {
+      const shot = `${f}.${label}.png`
+      const r = sh(ORCA, ['plugin', 'shot', pluginKey, '--editor', `samples/${f}`, '--out', relative(ROOT, join(OUT, 'orca', shot)), '--json', ...extra])
+      const j = json(r.out)
+      const native = /not on screen/i.test(j?.error?.message ?? '')
+      const expectError = f.startsWith('broken.')
+      const errors = j?.result?.errors ?? (j?.error ? [j.error.message] : [])
+      orca.push({
+        file: f,
+        size: label,
+        editorId: j?.result?.editorId ?? null,
+        ok: native ? null : r.code === 0 || (expectError && existsSync(join(OUT, 'orca', shot))),
+        nativeToggle: native,
+        shot: native ? null : shot,
+        errors: expectError ? [] : errors
+      })
+      console.log(`${native ? 'TOGGLE' : r.code === 0 ? 'OK    ' : expectError ? 'ERR-OK' : 'FAIL  '} orca ${label.padEnd(7)} ${f}`)
+    }
+  }
+  const real = orca.filter((o) => o.ok !== null)
+  checks.push({
+    name: 'Orca app screenshots (plugin shot)',
+    ok: real.every((o) => o.ok),
+    detail: `${real.filter((o) => o.ok).length} / ${real.length} rendered in Orca; ${orca.filter((o) => o.nativeToggle).length} open in Orca's own view first (preview via the view toggle)`
+  })
+}
+
+let commit = ''
+try {
+  commit = execFileSync('git', ['rev-parse', '--short', 'HEAD'], { cwd: ROOT, encoding: 'utf8' }).trim()
+} catch {
+  // not a git checkout
+}
+const summary = {
+  round: Number(round),
+  date: new Date().toISOString(),
+  commit,
+  orcaVersion: sh(ORCA, ['--version']).out.trim().split('\n').pop(),
+  platform: `${process.platform} ${process.arch}`,
+  durationMs: Date.now() - started,
+  checks,
+  harness,
+  orca
+}
+writeFileSync(join(OUT, 'summary.json'), JSON.stringify(summary, null, 2))
+for (const c of checks) console.log(`${c.ok ? 'PASS' : 'FAIL'}  ${c.name}  ${c.detail.split('\n')[0]}`)
+console.log(`\nround ${round} → ${relative(ROOT, OUT)}`)
+process.exitCode = checks.every((c) => c.ok) ? 0 : 1
