@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 352" width="760" height="352" font-family="system-ui, sans-serif" font-size="12">
+<rect width="760" height="352" fill="#ffffff"/>
+<text x="16" y="22" font-size="14" font-weight="600" fill="#1f2937">Time to first content (ms) — before vs after round 3</text>
+<line x1="493.4077079107505" y1="34" x2="493.4077079107505" y2="322" stroke="#dc2626" stroke-dasharray="4 3"/>
+<text x="497.4077079107505" y="32" fill="#dc2626">3 s budget</text>
+<text x="242" y="58" text-anchor="end" fill="#374151">perf-100k.xlsx · desktop dark</text>
+<rect x="250" y="44" width="440" height="11" rx="2" fill="#9ca3af"/>
+<text x="694" y="54" fill="#4b5563" font-size="11">5423</text>
+<rect x="250" y="57" width="196.26774847870183" height="11" rx="2" fill="#2563eb"/>
+<text x="450.26774847870183" y="67" fill="#4b5563" font-size="11">2419</text>
+<text x="242" y="92" text-anchor="end" fill="#374151">perf-250slides.pptx · desktop dark</text>
+<rect x="250" y="78" width="25.07099391480733" height="11" rx="2" fill="#9ca3af"/>
+<text x="279.07099391480733" y="88" fill="#4b5563" font-size="11">309</text>
+<rect x="250" y="91" width="28.07302231237321" height="11" rx="2" fill="#2563eb"/>
+<text x="282.0730223123732" y="101" fill="#4b5563" font-size="11">346</text>
+<text x="242" y="126" text-anchor="end" fill="#374151">perf-300pages.docx · desktop dark</text>
+<rect x="250" y="112" width="45.84178498985801" height="11" rx="2" fill="#9ca3af"/>
+<text x="299.841784989858" y="122" fill="#4b5563" font-size="11">565</text>
+<rect x="250" y="125" width="28.15415821501017" height="11" rx="2" fill="#2563eb"/>
+<text x="282.15415821501017" y="135" fill="#4b5563" font-size="11">347</text>
+<text x="242" y="160" text-anchor="end" fill="#374151">perf-8mb.xlsx · desktop dark</text>
+<rect x="250" y="146" width="94.03651115618663" height="11" rx="2" fill="#9ca3af"/>
+<text x="348.03651115618663" y="156" fill="#4b5563" font-size="11">1159</text>
+<rect x="250" y="159" width="65.96348884381337" height="11" rx="2" fill="#2563eb"/>
+<text x="319.96348884381337" y="169" fill="#4b5563" font-size="11">813</text>
+<text x="242" y="194" text-anchor="end" fill="#374151">perf-100k.xlsx · mobile light</text>
+<rect x="250" y="180" width="404.0567951318458" height="11" rx="2" fill="#9ca3af"/>
+<text x="658.0567951318458" y="190" fill="#4b5563" font-size="11">4980</text>
+<rect x="250" y="193" width="179.95943204868155" height="11" rx="2" fill="#2563eb"/>
+<text x="433.95943204868155" y="203" fill="#4b5563" font-size="11">2218</text>
+<text x="242" y="228" text-anchor="end" fill="#374151">perf-250slides.pptx · mobile light</text>
+<rect x="250" y="214" width="27.018255578093317" height="11" rx="2" fill="#9ca3af"/>
+<text x="281.0182555780933" y="224" fill="#4b5563" font-size="11">333</text>
+<rect x="250" y="227" width="27.505070993914785" height="11" rx="2" fill="#2563eb"/>
+<text x="281.5050709939148" y="237" fill="#4b5563" font-size="11">339</text>
+<text x="242" y="262" text-anchor="end" fill="#374151">perf-300pages.docx · mobile light</text>
+<rect x="250" y="248" width="46.00405679513187" height="11" rx="2" fill="#9ca3af"/>
+<text x="300.0040567951319" y="258" fill="#4b5563" font-size="11">567</text>
+<rect x="250" y="261" width="33.50912778904666" height="11" rx="2" fill="#2563eb"/>
+<text x="287.50912778904666" y="271" fill="#4b5563" font-size="11">413</text>
+<text x="242" y="296" text-anchor="end" fill="#374151">perf-8mb.xlsx · mobile light</text>
+<rect x="250" y="282" width="89.57403651115618" height="11" rx="2" fill="#9ca3af"/>
+<text x="343.5740365111562" y="292" fill="#4b5563" font-size="11">1104</text>
+<rect x="250" y="295" width="66.36916835699799" height="11" rx="2" fill="#2563eb"/>
+<text x="320.369168356998" y="305" fill="#4b5563" font-size="11">818</text>
+<rect x="250" y="327" width="11" height="11" fill="#9ca3af"/><text x="266" y="336" fill="#374151">before</text>
+<rect x="330" y="327" width="11" height="11" fill="#2563eb"/><text x="346" y="336" fill="#374151">after</text>
+</svg>
