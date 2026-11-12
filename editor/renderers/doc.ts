@@ -9,6 +9,7 @@ import { isRtf, readRtf } from './legacy/rtf.ts'
 import { looksLikeHtml, looksLikeMime, readDocxText, readHtmlText, readPlainText } from './legacy/sniff.ts'
 import { readWord, WordError } from './legacy/word.ts'
 import { isZip } from './legacy/zip.ts'
+import { delegate } from './legacy/delegate.ts'
 
 export async function render(ctx: PreviewContext): Promise<void | (() => void)> {
   const { bytes, tr } = ctx
@@ -81,26 +82,4 @@ function oleGuards(cfb: Cfb, ctx: PreviewContext): void {
   throw new PreviewError(
     'notword',
     tr('Word 문서가 아닌 OLE 복합 파일입니다.', 'This is an OLE compound file but not a Word document.'))
-}
-
-/** Hands the bytes to another renderer of this plugin; if it fails, runs `fallback`. */
-export async function delegate(
-  ctx: PreviewContext,
-  load: () => Promise<{ render: (c: PreviewContext) => Promise<void | (() => void)> }>,
-  fallback: () => Promise<void | (() => void)>
-): Promise<void | (() => void)> {
-  try {
-    const mod = await load()
-    return await mod.render(ctx)
-  } catch (e) {
-    if (ctx.signal.aborted) throw e
-    console.warn('delegate renderer failed, using text fallback', e)
-    ctx.root.replaceChildren()
-    try {
-      return await fallback()
-    } catch (e2) {
-      console.warn(e2)
-      throw new PreviewError('ooxml', ctx.tr('문서 내용을 읽을 수 없습니다.', 'Could not read the document content.'))
-    }
-  }
 }
