@@ -5,7 +5,7 @@
 import { PreviewError, type PreviewContext } from '../core/types.ts'
 import { bindZoomGestures, cssZoom, h } from '../core/ui.ts'
 import { renderAsync } from '../../vendor/docx.js'
-import { applyTableLook, listIndentCss, padTableCells, wrapTables } from './office/docx-fixes.ts'
+import { applyTableLook, listIndentCss, markSectionTails, padTableCells, wrapTables } from './office/docx-fixes.ts'
 import { installOfficeFonts, OFFICE_SANS, patchCssFonts, withFallback } from './office/fonts.ts'
 
 const SHADOW_STYLE = `
@@ -26,6 +26,13 @@ const SHADOW_STYLE = `
 .reading img, .reading svg, .reading canvas { max-width: 100% !important; height: auto !important; }
 .reading .fp-docx-tscroll { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; }
 .reading p, .reading span { overflow-wrap: anywhere; }
+/* Page breaks become a thin separator: no trailing empty paragraph, no top gap on the next part. */
+.reading .docx-wrapper > section.docx + section.docx { border-top: 1px dashed #c8c8c8; padding-top: 12px !important; }
+.reading .docx-wrapper > section.docx > article > :first-child { margin-top: 0 !important; }
+.reading .fp-docx-tail { display: none !important; }
+/* Headings keep a little air below them; table cells get room above/below the text. */
+.reading p[class*="docx_heading"] { margin-bottom: 6px !important; }
+.reading td { padding-top: 3px !important; padding-bottom: 3px !important; }
 `
 
 function isZip(b: Uint8Array): boolean {
@@ -85,12 +92,14 @@ export async function render(ctx: PreviewContext): Promise<void> {
   // browser never drops to its default serif (aliases for known names come from installOfficeFonts).
   const libCss: string[] = []
   for (const st of libStyle.querySelectorAll('style')) {
-    st.textContent = patchCssFonts(st.textContent ?? '')
+    // Word's "single" spacing is the font's line gap (~1.15–1.3), not 1.0: Korean text touched borders.
+    st.textContent = patchCssFonts(st.textContent ?? '').replace(/line-height:\s*1\.00\s*;/g, 'line-height: 1.15;')
     libCss.push(st.textContent)
   }
   // List markers aligned at the hanging indent, table-style bands, cell padding, scrollable tables.
   libStyle.append(h('style', undefined, listIndentCss(libCss.join('\n'))))
   applyTableLook(body)
+  markSectionTails(body)
   wrapTables(body)
   padTableCells(body)
   for (const el of body.querySelectorAll<HTMLElement>('[style*="font-family"]')) {

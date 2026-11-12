@@ -80,7 +80,7 @@ export function listIndentCss(css: string): string {
     const hang = Math.abs(Number(indent[1]))
     if (!hang) continue
     out.push(
-      `p.${m[1]}::before { display: inline-block; min-width: ${hang}${indent[2]}; text-indent: 0; white-space: pre; box-sizing: border-box; padding-right: 2pt; }`
+      `p.${m[1]}::before { display: inline-block; min-width: ${hang}${indent[2]}; text-indent: 0; white-space: nowrap; box-sizing: border-box; padding-right: 2pt; }`
     )
   }
   return out.join('\n')
@@ -95,5 +95,17 @@ export function wrapTables(container: ParentNode): void {
     box.className = 'fp-docx-tscroll'
     table.replaceWith(box)
     box.append(table)
+  }
+}
+
+/** Marks empty paragraphs that end a page (the ones holding a page break) so the reading layout
+ *  can hide them instead of leaving a blank band before the next page's content. */
+export function markSectionTails(container: ParentNode): void {
+  for (const article of container.querySelectorAll('section.docx > article')) {
+    for (let el = article.lastElementChild; el; el = el.previousElementSibling) {
+      const empty = el.tagName === 'P' && !(el.textContent ?? '').trim() && !el.querySelector('img, svg, canvas, table')
+      if (!empty) break
+      el.classList.add('fp-docx-tail')
+    }
   }
 }
