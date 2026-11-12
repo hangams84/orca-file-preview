@@ -105,6 +105,19 @@ if (!args['skip-harness']) {
   }
   const passed = harness.filter((h) => h.pass).length
   checks.push({ name: 'Browser harness (4 profiles)', ok: r.code === 0 && harness.length > 0, detail: `${passed} / ${harness.length} passed` })
+  // Hidden/occluded window: no requestAnimationFrame, no IntersectionObserver callbacks.
+  const nr = sh('node', ['tools/harness/run.mjs', '--no-raf', '--out', relative(ROOT, join(OUT, 'harness-no-raf')), '--profiles', 'desktop-dark'])
+  let noRaf = []
+  try {
+    noRaf = JSON.parse(readFileSync(join(OUT, 'harness-no-raf', 'results.json'), 'utf8'))
+  } catch {
+    noRaf = []
+  }
+  checks.push({
+    name: 'Harness without rAF/IntersectionObserver (hidden window)',
+    ok: nr.code === 0 && noRaf.length > 0,
+    detail: `${noRaf.filter((h) => h.pass).length} / ${noRaf.length} passed${noRaf.filter((h) => !h.pass).map((h) => `\n✗ ${h.file}: ${h.state} ${h.checkError ?? ''}`).join('')}`
+  })
 }
 
 // 6. Real Orca: screenshots of each fixture in the plugin's own editor
@@ -119,10 +132,9 @@ if (!args['skip-orca']) {
   for (const f of files) {
     for (const [label, extra] of sizes) {
       const shot = `${f}.${label}.png`
-      // A shot captures at the editor's first paint. Open the file first and let it finish
-      // rendering; the preview ignores the shot's repeated delivery of the same bytes.
-      sh(ORCA, ['plugin', 'open', pluginKey, '--editor', `samples/${f}`, '--json'])
-      await new Promise((res) => setTimeout(res, Number(args['orca-wait']) || 2500))
+      // `plugin shot` mounts a fresh editor frame and captures at its first paint, so slower
+      // renderers (PDF, DOCX) may still show the loading state: this pass proves the editor mounts
+      // in Orca without errors. Finished renders are captured below from real, open tabs.
       const r = sh(ORCA, ['plugin', 'shot', pluginKey, '--editor', `samples/${f}`, '--out', relative(ROOT, join(OUT, 'orca', shot)), '--json', ...extra])
       const j = json(r.out)
       const native = /not on screen/i.test(j?.error?.message ?? '')
@@ -142,10 +154,32 @@ if (!args['skip-orca']) {
   }
   const real = orca.filter((o) => o.ok !== null)
   checks.push({
-    name: 'Orca app screenshots (plugin shot)',
+    name: 'Orca app: editor mounts without errors (plugin shot)',
     ok: real.every((o) => o.ok),
-    detail: `${real.filter((o) => o.ok).length} / ${real.length} rendered in Orca; ${orca.filter((o) => o.nativeToggle).length} open in Orca's own view first (preview via the view toggle)`
+    detail: `${real.filter((o) => o.ok).length} / ${real.length} mounted in Orca; ${orca.filter((o) => o.nativeToggle).length} open in Orca's own view first (preview via the view toggle)`
   })
+
+  // Finished renders from real tabs: open, wait, capture the window, crop to the editor area
+  // (the crop box assumes the left/right sidebars at their default widths; --crop x0,y0,x1,y1).
+  // Curated so only a few tabs stay open in the person's Orca.
+  const curated = (typeof args.window === 'string' ? args.window.split(',') : ['sample.docx', 'sample.pptx', 'sample.xlsx', 'sample.pdf', 'sample.doc', 'sample.ppt'])
+  const crop = typeof args.crop === 'string' ? args.crop.split(',').map(Number) : [280, 0, 1965, 1005]
+  const py = process.env.FP_PYTHON
+  for (const f of curated) {
+    const raw = join(OUT, 'orca', `${f}.window-raw.png`)
+    const shot = `${f}.window.png`
+    sh(ORCA, ['plugin', 'open', pluginKey, '--editor', `samples/${f}`, '--json'])
+    await new Promise((res) => setTimeout(res, Number(args['orca-wait']) || 5000))
+    const r = sh(ORCA, ['plugin', 'shot', pluginKey, '--window', '--out', relative(ROOT, raw), '--json'])
+    let cropped = false
+    if (r.code === 0 && py) {
+      const c = sh(py, ['-c', `from PIL import Image; Image.open(r'${raw}').crop((${crop.join(',')})).save(r'${join(OUT, 'orca', shot)}')`])
+      cropped = c.code === 0
+      if (cropped) rmSync(raw, { force: true })
+    }
+    orca.push({ file: f, size: 'window', editorId: null, ok: r.code === 0, nativeToggle: false, shot: cropped ? shot : null, errors: [] })
+    console.log(`${r.code === 0 ? 'OK    ' : 'FAIL  '} orca window  ${f}${cropped ? '' : ' (not cropped: set FP_PYTHON to a Python with Pillow)'}`)
+  }
 }
 
 let commit = ''

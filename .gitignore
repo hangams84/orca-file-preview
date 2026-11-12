@@ -4,3 +4,4 @@ node_modules/
 !samples/*.log
 /fp-*/
 plugin/.orca/
+samples/fuzz/

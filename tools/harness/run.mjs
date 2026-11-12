@@ -8,6 +8,7 @@
 //   node tools/harness/run.mjs --out docs/evidence/round1 [--only docx,pdf] [--profiles desktop-dark,mobile-light]
 //   node tools/harness/run.mjs --serve        # just serve, print the URL, for manual checks
 //   node tools/harness/run.mjs --no-raf ...   # stub requestAnimationFrame + IntersectionObserver (hidden window)
+//   node tools/harness/run.mjs --dir samples/fuzz --fuzz --no-shots   # damaged inputs: must settle, never hang/crash
 import { transform } from 'esbuild'
 import { createServer } from 'node:http'
 import { mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
@@ -133,8 +134,10 @@ const NO_RAF_INIT = () => {
 }
 
 function expectedState(name) {
+  if (args.fuzz) return 'ready|error' // fuzzed input: any settled state, never a hang or a crash
   return name.startsWith('broken.') ? 'error' : 'ready'
 }
+const SAMPLE_DIR = typeof args.dir === 'string' ? args.dir.replace(/\\/g, '/').replace(/\/$/, '') : 'samples'
 
 async function run() {
   const server = await serve()
@@ -163,8 +166,8 @@ async function run() {
   const out = join(ROOT, args.out ?? '.orca/harness-shots')
   mkdirSync(out, { recursive: true })
   const only = typeof args.only === 'string' ? args.only.split(',') : null
-  const files = readdirSync(join(ROOT, 'samples'))
-    .filter((f) => !f.startsWith('.') && statSync(join(ROOT, 'samples', f)).isFile())
+  const files = readdirSync(join(ROOT, SAMPLE_DIR))
+    .filter((f) => !f.startsWith('.') && statSync(join(ROOT, SAMPLE_DIR, f)).isFile())
     .filter((f) => !only || only.some((o) => f.includes(o)))
     .sort()
   const profiles = (typeof args.profiles === 'string' ? args.profiles.split(',') : ['desktop-dark', 'mobile-light']).map(
@@ -183,7 +186,7 @@ async function run() {
         if (m.type() === 'error') errors.push(`console: ${m.text()}`)
       })
       const started = Date.now()
-      const url = `${base}/harness?file=samples/${encodeURIComponent(f)}&theme=${profile.theme}&locale=${profile.locale}`
+      const url = `${base}/harness?file=${SAMPLE_DIR}/${encodeURIComponent(f)}&theme=${profile.theme}&locale=${profile.locale}`
       let state = 'timeout'
       try {
         await page.goto(url, { waitUntil: 'load' })
@@ -199,13 +202,39 @@ async function run() {
       const ms = Date.now() - started
       let checkError = null
       if (checkFor(f)) checkError = await page.evaluate(checkFor(f)).catch((e) => `check failed: ${e.message}`)
+      // "ready" must also mean something is on screen inside the content area's first viewport.
+      if (!checkError && state === 'ready' && !args.fuzz) {
+        checkError = await page
+          .evaluate(() => {
+            const root = document.querySelector('.fp-content')
+            if (!root) return 'no content area'
+            const view = root.getBoundingClientRect()
+            const inView = (el) => {
+              const r = el.getBoundingClientRect()
+              return r.width > 4 && r.height > 4 && r.bottom > view.top && r.top < view.bottom
+            }
+            const walk = (node) => {
+              for (const el of node.querySelectorAll('img, canvas, svg, iframe, video')) if (inView(el)) return true
+              const tw = document.createTreeWalker(node, NodeFilter.SHOW_TEXT)
+              for (let t = tw.nextNode(); t; t = tw.nextNode()) {
+                if (!t.nodeValue.trim() || !t.parentElement) continue
+                if (t.parentElement.closest('style, script')) continue
+                if (inView(t.parentElement)) return true
+              }
+              for (const el of node.querySelectorAll('*')) if (el.shadowRoot && walk(el.shadowRoot)) return true
+              return false
+            }
+            return walk(root) ? null : 'ready but nothing visible in the content area'
+          })
+          .catch((e) => `content check failed: ${e.message}`)
+      }
       const overflowX = await page
         .evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1)
         .catch(() => false)
       const shot = `${f.replace(/[^\w.-]/g, '_')}.${pname}.png`
-      await page.screenshot({ path: join(out, shot) }).catch((e) => errors.push(`screenshot: ${e.message}`))
+      if (!args['no-shots']) await page.screenshot({ path: join(out, shot) }).catch((e) => errors.push(`screenshot: ${e.message}`))
       const expected = expectedState(f)
-      const pass = state === expected && !checkError && !overflowX && !errors.some((e) => e.startsWith('pageerror'))
+      const pass = expected.split('|').includes(state) && !checkError && !overflowX && !errors.some((e) => e.startsWith('pageerror'))
       results.push({ file: f, profile: pname, state, expected, ms, pass, checkError, overflowX, errors, shot })
       console.log(`${pass ? 'PASS' : 'FAIL'} ${pname.padEnd(13)} ${f.padEnd(24)} ${state.padEnd(7)} ${String(ms).padStart(6)}ms${checkError ? ' ' + checkError : ''}${overflowX ? ' horizontal-overflow' : ''}${errors.length ? ' errors=' + errors.length : ''}`)
       await page.close()
