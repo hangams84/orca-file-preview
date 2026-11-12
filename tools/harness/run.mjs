@@ -7,6 +7,7 @@
 //
 //   node tools/harness/run.mjs --out docs/evidence/round1 [--only docx,pdf] [--profiles desktop-dark,mobile-light]
 //   node tools/harness/run.mjs --serve        # just serve, print the URL, for manual checks
+//   node tools/harness/run.mjs --no-raf ...   # stub requestAnimationFrame + IntersectionObserver (hidden window)
 import { transform } from 'esbuild'
 import { createServer } from 'node:http'
 import { mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
@@ -99,6 +100,38 @@ const CHECKS = {
   'sample.svg': `(() => document.body.innerText.includes('SCRIPT RAN') ? 'script inside the SVG ran' : null)()`
 }
 
+/** Every rendered PDF must have painted pixels on its first page canvas (catches blank pages). */
+const PDF_PAINTED = `(() => {
+  const c = document.querySelector('.fp-pdf-page canvas')
+  if (!c) return 'no page canvas was drawn'
+  const g = c.getContext('2d')
+  const d = g.getImageData(0, 0, c.width, c.height).data
+  let ink = 0
+  for (let i = 0; i < d.length; i += 4 * 7) if (d[i + 3] > 0 && (d[i] < 235 || d[i + 1] < 235 || d[i + 2] < 235)) ink++
+  return ink > 20 ? null : 'page canvas is blank'
+})()`
+
+function checkFor(name) {
+  if (CHECKS[name]) return CHECKS[name]
+  if (name.endsWith('.pdf') && !name.startsWith('broken.') && !name.includes('password')) return PDF_PAINTED
+  return null
+}
+
+/** --no-raf: simulate a hidden/occluded window (Orca's window captures, background splits), where
+ *  requestAnimationFrame and IntersectionObserver callbacks never run. */
+const NO_RAF_INIT = () => {
+  window.requestAnimationFrame = () => 0
+  window.cancelAnimationFrame = () => {}
+  window.IntersectionObserver = class {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+    takeRecords() {
+      return []
+    }
+  }
+}
+
 function expectedState(name) {
   return name.startsWith('broken.') ? 'error' : 'ready'
 }
@@ -141,6 +174,7 @@ async function run() {
   const results = []
   for (const [pname, profile] of profiles) {
     const context = await browser.newContext({ ...profile, theme: undefined, locale: undefined })
+    if (args['no-raf']) await context.addInitScript(NO_RAF_INIT)
     for (const f of files) {
       const page = await context.newPage()
       const errors = []
@@ -154,7 +188,8 @@ async function run() {
       try {
         await page.goto(url, { waitUntil: 'load' })
         await page.waitForFunction(() => ['ready', 'error'].includes(document.body.dataset.state ?? ''), null, {
-          timeout: Number(args.timeout) || 30000
+          timeout: Number(args.timeout) || 30000,
+          polling: 100 // not 'raf': frames may be stubbed out (--no-raf)
         })
         state = await page.evaluate(() => document.body.dataset.state)
         await page.waitForTimeout(600)
@@ -163,7 +198,7 @@ async function run() {
       }
       const ms = Date.now() - started
       let checkError = null
-      if (CHECKS[f]) checkError = await page.evaluate(CHECKS[f]).catch((e) => `check failed: ${e.message}`)
+      if (checkFor(f)) checkError = await page.evaluate(checkFor(f)).catch((e) => `check failed: ${e.message}`)
       const overflowX = await page
         .evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1)
         .catch(() => false)

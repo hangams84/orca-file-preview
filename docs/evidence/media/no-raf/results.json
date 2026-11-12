@@ -1,0 +1,303 @@
+[
+  {
+    "file": "broken.pdf",
+    "profile": "desktop-dark",
+    "state": "error",
+    "expected": "error",
+    "ms": 927,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "console: PreviewError: PDF 파일을 열 수 없습니다\n    at friendly (http://127.0.0.1:8605/plugin/editor/renderers/pdf.ts:77:12)\n    at Module.render (http://127.0.0.1:8605/plugin/editor/renderers/pdf.ts:119:11)\n    at async show (http://127.0.0.1:8605/plugin/editor/main.ts:76:15)"
+    ],
+    "shot": "broken.pdf.desktop-dark.png"
+  },
+  {
+    "file": "sample-euckr.html",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 786,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    ],
+    "shot": "sample-euckr.html.desktop-dark.png"
+  },
+  {
+    "file": "sample-html.doc",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 833,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-html.doc.desktop-dark.png"
+  },
+  {
+    "file": "sample-large.pdf",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 1018,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-large.pdf.desktop-dark.png"
+  },
+  {
+    "file": "sample-password.pdf",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 876,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-password.pdf.desktop-dark.png"
+  },
+  {
+    "file": "sample-slides.pdf",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 1079,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-slides.pdf.desktop-dark.png"
+  },
+  {
+    "file": "sample-viewbox.svg",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 769,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-viewbox.svg.desktop-dark.png"
+  },
+  {
+    "file": "sample.bmp",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 768,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.bmp.desktop-dark.png"
+  },
+  {
+    "file": "sample.gif",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 762,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.gif.desktop-dark.png"
+  },
+  {
+    "file": "sample.html",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 791,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    ],
+    "shot": "sample.html.desktop-dark.png"
+  },
+  {
+    "file": "sample.pdf",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 1092,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.pdf.desktop-dark.png"
+  },
+  {
+    "file": "sample.svg",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 763,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.svg.desktop-dark.png"
+  },
+  {
+    "file": "broken.pdf",
+    "profile": "mobile-light",
+    "state": "error",
+    "expected": "error",
+    "ms": 797,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: PreviewError: PDF 파일을 열 수 없습니다\n    at friendly (http://127.0.0.1:8605/plugin/editor/renderers/pdf.ts:77:12)\n    at Module.render (http://127.0.0.1:8605/plugin/editor/renderers/pdf.ts:119:11)\n    at async show (http://127.0.0.1:8605/plugin/editor/main.ts:76:15)"
+    ],
+    "shot": "broken.pdf.mobile-light.png"
+  },
+  {
+    "file": "sample-euckr.html",
+    "profile": "mobile-light",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 778,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    ],
+    "shot": "sample-euckr.html.mobile-light.png"
+  },
+  {
+    "file": "sample-html.doc",
+    "profile": "mobile-light",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 785,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-html.doc.mobile-light.png"
+  },
+  {
+    "file": "sample-large.pdf",
+    "profile": "mobile-light",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 1187,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-large.pdf.mobile-light.png"
+  },
+  {
+    "file": "sample-password.pdf",
+    "profile": "mobile-light",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 777,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-password.pdf.mobile-light.png"
+  },
+  {
+    "file": "sample-slides.pdf",
+    "profile": "mobile-light",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 1202,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-slides.pdf.mobile-light.png"
+  },
+  {
+    "file": "sample-viewbox.svg",
+    "profile": "mobile-light",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 768,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-viewbox.svg.mobile-light.png"
+  },
+  {
+    "file": "sample.bmp",
+    "profile": "mobile-light",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 777,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.bmp.mobile-light.png"
+  },
+  {
+    "file": "sample.gif",
+    "profile": "mobile-light",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 774,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.gif.mobile-light.png"
+  },
+  {
+    "file": "sample.html",
+    "profile": "mobile-light",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 773,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked."
+    ],
+    "shot": "sample.html.mobile-light.png"
+  },
+  {
+    "file": "sample.pdf",
+    "profile": "mobile-light",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 1200,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.pdf.mobile-light.png"
+  },
+  {
+    "file": "sample.svg",
+    "profile": "mobile-light",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 773,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.svg.mobile-light.png"
+  }
+]

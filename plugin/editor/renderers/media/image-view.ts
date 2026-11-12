@@ -98,13 +98,17 @@ export function createImageView(
 
   let lastW = root.clientWidth
   let lastH = root.clientHeight
-  const ro = new ResizeObserver(() => {
+  // The first fit above is synchronous. ResizeObserver is paced by rendering (paused while the
+  // window is hidden), so window resize events refit too.
+  const onResize = () => {
     if (root.clientWidth === lastW && root.clientHeight === lastH) return
     lastW = root.clientWidth
     lastH = root.clientHeight
     if (auto && stage.isConnected) autoFit(!!opts.upscale)
-  })
+  }
+  const ro = new ResizeObserver(onResize)
   ro.observe(root)
+  window.addEventListener('resize', onResize, { signal })
   signal.addEventListener('abort', () => ro.disconnect(), { once: true })
 
   // Drag to pan with a mouse (touch already pans natively).
@@ -140,13 +144,20 @@ export function createImageView(
   return { zoom, box, stage, show }
 }
 
-/** Loads an image URL and waits until it is decoded; rejects when the browser cannot decode it. */
-export async function loadImage(url: string): Promise<HTMLImageElement> {
+/** Loads an image URL; resolves once it is decoded (or loaded: decode() can lag while the window
+ *  is hidden), rejects when the browser cannot decode it. */
+export function loadImage(url: string): Promise<HTMLImageElement> {
   const img = new Image()
   img.decoding = 'async'
-  img.src = url
-  await img.decode()
-  return img
+  return new Promise((resolve, reject) => {
+    const ok = () => (img.naturalWidth > 0 || img.complete ? resolve(img) : undefined)
+    img.addEventListener('load', ok, { once: true })
+    img.addEventListener('error', () => reject(new Error('image decode failed')), { once: true })
+    img.src = url
+    img.decode().then(() => resolve(img), () => {
+      // the load/error events decide
+    })
+  })
 }
 
 /** Frame delays of a GIF in milliseconds, one per frame (empty when the bytes are not a GIF).
