@@ -1,0 +1,56 @@
+[
+  {
+    "id": "R1-1",
+    "severity": "high",
+    "area": "pdf",
+    "title": "PDF pages stay blank in the Orca app (placeholder only)",
+    "cause": "Rendering waited on IntersectionObserver and pdf.js's requestAnimationFrame loop, both paused while Orca's window is hidden or occluded",
+    "fix": "Visibility computed from scroll offsets; non-rAF render path; harness --no-raf check (fp-media)",
+    "status": "in progress"
+  },
+  {
+    "id": "R1-2",
+    "severity": "medium",
+    "area": "sheet",
+    "title": "Formula cells without cached values show '=C2*D2' instead of a result",
+    "cause": "Files written by scripts (openpyxl) store no cached values; SheetJS CE does not calculate",
+    "fix": "Safe formula evaluator (no eval) for common operators and functions, with unit tests (fp-office)",
+    "status": "in progress"
+  },
+  {
+    "id": "R1-3",
+    "severity": "low",
+    "area": "docx/pptx",
+    "title": "Body text falls back to a serif font when Office fonts are missing",
+    "cause": "Documents name Calibri/Cambria/맑은 고딕, which macOS, Linux and phones lack",
+    "fix": "@font-face local() aliases to metric-compatible or platform fonts (fp-office)",
+    "status": "in progress"
+  },
+  {
+    "id": "R1-4",
+    "severity": "medium",
+    "area": "build",
+    "title": "Plugin folder exceeded Orca's 50 MiB limit",
+    "cause": "Orca counts the whole folder: node_modules, Orca child worktrees and evidence screenshots",
+    "fix": "Shipped plugin moved to plugin/ (manifest, editor, vendor only: about 6 MB)",
+    "status": "fixed"
+  },
+  {
+    "id": "R1-5",
+    "severity": "low",
+    "area": "tooling",
+    "title": "orca plugin test fails: cannot import ./orca-runtime.mjs",
+    "cause": "Orca's Windows test loader rejects its own runtime when the plugin is on a different drive (D:) than Orca (C:)",
+    "fix": "verify.mjs runs unit tests from a temporary copy on the system drive",
+    "status": "fixed"
+  },
+  {
+    "id": "R1-6",
+    "severity": "info",
+    "area": "orca",
+    "title": "txt/csv/tsv/log/html/svg open in Orca's own Source view first",
+    "cause": "Orca always treats suffixes it opens itself (and text-looking files) as priority 'option'",
+    "fix": "Documented: switch with the view toggle at the tab's top right; preview editors are registered for these suffixes",
+    "status": "documented"
+  }
+]
