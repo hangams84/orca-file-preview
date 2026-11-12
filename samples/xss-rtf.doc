@@ -1,0 +1,4 @@
+{\rtf1\ansi{\fonttbl{\f0 Arial;}}\f0 RTF xss fixture\par
+<img src=x onerror="(function()var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' rtf-text';d.title='X'+'SS';d.body.append('PW'+'NED:rtf-text'))()">\par
+{\field{\*\fldinst HYPERLINK "javascript:(function()var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' rtf-field';d.title='X'+'SS';d.body.append('PW'+'NED:rtf-field'))()"}{\fldrslt link text}}\par
+}

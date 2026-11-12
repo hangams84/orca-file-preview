@@ -1,0 +1,93 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>xss fixture</title></head>
+<body>
+<h1>XSS regression fixture</h1>
+<p>Nothing on this page may run. Each vector below appends its id to the top document if it executes.</p>
+<!-- script -->
+<div class="v"><script>(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' script';d.title='X'+'SS';d.body.append('PW'+'NED:script')})()</script></div>
+<!-- script-src-data -->
+<div class="v"><script src="data:text/javascript,(function()%7Bvar%20d%3Dtop.document%3Bd.body.dataset.pwned%3D(d.body.dataset.pwned%7C%7C'')%2B'%20script-src-data'%3Bd.title%3D'X'%2B'SS'%3Bd.body.append('PW'%2B'NED%3Ascript-src-data')%7D)()"></script></div>
+<!-- img-onerror -->
+<div class="v"><img src="x" onerror="(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' img-onerror';d.title='X'+'SS';d.body.append('PW'+'NED:img-onerror')})()"></div>
+<!-- img-onload-data -->
+<div class="v"><img src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" onload="(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' img-onload-data';d.title='X'+'SS';d.body.append('PW'+'NED:img-onload-data')})()"></div>
+<!-- svg-onload -->
+<div class="v"><svg onload="(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' svg-onload';d.title='X'+'SS';d.body.append('PW'+'NED:svg-onload')})()"></svg></div>
+<!-- svg-script -->
+<div class="v"><svg><script>(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' svg-script';d.title='X'+'SS';d.body.append('PW'+'NED:svg-script')})()</script></svg></div>
+<!-- body-onload -->
+<div class="v"><body onload="(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' body-onload';d.title='X'+'SS';d.body.append('PW'+'NED:body-onload')})()"></div>
+<!-- details-ontoggle -->
+<div class="v"><details open ontoggle="(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' details-ontoggle';d.title='X'+'SS';d.body.append('PW'+'NED:details-ontoggle')})()"><summary>details</summary></details></div>
+<!-- input-autofocus -->
+<div class="v"><input autofocus onfocus="(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' input-autofocus';d.title='X'+'SS';d.body.append('PW'+'NED:input-autofocus')})()"></div>
+<!-- video-source -->
+<div class="v"><video><source onerror="(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' video-source';d.title='X'+'SS';d.body.append('PW'+'NED:video-source')})()"></video></div>
+<!-- marquee -->
+<div class="v"><marquee onstart="(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' marquee';d.title='X'+'SS';d.body.append('PW'+'NED:marquee')})()">m</marquee></div>
+<!-- a-javascript -->
+<div class="v"><a id="ajs" href="javascript:(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' a-javascript';d.title='X'+'SS';d.body.append('PW'+'NED:a-javascript')})()">javascript link</a></div>
+<!-- a-vbscript -->
+<div class="v"><a href="vbscript:msgbox(1)">vbscript link</a></div>
+<!-- a-data-html -->
+<div class="v"><a href="data:text/html;base64,PHNjcmlwdD4oZnVuY3Rpb24oKXt2YXIgZD10b3AuZG9jdW1lbnQ7ZC5ib2R5LmRhdGFzZXQucHduZWQ9KGQuYm9keS5kYXRhc2V0LnB3bmVkfHwnJykrJyBhLWRhdGEtaHRtbCc7ZC50aXRsZT0nWCcrJ1NTJztkLmJvZHkuYXBwZW5kKCdQVycrJ05FRDphLWRhdGEtaHRtbCcpfSkoKTwvc2NyaXB0Pg==">data link</a></div>
+<!-- a-entity-javascript -->
+<div class="v"><a href="&#106;avascript&colon;(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' a-entity-javascript';d.title='X'+'SS';d.body.append('PW'+'NED:a-entity-javascript')})()">entity link</a></div>
+<!-- a-target-top -->
+<div class="v"><a href="https://example.com/" target="_top">target top</a></div>
+<!-- iframe-srcdoc -->
+<div class="v"><iframe srcdoc="&lt;script&gt;(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' iframe-srcdoc';d.title='X'+'SS';d.body.append('PW'+'NED:iframe-srcdoc')})()&lt;/script&gt;"></iframe></div>
+<!-- iframe-js -->
+<div class="v"><iframe src="javascript:(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' iframe-js';d.title='X'+'SS';d.body.append('PW'+'NED:iframe-js')})()"></iframe></div>
+<!-- object -->
+<div class="v"><object data="data:text/html;base64,PHNjcmlwdD4oZnVuY3Rpb24oKXt2YXIgZD10b3AuZG9jdW1lbnQ7ZC5ib2R5LmRhdGFzZXQucHduZWQ9KGQuYm9keS5kYXRhc2V0LnB3bmVkfHwnJykrJyBvYmplY3QnO2QudGl0bGU9J1gnKydTUyc7ZC5ib2R5LmFwcGVuZCgnUFcnKydORUQ6b2JqZWN0Jyl9KSgpPC9zY3JpcHQ+"></object></div>
+<!-- embed -->
+<div class="v"><embed src="data:text/html;base64,PHNjcmlwdD4oZnVuY3Rpb24oKXt2YXIgZD10b3AuZG9jdW1lbnQ7ZC5ib2R5LmRhdGFzZXQucHduZWQ9KGQuYm9keS5kYXRhc2V0LnB3bmVkfHwnJykrJyBlbWJlZCc7ZC50aXRsZT0nWCcrJ1NTJztkLmJvZHkuYXBwZW5kKCdQVycrJ05FRDplbWJlZCcpfSkoKTwvc2NyaXB0Pg=="></div>
+<!-- meta-refresh -->
+<div class="v"><meta http-equiv="refresh" content="0;url=javascript:(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' meta-refresh';d.title='X'+'SS';d.body.append('PW'+'NED:meta-refresh')})()"></div>
+<!-- base -->
+<div class="v"><base href="javascript:/"></div>
+<!-- link-import -->
+<div class="v"><link rel="import" href="data:text/html,<script>(function()%7Bvar%20d%3Dtop.document%3Bd.body.dataset.pwned%3D(d.body.dataset.pwned%7C%7C'')%2B'%20link-import'%3Bd.title%3D'X'%2B'SS'%3Bd.body.append('PW'%2B'NED%3Alink-import')%7D)()</script>"><link rel="stylesheet" href="https://example.com/x.css"></div>
+<!-- form-action -->
+<div class="v"><form action="javascript:(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' form-action';d.title='X'+'SS';d.body.append('PW'+'NED:form-action')})()"><button id="fsub">form</button></form></div>
+<!-- formaction -->
+<div class="v"><form><button formaction="javascript:(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' formaction';d.title='X'+'SS';d.body.append('PW'+'NED:formaction')})()" id="fa">formaction</button></form></div>
+<!-- srcset -->
+<div class="v"><img srcset="javascript:(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' srcset';d.title='X'+'SS';d.body.append('PW'+'NED:srcset')})() 1x" alt="srcset"></div>
+<!-- css-import -->
+<div class="v"><style>@import 'https://example.com/a.css'; @\69mport "https://example.com/b.css"; .bg{background:url(javascript:(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||)+ css-url;d.title=X+SS;d.body.append(PW+NED:css-url)})())}</style></div>
+<!-- css-image-set -->
+<div class="v"><div style="background-image:image-set('https://example.com/i.png' 1x);height:4px"></div></div>
+<!-- svg-animate-href -->
+<div class="v"><svg><a><animate attributeName="href" values="javascript:(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' svg-animate-href';d.title='X'+'SS';d.body.append('PW'+'NED:svg-animate-href')})()"/><text x="10" y="20">animate</text></a></svg></div>
+<!-- svg-set-href -->
+<div class="v"><svg><a><set attributeName="xlink:href" to="javascript:(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' svg-set-href';d.title='X'+'SS';d.body.append('PW'+'NED:svg-set-href')})()"/><text x="10" y="20">set</text></a></svg></div>
+<!-- svg-a-xlink -->
+<div class="v"><svg xmlns:xlink="http://www.w3.org/1999/xlink"><a xlink:href="javascript:(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' svg-a-xlink';d.title='X'+'SS';d.body.append('PW'+'NED:svg-a-xlink')})()"><text x="10" y="20">xlink</text></a></svg></div>
+<!-- svg-use-data -->
+<div class="v"><svg><use href="data:image/svg+xml;base64,PHN2ZyBpZD0ieCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48aW1hZ2UgaHJlZj0ieCIgb25lcnJvcj0iKGZ1bmN0aW9uKCl7dmFyIGQ9dG9wLmRvY3VtZW50O2QuYm9keS5kYXRhc2V0LnB3bmVkPShkLmJvZHkuZGF0YXNldC5wd25lZHx8JycpKycgc3ZnLXVzZS1kYXRhJztkLnRpdGxlPSdYJysnU1MnO2QuYm9keS5hcHBlbmQoJ1BXJysnTkVEOnN2Zy11c2UtZGF0YScpfSkoKSIvPjwvc3ZnPg==#x"/></svg></div>
+<!-- svg-foreignobject -->
+<div class="v"><svg><foreignObject width="100" height="20"><img src="x" onerror="(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' svg-foreignobject';d.title='X'+'SS';d.body.append('PW'+'NED:svg-foreignobject')})()"></foreignObject></svg></div>
+<!-- math-href -->
+<div class="v"><math><maction actiontype="statusline" href="javascript:(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' math-href';d.title='X'+'SS';d.body.append('PW'+'NED:math-href')})()">math</maction></math></div>
+<!-- template -->
+<div class="v"><template><img src="x" onerror="(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' template';d.title='X'+'SS';d.body.append('PW'+'NED:template')})()"></template></div>
+<!-- clobber -->
+<div class="v"><form name="getElementById"></form><img name="body"><a id="defaultView"></a></div>
+<!-- overlay -->
+<div class="v"><div id="overlay" style="position:fixed;top:-60px;left:0;right:0;height:120px;z-index:2147483647;background:rgba(220,38,38,.85);color:#fff">fixed overlay</div></div>
+<!-- bad-anchor -->
+<div class="v"><a href="#%E0%A4%A">malformed fragment link</a><a href="#end">good fragment link</a></div>
+<!-- noscript-mxss -->
+<div class="v"><noscript><p title="</noscript><img src=x onerror=(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||&#39;&#39;)+&#39; noscript-mxss&#39;;d.title=&#39;X&#39;+&#39;SS&#39;;d.body.append(&#39;PW&#39;+&#39;NED:noscript-mxss&#39;)})()>"></p></noscript></div>
+<!-- svg-style-mxss -->
+<div class="v"><svg></p><style><a id="</style><img src=1 onerror=(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||&#39;&#39;)+&#39; svg-style-mxss&#39;;d.title=&#39;X&#39;+&#39;SS&#39;;d.body.append(&#39;PW&#39;+&#39;NED:svg-style-mxss&#39;)})()>"></div>
+<!-- math-mglyph-mxss -->
+<div class="v"><math><mtext><table><mglyph><style><img src=x onerror="(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' math-mglyph-mxss';d.title='X'+'SS';d.body.append('PW'+'NED:math-mglyph-mxss')})()"></div>
+<!-- form-math-mxss -->
+<div class="v"><form><math><mtext></form><form><mglyph><style></math><img src onerror="(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' form-math-mxss';d.title='X'+'SS';d.body.append('PW'+'NED:form-math-mxss')})()"></div>
+<!-- textarea-mxss -->
+<div class="v"><math><mi><mglyph><svg><mtext><textarea><path id="</textarea><img onerror=&quot;(function(){var d=top.document;d.body.dataset.pwned=(d.body.dataset.pwned||'')+' textarea-mxss';d.title='X'+'SS';d.body.append('PW'+'NED:textarea-mxss')})()&quot; src=1>"></div>
+<p id="end">end of vectors</p>
+</body></html>
