@@ -313,8 +313,23 @@ export async function render(ctx: PreviewContext): Promise<() => void> {
   root.addEventListener('scroll', onScroll, { passive: true, signal })
 
   // The filter bar spans the viewport even when the table scrolls sideways.
-  const sizeBar = () => wrap.style.setProperty('--vw', `${root.clientWidth}px`)
-  const ro = new ResizeObserver(sizeBar)
+  // Deferred and skipped when unchanged: setting --vw synchronously inside the observer can resize
+  // the observed box again ("ResizeObserver loop completed with undelivered notifications").
+  let barW = -1
+  const sizeBar = () => {
+    if (root.clientWidth === barW) return
+    barW = root.clientWidth
+    wrap.style.setProperty('--vw', `${barW}px`)
+  }
+  sizeBar()
+  let roTimer = 0
+  const ro = new ResizeObserver(() => {
+    if (roTimer) return
+    roTimer = window.setTimeout(() => {
+      roTimer = 0
+      if (!signal.aborted) sizeBar()
+    }, 0)
+  })
   ro.observe(root)
 
   let debounce = 0

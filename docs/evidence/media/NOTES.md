@@ -193,3 +193,42 @@ and the password one): the first page canvas must contain non-white pixels (`pag
     (out of my scope this round); it should be skipped under `--fuzz` or when the state is `error`.
 - Verification: normal run 24/24 and `--no-raf` run 24/24 (`--only pdf,gif,bmp,svg,html --profiles
   desktop-dark,mobile-light`); `npx tsc -p plugin --noEmit` passes.
+
+## Round 3
+
+### ResizeObserver loop errors
+Every `ResizeObserver` in `plugin/editor` did layout work synchronously in its callback, which can resize the
+observed box again in the same frame (scrollbars appearing after a re-fit, a CSS variable widening a bar) and makes
+the browser report "ResizeObserver loop completed with undelivered notifications". All five now only schedule the
+work (`setTimeout(0)`, coalesced, cleared on cleanup) and skip it when the size did not change:
+- mine: `renderers/pdf.ts` (refit + visibility refresh), `renderers/media/image-view.ts` (refit);
+- others' (minimal, same pattern): `renderers/csv.ts` (filter-bar `--vw`, now also skipped when unchanged and set once
+  up front), `renderers/ppt.ts`, `renderers/pptx.ts` (refit). `sheet.ts`/office have no ResizeObserver.
+Headless Chrome did not reproduce the error even before the change (it is timing dependent), so this is preventive;
+`tools/harness/theme-switch.mjs` now listens for that ErrorEvent (Playwright reports it neither as pageerror nor
+console) while resizing the viewport 1280→700→1280 on every fixture: 0 occurrences.
+
+### Live theme switching — `tools/harness/theme-switch.mjs` (+ `tools/harness/lib.mjs`, shared server copy)
+Opens every fixture dark, calls `window.__setTheme('light')`, waits 300 ms, resizes, screenshots both
+(`docs/evidence/media/theme/<file>.1-dark.png` / `.2-light.png`). Fails when the toolbar or page background did not
+change, when toolbar text contrast is < 4.5:1 (disabled controls exempt), or on ResizeObserver-loop errors; text in
+the content area outside document paper with contrast < 4.5:1 is listed as a warning. **42 / 42 pass.**
+- Finding: no renderer keeps stale theme colours (all chrome uses `--orca-*` CSS variables; the image backdrop follows
+  `ctx.onTheme`). The only failure was contrast: `muted-foreground` on `muted` is 4.40:1 in the light theme.
+  Fixed the type badge in `plugin/editor/core/ui.ts` (shared, one line: badge text uses `--orca-foreground`) and the
+  HTML "Safe preview" notice in `html.ts`.
+- Remaining content warnings (others' areas, same 4.40:1 muted-on-muted pattern): sheet column/row headers
+  (`sheet.ts` `th`, xlsx/xls/ods), the ".doc/.ppt is actually …" notes (`fp-format-note` / `fp-doc-note` in
+  doc/ppt renderers); `sample.ppt`/`sample-ppt97.ppt` grey slide text is document content (3.4:1 as authored).
+
+### Keyboard and accessibility — `tools/harness/a11y.mjs --keys`
+- Content area is focusable (shell `tabIndex=0`); clicking a page/image focuses it.
+- PDF (`pdf.ts`): PageDown/Space and PageUp/Shift+Space scroll one screen, Home/End go to page 1 / N, n/j p/k step
+  pages, `+`/`=`, `-`, `0` zoom (new `renderers/media/keys.ts`); keys are ignored while typing in the page box or any
+  field. Image/SVG/HTML: `+`/`-`/`0` zoom too; HTML also inside the preview frame (plain and Ctrl variants).
+- Core fix (`plugin/editor/core/ui.ts` `stepZoom`, shared): above the 800 % table end, "+" returned 800 % — a small SVG
+  fitted at 1047 % zoomed *out* on "+". It now keeps stepping ×1.25 beyond the table (and ÷1.25 below 10 %).
+- Audit: every button/select/input/link in all 42 fixtures has an accessible name; **42 / 42 pass**, no gaps in other
+  renderers. Results: `docs/evidence/media/a11y/results.md`.
+
+Verification: `npx tsc -p plugin --noEmit` passes; media harness 24/24 normal and 24/24 `--no-raf`.

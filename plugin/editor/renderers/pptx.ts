@@ -206,14 +206,23 @@ export async function render(ctx: PreviewContext): Promise<() => void> {
   )
   toolbar.zoom(zoom)
   bindZoomGestures(root, zoom, signal)
+  // Layout work runs after the observer callback (a synchronous re-fit can toggle scrollbars and
+  // resize the observed box again in the same frame: "ResizeObserver loop completed with
+  // undelivered notifications").
+  let roTimer = 0
   const ro = new ResizeObserver(() => {
-    if (fitting) zoom.set(fitScale())
+    if (roTimer) return
+    roTimer = window.setTimeout(() => {
+      roTimer = 0
+      if (fitting) zoom.set(fitScale())
+    }, 0)
   })
   ro.observe(root)
 
   return () => {
     io.disconnect()
     ro.disconnect()
+    clearTimeout(roTimer)
     cancelAnimationFrame(raf)
   }
 }

@@ -1,0 +1,918 @@
+[
+  {
+    "file": "broken.doc",
+    "state": "error",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "broken.docx",
+    "state": "error",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "broken.encrypted.doc",
+    "state": "error",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "broken.encrypted.ppt",
+    "state": "error",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "broken.pdf",
+    "state": "error",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "broken.ppt",
+    "state": "error",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "broken.pptx",
+    "state": "error",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample-docx.doc",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [
+      "light: div.fp-format-note \"This .doc file is actual\" 4.40:1"
+    ],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": [
+        "div.fp-format-note \"This .doc file is actual\" 4.40:1"
+      ]
+    }
+  },
+  {
+    "file": "sample-euckr.csv",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample-euckr.html",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample-euckr.txt",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample-html.doc",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [
+      "light: div.fp-doc-note \"This .doc file is actual\" 4.40:1"
+    ],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": [
+        "div.fp-doc-note \"This .doc file is actual\" 4.40:1"
+      ]
+    }
+  },
+  {
+    "file": "sample-large.csv",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample-large.doc",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample-large.pdf",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample-large.ppt",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample-large.xlsx",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [
+      "light: th. \"A\" 4.40:1",
+      "light: th. \"B\" 4.40:1",
+      "light: th. \"C\" 4.40:1",
+      "light: th. \"D\" 4.40:1",
+      "light: th. \"E\" 4.40:1",
+      "light: th. \"F\" 4.40:1",
+      "light: th. \"G\" 4.40:1",
+      "light: th. \"H\" 4.40:1",
+      "light: th. \"I\" 4.40:1"
+    ],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": [
+        "th. \"A\" 4.40:1",
+        "th. \"B\" 4.40:1",
+        "th. \"C\" 4.40:1",
+        "th. \"D\" 4.40:1",
+        "th. \"E\" 4.40:1",
+        "th. \"F\" 4.40:1",
+        "th. \"G\" 4.40:1",
+        "th. \"H\" 4.40:1",
+        "th. \"I\" 4.40:1"
+      ]
+    }
+  },
+  {
+    "file": "sample-password.pdf",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample-ppt97.ppt",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [
+      "dark: span. \"한글 미리보기 테스트 - 가나다라마바사\" 3.50:1",
+      "light: span. \"한글 미리보기 테스트 - 가나다라마바사\" 3.50:1"
+    ],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": [
+        "span. \"한글 미리보기 테스트 - 가나다라마바사\" 3.50:1"
+      ]
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": [
+        "span. \"한글 미리보기 테스트 - 가나다라마바사\" 3.50:1"
+      ]
+    }
+  },
+  {
+    "file": "sample-pptx.ppt",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [
+      "light: div.fp-format-note \"This .ppt file is actual\" 4.40:1"
+    ],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": [
+        "div.fp-format-note \"This .ppt file is actual\" 4.40:1"
+      ]
+    }
+  },
+  {
+    "file": "sample-rtf.doc",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [
+      "light: div.fp-doc-note \"This .doc file is actual\" 4.40:1"
+    ],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": [
+        "div.fp-doc-note \"This .doc file is actual\" 4.40:1"
+      ]
+    }
+  },
+  {
+    "file": "sample-semicolon.csv",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample-shapes.pptx",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample-slides.pdf",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample-viewbox.svg",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample-word97.doc",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample.bmp",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample.csv",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample.doc",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample.docx",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample.gif",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample.html",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample.log",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample.ods",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [
+      "light: th. \"A\" 4.40:1",
+      "light: th. \"B\" 4.40:1",
+      "light: th. \"C\" 4.40:1",
+      "light: th. \"D\" 4.40:1",
+      "light: th. \"E\" 4.40:1",
+      "light: th. \"1\" 4.40:1",
+      "light: th. \"2\" 4.40:1",
+      "light: th. \"3\" 4.40:1",
+      "light: th. \"4\" 4.40:1"
+    ],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": [
+        "th. \"A\" 4.40:1",
+        "th. \"B\" 4.40:1",
+        "th. \"C\" 4.40:1",
+        "th. \"D\" 4.40:1",
+        "th. \"E\" 4.40:1",
+        "th. \"1\" 4.40:1",
+        "th. \"2\" 4.40:1",
+        "th. \"3\" 4.40:1",
+        "th. \"4\" 4.40:1"
+      ]
+    }
+  },
+  {
+    "file": "sample.pdf",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample.ppt",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [
+      "dark: span. \"한글 미리보기 테스트\" 3.41:1",
+      "dark: span. \"-\" 3.41:1",
+      "dark: span. \"가나다라마바사\" 3.41:1",
+      "light: span. \"한글 미리보기 테스트\" 3.41:1",
+      "light: span. \"-\" 3.41:1",
+      "light: span. \"가나다라마바사\" 3.41:1"
+    ],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": [
+        "span. \"한글 미리보기 테스트\" 3.41:1",
+        "span. \"-\" 3.41:1",
+        "span. \"가나다라마바사\" 3.41:1"
+      ]
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": [
+        "span. \"한글 미리보기 테스트\" 3.41:1",
+        "span. \"-\" 3.41:1",
+        "span. \"가나다라마바사\" 3.41:1"
+      ]
+    }
+  },
+  {
+    "file": "sample.pptx",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample.svg",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample.tsv",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample.txt",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    }
+  },
+  {
+    "file": "sample.xls",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [
+      "light: th. \"A\" 4.40:1",
+      "light: th. \"B\" 4.40:1",
+      "light: th. \"C\" 4.40:1",
+      "light: th. \"D\" 4.40:1",
+      "light: th. \"E\" 4.40:1",
+      "light: th. \"1\" 4.40:1",
+      "light: th. \"2\" 4.40:1",
+      "light: th. \"3\" 4.40:1",
+      "light: th. \"4\" 4.40:1"
+    ],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": [
+        "th. \"A\" 4.40:1",
+        "th. \"B\" 4.40:1",
+        "th. \"C\" 4.40:1",
+        "th. \"D\" 4.40:1",
+        "th. \"E\" 4.40:1",
+        "th. \"1\" 4.40:1",
+        "th. \"2\" 4.40:1",
+        "th. \"3\" 4.40:1",
+        "th. \"4\" 4.40:1"
+      ]
+    }
+  },
+  {
+    "file": "sample.xlsx",
+    "state": "ready",
+    "pass": true,
+    "problems": [],
+    "warnings": [
+      "light: th. \"A\" 4.40:1",
+      "light: th. \"B\" 4.40:1",
+      "light: th. \"C\" 4.40:1",
+      "light: th. \"D\" 4.40:1",
+      "light: th. \"E\" 4.40:1",
+      "light: th. \"1\" 4.40:1",
+      "light: th. \"2\" 4.40:1",
+      "light: th. \"3\" 4.40:1",
+      "light: th. \"4\" 4.40:1"
+    ],
+    "dark": {
+      "body": "rgb(10, 10, 10)",
+      "toolbar": "rgb(20, 20, 20)",
+      "toolbarIssues": [],
+      "contentIssues": []
+    },
+    "light": {
+      "body": "rgb(255, 255, 255)",
+      "toolbar": "rgb(250, 250, 250)",
+      "toolbarIssues": [],
+      "contentIssues": [
+        "th. \"A\" 4.40:1",
+        "th. \"B\" 4.40:1",
+        "th. \"C\" 4.40:1",
+        "th. \"D\" 4.40:1",
+        "th. \"E\" 4.40:1",
+        "th. \"1\" 4.40:1",
+        "th. \"2\" 4.40:1",
+        "th. \"3\" 4.40:1",
+        "th. \"4\" 4.40:1"
+      ]
+    }
+  }
+]

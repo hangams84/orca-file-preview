@@ -233,7 +233,17 @@ function drawDeck(ctx: PreviewContext, doc: PptDoc, note?: string): () => void {
     if (fitted) zoom.set(fitScale())
     refresh()
   }
-  const ro = new ResizeObserver(onResize)
+  // Layout work runs after the observer callback (a synchronous re-fit can toggle scrollbars and
+  // resize the observed box again in the same frame: "ResizeObserver loop completed with
+  // undelivered notifications").
+  let roTimer = 0
+  const ro = new ResizeObserver(() => {
+    if (roTimer) return
+    roTimer = window.setTimeout(() => {
+      roTimer = 0
+      onResize()
+    }, 0)
+  })
   ro.observe(root)
   window.addEventListener('resize', onResize, { signal })
   // Layout may settle after the first paint (fonts, toolbar wrap): re-check on timers too.
@@ -241,6 +251,7 @@ function drawDeck(ctx: PreviewContext, doc: PptDoc, note?: string): () => void {
   return () => {
     io.disconnect()
     ro.disconnect()
+    clearTimeout(roTimer)
     for (const t of timers) clearTimeout(t)
   }
 }

@@ -8,13 +8,14 @@ import { decodeText } from '../core/encoding.ts'
 import { formatBytes } from '../core/i18n.ts'
 import type { PreviewContext } from '../core/types.ts'
 import { bindZoomGestures, createZoom, h } from '../core/ui.ts'
+import { bindZoomKeys } from './media/keys.ts'
 import { createSourceView, switchableZoom } from './media/source-view.ts'
 
 const STYLE = `
 .fp-html { position: absolute; inset: 0; display: flex; flex-direction: column; }
 .fp-html iframe { flex: 1 1 auto; width: 100%; min-height: 0; border: 0; display: block; background: #fff; }
 .fp-html-note { flex: none; display: flex; align-items: center; gap: 8px; padding: 4px 8px 4px 12px; font-size: 12px;
-  background: var(--orca-muted, #f4f4f5); color: var(--orca-muted-foreground, #555); border-bottom: 1px solid var(--orca-border, #ddd); }
+  background: var(--orca-muted, #f4f4f5); color: var(--orca-foreground, #222); border-bottom: 1px solid var(--orca-border, #ddd); }
 .fp-html-note span { flex: 1 1 auto; min-width: 0; }
 .fp-html-note button { flex: none; font: inherit; min-width: 32px; min-height: 28px; border: 0; background: transparent;
   color: inherit; cursor: pointer; border-radius: var(--orca-radius, 6px); }
@@ -201,6 +202,7 @@ export async function render(ctx: PreviewContext): Promise<void> {
   toolbar.info(`${encoding.toUpperCase()} · ${formatBytes(bytes.byteLength)}`)
   toolbar.zoom(zoom)
   bindZoomGestures(root, sw.ctl, signal)
+  bindZoomKeys(root, sw.ctl, signal)
 }
 
 /** Click, submit and Ctrl+wheel handling inside the (same-origin, script-free) preview document. */
@@ -227,6 +229,21 @@ function wireFrame(ctx: PreviewContext, frame: HTMLIFrameElement, zoom: ReturnTy
     { capture: true, signal }
   )
   doc.addEventListener('submit', (e) => e.preventDefault(), { capture: true, signal })
+  // Keys typed inside the preview document: plain +/-/0 zoom (Ctrl variants too, the outer handler
+  // does not see events inside the frame).
+  bindZoomKeys(doc, zoom, signal)
+  doc.addEventListener(
+    'keydown',
+    (e) => {
+      if (!(e.ctrlKey || e.metaKey) || e.altKey) return
+      if (e.key === '+' || e.key === '=') zoom.set(zoom.get() * 1.1)
+      else if (e.key === '-') zoom.set(zoom.get() / 1.1)
+      else if (e.key === '0') zoom.set(1)
+      else return
+      e.preventDefault()
+    },
+    { signal }
+  )
   doc.addEventListener(
     'wheel',
     (e) => {
