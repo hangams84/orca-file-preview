@@ -6,7 +6,7 @@
     "title": "Legacy .ppt slides blank in a hidden/occluded window",
     "cause": "Slides were built only from IntersectionObserver callbacks; the harness counted 'ready' as a pass",
     "fix": "Geometry-based visibility fallback like pdf.ts (fp-legacy); harness now requires visible content for 'ready'",
-    "status": "in progress"
+    "status": "fixed"
   },
   {
     "id": "R2-2",
@@ -15,25 +15,25 @@
     "title": "RTF character colour and size ignored (red 14pt text shown black)",
     "cause": "RTF reader dropped \\cfN / \\fsN inside groups",
     "fix": "Colour table and font size per run (fp-legacy)",
-    "status": "in progress"
+    "status": "fixed"
   },
   {
     "id": "R2-3",
     "severity": "low",
     "area": "ppt",
     "title": "Legacy .ppt subtitle colour differs from the .pptx",
-    "cause": "Master/theme text colour not resolved",
-    "fix": "Resolve master colour scheme (fp-legacy)",
-    "status": "in progress"
+    "cause": "Not a .ppt bug: the .ppt matches the PDF (#898989); the .pptx tint maths was off (see R2-7)",
+    "fix": "Covered by R2-7",
+    "status": "fixed"
   },
   {
     "id": "R2-4",
     "severity": "low",
     "area": "ppt",
     "title": "Korean run in a .ppt title smaller and not bold",
-    "cause": "East Asian run formatting not inherited",
-    "fix": "Inherit size/bold for CJK runs (fp-legacy)",
-    "status": "in progress"
+    "cause": "Fixture set only Western font attributes for the Hangul run",
+    "fix": "Fixture regenerated with East Asian size/weight; renders 32 pt bold",
+    "status": "fixed"
   },
   {
     "id": "R2-5",
