@@ -184,3 +184,7 @@ Merged `master` twice (theme-switch / a11y scripts, then the core cleanup change
 - Unit tests: **69 / 69** for the whole plugin. The legacy suites have 46 tests: the round-3 ones plus Prc loop, field pairs, long cell, and 2 zip tests.
 - Harness: normal **48 / 48** and `--no-raf` **48 / 48** (other areas' `.docx`/`.pptx` rows removed).
 - Fuzz (`.doc,.ppt,.csv,.tsv`): **158 / 158** settled with no page errors.
+
+## Round 5: .doc page layout fidelity
+
+See `doc-fidelity.md`. Binary Word files (Word 97-2003 and Word 6/95) and RTF-in-.doc now open in a page layout that matches Word 2021. That covers page size, margins, styles, spacing, line rules, indents, fonts, lists, tables, pagination, headers and footers, and Korean typography. Phones keep the reflowing reading layout, and a toolbar button (Page / Reading) switches between the two. Fidelity report: 23 / 27 `.doc` files within limits, up from 3; the remaining 4 are explained in `doc-fidelity.md`. Harness normal / `--no-raf` / `--old-engine` / webkit 72 / 72 each, fuzz 168 / 168, unit tests 80 / 80.
