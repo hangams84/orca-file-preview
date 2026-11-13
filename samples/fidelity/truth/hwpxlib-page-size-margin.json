@@ -1,0 +1,20 @@
+{
+ "format": "hwpx",
+ "source": "Hangul layout saved in the file (<hp:lineseg>)",
+ "pages": [
+  {
+   "w": 728.52,
+   "h": 1031.8,
+   "margins": {
+    "left": 85.03,
+    "right": 85.03,
+    "top": 56.69,
+    "bottom": 42.51,
+    "header": 42.51,
+    "footer": 42.51,
+    "gutter": 0.0
+   },
+   "lines": []
+  }
+ ]
+}

@@ -1,0 +1,31 @@
+{
+ "format": "hwp",
+ "version": "5.0.3.4",
+ "source": "Hangul layout saved in the file (PARA_LINE_SEG)",
+ "pages": [
+  {
+   "w": 595.28,
+   "h": 841.88,
+   "margins": {
+    "left": 85.04,
+    "right": 85.04,
+    "top": 56.68,
+    "bottom": 42.52,
+    "header": 42.52,
+    "footer": 42.52,
+    "gutter": 0.0
+   },
+   "lines": [
+    {
+     "text": "박성균",
+     "x": 85.04,
+     "y": 99.2,
+     "base": 107.7,
+     "size": 10.0,
+     "lineHeight": 10.0,
+     "width": 425.2
+    }
+   ]
+  }
+ ]
+}

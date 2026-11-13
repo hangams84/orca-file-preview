@@ -1,0 +1,450 @@
+{
+ "format": "doc",
+ "source": "Microsoft Word 2021 (PDF export)",
+ "pages": [
+  {
+   "w": 612.0,
+   "h": 792.0,
+   "lines": [
+    {
+     "text": "File Preview — Word sample",
+     "x": 90.02,
+     "y": 77.21,
+     "base": 96.74,
+     "size": 26.04,
+     "font": "Calibri"
+    },
+    {
+     "text": "한글 미리보기 테스트 - 가나다라마바사",
+     "x": 90.02,
+     "y": 126.01,
+     "base": 138.02,
+     "size": 11.04,
+     "font": "MalgunGothic"
+    },
+    {
+     "text": "Mixed bold, italic and coloured text.",
+     "x": 90.02,
+     "y": 155.64,
+     "base": 168.98,
+     "size": 14.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "Table",
+     "x": 90.02,
+     "y": 201.29,
+     "base": 211.82,
+     "size": 14.04,
+     "font": "Calibri-Bold"
+    },
+    {
+     "text": "항목",
+     "x": 90.02,
+     "y": 221.41,
+     "base": 233.42,
+     "size": 11.04,
+     "font": "MalgunGothicBold"
+    },
+    {
+     "text": "수량",
+     "x": 234.05,
+     "y": 221.41,
+     "base": 233.42,
+     "size": 11.04,
+     "font": "MalgunGothicBold"
+    },
+    {
+     "text": "가격",
+     "x": 378.07,
+     "y": 221.41,
+     "base": 233.42,
+     "size": 11.04,
+     "font": "MalgunGothicBold"
+    },
+    {
+     "text": "3",
+     "x": 234.05,
+     "y": 240.36,
+     "base": 250.85,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "1,500",
+     "x": 378.07,
+     "y": 240.36,
+     "base": 250.85,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "사과",
+     "x": 90.02,
+     "y": 242.68,
+     "base": 254.69,
+     "size": 11.04,
+     "font": "MalgunGothicBold"
+    },
+    {
+     "text": "2",
+     "x": 234.05,
+     "y": 260.4,
+     "base": 270.89,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "3,000",
+     "x": 378.07,
+     "y": 260.4,
+     "base": 270.89,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "배",
+     "x": 90.02,
+     "y": 262.72,
+     "base": 274.73,
+     "size": 11.04,
+     "font": "MalgunGothicBold"
+    },
+    {
+     "text": "5",
+     "x": 234.05,
+     "y": 280.44,
+     "base": 290.93,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "4,500",
+     "x": 378.07,
+     "y": 280.44,
+     "base": 290.93,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "합계",
+     "x": 90.02,
+     "y": 282.76,
+     "base": 294.77,
+     "size": 11.04,
+     "font": "MalgunGothicBold"
+    },
+    {
+     "text": "Image",
+     "x": 90.02,
+     "y": 327.44,
+     "base": 337.97,
+     "size": 14.04,
+     "font": "Calibri-Bold"
+    },
+    {
+     "text": "List",
+     "x": 90.02,
+     "y": 494.5,
+     "base": 505.03,
+     "size": 14.04,
+     "font": "Calibri-Bold"
+    },
+    {
+     "text": "•",
+     "x": 90.02,
+     "y": 511.33,
+     "base": 522.43,
+     "size": 11.04,
+     "font": "SymbolMT"
+    },
+    {
+     "text": "First bullet",
+     "x": 108.02,
+     "y": 511.94,
+     "base": 522.43,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "•",
+     "x": 90.02,
+     "y": 529.81,
+     "base": 540.91,
+     "size": 11.04,
+     "font": "SymbolMT"
+    },
+    {
+     "text": "두 번째 항목",
+     "x": 108.02,
+     "y": 528.9,
+     "base": 540.91,
+     "size": 11.04,
+     "font": "MalgunGothic"
+    },
+    {
+     "text": "•",
+     "x": 90.02,
+     "y": 548.65,
+     "base": 559.75,
+     "size": 11.04,
+     "font": "SymbolMT"
+    },
+    {
+     "text": "Third bullet",
+     "x": 108.02,
+     "y": 549.26,
+     "base": 559.75,
+     "size": 11.04,
+     "font": "Cambria"
+    }
+   ]
+  },
+  {
+   "w": 612.0,
+   "h": 792.0,
+   "lines": [
+    {
+     "text": "Page 2",
+     "x": 90.02,
+     "y": 74.93,
+     "base": 85.46,
+     "size": 14.04,
+     "font": "Calibri-Bold"
+    },
+    {
+     "text": "Paragraph 1: Lorem ipsum dolor sit amet, consectetur adipiscing elit. 한글 미리보기",
+     "x": 90.02,
+     "y": 93.85,
+     "base": 105.86,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "테스트 - 가나다라마바사",
+     "x": 90.02,
+     "y": 115.81,
+     "base": 127.82,
+     "size": 11.04,
+     "font": "MalgunGothic"
+    },
+    {
+     "text": "Paragraph 2: Lorem ipsum dolor sit amet, consectetur adipiscing elit. 한글 미리보기",
+     "x": 90.02,
+     "y": 147.61,
+     "base": 159.62,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "테스트 - 가나다라마바사",
+     "x": 90.02,
+     "y": 169.57,
+     "base": 181.58,
+     "size": 11.04,
+     "font": "MalgunGothic"
+    },
+    {
+     "text": "Paragraph 3: Lorem ipsum dolor sit amet, consectetur adipiscing elit. 한글 미리보기",
+     "x": 90.02,
+     "y": 201.37,
+     "base": 213.38,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "테스트 - 가나다라마바사",
+     "x": 90.02,
+     "y": 223.33,
+     "base": 235.34,
+     "size": 11.04,
+     "font": "MalgunGothic"
+    },
+    {
+     "text": "Paragraph 4: Lorem ipsum dolor sit amet, consectetur adipiscing elit. 한글 미리보기",
+     "x": 90.02,
+     "y": 255.16,
+     "base": 267.17,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "테스트 - 가나다라마바사",
+     "x": 90.02,
+     "y": 277.12,
+     "base": 289.13,
+     "size": 11.04,
+     "font": "MalgunGothic"
+    },
+    {
+     "text": "Paragraph 5: Lorem ipsum dolor sit amet, consectetur adipiscing elit. 한글 미리보기",
+     "x": 90.02,
+     "y": 308.92,
+     "base": 320.93,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "테스트 - 가나다라마바사",
+     "x": 90.02,
+     "y": 330.88,
+     "base": 342.89,
+     "size": 11.04,
+     "font": "MalgunGothic"
+    },
+    {
+     "text": "Paragraph 6: Lorem ipsum dolor sit amet, consectetur adipiscing elit. 한글 미리보기",
+     "x": 90.02,
+     "y": 362.68,
+     "base": 374.69,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "테스트 - 가나다라마바사",
+     "x": 90.02,
+     "y": 384.64,
+     "base": 396.65,
+     "size": 11.04,
+     "font": "MalgunGothic"
+    },
+    {
+     "text": "Paragraph 7: Lorem ipsum dolor sit amet, consectetur adipiscing elit. 한글 미리보기",
+     "x": 90.02,
+     "y": 416.46,
+     "base": 428.47,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "테스트 - 가나다라마바사",
+     "x": 90.02,
+     "y": 438.42,
+     "base": 450.43,
+     "size": 11.04,
+     "font": "MalgunGothic"
+    },
+    {
+     "text": "Paragraph 8: Lorem ipsum dolor sit amet, consectetur adipiscing elit. 한글 미리보기",
+     "x": 90.02,
+     "y": 470.22,
+     "base": 482.23,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "테스트 - 가나다라마바사",
+     "x": 90.02,
+     "y": 492.18,
+     "base": 504.19,
+     "size": 11.04,
+     "font": "MalgunGothic"
+    },
+    {
+     "text": "Paragraph 9: Lorem ipsum dolor sit amet, consectetur adipiscing elit. 한글 미리보기",
+     "x": 90.02,
+     "y": 523.98,
+     "base": 535.99,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "테스트 - 가나다라마바사",
+     "x": 90.02,
+     "y": 545.94,
+     "base": 557.95,
+     "size": 11.04,
+     "font": "MalgunGothic"
+    },
+    {
+     "text": "Paragraph 10: Lorem ipsum dolor sit amet, consectetur adipiscing elit. 한글 미리보기",
+     "x": 90.02,
+     "y": 577.77,
+     "base": 589.78,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "테스트 - 가나다라마바사",
+     "x": 90.02,
+     "y": 599.73,
+     "base": 611.74,
+     "size": 11.04,
+     "font": "MalgunGothic"
+    },
+    {
+     "text": "Paragraph 11: Lorem ipsum dolor sit amet, consectetur adipiscing elit. 한글 미리보기",
+     "x": 90.02,
+     "y": 631.41,
+     "base": 643.42,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "테스트 - 가나다라마바사",
+     "x": 90.02,
+     "y": 653.49,
+     "base": 665.5,
+     "size": 11.04,
+     "font": "MalgunGothic"
+    },
+    {
+     "text": "P",
+     "x": 90.02,
+     "y": 683.09,
+     "base": 693.58,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "a",
+     "x": 90.02,
+     "y": 697.97,
+     "base": 708.46,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "r",
+     "x": 90.02,
+     "y": 712.85,
+     "base": 723.34,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "a",
+     "x": 90.02,
+     "y": 727.61,
+     "base": 738.1,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "g",
+     "x": 90.02,
+     "y": 742.51,
+     "base": 753.0,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "r",
+     "x": 90.02,
+     "y": 757.27,
+     "base": 767.76,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "a",
+     "x": 90.02,
+     "y": 772.15,
+     "base": 782.64,
+     "size": 11.04,
+     "font": "Cambria"
+    }
+   ]
+  }
+ ]
+}

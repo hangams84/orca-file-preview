@@ -1,0 +1,100 @@
+{
+ "format": "doc",
+ "source": "Microsoft Word 2021 (PDF export)",
+ "pages": [
+  {
+   "w": 595.32,
+   "h": 841.92,
+   "lines": [
+    {
+     "text": "A",
+     "x": 60.26,
+     "y": 57.71,
+     "base": 68.4,
+     "size": 12.0,
+     "font": "TimesNewRomanPS-BoldMT"
+    },
+    {
+     "text": "B",
+     "x": 403.87,
+     "y": 57.71,
+     "base": 68.4,
+     "size": 12.0,
+     "font": "TimesNewRomanPS-BoldMT"
+    },
+    {
+     "text": "C",
+     "x": 60.26,
+     "y": 71.99,
+     "base": 82.68,
+     "size": 12.0,
+     "font": "TimesNewRomanPSMT"
+    },
+    {
+     "text": "D",
+     "x": 113.3,
+     "y": 71.99,
+     "base": 82.68,
+     "size": 12.0,
+     "font": "TimesNewRomanPSMT"
+    },
+    {
+     "text": "E",
+     "x": 347.11,
+     "y": 71.99,
+     "base": 82.68,
+     "size": 12.0,
+     "font": "TimesNewRomanPSMT"
+    },
+    {
+     "text": "F",
+     "x": 467.74,
+     "y": 71.99,
+     "base": 82.68,
+     "size": 12.0,
+     "font": "TimesNewRomanPSMT"
+    },
+    {
+     "text": "G",
+     "x": 113.3,
+     "y": 86.29,
+     "base": 96.98,
+     "size": 12.0,
+     "font": "TimesNewRomanPSMT"
+    },
+    {
+     "text": "H",
+     "x": 347.11,
+     "y": 86.29,
+     "base": 96.98,
+     "size": 12.0,
+     "font": "TimesNewRomanPSMT"
+    },
+    {
+     "text": "I",
+     "x": 467.74,
+     "y": 86.29,
+     "base": 96.98,
+     "size": 12.0,
+     "font": "TimesNewRomanPSMT"
+    },
+    {
+     "text": "J",
+     "x": 467.74,
+     "y": 100.09,
+     "base": 110.78,
+     "size": 12.0,
+     "font": "TimesNewRomanPSMT"
+    },
+    {
+     "text": "K",
+     "x": 60.26,
+     "y": 114.37,
+     "base": 125.06,
+     "size": 12.0,
+     "font": "TimesNewRomanPSMT"
+    }
+   ]
+  }
+ ]
+}
