@@ -27,7 +27,7 @@ winshot() { # out.png -> captures Orca's whole window (never raises it)
 # accessibility tree needs a permission the runner does not grant, so the screen is checked by OCR.
 OCR_BIN="$WORK/ocr"
 swiftc -O "$SRC/tools/platform-test/ocr.swift" -o "$OCR_BIN" >"$OUT/logs/ocr-build.log" 2>&1
-ocr() { "$OCR_BIN" "$@" 2>&1; }
+ocr() { "$OCR_BIN" "$@" 2>/dev/null; }
 dialog_shown() { # png -> 0 when the first-run dialog or its "Skip onboarding?" prompt is on it
   ocr "$1" >"$1.txt"
   grep -qiE "work with agents|Skip onboarding|Set up later" "$1.txt"
@@ -156,19 +156,20 @@ for f in sample.docx sample.pptx sample.xlsx sample.pdf sample.doc sample.ppt sa
   if $ORCA plugin shot "$KEY" --window --out "$OUT/window/$f.png" --json >/dev/null 2>&1; then wins_ok=$((wins_ok + 1)); fi
 done
 check "finished renders captured from open tabs" "$([ $wins_ok = $wins ] && echo true || echo false)" "$wins_ok / $wins window captures"
-# OCR every finished render: no dialog over it, and Hangul text where the fixture has Korean text.
+# OCR every finished render: no dialog over it, and Korean words (2+ Hangul syllables) where the
+# fixture has Korean text (all but the GIF).
 mkdir -p "$OUT/window-ocr"
 ocr_ok=0; ocr_n=0; ocr_detail=""
 for png in "$OUT"/window/*.png; do
   [ -f "$png" ] || continue
   name=$(basename "$png" .png)
   ocr "$png" >"$OUT/window-ocr/$name.txt"
-  hangul=$(perl -CSD -ne '$n += () = /\p{Hangul}/g; END { print $n+0 }' "$OUT/window-ocr/$name.txt")
+  hangul=$(perl -CSD -ne '$n += () = /\p{Hangul}{2,}/g; END { print $n+0 }' "$OUT/window-ocr/$name.txt")
   dlg=no; grep -qiE "work with agents|Skip onboarding" "$OUT/window-ocr/$name.txt" && dlg=yes
   ocr_n=$((ocr_n + 1))
   case "$name" in sample.gif) need=0 ;; *) need=1 ;; esac
   if [ $dlg = no ] && [ "$hangul" -ge $need ]; then ocr_ok=$((ocr_ok + 1)); fi
-  ocr_detail="$ocr_detail $name:hangul=$hangul,dialog=$dlg;"
+  ocr_detail="$ocr_detail $name:koreanWords=$hangul,dialog=$dlg;"
 done
 check "finished renders show Korean text, no dialog (OCR)" "$([ $ocr_ok = $ocr_n ] && [ $ocr_n -gt 0 ] && echo true || echo false)" "$ocr_ok / $ocr_n:$ocr_detail"
 
