@@ -6,7 +6,7 @@
  *  (the default on phones). All lengths are em of the wrapper: 1em = 1000 HWPUNIT (10 pt). */
 import type { PreviewContext } from '../../core/types.ts'
 import { bindZoomGestures, clampZoom, createZoom, h, objectUrl } from '../../core/ui.ts'
-import { fontStack } from './fonts.ts'
+import { FontBook } from './fonts.ts'
 import {
   ctrlIndex,
   hasLineLayout,
@@ -76,9 +76,10 @@ const STYLE = `
 /** Character shape classes: one CSS rule per shape instead of inline styles on every run. */
 function charCss(shapes: CharShape[]): string {
   const rules: string[] = []
+  const book = new FontBook()
   shapes.forEach((c, i) => {
     const size = (c.height * (c.relSize || 100)) / 100
-    const d: string[] = [`font-family:${fontStack(c.latinFace, c.hangulFace)}`, `font-size:${em(size * (c.sup || c.sub ? 0.7 : 1))}`]
+    const d: string[] = [`font-family:${book.stack(c.latinFace, c.hangulFace)}`, `font-size:${em(size * (c.sup || c.sub ? 0.7 : 1))}`]
     if (c.bold) d.push('font-weight:700')
     if (c.italic) d.push('font-style:italic')
     if (c.color && c.color !== '#000000') d.push(`color:${c.color}`)
@@ -92,7 +93,7 @@ function charCss(shapes: CharShape[]): string {
     if (c.sub) d.push('vertical-align:sub')
     rules.push(`.fp-hwp .k${i}{${d.join(';')}}`)
   })
-  return rules.join('\n')
+  return book.css() + '\n' + rules.join('\n')
 }
 
 interface Env {
@@ -119,13 +120,28 @@ interface Fit {
 
 // ---------------------------------------------------------------- runs
 
-function charShapeAt(para: Para, i: number): number {
-  let cs = para.runs[0]?.cs ?? 0
-  for (const r of para.runs) {
-    if (r.start <= i) cs = r.cs
-    else break
+/** Index of the run in effect at text index i (runs are sorted by start). */
+function runAt(para: Para, i: number): number {
+  let lo = 0
+  let hi = para.runs.length - 1
+  while (lo < hi) {
+    const mid = (lo + hi + 1) >> 1
+    if (para.runs[mid].start <= i) lo = mid
+    else hi = mid - 1
   }
-  return cs
+  return lo
+}
+
+const ctrlCounts = new WeakMap<Para, Int32Array>()
+/** Number of controls (U+FFFC) before text index i, cached per paragraph. */
+function ctrlsBefore(para: Para, i: number): number {
+  let a = ctrlCounts.get(para)
+  if (!a) {
+    a = new Int32Array(para.text.length + 1)
+    for (let j = 0; j < para.text.length; j++) a[j + 1] = a[j] + (para.text.charCodeAt(j) === 0xfffc ? 1 : 0)
+    ctrlCounts.set(para, a)
+  }
+  return a[Math.max(0, Math.min(i, a.length - 1))]
 }
 
 /** Text of an auto number / note reference. */
@@ -149,8 +165,8 @@ function appendRange(
   env: Env,
   opts: { inNote: boolean; flow: boolean; lineH?: number; lineBase?: number }
 ): { spaces: number; chars: number; objects: number } {
-  let k = -1
-  for (let i = 0; i < s; i++) if (para.text.charCodeAt(i) === 0xfffc) k++
+  let k = ctrlsBefore(para, s) - 1
+  let ri = runAt(para, s)
   let spaces = 0
   let chars = 0
   let objects = 0
@@ -164,7 +180,8 @@ function appendRange(
   }
   for (let i = s; i < e; i++) {
     const ch = para.text[i]
-    const cs = charShapeAt(para, i)
+    while (ri + 1 < para.runs.length && para.runs[ri + 1].start <= i) ri++
+    const cs = para.runs[ri]?.cs ?? 0
     if (cs !== cls) {
       flush()
       cls = cs
