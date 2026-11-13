@@ -183,6 +183,10 @@ if (platforms.length) {
   for (const p of platforms)
     md.push(`| ${p.os} | ${platformHow(p)} | ${p.orcaVersion} | ${p.checks.filter((c) => c.ok).length}/${p.checks.length} | [contact sheet](evidence/platforms/${p.dir}/contact-sheet.png) · [summary](evidence/platforms/${p.dir}/summary.md) |`)
   md.push('')
+  const inst = readdirSync(PLAT).filter((d) => existsSync(join(PLAT, d, 'installer.md')) || existsSync(join(PLAT, d, 'installer', 'installer.md')))
+  if (inst.length) {
+    md.push('설치/제거 스크립트(`installer/`) 테스트: ' + inst.map((d) => `[${d}](evidence/platforms/${d}/${existsSync(join(PLAT, d, 'installer.md')) ? 'installer.md' : 'installer/installer.md'})`).join(' · '), '')
+  }
 }
 if (areas.length) {
   md.push('## 영역별 개발 노트 / Development notes', '')

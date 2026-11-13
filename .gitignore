@@ -6,3 +6,4 @@ node_modules/
 plugin/.orca/
 samples/fuzz/
 samples/perf/
+dist/
