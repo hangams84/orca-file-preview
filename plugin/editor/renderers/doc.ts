@@ -4,6 +4,8 @@
 import { decodeText, looksBinary } from '../core/encoding.ts'
 import { PreviewError, type PreviewContext } from '../core/types.ts'
 import { isCfb, readCfb, type Cfb } from './legacy/cfb.ts'
+import type { DocModel } from './legacy/model.ts'
+import { renderPages } from './legacy/pages.ts'
 import { renderPaper } from './legacy/paper.ts'
 import { isRtf, readRtf } from './legacy/rtf.ts'
 import { looksLikeHtml, looksLikeMime, readDocxText, readHtmlText, readPlainText } from './legacy/sniff.ts'
@@ -24,10 +26,7 @@ export async function render(ctx: PreviewContext): Promise<void | (() => void)> 
     oleGuards(cfb, ctx)
     try {
       const model = readWord(cfb)
-      const note = model.warnings.includes('old')
-        ? tr('Word 6/95 형식: 서식 없이 텍스트만 표시합니다.', 'Word 6/95 format: showing text without formatting.')
-        : undefined
-      return renderPaper(ctx, model, { note })
+      return showWord(ctx, model)
     } catch (e) {
       if (e instanceof WordError && e.code === 'encrypted') throw encrypted(ctx)
       if (e instanceof PreviewError) throw e
@@ -67,6 +66,50 @@ export async function render(ctx: PreviewContext): Promise<void | (() => void)> 
     })
   }
   throw new PreviewError('format', tr('Word 문서 형식이 아닙니다.', 'This is not a Word document.'))
+}
+
+/** Binary Word: page layout (Word's pages and margins) by default, reading layout (reflowed to the
+ *  window) by default on phones; a toolbar button switches between them. */
+function showWord(ctx: PreviewContext, model: DocModel): () => void {
+  const { tr } = ctx
+  let page = !ctx.compact && !!model.paged
+  let sub: AbortController | null = null
+  let cleanup: (() => void) | void = undefined
+  const onParentAbort = () => sub?.abort()
+  ctx.signal.addEventListener('abort', onParentAbort, { once: true })
+  const draw = () => {
+    try {
+      cleanup?.()
+    } catch {
+      // a mode's cleanup must not stop the next one
+    }
+    sub?.abort()
+    sub = new AbortController()
+    const sctx: PreviewContext = { ...ctx, signal: sub.signal }
+    cleanup = page ? renderPages(sctx, model) : renderPaper(sctx, model)
+    btn.textContent = page ? tr('읽기 모드', 'Reading') : tr('페이지', 'Page')
+    btn.title = page ? tr('창 너비에 맞춰 다시 흐르게 보기', 'Reflow the text to the window') : tr('Word와 같은 쪽 배치로 보기', "Show Word's page layout")
+    btn.setAttribute('aria-label', btn.title)
+  }
+  const btn = ctx.toolbar.button({
+    label: '',
+    title: '',
+    onClick: () => {
+      page = !page
+      draw()
+    }
+  })
+  if (!model.paged) btn.hidden = true
+  draw()
+  return () => {
+    ctx.signal.removeEventListener('abort', onParentAbort)
+    try {
+      cleanup?.()
+    } catch {
+      // ignore
+    }
+    sub?.abort()
+  }
 }
 
 function encrypted(ctx: PreviewContext): PreviewError {

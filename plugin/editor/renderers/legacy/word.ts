@@ -1,8 +1,26 @@
-/** Word 97-2003 binary (.doc) reader: FIB, piece table, paragraph and character properties
- *  (FKPs), style sheet, then Word's control characters become paragraphs, tables and breaks. */
+/** Word binary (.doc) reader for Word 97-2003 and Word 6/95: FIB, piece table, paragraph and
+ *  character properties (FKPs) resolved through the style sheet, sections with their page setup,
+ *  headers and footers, then Word's control characters become paragraphs, tables and breaks. */
 import { findPictures } from './blip.ts'
 import type { Cfb } from './cfb.ts'
-import type { Block, DocModel, Paragraph, Picture, Run } from './model.ts'
+import type { Block, DocModel, PageFmt, Paragraph, Picture, RowFmt, Run } from './model.ts'
+import {
+  applyChp,
+  applyPap,
+  applySep,
+  bulletChar,
+  defaultSep,
+  formatNumber,
+  readLists,
+  readFonts,
+  readStyleSheet,
+  type Chp,
+  type ListLevel,
+  type Pap,
+  type Sep,
+  type Style,
+  type Tap
+} from './wordfmt.ts'
 
 export class WordError extends Error {
   readonly code: 'encrypted' | 'old' | 'corrupt'
@@ -26,144 +44,120 @@ interface PropRun {
   grpprl: Uint8Array
 }
 
-interface CharProps {
-  b?: boolean
-  i?: boolean
-  u?: boolean
-  s?: boolean
-  hidden?: boolean
-  color?: string
-  pt?: number
-  sup?: boolean
-  sub?: boolean
-  picLocation?: number
-  special?: boolean
-  ole?: boolean
-}
+/** Text gathered for the paragraph being read; formatting is resolved at its paragraph mark. */
+type Item =
+  | { kind: 'text'; text: string; run: PropRun | null }
+  | { kind: 'pic'; run: PropRun | null }
 
-interface ParaProps {
-  istd: number
-  inTable: boolean
-  ttp: boolean
-  ilfo: number
-  pageBreakBefore?: boolean
-  jc?: number
-  indent?: number
-}
-
-const ICO = ['', '#000000', '#0000ff', '#00ffff', '#00ff00', '#ff00ff', '#ff0000', '#ffff00', '#ffffff', '#000080',
-  '#008080', '#008000', '#800080', '#800000', '#808000', '#808080', '#c0c0c0']
-
-/** Operand length of a sprm at `off` (the two sprm bytes excluded). */
-function sprmSize(sprm: number, b: Uint8Array, off: number): number {
-  switch (sprm >> 13) {
-    case 0:
-    case 1:
-      return 1
-    case 2:
-    case 4:
-    case 5:
-      return 2
-    case 3:
-      return 4
-    case 7:
-      return 3
-    default:
-      if (sprm === 0xd608 || sprm === 0xd606) return off + 1 < b.length ? 2 + (b[off] | (b[off + 1] << 8)) - 1 : 2
-      if (sprm === 0xc615 && b[off] === 255) return 1 + 255
-      return 1 + (b[off] ?? 0)
-  }
-}
-
-function* sprms(g: Uint8Array): Generator<[number, number, number]> {
-  let i = 0
-  while (i + 2 <= g.length) {
-    const sprm = g[i] | (g[i + 1] << 8)
-    const size = sprmSize(sprm, g, i + 2)
-    yield [sprm, i + 2, size]
-    i += 2 + size
-  }
-}
+const TW = 20 // twips per point
 
 export function readWord(cfb: Cfb): DocModel {
   const wd = cfb.stream('WordDocument')
   if (!wd || wd.length < 0x200) throw new WordError('corrupt', 'no WordDocument stream')
   const dv = new DataView(wd.buffer, wd.byteOffset, wd.byteLength)
-  const u16 = (o: number) => dv.getUint16(o, true)
-  const u32 = (o: number) => dv.getUint32(o, true)
+  const u16 = (o: number) => (o + 2 <= wd.length ? dv.getUint16(o, true) : 0)
+  const u32 = (o: number) => (o + 4 <= wd.length ? dv.getUint32(o, true) : 0)
   if (u16(0) !== 0xa5ec && u16(0) !== 0xa5dc) throw new WordError('corrupt', 'bad FIB')
   const nFib = u16(2)
   const flags = u16(0x0a)
   if (flags & 0x0100) throw new WordError('encrypted', 'encrypted')
   const warnings: string[] = []
-  if (nFib < 0xc1) return readWord95(wd, nFib)
+  if (nFib < 100) return readPlainOld(wd, nFib)
+  const old = nFib < 0xc1
 
-  const csw = u16(0x20)
-  const lwBase = 0x22 + csw * 2 + 2
-  const cslw = u16(lwBase - 2)
-  const lw = (i: number) => (i < cslw ? u32(lwBase + i * 4) : 0)
-  const fcBase = lwBase + cslw * 4 + 2
-  const cbRgFcLcb = u16(fcBase - 2)
-  const fcLcb = (i: number): [number, number] =>
-    i < cbRgFcLcb && fcBase + i * 8 + 8 <= wd.length ? [u32(fcBase + i * 8), u32(fcBase + i * 8 + 4)] : [0, 0]
-
-  const table = cfb.stream(flags & 0x0200 ? '1Table' : '0Table')
+  // FIB: the fc/lcb pairs and character counts.
+  let fcLcb: (i: number) => [number, number]
+  let ccp: (i: number) => number
+  if (old) {
+    fcLcb = (i) => [u32(0x58 + i * 8), u32(0x58 + i * 8 + 4)]
+    ccp = (i) => u32(0x34 + i * 4)
+  } else {
+    const csw = u16(0x20)
+    const lwBase = 0x22 + csw * 2 + 2
+    const cslw = u16(lwBase - 2)
+    const fcBase = lwBase + cslw * 4 + 2
+    const cbRgFcLcb = u16(fcBase - 2)
+    fcLcb = (i) => (i < cbRgFcLcb && fcBase + i * 8 + 8 <= wd.length ? [u32(fcBase + i * 8), u32(fcBase + i * 8 + 4)] : [0, 0])
+    // fibRgLw: 3 ccpText, 4 ccpFtn, 5 ccpHdd, 6 reserved, 7 ccpAtn, 8 ccpEdn, 9 ccpTxbx, 10 ccpHdrTxbx
+    ccp = (i) => (3 + i < cslw ? u32(lwBase + (3 + i) * 4) : 0)
+  }
+  // ccp(i): 0 text, 1 footnotes, 2 headers, 3 macro (old) / reserved, 4 annotations, 5 endnotes, 6 text boxes
+  const table = old ? wd : cfb.stream(flags & 0x0200 ? '1Table' : '0Table')
   if (!table) throw new WordError('corrupt', 'no table stream')
   const tdv = new DataView(table.buffer, table.byteOffset, table.byteLength)
+  const tu16 = (o: number) => (o + 2 <= table.length ? tdv.getUint16(o, true) : 0)
+  const tu32 = (o: number) => (o + 4 <= table.length ? tdv.getUint32(o, true) : 0)
   const data = cfb.stream('Data')
 
-  // Piece table from the CLX.
+  // Piece table from the CLX (Word 6/95 files saved without fast-save have none: one piece).
   const [fcClx, lcbClx] = fcLcb(33)
   const pieces: Piece[] = []
   let p = fcClx
   const clxEnd = Math.min(table.length, fcClx + lcbClx)
-  while (p + 5 <= clxEnd) {
+  while (lcbClx && p + 5 <= clxEnd) {
     if (table[p] === 0x01) {
       // Prc: cbGrpprl is unsigned in practice; the offset must strictly increase.
-      const next = p + 3 + tdv.getUint16(p + 1, true)
+      const next = p + 3 + tu16(p + 1)
       if (next <= p) break
       p = next
       continue
     }
     if (table[p] !== 0x02) break
-    const lcb = tdv.getUint32(p + 1, true)
+    const lcb = tu32(p + 1)
     const start = p + 5
     const n = Math.max(0, Math.min(Math.floor((lcb - 4) / 12), Math.floor((clxEnd - start - 4) / 12)))
     for (let k = 0; k < n; k++) {
-      const cpStart = tdv.getUint32(start + k * 4, true)
-      const cpEnd = tdv.getUint32(start + (k + 1) * 4, true)
-      const raw = tdv.getUint32(start + (n + 1) * 4 + k * 8 + 2, true)
-      const compressed = (raw & 0x40000000) !== 0
-      const fcv = raw & 0x3fffffff
-      pieces.push({ cpStart, cpEnd, fc: compressed ? fcv / 2 : fcv, compressed })
+      const cpStart = tu32(start + k * 4)
+      const cpEnd = tu32(start + (k + 1) * 4)
+      const raw = tu32(start + (n + 1) * 4 + k * 8 + 2)
+      if (old) pieces.push({ cpStart, cpEnd, fc: raw, compressed: true })
+      else {
+        const compressed = (raw & 0x40000000) !== 0
+        const fcv = raw & 0x3fffffff
+        pieces.push({ cpStart, cpEnd, fc: compressed ? fcv / 2 : fcv, compressed })
+      }
     }
     break
   }
-  if (!pieces.length) throw new WordError('corrupt', 'no piece table')
+  if (!pieces.length) {
+    const fcMin = u32(0x18)
+    const fcMac = u32(0x1c)
+    if (!old || !(fcMin < fcMac && fcMac <= wd.length)) throw new WordError('corrupt', 'no piece table')
+    pieces.push({ cpStart: 0, cpEnd: fcMac - fcMin, fc: fcMin, compressed: true })
+  }
 
+  // FKPs: character and paragraph property runs.
   const runsFrom = (plcIndex: number, papx: boolean): PropRun[] => {
     const [fc, lcb] = fcLcb(plcIndex)
     const out: PropRun[] = []
     if (!lcb || fc + lcb > table.length) return out
-    const n = (lcb - 4) / 8
+    const pnSize = old ? 2 : 4
+    const n = Math.floor((lcb - 4) / (4 + pnSize))
+    const seen = new Set<number>()
     for (let k = 0; k < n; k++) {
-      const pn = tdv.getUint32(fc + (n + 1) * 4 + k * 4, true) & 0x3fffff
+      const pnAt = fc + (n + 1) * 4 + k * pnSize
+      const pn = (old ? tu16(pnAt) : tu32(pnAt)) & 0x3fffff
+      if (seen.has(pn)) continue
+      seen.add(pn)
       const page = pn * 512
       if (page + 512 > wd.length) continue
       const crun = wd[page + 511]
+      if (crun > 101) continue
       for (let r = 0; r < crun; r++) {
         const fcStart = u32(page + r * 4)
         const fcEnd = u32(page + (r + 1) * 4)
         let grpprl: Uint8Array
         if (papx) {
-          const bOff = wd[page + (crun + 1) * 4 + r * 13] * 2
+          const bxSize = old ? 7 : 13
+          const bOff = wd[page + (crun + 1) * 4 + r * bxSize] * 2
           if (!bOff) {
             grpprl = new Uint8Array(0)
           } else {
             let cb = wd[page + bOff]
             let at = page + bOff + 1
             let len: number
-            if (cb === 0) {
+            if (old) len = cb * 2
+            else if (cb === 0) {
               cb = wd[at]
               at++
               len = cb * 2
@@ -172,7 +166,7 @@ export function readWord(cfb: Cfb): DocModel {
           }
         } else {
           const bOff = wd[page + (crun + 1) * 4 + r] * 2
-          grpprl = bOff ? wd.subarray(page + bOff + 1, page + bOff + 1 + wd[page + bOff]) : new Uint8Array(0)
+          grpprl = bOff ? wd.subarray(page + bOff + 1, Math.min(page + 511, page + bOff + 1 + wd[page + bOff])) : new Uint8Array(0)
         }
         out.push({ fcStart, fcEnd, grpprl })
       }
@@ -195,8 +189,15 @@ export function readWord(cfb: Cfb): DocModel {
     return null
   }
 
-  // Styles: istd -> sti and name (headings, title, list styles).
-  const styles = readStyles(table, fcLcb(1))
+  // Styles and fonts.
+  const [fcStsh, lcbStsh] = fcLcb(1)
+  const { styles, defaults } = readStyleSheet(table, fcStsh, lcbStsh, old)
+  const [fcFfn, lcbFfn] = fcLcb(15)
+  const fonts = readFonts(table, fcFfn, lcbFfn, old)
+  const styleAt = (istd: number): Style | undefined => styles[istd]
+  const normalStyle = styles[0]
+  const baseChp: Chp = normalStyle?.chp ?? { ...defaults }
+
   const styleKind = (istd: number): { heading?: number; list?: boolean } => {
     const s = styles[istd]
     if (!s) return {}
@@ -209,61 +210,66 @@ export function readWord(cfb: Cfb): DocModel {
     return {}
   }
 
-  const chpCache = new Map<PropRun, CharProps>()
-  const charProps = (fc: number): CharProps => {
-    const r = find(chpRuns, fc)
-    if (!r) return {}
-    let c = chpCache.get(r)
-    if (c) return c
-    c = {}
-    const g = r.grpprl
-    for (const [sprm, o, size] of sprms(g)) {
-      const v = g[o]
-      const on = v === 1 || v === 0x81
-      switch (sprm) {
-        case 0x0835: c.b = on; break
-        case 0x0836: c.i = on; break
-        case 0x0837: c.s = on; break
-        case 0x083c: c.hidden = on; break
-        case 0x2a3e: c.u = v !== 0; break
-        case 0x4a43: c.pt = (v | (g[o + 1] << 8)) / 2; break
-        case 0x2a42: if (v > 0 && v < ICO.length) c.color = ICO[v]; break
-        case 0x6870:
-          if (size === 4 && g[o + 3] === 0) c.color = `rgb(${g[o]},${g[o + 1]},${g[o + 2]})`
-          break
-        case 0x2a48: c.sup = v === 1; c.sub = v === 2; break
-        case 0x6a03: c.picLocation = v | (g[o + 1] << 8) | (g[o + 2] << 16) | (g[o + 3] << 24); break
-        case 0x0855: c.special = on; break
-        case 0x080a: c.ole = on; break
-      }
+  const lists = old ? null : readLists(table, ...fcLcb(73), ...fcLcb(74))
+  const listLevel = (pap: Pap): { lsid: number; level: ListLevel; ilfo: number } | null => {
+    if (!lists || pap.ilfo <= 0 || pap.ilfo === 2047) return null
+    const lfo = lists.lfo[pap.ilfo - 1]
+    const levels = lfo && lists.defs.get(lfo.lsid)
+    if (!levels || !levels.length) return null
+    const ilvl = Math.min(levels.length - 1, Math.max(0, pap.ilvl))
+    return { lsid: lfo.lsid, level: levels[ilvl], ilfo: pap.ilfo }
+  }
+  const counters = new Map<number, (number | undefined)[]>()
+
+  const charStyle = (istd: number, target: Chp) => {
+    const st = styleAt(istd)
+    if (!st || st.stk !== 2) return
+    for (const g of st.chpxChain) applyChp(target, g, target, old)
+  }
+  const chpCache = new Map<string, Chp>()
+  let chpIds = new WeakMap<PropRun, number>()
+  let nextId = 1
+  const resolveChp = (run: PropRun | null, istd: number): Chp => {
+    const style = styleAt(istd)?.chp ?? baseChp
+    if (!run || !run.grpprl.length) return style
+    let id = chpIds.get(run)
+    if (id == null) {
+      id = nextId++
+      chpIds.set(run, id)
     }
-    chpCache.set(r, c)
+    const key = `${id}:${istd}`
+    let c = chpCache.get(key)
+    if (c) return c
+    c = { ...style }
+    applyChp(c, run.grpprl, style, old, charStyle)
+    chpCache.set(key, c)
     return c
   }
-  const paraProps = (fc: number): ParaProps => {
-    const out: ParaProps = { istd: 0, inTable: false, ttp: false, ilfo: 0 }
+  const resolvePap = (fc: number): Pap => {
     const r = find(papRuns, fc)
-    if (!r || r.grpprl.length < 2) return out
-    const g = r.grpprl
-    out.istd = g[0] | (g[1] << 8)
-    for (const [sprm, o] of sprms(g.subarray(2))) {
-      const at = o + 2
-      const v = g[at]
-      switch (sprm) {
-        case 0x2416: out.inTable = v !== 0; break
-        case 0x2417: out.ttp = v !== 0; break
-        case 0x244b: if (v) out.inTable = true; break
-        case 0x244c: if (v) out.ttp = true; break
-        case 0x6649: if ((v | (g[at + 1] << 8)) > 0) out.inTable = true; break
-        case 0x2407: out.pageBreakBefore = v !== 0; break
-        case 0x460b: out.ilfo = v | (g[at + 1] << 8); break
-        case 0x2403:
-        case 0x2461: out.jc = v; break
-        case 0x840f:
-        case 0x845e: out.indent = ((v | (g[at + 1] << 8)) << 16) >> 16; break
+    const g = r?.grpprl
+    const istd = g && g.length >= 2 ? g[0] | (g[1] << 8) : 0
+    const st = styleAt(istd) ?? normalStyle
+    const pap: Pap = st ? { ...st.pap, line: { ...st.pap.line }, tap: undefined, hugePapx: undefined } : resolveDefaultPap()
+    pap.istd = istd
+    const direct = (target: Pap) => {
+      if (g && g.length > 2) applyPap(target, g.subarray(2), old)
+      if (target.hugePapx != null && data && target.hugePapx + 2 <= data.length) {
+        const cb = data[target.hugePapx] | (data[target.hugePapx + 1] << 8)
+        applyPap(target, data.subarray(target.hugePapx + 2, Math.min(data.length, target.hugePapx + 2 + cb)), old)
       }
     }
-    return out
+    direct(pap)
+    // List paragraphs: style, then the list level's indents, then direct formatting.
+    const lv = listLevel(pap)
+    if (lv && lv.level.papx.length) {
+      const again: Pap = st ? { ...st.pap, line: { ...st.pap.line }, tap: undefined, hugePapx: undefined } : resolveDefaultPap()
+      again.istd = istd
+      applyPap(again, lv.level.papx, old)
+      direct(again)
+      return again
+    }
+    return pap
   }
 
   const pictureAt = (loc: number | undefined): Picture | null => {
@@ -286,48 +292,191 @@ export function readWord(cfb: Cfb): DocModel {
     return pic
   }
 
-  // Text of one story (CP range) through the piece table, as (char, fc) pairs per piece.
-  const story = (cpFrom: number, cpTo: number): Block[] => {
+  // Sections: CP ranges with their page setup.
+  const sections: { cpEnd: number; sep: Sep }[] = []
+  {
+    const [fc, lcb] = fcLcb(6)
+    const n = lcb >= 16 ? Math.floor((lcb - 4) / 16) : 0
+    for (let k = 0; k < n && k < 1000; k++) {
+      const cpEnd = tu32(fc + (k + 1) * 4)
+      const fcSepx = tu32(fc + (n + 1) * 4 + k * 12 + 2)
+      const sep = defaultSep()
+      if (fcSepx !== 0xffffffff && fcSepx + 2 <= wd.length) {
+        const cb = u16(fcSepx)
+        applySep(sep, wd.subarray(fcSepx + 2, Math.min(wd.length, fcSepx + 2 + cb)), old)
+      }
+      sections.push({ cpEnd, sep })
+    }
+  }
+  if (!sections.length) sections.push({ cpEnd: Number.MAX_SAFE_INTEGER, sep: defaultSep() })
+  const pageFmt = (sep: Sep, first: boolean): PageFmt => {
+    let w = sep.pageW / TW
+    let hgt = sep.pageH / TW
+    if (sep.landscape && w < hgt) [w, hgt] = [hgt, w]
+    if (!(w > 72 && w < 6000)) w = 612
+    if (!(hgt > 72 && hgt < 6000)) hgt = 792
+    const clampM = (v: number, max: number) => Math.max(0, Math.min(v / TW, max * 0.45))
+    return {
+      w,
+      h: hgt,
+      top: clampM(sep.top, hgt),
+      bottom: clampM(sep.bottom, hgt),
+      left: clampM(sep.left + sep.gutter, w),
+      right: clampM(sep.right, w),
+      header: clampM(sep.header, hgt),
+      footer: clampM(sep.footer, hgt),
+      columns: sep.columns,
+      colSpace: sep.colSpace / TW,
+      newPage: first || sep.bkc !== 0,
+      linePitch: sep.clm ? Math.max(0, sep.linePitch / TW) : 0
+    }
+  }
+
+  const fontName = (ftc: number) => fonts[ftc] || undefined
+  const pt = (tw: number) => tw / TW
+
+  /** Turns one CP range into blocks. `withSections` emits section starts (main text only). */
+  const story = (cpFrom: number, cpTo: number, withSections: boolean): Block[] => {
     const blocks: Block[] = []
-    let runs: Run[] = []
-    let cur: Run | null = null
-    let curProps: CharProps | null = null
+    let items: Item[] = []
     const fields: boolean[] = [] // true while in a field's code part
     let inCode = 0 // how many entries of `fields` are true
     let tableRows: Block[][][] | null = null
+    let rowFmts: (RowFmt | undefined)[] = []
     let row: Block[][] = []
     let cell: Block[] = []
     let lastWasCellEnd = false
+    let secIndex = -1
 
-    const pushChar = (ch: string, props: CharProps) => {
-      if (cur && curProps === props) {
-        cur.text += ch
-        return
-      }
-      cur = { text: ch, b: props.b, i: props.i, u: props.u, s: props.s, color: props.color, sup: props.sup, sub: props.sub }
-      if (props.pt) cur.pt = props.pt
-      curProps = props
-      runs.push(cur)
+    const enterSection = (cp: number) => {
+      if (!withSections) return
+      let s = secIndex < 0 ? 0 : secIndex
+      while (s < sections.length - 1 && cp >= sections[s].cpEnd) s++
+      if (s === secIndex) return
+      if (tableRows) closeTable()
+      for (let k = secIndex + 1; k <= s; k++) blocks.push({ kind: 'sect', page: pageFmt(sections[k].sep, k === 0) })
+      secIndex = s
     }
-    const endPara = (mark: string, fc: number) => {
-      const pp = paraProps(fc)
-      const kind = styleKind(pp.istd)
-      const para: Paragraph = { kind: 'p', runs: runs.filter((r) => r.text || r.image || r.object) }
+
+    const pushText = (text: string, run: PropRun | null) => {
+      const last = items[items.length - 1]
+      if (last && last.kind === 'text' && last.run === run) last.text += text
+      else items.push({ kind: 'text', text, run })
+    }
+
+    const endPara = (mark: string, fc: number, markCp: number) => {
+      const pap = resolvePap(fc)
+      const istd = pap.istd
+      const runs: Run[] = []
+      for (const it of items) {
+        const chp = resolveChp(it.run, istd)
+        if (it.kind === 'pic') {
+          if (chp.ole) runs.push({ text: '', object: 'OLE' })
+          else {
+            const pic = pictureAt(chp.picLocation)
+            runs.push(pic ? { text: '', image: pic } : { text: '', object: 'picture' })
+          }
+          continue
+        }
+        if (chp.hidden) continue
+        const r: Run = { text: it.text, pt: chp.hps / 2 }
+        if (chp.b) r.b = true
+        if (chp.i) r.i = true
+        if (chp.u) r.u = true
+        if (chp.strike) r.s = true
+        if (chp.color && chp.color !== '#000000') r.color = chp.color
+        if (chp.highlight) r.bg = chp.highlight
+        if (chp.iss === 1) r.sup = true
+        if (chp.iss === 2) r.sub = true
+        if (chp.caps) r.caps = true
+        if (chp.smallCaps) r.smallCaps = true
+        if (chp.dxaSpace) r.spacing = chp.dxaSpace / TW
+        r.font = fontName(chp.ftcAscii)
+        r.eaFont = fontName(chp.ftcFE)
+        const prev = runs[runs.length - 1]
+        if (prev && sameLook(prev, r)) prev.text += r.text
+        else runs.push(r)
+      }
+      items = []
+      const markChp = resolveChp(find(chpRuns, fc), istd)
+      const lv = listLevel(pap)
+      let hasLabel = false
+      if (lv) {
+        const { level } = lv
+        const lvIndex = Math.min(8, Math.max(0, pap.ilvl))
+        let cs = counters.get(lv.lsid)
+        if (!cs) counters.set(lv.lsid, (cs = []))
+        const levels = lists!.defs.get(lv.lsid)!
+        const startOf = (k: number) => lists!.lfo[lv.ilfo - 1]?.startAt.get(k) ?? levels[k]?.start ?? 1
+        const cur = cs[lvIndex]
+        cs[lvIndex] = cur == null ? startOf(lvIndex) : cur + 1
+        for (let k = lvIndex + 1; k < 9; k++) cs[k] = undefined
+        let text = ''
+        for (const ch of level.text) {
+          const code = ch.charCodeAt(0)
+          if (code < 9) {
+            const lk = levels[code]
+            const v = cs[code] ?? startOf(code)
+            text += formatNumber(v, level.legal ? 0 : (lk?.nfc ?? 0))
+          } else text += ch
+        }
+        if (level.nfc === 23 || /[\uf000-\uf0ff]/.test(text)) text = bulletChar(text)
+        if (text) {
+          const lchp: Chp = { ...markChp, u: 0, hidden: false }
+          applyChp(lchp, level.chpx, markChp, old)
+          const label: Run = { text: level.follow === 1 ? text + ' ' : text, pt: lchp.hps / 2 }
+          if (lchp.b) label.b = true
+          if (lchp.i) label.i = true
+          if (lchp.color && lchp.color !== '#000000') label.color = lchp.color
+          const f = fontName(lchp.ftcAscii)
+          const symbol = !!f && /symbol|wingdings|webdings/i.test(f)
+          label.font = symbol ? undefined : f
+          if (symbol) label.symbolFont = f
+          label.eaFont = fontName(lchp.ftcFE)
+          if (level.follow === 0) {
+            // tab after the number: to the hanging indent, or else the next default tab stop
+            label.labelWidth = pap.first < 0 ? -pap.first / TW : 0
+          } else label.labelWidth = undefined
+          runs.unshift(label)
+          hasLabel = true
+        }
+      }
+      const kind = styleKind(istd)
+      const para: Paragraph = { kind: 'p', runs }
       if (kind.heading != null) para.heading = kind.heading
-      if (kind.list || pp.ilfo > 0) para.list = true
-      if (pp.jc === 1) para.align = 'center'
-      else if (pp.jc === 2) para.align = 'right'
-      else if (pp.jc === 3 || pp.jc === 4) para.align = 'justify'
-      if (pp.indent && pp.indent > 0 && !para.list) para.indent = Math.round((pp.indent / 1440) * 96)
-      runs = []
-      cur = null
-      curProps = null
-      const inTable = pp.inTable || (mark === '\x07' && chpRuns.length === 0)
+      if (!hasLabel && (kind.list || pap.ilfo > 0)) para.list = true
+      if (pap.jc === 1) para.align = 'center'
+      else if (pap.jc === 2) para.align = 'right'
+      else if (pap.jc === 3 || pap.jc === 4 || pap.jc === 5) para.align = 'justify'
+      if (pap.left > 0 && !para.list) para.indent = Math.round((pap.left / 1440) * 96)
+      const line = pap.line
+      para.fmt = {
+        before: pap.beforeAuto ? 14 : pt(pap.before),
+        after: pap.afterAuto ? 14 : pt(pap.after),
+        lineRule: line.mult ? 'auto' : line.dyaLine < 0 ? 'exact' : 'atLeast',
+        line: line.mult ? Math.max(0.06, line.dyaLine / 240) : Math.abs(line.dyaLine) / TW,
+        left: pt(pap.left),
+        right: pt(pap.right),
+        first: pt(pap.first),
+        keepNext: pap.keepNext,
+        keepLines: pap.keep,
+        widow: pap.widow,
+        pageBreakBefore: pap.pageBreakBefore,
+        contextual: pap.contextual,
+        style: istd,
+        markPt: markChp.hps / 2,
+        markFont: fontName(markChp.ftcAscii),
+        markEaFont: fontName(markChp.ftcFE)
+      }
+      const inTable = pap.inTable || (mark === '\x07' && chpRuns.length === 0)
       if (inTable) {
         tableRows ??= []
-        const rowEnd = mark === '\x07' && (pp.ttp || (papRuns.length === 0 && lastWasCellEnd && !para.runs.length))
+        const rowEnd = mark === '\x07' && (pap.ttp || (papRuns.length === 0 && lastWasCellEnd && !para.runs.length))
         if (rowEnd) {
-          if (row.length) tableRows.push(row)
+          if (row.length) {
+            tableRows.push(row)
+            rowFmts.push(pap.tap ? rowFmt(pap.tap, row.length) : undefined)
+          }
           row = []
           cell = []
         } else if (mark === '\x07') {
@@ -340,18 +489,24 @@ export function readWord(cfb: Cfb): DocModel {
       }
       lastWasCellEnd = false
       if (tableRows) closeTable()
-      if (pp.pageBreakBefore && blocks.length && blocks[blocks.length - 1].kind !== 'break') blocks.push({ kind: 'break' })
+      enterSection(markCp)
+      if (pap.pageBreakBefore && !para.fmt && blocks.length && blocks[blocks.length - 1].kind !== 'break') blocks.push({ kind: 'break' })
       blocks.push(para)
     }
     const closeTable = () => {
       if (cell.length) row.push(cell)
-      if (row.length) tableRows!.push(row)
-      if (tableRows!.length) blocks.push({ kind: 'table', rows: tableRows! })
+      if (row.length) {
+        tableRows!.push(row)
+        rowFmts.push(undefined)
+      }
+      if (tableRows!.length) blocks.push({ kind: 'table', rows: tableRows!, rowFmt: rowFmts })
       tableRows = null
+      rowFmts = []
       row = []
       cell = []
     }
 
+    if (withSections) enterSection(cpFrom)
     for (const pc of pieces) {
       const a = Math.max(pc.cpStart, cpFrom)
       const b = Math.min(pc.cpEnd, cpTo)
@@ -361,9 +516,11 @@ export function readWord(cfb: Cfb): DocModel {
       const raw = pc.compressed ? wd.subarray(off, off + n) : wd.subarray(off, off + 2 * n)
       const text = new TextDecoder(pc.compressed ? 'windows-1252' : 'utf-16le').decode(raw)
       const step = pc.compressed ? 1 : 2
+      let run: PropRun | null = null
       for (let k = 0; k < text.length; k++) {
         const ch = text[k]
         const fc = off + k * step
+        const cp = a + k
         const code = ch.charCodeAt(0)
         if (code === 0x13) {
           fields.push(true)
@@ -382,125 +539,154 @@ export function readWord(cfb: Cfb): DocModel {
           continue
         }
         if (code === 0x0d || code === 0x07) {
-          endPara(ch, fc)
+          endPara(ch, fc, cp)
           continue
         }
         if (inCode > 0) continue
-        const props = charProps(fc)
-        if (props.hidden) continue
+        if (!run || fc < run.fcStart || fc >= run.fcEnd) run = find(chpRuns, fc)
         if (code === 0x0c) {
-          if (runs.length) endPara('\r', fc)
+          // A section break ends its section's last paragraph; anything else is a page break.
+          const sec = sections.find((s) => cp < s.cpEnd)
+          if (withSections && sec && cp === sec.cpEnd - 1) {
+            // The break's own paragraph takes no space in Word when it holds nothing else.
+            if (items.length) endPara('\r', fc, cp)
+            continue
+          }
+          if (items.length) endPara('\r', fc, cp)
           if (tableRows) closeTable()
           blocks.push({ kind: 'break' })
           continue
         }
         if (code === 0x01) {
-          if (props.ole) {
-            runs.push({ text: '', object: 'OLE' })
-            cur = null
-            continue
-          }
-          const pic = pictureAt(props.picLocation)
-          runs.push(pic ? { text: '', image: pic } : { text: '', object: 'picture' })
-          cur = null
+          items.push({ kind: 'pic', run })
           continue
         }
-        if (code === 0x08 || code === 0x02 || code === 0x03 || code === 0x04 || code === 0x05 || code === 0x28 && props.special) continue
+        if (code === 0x08 || code === 0x02 || code === 0x03 || code === 0x04 || code === 0x05) continue
         if (code === 0x0b || code === 0x0e) {
-          pushChar('\n', props)
+          pushText('\n', run)
           continue
         }
         if (code === 0x1e) {
-          pushChar('-', props)
+          pushText('-', run)
           continue
         }
         if (code === 0x1f) continue
         if (code < 0x20 && code !== 0x09) continue
-        pushChar(code === 0xa0 ? ' ' : ch, props)
+        pushText(code === 0xa0 ? ' ' : ch, run)
       }
     }
-    if (runs.length) endPara('\r', -1)
+    if (items.length) endPara('\r', -1, cpTo)
     if (tableRows) closeTable()
     return blocks
   }
 
-  const ccpText = lw(3)
-  const ccpFtn = lw(4)
-  const ccpHdd = lw(5)
-  const ccpAtn = lw(7)
-  const ccpEdn = lw(8)
-  const ccpTxbx = lw(9)
-  const blocks = story(0, ccpText)
+  function resolveDefaultPap(): Pap {
+    return { ...(styles[0]?.pap ?? ({} as Pap)) }
+  }
+
+  const ccpText = ccp(0)
+  const ccpFtn = ccp(1)
+  const ccpHdd = ccp(2)
+  const ccpAtn = ccp(4)
+  const ccpEdn = ccp(5)
+  const ccpTxbx = ccp(6)
+  const blocks = story(0, ccpText, true)
+
+  // Headers and footers (odd-page stories of each section; empty stories inherit).
+  const [fcHdd, lcbHdd] = fcLcb(11)
+  if (ccpHdd > 0 && lcbHdd >= 8) {
+    const cps: number[] = []
+    for (let k = 0; k < lcbHdd / 4 && k < 2000; k++) cps.push(tu32(fcHdd + k * 4))
+    const hddBase = ccpText + ccpFtn
+    const storyAt = (idx: number): Block[] | null => {
+      if (idx + 1 >= cps.length) return null
+      const a = cps[idx]
+      const b = cps[idx + 1]
+      if (!(b > a + 1)) return null
+      const bl = story(hddBase + a, hddBase + b - 1, false).filter((x) => x.kind !== 'break')
+      return bl.some((x) => x.kind === 'table' || (x.kind === 'p' && x.runs.some((r) => r.text.trim() || r.image))) ? bl : null
+    }
+    let header: Block[] | undefined
+    let footer: Block[] | undefined
+    let s = 0
+    for (const b of blocks) {
+      if (b.kind !== 'sect') continue
+      const base = 6 + s * 6
+      header = storyAt(base + 1) ?? header
+      footer = storyAt(base + 3) ?? footer
+      if (header) b.header = header
+      if (footer) b.footer = footer
+      s++
+    }
+  }
+
   let cp = ccpText
   const extra = (title: string, len: number) => {
     if (len > 1) {
-      const b = story(cp, cp + len).filter((x) => x.kind !== 'p' || x.runs.some((r) => r.text.trim() || r.image))
+      const b = story(cp, cp + len, false).filter((x) => x.kind !== 'p' || x.runs.some((r) => r.text.trim() || r.image))
       if (b.length) blocks.push({ kind: 'section', title }, ...b)
     }
     cp += len
   }
   extra('footnotes', ccpFtn)
   cp += ccpHdd
+  if (!old) cp += ccp(3)
   cp += ccpAtn
   extra('endnotes', ccpEdn)
   extra('textboxes', ccpTxbx)
   if (flags & 0x8000) warnings.push('obfuscated')
-  return { blocks, variant: 'Word 97-2003', warnings }
+  if (old) warnings.push('old')
+  chpIds = new WeakMap()
+  return { blocks, variant: old ? `Word 6/95` : 'Word 97-2003', warnings, paged: true }
 }
 
-interface StyleInfo {
-  sti: number
-  name: string
+function sameLook(a: Run, b: Run): boolean {
+  return (
+    !a.image && !a.object && a.b === b.b && a.i === b.i && a.u === b.u && a.s === b.s && a.color === b.color && a.bg === b.bg &&
+    a.pt === b.pt && a.sup === b.sup && a.sub === b.sub && a.font === b.font && a.eaFont === b.eaFont && a.caps === b.caps &&
+    a.smallCaps === b.smallCaps && a.spacing === b.spacing
+  )
 }
 
-function readStyles(table: Uint8Array, [fc, lcb]: [number, number]): StyleInfo[] {
-  const out: StyleInfo[] = []
-  if (!lcb || fc + lcb > table.length) return out
-  try {
-    const dv = new DataView(table.buffer, table.byteOffset + fc, lcb)
-    const cbStshi = dv.getUint16(0, true)
-    const cstd = dv.getUint16(2, true)
-    const cbBase = dv.getUint16(4, true)
-    let p = 2 + cbStshi
-    for (let i = 0; i < cstd && p + 2 <= lcb; i++) {
-      const cbStd = dv.getUint16(p, true)
-      p += 2
-      if (cbStd >= 10 && p + cbStd <= lcb) {
-        const sti = dv.getUint16(p, true) & 0x0fff
-        let name = ''
-        const np = p + cbBase
-        if (np + 2 <= p + cbStd) {
-          const cch = dv.getUint16(np, true)
-          for (let k = 0; k < cch && np + 2 + k * 2 + 2 <= p + cbStd; k++) name += String.fromCharCode(dv.getUint16(np + 2 + k * 2, true))
-        }
-        out[i] = { sti, name }
-      }
-      p += cbStd
-    }
-  } catch {
-    // a damaged style sheet only costs heading detection
+function rowFmt(tap: Tap, cells: number): RowFmt | undefined {
+  if (tap.centers.length < 2) return undefined
+  const pt = (tw: number) => tw / TW
+  const gap = tap.gapHalf
+  const borders: [number, number, number, number][] = []
+  const merged: boolean[] = []
+  const tb = tap.tableBorders
+  for (let k = 0; k < Math.max(cells, tap.centers.length - 1); k++) {
+    const c = tap.cells[k]
+    let b: [number, number, number, number] = c ? (c.borders.map((x) => x / 8) as [number, number, number, number]) : [0, 0, 0, 0]
+    if (tb && b.every((x) => x === 0)) b = [tb[0] / 8 || tb[4] / 8, k === 0 ? tb[1] / 8 : tb[5] / 8, tb[2] / 8 || tb[4] / 8, k === tap.centers.length - 2 ? tb[3] / 8 : tb[5] / 8]
+    borders.push(b)
+    merged.push(!!c?.merged)
   }
-  return out
+  return {
+    centers: tap.centers.map(pt),
+    padLeft: pt(tap.padLeft ?? gap),
+    padRight: pt(tap.padRight ?? gap),
+    padTop: pt(tap.padTop ?? 0),
+    padBottom: pt(tap.padBottom ?? 0),
+    height: pt(tap.rowHeight),
+    borders,
+    merged,
+    jc: tap.jc
+  }
 }
 
-/** Word 6 / 95: no piece table we understand; take the plain text between fcMin and fcMac. */
-function readWord95(wd: Uint8Array, nFib: number): DocModel {
+/** Word for DOS / Word 2 era files: no structure we read; the plain text between fcMin and fcMac. */
+function readPlainOld(wd: Uint8Array, nFib: number): DocModel {
   const dv = new DataView(wd.buffer, wd.byteOffset, wd.byteLength)
   const fcMin = dv.getUint32(0x18, true)
   const fcMac = dv.getUint32(0x1c, true)
   if (!(fcMin < fcMac && fcMac <= wd.length)) throw new WordError('old', `nFib ${nFib}`)
-  const raw = wd.subarray(fcMin, fcMac)
-  let text: string
-  try {
-    text = new TextDecoder('utf-8', { fatal: true }).decode(raw)
-  } catch {
-    text = new TextDecoder('windows-1252').decode(raw)
-  }
+  const text = new TextDecoder('windows-1252').decode(wd.subarray(fcMin, fcMac))
   const blocks: Block[] = []
   for (const line of text.split(/[\r\x07]/)) {
     const clean = line.replace(/\x13[^\x14\x15]*\x14?|\x15/g, '').replace(/[\x00-\x08\x0e-\x1f]/g, '')
     if (clean.includes('\x0c')) blocks.push({ kind: 'break' })
     blocks.push({ kind: 'p', runs: [{ text: clean.replace(/\x0c/g, '').replace(/\x0b/g, '\n') }] })
   }
-  return { blocks, variant: `Word 6/95 (nFib ${nFib})`, warnings: ['old'] }
+  return { blocks, variant: `Word (nFib ${nFib})`, warnings: ['old'] }
 }
