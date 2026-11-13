@@ -1,0 +1,131 @@
+name: release
+# Builds every distributable for a version tag and publishes the GitHub release:
+#   orca-file-preview-<v>.zip / .tar.gz   package (plugin + installer scripts)
+#   file-preview-setup-<v>.run            macOS/Linux self-extracting installer
+#   FilePreviewSetup-<v>.exe              Windows installer/updater (package embedded)
+#   File-Preview-Setup-<v>-macos.zip      macOS app ("File Preview Setup.app")
+# each with a .sha256. Release notes come from docs/release-notes/<tag>.md (tools/release-notes.mjs).
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing tag to (re)build, e.g. v0.1.0'
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-24.04
+    outputs:
+      tag: ${{ steps.v.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.tag || github.ref }}
+      - id: v
+        run: |
+          TAG="${{ github.event.inputs.tag || github.ref_name }}"
+          VER=$(node -p "require('./plugin/orca-plugin.json').version")
+          [ "v$VER" = "$TAG" ] || { echo "tag $TAG does not match plugin version $VER" >&2; exit 1; }
+          echo "tag=$TAG" >>"$GITHUB_OUTPUT"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci --ignore-scripts
+      - run: node tools/package-release.mjs
+      - name: Self-extracting installer runs (status without Orca must fail cleanly)
+        run: |
+          set +e
+          out=$(HOME=$(mktemp -d) sh dist/file-preview-setup-*.run status 2>&1); rc=$?
+          echo "$out"; echo "exit $rc"
+          echo "$out" | grep -q "Orca's command line tool was not found" || exit 1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist-package
+          path: dist
+
+  windows-exe:
+    needs: package
+    runs-on: windows-2025
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.package.outputs.tag }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist-package
+          path: dist
+      - name: Build FilePreviewSetup.exe
+        shell: powershell
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File tools/build-windows-exe.ps1
+      - name: The exe unpacks and runs the installer (status without Orca must fail cleanly)
+        shell: powershell
+        run: |
+          $exe = Get-ChildItem dist\FilePreviewSetup-*.exe | Select-Object -First 1
+          $out = & $exe.FullName /status 2>&1 | Out-String
+          Write-Host $out
+          if ($out -notmatch "Orca's command line tool was not found") { exit 1 }
+          exit 0
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist-windows
+          path: |
+            dist/FilePreviewSetup-*.exe
+            dist/FilePreviewSetup-*.exe.sha256
+
+  macos-app:
+    needs: package
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.package.outputs.tag }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist-package
+          path: dist
+      - run: bash tools/build-macos-app.sh
+      - name: The app bundle is complete and signed (ad hoc)
+        run: |
+          cd "$(mktemp -d)" && ditto -x -k "$GITHUB_WORKSPACE"/dist/File-Preview-Setup-*-macos.zip .
+          codesign --verify --deep --verbose=1 "File Preview Setup.app"
+          test -f "File Preview Setup.app/Contents/Resources/File Preview/installer/unix/file-preview.sh"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist-macos
+          path: |
+            dist/File-Preview-Setup-*-macos.zip
+            dist/File-Preview-Setup-*-macos.zip.sha256
+
+  publish:
+    needs: [package, windows-exe, macos-app]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.package.outputs.tag }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: dist-*
+          path: dist
+          merge-multiple: true
+      - name: Publish ${{ needs.package.outputs.tag }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ needs.package.outputs.tag }}
+        run: |
+          ls -la dist
+          NOTES="docs/release-notes/$TAG.md"
+          [ -f "$NOTES" ] || { echo "$NOTES missing" >&2; exit 1; }
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release edit "$TAG" --notes-file "$NOTES"
+            gh release upload "$TAG" dist/* --clobber
+          else
+            gh release create "$TAG" dist/* --title "File Preview for Orca ${TAG#v}" --notes-file "$NOTES" --latest
+          fi

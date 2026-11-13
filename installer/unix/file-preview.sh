@@ -4,11 +4,14 @@
 #   sh file-preview.sh install   [--source <folder|git-url>] [--yes] [--orca <cli>]
 #   sh file-preview.sh uninstall [--yes] [--orca <cli>]
 #   sh file-preview.sh status    [--orca <cli>]
+#   sh file-preview.sh update    [--check] [--force] [--version vX.Y.Z] [--yes] [--orca <cli>]
 #
 # install   registers the plugin in Orca (the folder next to this package by default), shows the access
 #           Orca asks you to approve, and approves it only after you confirm (or with --yes).
 #           Running it again updates an existing install.
 # uninstall removes every installed copy of the plugin (development folders are only reported).
+# update    checks the latest GitHub release, downloads it (SHA-256 verified) into a per-user folder
+#           and reinstalls from there; --check only reports, --force reinstalls the same version.
 # Needs Orca 1.4.248 or newer, installed and started at least once. No root rights needed.
 set -u
 
@@ -24,19 +27,26 @@ ACTION=${1:-}
 [ $# -gt 0 ] && shift
 SOURCE=""
 YES=0
+CHECK=0
+FORCE=0
+VERSION=""
+REPO=${FP_REPO:-hangams84/orca-file-preview}
 ORCA=${ORCA_CLI_COMMAND:-}
 while [ $# -gt 0 ]; do
   case "$1" in
     --source) SOURCE=${2:-}; shift 2 ;;
     --yes|-y) YES=1; shift ;;
     --orca) ORCA=${2:-}; shift 2 ;;
+    --check) CHECK=1; shift ;;
+    --force) FORCE=1; shift ;;
+    --version) VERSION=${2:-}; shift 2 ;;
     -h|--help) ACTION=help; shift ;;
     *) die "unknown option: $1" ;;
   esac
 done
 
 usage() {
-  sed -n '2,13p' "$0" | sed 's/^# \{0,1\}//'
+  sed -n '2,16p' "$0" | sed 's/^# \{0,1\}//'
 }
 
 # --- Locate Orca's CLI ------------------------------------------------------------------------------
@@ -181,9 +191,76 @@ do_status() {
   if [ -n "$lines" ]; then say "$lines"; else say "File Preview is not installed. / 설치되어 있지 않습니다."; fi
 }
 
+
+# --- update: newest GitHub release -> per-user folder -> reinstall ---------------------------------
+data_home() {
+  case "$(uname -s)" in
+    Darwin) printf '%s\n' "$HOME/Library/Application Support/FilePreviewForOrca" ;;
+    *) printf '%s\n' "${XDG_DATA_HOME:-$HOME/.local/share}/file-preview-orca" ;;
+  esac
+}
+http_get() { curl -fsSL "$1" 2>/dev/null || wget -qO- "$1" 2>/dev/null; }
+http_save() { curl -fsSL -o "$2" "$1" 2>/dev/null || wget -qO "$2" "$1" 2>/dev/null; }
+sha256_of() {
+  if command -v sha256sum >/dev/null 2>&1; then sha256sum "$1" | awk '{print $1}'; else shasum -a 256 "$1" | awk '{print $1}'; fi
+}
+ver_gt() { # $1 > $2 (x.y.z)
+  [ "$1" != "$2" ] && [ "$(printf '%s\n%s\n' "$1" "$2" | sort -t. -k1,1n -k2,2n -k3,3n | tail -1)" = "$1" ]
+}
+installed_version() { plugin_lines | grep -v ', dev' | awk '{print $2}' | head -1; }
+
+do_update() {
+  find_orca; ensure_running
+  cur=$(installed_version)
+  if [ -n "$VERSION" ]; then api="releases/tags/v${VERSION#v}"; else api="releases/latest"; fi
+  json=$(http_get "https://api.github.com/repos/$REPO/$api") || {
+    code=$(curl -s -o /dev/null -w '%{http_code}' "https://api.github.com/repos/$REPO/$api" 2>/dev/null)
+    [ "$code" = 404 ] && die "No release published for $REPO yet. / 아직 게시된 릴리스가 없습니다."
+    die "Could not reach GitHub ($REPO). / GitHub에 연결할 수 없습니다."
+  }
+  tag=$(printf '%s' "$json" | grep -o '"tag_name": *"[^"]*"' | head -1 | sed 's/.*"\([^"]*\)"$/\1/')
+  [ -n "$tag" ] || die "No release found for $REPO ($api). / 릴리스를 찾지 못했습니다."
+  latest=${tag#v}
+  say "Installed / 설치됨: ${cur:-none / 없음} · Release / 릴리스: $latest"
+  if [ -n "$cur" ] && ! ver_gt "$latest" "$cur" && [ $FORCE = 0 ]; then
+    say "Up to date. / 최신 버전입니다."; return 0
+  fi
+  if [ $CHECK = 1 ]; then say "Update available: $latest (run without --check to install). / 업데이트가 있습니다."; return 0; fi
+  home=$(data_home); dir="$home/$latest"; tmp="$home/.download-$$"
+  mkdir -p "$tmp" || die "Cannot write $home"
+  base="https://github.com/$REPO/releases/download/$tag/orca-file-preview-$latest"
+  say "Downloading / 내려받는 중: $base.tar.gz"
+  http_save "$base.tar.gz" "$tmp/pkg.tar.gz" || die "Download failed. / 내려받기 실패"
+  http_save "$base.tar.gz.sha256" "$tmp/pkg.sha256" || die "Checksum download failed. / 체크섬 내려받기 실패"
+  want=$(awk '{print $1}' "$tmp/pkg.sha256"); got=$(sha256_of "$tmp/pkg.tar.gz")
+  [ "$want" = "$got" ] || { rm -rf "$tmp"; die "Checksum mismatch: the download is damaged. / 체크섬 불일치"; }
+  say "SHA-256 OK: $got"
+  rm -rf "$dir" && mkdir -p "$dir" && tar -xzf "$tmp/pkg.tar.gz" -C "$dir" || die "Could not unpack. / 압축 해제 실패"
+  rm -rf "$tmp"
+  new="$dir/File Preview/plugin"
+  [ -f "$new/orca-plugin.json" ] || die "The package has no plugin folder. / 패키지에 plugin 폴더가 없습니다."
+  # The folder install re-copies from its original folder, so switch: remove the old copy first.
+  if [ -n "$cur" ]; then
+    for k in $(plugin_lines | grep -v ', dev' | awk '{print $1}'); do "$ORCA" plugin uninstall "$k" >/dev/null 2>&1; done
+  fi
+  if [ -f "$home/current" ] && ! can_install; then "$ORCA" plugin dev unload "$(cat "$home/current")" >/dev/null 2>&1; fi
+  SOURCE=$new
+  PKG_ROOT="$dir/File Preview"
+  do_install
+  printf '%s\n' "$new" >"$home/current"
+  # keep this and the previous version only
+  vers=$(ls -1 "$home" 2>/dev/null | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | sort -t. -k1,1n -k2,2n -k3,3n)
+  n=$(printf '%s\n' "$vers" | grep -c .)
+  printf '%s\n' "$vers" | awk -v n="$n" 'NR <= n - 2' | while read -r old; do
+    [ -n "$old" ] && [ "$old" != "$latest" ] && rm -rf "$home/$old"
+  done
+  say "Updated to $latest. / $latest 버전으로 업데이트했습니다."
+}
+
 case "$ACTION" in
   install) do_install ;;
   uninstall) do_uninstall ;;
   status) do_status ;;
+  update) do_update ;;
   *) usage; [ "$ACTION" = help ] || exit 2 ;;
 esac

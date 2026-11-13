@@ -42,8 +42,7 @@ const installer = existsSync(PLAT)
       })
   : []
 const ci = opt('ci') && existsSync(opt('ci')) ? read(opt('ci')) : ''
-const shaFile = join(ROOT, 'dist', `orca-file-preview-${v}.zip.sha256`)
-const sha = existsSync(shaFile) ? read(shaFile).split(/\s+/)[0] : ''
+const shas = readdirSync(join(ROOT, 'dist')).filter((f) => f.endsWith('.sha256')).sort().map((f) => read(join(ROOT, 'dist', f)).trim())
 
 const repo = 'https://github.com/hangams84/orca-file-preview'
 const out = []
@@ -54,11 +53,13 @@ out.push('`.docx` `.doc` · `.pptx` `.ppt` · `.xlsx` `.xlsm` `.xls` `.ods` · `
 out.push('- Requires Orca **1.4.248+** · execution `sandboxed-ui` only (no extra capabilities, no network, never edits files)')
 out.push('- Korean/English UI, dark/light theme, zoom (Ctrl+wheel, pinch, buttons), phone-width layouts, EUC-KR detection, safe HTML/SVG (scripts never run)', '')
 out.push('## 설치 / Install', '')
-out.push(`1. Download \`orca-file-preview-${v}.zip\` below and unzip it (a \`File Preview\` folder).`)
-out.push('2. Windows: double-click `installer\\windows\\install.cmd` · macOS: double-click `installer/macos/Install File Preview.command` · Linux: `sh installer/linux/install.sh`')
-out.push(`3. Or without the zip: \`orca plugin install ${repo}/tree/v${v}/plugin\``, '')
-out.push('The installer shows the access Orca asks you to approve and approves only after you confirm; running it again updates the plugin. Uninstall with the matching `uninstall` script.', '')
-if (sha) out.push(`SHA-256 \`orca-file-preview-${v}.zip\`: \`${sha}\``, '')
+out.push('| OS | 실행 파일 / Executable | 스크립트 패키지 / Script package |', '| --- | --- | --- |')
+out.push(`| Windows 10/11 | \`FilePreviewSetup-${v}.exe\` (메뉴: 설치 · 업데이트 · 제거 · 상태 / \`/install /update /uninstall /status /yes\`) | \`orca-file-preview-${v}.zip\` → \`installer\\windows\\install.cmd\` · \`update.cmd\` · \`uninstall.cmd\` |`)
+out.push(`| macOS | \`File-Preview-Setup-${v}-macos.zip\` → *File Preview Setup.app* (first open: Control-click → Open) | \`file-preview-setup-${v}.run\` or \`orca-file-preview-${v}.tar.gz\` → \`installer/macos/*.command\` |`)
+out.push(`| Linux | \`sh file-preview-setup-${v}.run [install\\|update\\|uninstall\\|status]\` | \`orca-file-preview-${v}.tar.gz\` → \`installer/linux/{install,update,uninstall}.sh\` |`, '')
+out.push("Every installer shows the access Orca asks you to approve and approves only after you confirm. **Update** checks this repository's latest release, downloads it, verifies the SHA-256 and reinstalls (`update --check` only reports). Orca 1.4.248–1.4.251 have no `plugin install`, so the folder is registered with `plugin dev load` there. Windows 7/8 are refused with a clear message (Orca needs Windows 10+). The executables are unsigned: Windows SmartScreen → *More info* → *Run anyway*; macOS Gatekeeper → Control-click → *Open*.", '')
+out.push(`Without the packages: \`orca plugin install ${repo}/tree/v${v}/plugin\` (Orca 1.4.252+).`, '')
+if (shas.length) out.push('<details><summary>SHA-256</summary>', '', '```', ...shas, '```', '', '</details>', '')
 
 out.push('## 검증 결과 / Verification', '')
 if (last) {

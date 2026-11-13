@@ -4,6 +4,7 @@
     powershell -ExecutionPolicy Bypass -File file-preview.ps1 install   [-Source <folder|git-url>] [-Yes] [-Orca <cli>]
     powershell -ExecutionPolicy Bypass -File file-preview.ps1 uninstall [-Yes] [-Orca <cli>]
     powershell -ExecutionPolicy Bypass -File file-preview.ps1 status    [-Orca <cli>]
+    powershell -ExecutionPolicy Bypass -File file-preview.ps1 update    [-Check] [-Force] [-Version vX.Y.Z] [-Yes]
 
   install   registers the plugin in Orca (the plugin folder of this package by default), shows the access
             Orca asks you to approve and approves it only after you confirm (or with -Yes). Running it
@@ -12,17 +13,21 @@
   Needs Orca 1.4.248 or newer, installed and started at least once. No administrator rights needed.
 #>
 param(
-  [Parameter(Position = 0)][ValidateSet('install', 'uninstall', 'status', 'help')][string]$Action = 'help',
+  [Parameter(Position = 0)][ValidateSet('install', 'uninstall', 'status', 'update', 'help')][string]$Action = 'help',
   [string]$Source = '',
   [switch]$Yes,
-  [string]$Orca = $env:ORCA_CLI_COMMAND
+  [string]$Orca = $env:ORCA_CLI_COMMAND,
+  [switch]$Check,
+  [switch]$Force,
+  [string]$Version = '',
+  [string]$Repo = $(if ($env:FP_REPO) { $env:FP_REPO } else { 'hangams84/orca-file-preview' })
 )
 $ErrorActionPreference = 'Stop'
 try { [Console]::OutputEncoding = [Text.Encoding]::UTF8 } catch {}
 
 $PluginId = 'file-preview'
 $GitHubSource = 'https://github.com/hangams84/orca-file-preview/tree/main/plugin'
-$PkgRoot = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
+$script:PkgRoot = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 
 function Say([string]$Text) { Write-Host $Text }
 function Fail([string]$Text) { Write-Host "ERROR: $Text" -ForegroundColor Red; exit 1 }
@@ -205,10 +210,67 @@ function Do-Status {
   if ($lines.Count -gt 0) { $lines | ForEach-Object { Say $_ } } else { Say 'File Preview is not installed. / 설치되어 있지 않습니다.' }
 }
 
+
+# --- update: newest GitHub release -> per-user folder -> reinstall -------------------------------------
+function Get-InstalledVersion {
+  $l = @(Get-PluginLines | Where-Object { $_ -notmatch ', dev' })
+  if ($l.Count -eq 0) { return $null }
+  return ($l[0] -split '\s+')[1]
+}
+
+function Do-Update {
+  Assert-Windows; Find-Orca; Ensure-Running
+  try { [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12 } catch {}
+  $cur = Get-InstalledVersion
+  $api = if ($Version) { "releases/tags/v$($Version.TrimStart('v'))" } else { 'releases/latest' }
+  try { $rel = Invoke-RestMethod -UseBasicParsing -Uri "https://api.github.com/repos/$Repo/$api" -Headers @{ 'User-Agent' = 'file-preview-updater' } }
+  catch {
+    if ("$($_.Exception.Message)" -match '404') { Fail "No release published for $Repo yet. / 아직 게시된 릴리스가 없습니다." }
+    Fail "Could not reach GitHub ($Repo): $($_.Exception.Message) / GitHub에 연결할 수 없습니다."
+  }
+  $latest = "$($rel.tag_name)".TrimStart('v')
+  if (-not $latest) { Fail "No release found for $Repo. / 릴리스를 찾지 못했습니다." }
+  Say "Installed / 설치됨: $(if ($cur) { $cur } else { 'none / 없음' }) · Release / 릴리스: $latest"
+  if ($cur -and -not $Force -and ([version]$latest -le [version]$cur)) { Say 'Up to date. / 최신 버전입니다.'; return }
+  if ($Check) { Say "Update available: $latest (run without -Check to install). / 업데이트가 있습니다."; return }
+  $dataHome = Join-Path $env:LOCALAPPDATA 'FilePreviewForOrca'
+  $dir = Join-Path $dataHome $latest
+  New-Item -ItemType Directory -Force $dataHome | Out-Null
+  $zip = Join-Path $dataHome "download-$PID.zip"
+  $base = "https://github.com/$Repo/releases/download/$($rel.tag_name)/orca-file-preview-$latest"
+  Say "Downloading / 내려받는 중: $base.zip"
+  try {
+    Invoke-WebRequest -UseBasicParsing -Uri "$base.zip" -OutFile $zip -Headers @{ 'User-Agent' = 'file-preview-updater' }
+    $want = ((Invoke-WebRequest -UseBasicParsing -Uri "$base.zip.sha256" -Headers @{ 'User-Agent' = 'file-preview-updater' }).Content -split '\s+')[0]
+  } catch { Remove-Item $zip -Force -ErrorAction SilentlyContinue; Fail "Download failed: $($_.Exception.Message) / 내려받기 실패" }
+  if ($want -is [byte[]]) { $want = [Text.Encoding]::ASCII.GetString($want) }
+  $got = (Get-FileHash -Algorithm SHA256 $zip).Hash.ToLower()
+  if ("$want".Trim().ToLower() -ne $got) { Remove-Item $zip -Force; Fail 'Checksum mismatch: the download is damaged. / 체크섬 불일치' }
+  Say "SHA-256 OK: $got"
+  Remove-Item -Recurse -Force $dir -ErrorAction SilentlyContinue
+  Expand-Archive -Path $zip -DestinationPath $dir -Force
+  Remove-Item $zip -Force
+  $new = Join-Path $dir 'File Preview\plugin'
+  if (-not (Test-Path (Join-Path $new 'orca-plugin.json'))) { Fail 'The package has no plugin folder. / 패키지에 plugin 폴더가 없습니다.' }
+  # A folder install re-copies from its original folder, so switch: remove the old copy first.
+  if ($cur) { foreach ($k in @(Get-PluginLines | Where-Object { $_ -notmatch ', dev' } | ForEach-Object { ($_ -split ' ')[0] })) { [void](Invoke-Orca @('plugin', 'uninstall', $k)) } }
+  $marker = Join-Path $dataHome 'current'
+  if ((Test-Path $marker) -and -not (Test-CanInstall)) { [void](Invoke-Orca @('plugin', 'dev', 'unload', (Get-Content $marker -Raw).Trim())) }
+  $script:Source = $new
+  $script:PkgRoot = Join-Path $dir 'File Preview'
+  Do-Install
+  Set-Content -Path $marker -Value $new -Encoding UTF8
+  # keep this and the previous version only
+  $vers = @(Get-ChildItem -Directory $dataHome | Where-Object { $_.Name -match '^\d+\.\d+\.\d+$' } | Sort-Object { [version]$_.Name })
+  if ($vers.Count -gt 2) { $vers[0..($vers.Count - 3)] | Where-Object { $_.Name -ne $latest } | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue }
+  Say "Updated to $latest. / $latest 버전으로 업데이트했습니다."
+}
+
 switch ($Action) {
   'install' { Do-Install }
   'uninstall' { Do-Uninstall }
   'status' { Do-Status }
+  'update' { Do-Update }
   default { Get-Help $PSCommandPath -Detailed | Out-String | Write-Host; Say (Get-Content $PSCommandPath -TotalCount 14 | Out-String) }
 }
 exit 0
