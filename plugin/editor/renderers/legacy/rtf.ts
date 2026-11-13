@@ -1,6 +1,6 @@
 /** A forgiving RTF reader for ".doc" files that are really RTF (Word's "save as .doc" from many
  *  tools). Keeps paragraphs, bold/italic/underline, simple tables, page breaks and PNG/JPEG pictures. */
-import type { Block, DocModel, Paragraph, Picture, Run } from './model.ts'
+import type { Block, DocModel, PageFmt, ParaFmt, Paragraph, Picture, RowFmt, Run } from './model.ts'
 
 interface State {
   b: boolean
@@ -15,6 +15,11 @@ interface State {
   cb: number
   /** Font size in half-points (0 = default). */
   fs: number
+  /** Latin and East Asian font indices into the font table (-1 = default). */
+  f: number
+  eaf: number
+  /** Which font a following \\af applies to: after \\dbch it is the East Asian one. */
+  fontMode: 'lo' | 'hi' | 'db' | 'rtl'
   skip: boolean
   uc: number
   pict: { mime: string; hex: string[]; w?: number; h?: number } | null
@@ -48,7 +53,19 @@ export function readRtf(bytes: Uint8Array): DocModel {
   let runs: Run[] = []
   let pendingBytes: number[] = []
   const colors = readColorTable(src)
-  let st: State = { b: false, i: false, u: false, s: false, sup: false, sub: false, cf: 0, cb: 0, fs: 0, skip: false, uc: 1, pict: null, fldinst: false }
+  const fonts = readFontTable(src)
+  let st: State = { b: false, i: false, u: false, s: false, sup: false, sub: false, cf: 0, cb: 0, fs: 0, f: -1, eaf: -1, fontMode: 'lo', skip: false, uc: 1, pict: null, fldinst: false }
+  // document and paragraph layout (twips), for the page view
+  const page = { w: 12240, h: 15840, l: 1800, r: 1800, t: 1440, b: 1440, hdr: 720, ftr: 720, landscape: false }
+  let deff = -1
+  let deffFE = -1
+  const freshPara = () => ({ sb: 0, sa: 0, sl: 0, slmult: 0, li: 0, ri: 0, fi: 0, q: 'l', keepn: false, keep: false })
+  let pp = freshPara()
+  let rowDef: { left: number; gaph: number; cellx: number[]; borders: boolean; height: number } = { left: 0, gaph: 108, cellx: [], borders: false, height: 0 }
+  let rowFmts: (RowFmt | undefined)[] = []
+  const collapseSpacing = /\\htmautsp/.test(src)
+  let latinFE = false
+  let paged = /\\paperw|\\margl|\\sb\d|\\sa\d|\\sl\d/.test(src)
   const stack: State[] = []
   let ucSkip = 0
   let inTable = false
@@ -71,21 +88,57 @@ export function readRtf(bytes: Uint8Array): DocModel {
     const color = colors[st.cf] || undefined
     const bg = colors[st.cb] || undefined
     const pt = st.fs ? st.fs / 2 : undefined
+    const font = fonts.get(st.f >= 0 ? st.f : deff)
+    const eaFont = fonts.get(st.eaf >= 0 ? st.eaf : deffFE >= 0 ? deffFE : deff)
     if (
       last && !last.image && last.b === st.b && last.i === st.i && last.u === st.u && last.s === st.s && last.sup === st.sup &&
-      last.sub === st.sub && last.color === color && last.bg === bg && last.pt === pt
+      last.sub === st.sub && last.color === color && last.bg === bg && last.pt === pt && last.font === font && last.eaFont === eaFont
     ) {
       last.text += text
-    } else runs.push({ text, b: st.b, i: st.i, u: st.u, s: st.s, sup: st.sup, sub: st.sub, color, bg, pt })
+    } else runs.push({ text, b: st.b, i: st.i, u: st.u, s: st.s, sup: st.sup, sub: st.sub, color, bg, pt, font, eaFont, latinFE: latinFE || undefined })
+  }
+  const paraFmt = (): ParaFmt => {
+    const tw = (v: number) => v / 20
+    const lineRule: ParaFmt['lineRule'] = !pp.sl || pp.slmult ? 'auto' : pp.sl < 0 ? 'exact' : 'atLeast'
+    return {
+      before: tw(pp.sb),
+      after: tw(pp.sa),
+      lineRule,
+      line: lineRule === 'auto' ? (pp.sl ? Math.abs(pp.sl) / 240 : 1) : tw(Math.abs(pp.sl)),
+      left: tw(pp.li),
+      right: tw(pp.ri),
+      first: tw(pp.fi),
+      keepNext: pp.keepn,
+      keepLines: pp.keep,
+      widow: true,
+      pageBreakBefore: false,
+      contextual: false,
+      style: paraStyle,
+      tabs: [],
+      markPt: st.fs ? st.fs / 2 : 12,
+      markFont: fonts.get(st.f >= 0 ? st.f : deff),
+      markEaFont: fonts.get(st.eaf >= 0 ? st.eaf : deffFE >= 0 ? deffFE : deff)
+    }
   }
   const endPara = () => {
     flushBytes()
-    const p: Paragraph = { kind: 'p', runs }
+    const p: Paragraph = { kind: 'p', runs, fmt: paraFmt() }
+    if (pp.q === 'c') p.align = 'center'
+    else if (pp.q === 'r') p.align = 'right'
+    else if (pp.q === 'j') p.align = 'justify'
     const hd = styleHeadings.get(paraStyle)
     if (hd != null) p.heading = hd
-    if (paraList) {
-      p.list = true
-      if (runs[0]) runs[0].text = runs[0].text.replace(/^[	 •·•]+/, '')
+    if (paraList && runs[0]) {
+      const m = /^([^\t]{1,12})\t/.exec(runs[0].text)
+      if (m && pp.fi < 0) {
+        // the list label written by the RTF producer (\listtext): number or bullet, then a tab
+        const label: Run = { ...runs[0], text: m[1].replace(/[\uf0b7\u00b7]/g, '•').trim(), labelWidth: -pp.fi / 20, joinLabel: true }
+        runs[0] = { ...runs[0], text: runs[0].text.slice(m[0].length) }
+        runs.unshift(label)
+      } else {
+        p.list = true
+        runs[0].text = runs[0].text.replace(/^[\t \u2022\u00b7\uf0b7]+/, '')
+      }
     }
     runs = []
     if (inTable && paraInTbl) {
@@ -97,22 +150,44 @@ export function readRtf(bytes: Uint8Array): DocModel {
     breakBefore = false
     blocks.push(p)
   }
+  const currentRowFmt = (): RowFmt | undefined => {
+    const d = rowDef
+    if (!d.cellx.length) return undefined
+    const pt = (v: number) => v / 20
+    const centers = [d.left, ...d.cellx].map(pt)
+    const w = d.borders ? 0.5 : 0
+    return {
+      centers,
+      padLeft: pt(d.gaph),
+      padRight: pt(d.gaph),
+      padTop: 0,
+      padBottom: 0,
+      height: pt(d.height),
+      borders: d.cellx.map(() => [w, w, w, w] as [number, number, number, number]),
+      merged: d.cellx.map(() => false),
+      jc: 0
+    }
+  }
   const endCell = () => {
     flushBytes()
-    if (runs.length) cell.push({ kind: 'p', runs })
+    if (runs.length) cell.push({ kind: 'p', runs, fmt: paraFmt() })
     runs = []
     row.push(cell)
     cell = []
   }
   const endRow = () => {
     if (cell.length || runs.length) endCell()
-    if (row.length) rows.push(row)
+    if (row.length) {
+      rows.push(row)
+      rowFmts.push(currentRowFmt())
+    }
     row = []
   }
   const closeTable = () => {
     if (row.length || cell.length) endRow()
-    if (rows.length) blocks.push({ kind: 'table', rows })
+    if (rows.length) blocks.push({ kind: 'table', rows, rowFmt: rowFmts })
     rows = []
+    rowFmts = []
     inTable = false
   }
 
@@ -236,7 +311,48 @@ export function readRtf(bytes: Uint8Array): DocModel {
           paraStyle = 0
           paraInTbl = false
           paraList = false
+          pp = freshPara()
           break
+        case 'sb': pp.sb = arg ?? 0; break
+        case 'sa': pp.sa = arg ?? 0; break
+        case 'sl': pp.sl = arg ?? 0; break
+        case 'slmult': pp.slmult = arg ?? 0; break
+        case 'li': pp.li = arg ?? 0; break
+        case 'ri': pp.ri = arg ?? 0; break
+        case 'fi': pp.fi = arg ?? 0; break
+        case 'ql': pp.q = 'l'; break
+        case 'qc': pp.q = 'c'; break
+        case 'qr': pp.q = 'r'; break
+        case 'qj': case 'qd': pp.q = 'j'; break
+        case 'keepn': pp.keepn = true; break
+        case 'keep': pp.keep = true; break
+        case 'paperw': if (arg && arg > 1440) page.w = arg; break
+        case 'paperh': if (arg && arg > 1440) page.h = arg; break
+        case 'pgwsxn': if (arg && arg > 1440) page.w = arg; break
+        case 'pghsxn': if (arg && arg > 1440) page.h = arg; break
+        case 'margl': case 'marglsxn': page.l = arg ?? page.l; break
+        case 'margr': case 'margrsxn': page.r = arg ?? page.r; break
+        case 'margt': case 'margtsxn': page.t = Math.abs(arg ?? page.t); break
+        case 'margb': case 'margbsxn': page.b = Math.abs(arg ?? page.b); break
+        case 'headery': page.hdr = arg ?? page.hdr; break
+        case 'footery': page.ftr = arg ?? page.ftr; break
+        case 'landscape': case 'lndscpsxn': page.landscape = true; break
+        case 'deff': deff = arg ?? -1; break
+        case 'langfe': latinFE = !!arg && ![1042, 2066, 1041, 2052, 1028, 3076, 4100, 5124].includes(arg); break
+        case 'stshfdbch': deffFE = arg ?? -1; break
+        case 'f': st.f = arg ?? -1; break
+        case 'af': if (st.fontMode === 'db') st.eaf = arg ?? -1; break
+        case 'loch': st.fontMode = 'lo'; break
+        case 'hich': st.fontMode = 'hi'; break
+        case 'dbch': st.fontMode = 'db'; break
+        case 'rtlch': st.fontMode = 'rtl'; break
+        case 'ltrch': st.fontMode = 'lo'; break
+        case 'trowd': rowDef = { left: 0, gaph: 108, cellx: [], borders: false, height: 0 }; break
+        case 'trgaph': rowDef.gaph = arg ?? 108; break
+        case 'trleft': rowDef.left = arg ?? 0; break
+        case 'trrh': rowDef.height = arg ?? 0; break
+        case 'cellx': rowDef.cellx.push(arg ?? 0); break
+        case 'clbrdrt': case 'clbrdrb': case 'clbrdrl': case 'clbrdrr': case 'trbrdrt': case 'trbrdrb': case 'trbrdrl': case 'trbrdrr': rowDef.borders = true; break
         case 'b':
           st.b = arg !== 0
           break
@@ -357,7 +473,25 @@ export function readRtf(bytes: Uint8Array): DocModel {
   if (runs.length) endPara()
   if (inTable) closeTable()
   while (blocks.length && blocks[blocks.length - 1].kind === 'p' && !(blocks[blocks.length - 1] as Paragraph).runs.length) blocks.pop()
-  return { blocks, variant: 'RTF', warnings: ['rtf'] }
+  let w = page.w / 20
+  let hgt = page.h / 20
+  if (page.landscape && w < hgt) [w, hgt] = [hgt, w]
+  const pageFmt: PageFmt = {
+    w,
+    h: hgt,
+    top: page.t / 20,
+    bottom: page.b / 20,
+    left: page.l / 20,
+    right: page.r / 20,
+    header: page.hdr / 20,
+    footer: page.ftr / 20,
+    columns: 1,
+    colSpace: 36,
+    newPage: true,
+    linePitch: 0
+  }
+  paged = paged && w > 72 && hgt > 72
+  return { blocks: paged ? [{ kind: 'sect', page: pageFmt }, ...blocks] : blocks, variant: 'RTF', warnings: ['rtf'], paged, collapseSpacing }
 }
 
 function pictFromHex(p: { mime: string; hex: string[]; w?: number; h?: number }): Picture | null {
@@ -367,6 +501,41 @@ function pictFromHex(p: { mime: string; hex: string[]; w?: number; h?: number })
   const bytes = new Uint8Array(hex.length >> 1)
   for (let k = 0; k < bytes.length; k++) bytes[k] = parseInt(hex.substr(k * 2, 2), 16)
   return { bytes, mime: p.mime, width: p.w, height: p.h }
+}
+
+/** The \fonttbl group: font index -> face name. */
+function readFontTable(src: string): Map<number, string> {
+  const out = new Map<number, string>()
+  const at = src.indexOf('{\\fonttbl')
+  if (at < 0) return out
+  const re = /\{\\f(\d+)((?:[^{}]|\{[^{}]*\})*)\}/g
+  re.lastIndex = at + 9
+  let m: RegExpExecArray | null
+  let guard = 0
+  while ((m = re.exec(src)) && guard++ < 2000) {
+    const name = m[2].replace(/\{[^{}]*\}/g, '').replace(/\\[a-z]+-?\d* ?/gi, '').replace(/;\s*$/, '').trim()
+    if (name) out.set(Number(m[1]), decodeFontName(name))
+    if (src.startsWith('}}', re.lastIndex - 1) || src.startsWith('}\r\n{\\colortbl', re.lastIndex - 1)) break
+    if (re.lastIndex > at + 100000) break
+  }
+  return out
+}
+
+/** Font names may carry \\'hh escapes (Korean names in the document code page). */
+function decodeFontName(name: string): string {
+  if (!name.includes("\\'")) return name
+  const bytes: number[] = []
+  for (let i = 0; i < name.length; i++) {
+    if (name[i] === '\\' && name[i + 1] === "'") {
+      bytes.push(parseInt(name.substr(i + 2, 2), 16))
+      i += 3
+    } else bytes.push(name.charCodeAt(i) & 0xff)
+  }
+  try {
+    return new TextDecoder('euc-kr').decode(new Uint8Array(bytes))
+  } catch {
+    return name
+  }
 }
 
 /** The \colortbl group: index -> CSS colour ('' for the "auto" entry). */

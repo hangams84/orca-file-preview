@@ -63,6 +63,18 @@ export function renderPaper(ctx: PreviewContext, model: DocModel, opts: PaperOpt
       return img
     }
     if (r.object) return h('span', 'obj', r.object === 'OLE' ? tr('[개체]', '[Object]') : tr('[그림]', '[Picture]'))
+    if (r.checkbox) {
+      const b = h('span', undefined, '☐ ')
+      return b
+    }
+    if (r.labelWidth != null) {
+      // a list number or bullet: keep the text after it at the tab
+      const l = h('span', undefined, r.text)
+      l.style.display = 'inline-block'
+      l.style.minWidth = `${Math.max(r.labelWidth, 9) / (BASE_PX * 0.75)}em`
+      l.style.textIndent = '0'
+      return l
+    }
     if (!r.b && !r.i && !r.u && !r.s && !r.color && !r.bg && !(r.pt && Math.abs(r.pt - basePt) > 0.4) && !r.sup && !r.sub) return document.createTextNode(r.text)
     const el = h(r.sup ? 'sup' : r.sub ? 'sub' : 'span', undefined, r.text)
     const st = el.style

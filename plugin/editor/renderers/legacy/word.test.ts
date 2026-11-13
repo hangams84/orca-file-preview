@@ -67,9 +67,10 @@ test('word: paragraph marks, line breaks and page breaks', () => {
   const m = readWord(wordFile([{ text: 'one\rtwo\x0bmore\r\x0cthree\r', compressed: true }]))
   assert.deepEqual(paras(m.blocks), ['one', 'two\nmore', 'three'])
   assert.deepEqual(
-    m.blocks.map((b) => b.kind),
+    m.blocks.filter((b) => b.kind !== 'sect').map((b) => b.kind),
     ['p', 'p', 'break', 'p']
   )
+  assert.equal(m.blocks[0].kind, 'sect', 'the main story starts with its section (page setup)')
 })
 
 test('word: cell and row marks become a table', () => {
@@ -90,7 +91,7 @@ test('word: object anchors, footnote refs and optional hyphens are dropped or pl
   const m = readWord(wordFile([{ text: 'a\x08b\x02c\x1fd\x1ee\r', compressed: true }]))
   assert.deepEqual(paras(m.blocks), ['abcd-e'])
   const pic = readWord(wordFile([{ text: 'x\x01y\r', compressed: true }]))
-  const p = pic.blocks[0] as Paragraph
+  const p = pic.blocks.find((b) => b.kind === 'p') as Paragraph
   assert.ok(p.runs.some((r) => r.object === 'picture'), 'a \\x01 without picture data becomes a placeholder')
 })
 
