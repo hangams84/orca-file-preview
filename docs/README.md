@@ -207,6 +207,16 @@ Orca 데스크톱(Windows · macOS · Linux)과 브라우저/모바일 클라이
 
 증빙: [harness](evidence/round-5/harness/) · [orca](evidence/round-5/orca/) · [summary.json](evidence/round-5/summary.json)
 
+## 운영체제별 Orca 설치 테스트 / Platform tests
+
+각 환경에 Orca를 새로 설치하고 플러그인을 폴더에서 설치(승인 포함)한 뒤 검사·단위 테스트·전 픽스처 마운트·실제 렌더 캡처를 수행했습니다.
+
+| 환경 | 방식 | Orca | 검사 | 렌더 |
+| --- | --- | --- | --- | --- |
+| macOS 15.8.2 (24H232, arm64) | GitHub Actions macOS runner | 1.4.258 | 12/12 | [contact sheet](evidence/platforms/macos-15-arm64/contact-sheet.png) · [summary](evidence/platforms/macos-15-arm64/summary.md) |
+| Ubuntu 22.04.5 LTS | Docker on WSL2 (Xvfb) | 1.4.258 | 9/9 | [contact sheet](evidence/platforms/ubuntu-22.04/contact-sheet.png) · [summary](evidence/platforms/ubuntu-22.04/summary.md) |
+| Ubuntu 24.04.5 LTS | Docker on WSL2 (Xvfb) | 1.4.258 | 9/9 | [contact sheet](evidence/platforms/ubuntu-24.04/contact-sheet.png) · [summary](evidence/platforms/ubuntu-24.04/summary.md) |
+
 ## 영역별 개발 노트 / Development notes
 
 - [legacy](evidence/legacy/NOTES.md)

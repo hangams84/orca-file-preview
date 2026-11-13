@@ -46,6 +46,18 @@ tools/verify.mjs   검증 라운드 실행기 (tsc, validate, 단위 테스트, 
 docs/              개발·검증 문서 (README.md, index.html, evidence/)
 ```
 
+## 운영체제별 테스트 / Platform tests
+
+실제 Orca(1.4.258)를 새로 설치하고 플러그인 설치 → 검사 → 단위 테스트 → 전 픽스처 마운트 → 렌더 캡처를 수행합니다.
+
+| 환경 | 실행 | 결과 |
+| --- | --- | --- |
+| Ubuntu 22.04 / 24.04 | `bash tools/platform-test/run-docker.sh 22.04 24.04` (WSL2 또는 Linux의 Docker, Xvfb) | 9/9 · 9/9 |
+| macOS 15 (arm64) | GitHub Actions `platform-macos` 워크플로 (`gh workflow run platform-macos --ref ci/macos-orca`) | 12/12 |
+| Windows 11 | `node tools/verify.mjs --round <n>` (설치된 Orca 앱) | 10/10 |
+
+증빙: `docs/evidence/platforms/` (summary.md, contact-sheet.png, 캡처, 로그)
+
 ## 개발 / Development
 
 ```sh
