@@ -1,0 +1,30 @@
+== /Users/runner/work/_temp/out/logs/first-run/1-before.png
+_/ orca
+-
+1 0f 4
+WELCOME TO ORCA
+How do you want to work with agents?
+Pick where new agents open.
+Add retry to fetchUser
+2 Edited apl.ts +1-1
+12 - return fetch(urL)
+12 + return withRetry(fetch, urt)
+Falled reduests now retry un to 3 times
+Ask a follow-up...
+...
+zsh - claude
+> claude
+• add retry to fetchuser
+• Update(src/api.ts)
+L 1 addition, 1 removal
+12 - return fetch(urt)
+12 + return withRetry(fetch, urL)
+• Done. Retries capped at 3.
+2, Chat u
+Terminal
+Set up later
+Continue|&스
+Ul Configure usage tracking
+D Off•
+_-
+40

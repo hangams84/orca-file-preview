@@ -1,0 +1,83 @@
+== /Users/runner/work/_temp/out/window/sample-utf16.xhtml.png
+Orca
+"
+Search
+Onboarding checklist
+Tasks
+ㆅ
+Automations
+.
+Orca Mobile
+Projects
+C~
+•~
+runner
+。.
+$
+②
+L Configure usage tracking
+소
+〉
+Hide
+No
++
+®
+"
+sample.ppt
+⑥ sample-utf16.x.. ×
+>
+/.sample-utf16.xhtml
+®
+⑧
+XHTML
+Source
+100%
++
+1:1
+UTF-16LE • 1.7 KB
+Safe preview: 1 script(s) not run •1 external or relative
+resource(s) not loaded
+File Preview - HTML
+sample
+한글 미리보기 테스트 - 가나다라마바사
+Styled box. A link
+A
+B
+1
+2
++
+D
+<>
+…
+×
+Scripts must NOT run in the preview: this text
+stays.
+임
+Names
+비 Find files
+@ sample-utr16.xhtml
+B sample-viewbox.svg
+B sample-word97.doc
+e sample.bmp
+a sample.csv
+B sample.doc
+B sample.doox
+B sample.gif
+a sample.html
+B sample.log
+B sample.ods
+B sample.pdr
+O sample.ppt
+• sample.pptx
+e sample.svg
+@ sample.tsv
+B sample.txt
+B sample.xls
+e sample.xlsx
+m xss-cells.csv
+a xss-css-escapes.html
+®
+@ Off -
+Contents
+ㅁ-•>
+40

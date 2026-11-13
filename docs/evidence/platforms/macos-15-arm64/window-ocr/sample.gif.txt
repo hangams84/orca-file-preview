@@ -1,0 +1,64 @@
+== /Users/runner/work/_temp/out/window/sample.gif.png
+Orca
+〉
+Search
+• Onboarding checklist
+= Tasks
+to Automations
+I Orca Mobile
+Projects
+C~
+•~
+runner
+Hide
+sample-utf16.x....
+e sample.gif
+/users/runn... samp le.gif
+GIF
+m Light checker
+~
+"
+100%
++
+1:1
+160 x 120 . 64.0 KB • GIF • 12 frames
+×
+>
+⑧
++
+D
+<>
+임
+…
+Names
+이 Find files
+B sample-utf16.xhtml
+B sample-viewbox.svg
+e sample-word97.doc
+e sample.bmp
+a sample.csv
+B sample.doc
+B sample.docx
+e sample.gif
+i sample.html
+e sample.log
+@ sample.ods
+B sample.pdf
+e sample.ppt
+O sample.pptx
+B sample.svg
+a sample.tsv
+⑧ sample.txt
+B sample.xls
+m sample.xlsx
+m xss-cells.csv
+a xss-css-escapes.html
+@ Off -
+Contents
+New
++
+frame 5
+"
+L Configure usage tracking
+ㅁ-•>
+40

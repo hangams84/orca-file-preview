@@ -1,0 +1,93 @@
+== /Users/runner/work/_temp/out/window/sample.xlsx.png
+Orca L
+임
+Q Search
+• Onboarding checklist
+Tasks
+t Automations
+B Orca Mobile
+Projects
+C~
+•~
+runner
+〉
+Hide
+Now
++
+< sample.pptx
+e sample.xlsx
+×
+>
++ D
+/users/run... sample.xLsx
+⑧
+<>
+…
+XLSX 매출
+매출•6x 5• 11.0 KB
+A
+1월
+2 1월
+3 1월
+4 2월
+5 2월
+6 합계
+제품
+사과
+배
+사과
+포도
+90%
++
+1:1
+C
+수량
+10
+4?
+12
+33
+D
+ㅌ
+단가
+금액
+1500
+15000
+30001
+12000
+1500
+10500
+5000 "
+60000
+97500
+…
+® "1
+L Configure usage tracking
+Names
+비 Find files
+E oalpic.uur
+e sample.docx
+e sample.gif
+@ sample.html
+B sample.1og
+B sample.ods
+@ sample.pdr
+• sample.ppt
+e sample.pptx
+e sample.svg
+B sample.tsv
+⑧ sample.txt
+⑧ sample.xls
+e sample.xlsx
+@ xss-cells.csv
+⑧ xss-css-escapes.html
+B xss-fragments.html
+e xss-html.doc
+법 xss-rtf.doc
+B xss-vectors-utf16.xhtml
+⑥ xss-vectors.html
+R xss-vectors.sva
+®
+@ Off -
+Contents
+a-•>
+40

@@ -1,0 +1,16 @@
+# macOS 15.8.2 (24H232, arm64) · Orca 1.4.258
+
+| Check | Result | Detail |
+| --- | --- | --- |
+| Orca 1.4.258 desktop starts (macOS GUI session) | ✅ | attempt 2: {"running":true,"pid":1466,"desktopWindowStatus":"available"} |
+| plugin install (folder, approval ap1-6cd35a3a7972a48c4242f060b93e76d0) | ✅ | "idle" |
+| plugin listed and enabled | ✅ | status=idle editors=8 |
+| first-run dialog dismissed (Escape, then Skip) | ✅ | dialog seen: true; after 2 attempt(s); OCR of logs/after-first-run.png: == /Users/runner/work/_temp/out/logs/after-first-run.png Orca D <> & Terminal 1 × + D 임 Search • Onboarding checklist Tasks to Automations \\| Orca Mobile Hide The default interact To update your a |
+| plugin validate | ✅ | [] |
+| plugin test (unit, Node on macos-15-arm64) | ✅ |  |
+| plugin check (static) | ✅ |  |
+| editors mount in Orca without errors | ✅ | 31 / 31 mounted; 24 open in Orca's own view first |
+| editor visible before window captures (no dialog, OCR) | ✅ | logs/editor-visible.png: == /Users/runner/work/_temp/out/logs/editor-visible.png Orca " Search Onboarding checklist Tasks ㆅ Automations Orca Mobile Projects C~ •~ runner 소 〉 Hide Ai # + & Terminal 1 e sample.docx × / |
+| finished renders captured from open tabs | ✅ | 8 / 8 window captures |
+| finished renders show Korean text, no dialog (OCR) | ✅ | 8 / 8: sample-utf16.xhtml:koreanWords=4,dialog=no; sample.doc:koreanWords=9,dialog=no; sample.docx:koreanWords=9,dialog=no; sample.gif:koreanWords=0,dialog=no; sample.pdf:koreanWords=4,dialog=no; sample.ppt:koreanWords=6,dialog=no; sample.pptx:koreanWords=6,dialog=no; sample.xlsx:koreanWords=10,dial |
+| no error lines in the plugin log | ✅ | 0 error lines |

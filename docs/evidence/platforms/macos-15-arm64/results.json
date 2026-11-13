@@ -1,0 +1,402 @@
+{
+  "platform": "macos-15-arm64",
+  "os": "macOS 15.8.2 (24H232, arm64)",
+  "orcaVersion": "1.4.258",
+  "kernel": "24.6.0",
+  "durationSec": 572,
+  "date": "2026-11-13T04:59:07Z",
+  "checks": [
+    {
+      "name": "Orca 1.4.258 desktop starts (macOS GUI session)",
+      "ok": true,
+      "detail": "attempt 2: {\"running\":true,\"pid\":1466,\"desktopWindowStatus\":\"available\"}"
+    },
+    {
+      "name": "plugin install (folder, approval ap1-6cd35a3a7972a48c4242f060b93e76d0)",
+      "ok": true,
+      "detail": "\"idle\""
+    },
+    {
+      "name": "plugin listed and enabled",
+      "ok": true,
+      "detail": "status=idle editors=8"
+    },
+    {
+      "name": "first-run dialog dismissed (Escape, then Skip)",
+      "ok": true,
+      "detail": "dialog seen: true; after 2 attempt(s); OCR of logs/after-first-run.png: == /Users/runner/work/_temp/out/logs/after-first-run.png Orca D <> & Terminal 1 × + D 임 Search • Onboarding checklist Tasks to Automations | Orca Mobile Hide The default interact To update your a"
+    },
+    {
+      "name": "plugin validate",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "plugin test (unit, Node on macos-15-arm64)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "plugin check (static)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "editors mount in Orca without errors",
+      "ok": true,
+      "detail": "31 / 31 mounted; 24 open in Orca's own view first"
+    },
+    {
+      "name": "editor visible before window captures (no dialog, OCR)",
+      "ok": true,
+      "detail": "logs/editor-visible.png: == /Users/runner/work/_temp/out/logs/editor-visible.png Orca \" Search Onboarding checklist Tasks ㆅ Automations Orca Mobile Projects C~ •~ runner 소 〉 Hide Ai # + & Terminal 1 e sample.docx × /"
+    },
+    {
+      "name": "finished renders captured from open tabs",
+      "ok": true,
+      "detail": "8 / 8 window captures"
+    },
+    {
+      "name": "finished renders show Korean text, no dialog (OCR)",
+      "ok": true,
+      "detail": "8 / 8: sample-utf16.xhtml:koreanWords=4,dialog=no; sample.doc:koreanWords=9,dialog=no; sample.docx:koreanWords=9,dialog=no; sample.gif:koreanWords=0,dialog=no; sample.pdf:koreanWords=4,dialog=no; sample.ppt:koreanWords=6,dialog=no; sample.pptx:koreanWords=6,dialog=no; sample.xlsx:koreanWords=10,dialog=no;"
+    },
+    {
+      "name": "no error lines in the plugin log",
+      "ok": true,
+      "detail": "0 error lines"
+    }
+  ],
+  "shots": [
+    {
+      "file": "broken.bomb.docx",
+      "state": "ok",
+      "message": "",
+      "errors": []
+    },
+    {
+      "file": "broken.clx-loop.doc",
+      "state": "ok",
+      "message": "",
+      "errors": []
+    },
+    {
+      "file": "broken.doc",
+      "state": "ok",
+      "message": "",
+      "errors": []
+    },
+    {
+      "file": "broken.docx",
+      "state": "toggle",
+      "message": "The editor is not on screen.",
+      "errors": []
+    },
+    {
+      "file": "broken.encrypted.doc",
+      "state": "ok",
+      "message": "",
+      "errors": []
+    },
+    {
+      "file": "broken.encrypted.ppt",
+      "state": "ok",
+      "message": "",
+      "errors": []
+    },
+    {
+      "file": "broken.pdf",
+      "state": "ok",
+      "message": "",
+      "errors": []
+    },
+    {
+      "file": "broken.ppt",
+      "state": "ok",
+      "message": "",
+      "errors": []
+    },
+    {
+      "file": "broken.pptx",
+      "state": "toggle",
+      "message": "The editor is not on screen.",
+      "errors": []
+    },
+    {
+      "file": "sample-docx.doc",
+      "state": "ok",
+      "message": "",
+      "errors": []
+    },
+    {
+      "file": "sample-euckr.csv",
+      "state": "toggle",
+      "message": "The editor is not on screen.",
+      "errors": []
+    },
+    {
+      "file": "sample-euckr.html",
+      "state": "toggle",
+      "message": "The editor is not on screen.",
+      "errors": []
+    },
+    {
+      "file": "sample-euckr.txt",
+      "state": "toggle",
+      "message": "The editor is not on screen.",
+      "errors": []
+    },
+    {
+      "file": "sample-html.doc",
+      "state": "toggle",
+      "message": "The editor is not on screen.",
+      "errors": []
+    },
+    {
+      "file": "sample-large.csv",
+      "state": "toggle",
+      "message": "The editor is not on screen.",
+      "errors": []
+    },
+    {
+      "file": "sample-large.doc",
+      "state": "ok",
+      "message": "",
+      "errors": []
+    },
+    {
+      "file": "sample-large.pdf",
+      "state": "ok",
+      "message": "",
+      "errors": []
+    },
+    {
+      "file": "sample-large.ppt",
+      "state": "ok",
+      "message": "",
+      "errors": []
+    },
+    {
+      "file": "sample-large.xlsx",
+      "state": "ok",
+      "message": "",
+      "errors": []
+    },
+    {
+      "file": "sample-links.docx",
+      "state": "ok",
+      "message": "",
+      "errors": []
+    },
+    {
+      "file": "sample-longcell.csv",
+      "state": "toggle",
+      "message": "The editor is not on screen.",
+      "errors": []
+    },
+    {
+      "file": "sample-password.pdf",
+      "state": "ok",
+      "message": "",
+      "errors": []
+    },
+    {
+      "file": "sample-ppt97.ppt",
+      "state": "ok",
+      "message": "",
+      "errors": []
+    },
+    {
+      "file": "sample-pptx.ppt",
+      "state": "ok",
+      "message": "",
+      "errors": []
+    },
+    {
+      "file": "sample-rtf.doc",
+      "state": "toggle",
+      "message": "The editor is not on screen.",
+      "errors": []
+    },
+    {
+      "file": "sample-semicolon.csv",
+      "state": "toggle",
+      "message": "The editor is not on screen.",
+      "errors": []
+    },
+    {
+      "file": "sample-shapes.pptx",
+      "state": "ok",
+      "message": "",
+      "errors": []
+    },
+    {
+      "file": "sample-slides.pdf",
+      "state": "ok",
+      "message": "",
+      "errors": []
+    },
+    {
+      "file": "sample-utf16.xhtml",
+      "state": "ok",
+      "message": "",
+      "errors": []
+    },
+    {
+      "file": "sample-viewbox.svg",
+      "state": "toggle",
+      "message": "The editor is not on screen.",
+      "errors": []
+    },
+    {
+      "file": "sample-word97.doc",
+      "state": "ok",
+      "message": "",
+      "errors": []
+    },
+    {
+      "file": "sample.bmp",
+      "state": "ok",
+      "message": "",
+      "errors": []
+    },
+    {
+      "file": "sample.csv",
+      "state": "toggle",
+      "message": "The editor is not on screen.",
+      "errors": []
+    },
+    {
+      "file": "sample.doc",
+      "state": "ok",
+      "message": "",
+      "errors": []
+    },
+    {
+      "file": "sample.docx",
+      "state": "ok",
+      "message": "",
+      "errors": []
+    },
+    {
+      "file": "sample.gif",
+      "state": "ok",
+      "message": "",
+      "errors": []
+    },
+    {
+      "file": "sample.html",
+      "state": "toggle",
+      "message": "The editor is not on screen.",
+      "errors": []
+    },
+    {
+      "file": "sample.log",
+      "state": "toggle",
+      "message": "The editor is not on screen.",
+      "errors": []
+    },
+    {
+      "file": "sample.ods",
+      "state": "ok",
+      "message": "",
+      "errors": []
+    },
+    {
+      "file": "sample.pdf",
+      "state": "ok",
+      "message": "",
+      "errors": []
+    },
+    {
+      "file": "sample.ppt",
+      "state": "ok",
+      "message": "",
+      "errors": []
+    },
+    {
+      "file": "sample.pptx",
+      "state": "ok",
+      "message": "",
+      "errors": []
+    },
+    {
+      "file": "sample.svg",
+      "state": "toggle",
+      "message": "The editor is not on screen.",
+      "errors": []
+    },
+    {
+      "file": "sample.tsv",
+      "state": "toggle",
+      "message": "The editor is not on screen.",
+      "errors": []
+    },
+    {
+      "file": "sample.txt",
+      "state": "toggle",
+      "message": "The editor is not on screen.",
+      "errors": []
+    },
+    {
+      "file": "sample.xls",
+      "state": "ok",
+      "message": "",
+      "errors": []
+    },
+    {
+      "file": "sample.xlsx",
+      "state": "ok",
+      "message": "",
+      "errors": []
+    },
+    {
+      "file": "xss-cells.csv",
+      "state": "toggle",
+      "message": "The editor is not on screen.",
+      "errors": []
+    },
+    {
+      "file": "xss-css-escapes.html",
+      "state": "toggle",
+      "message": "The editor is not on screen.",
+      "errors": []
+    },
+    {
+      "file": "xss-fragments.html",
+      "state": "toggle",
+      "message": "The editor is not on screen.",
+      "errors": []
+    },
+    {
+      "file": "xss-html.doc",
+      "state": "toggle",
+      "message": "The editor is not on screen.",
+      "errors": []
+    },
+    {
+      "file": "xss-rtf.doc",
+      "state": "toggle",
+      "message": "The editor is not on screen.",
+      "errors": []
+    },
+    {
+      "file": "xss-vectors-utf16.xhtml",
+      "state": "ok",
+      "message": "",
+      "errors": []
+    },
+    {
+      "file": "xss-vectors.html",
+      "state": "toggle",
+      "message": "The editor is not on screen.",
+      "errors": []
+    },
+    {
+      "file": "xss-vectors.svg",
+      "state": "toggle",
+      "message": "The editor is not on screen.",
+      "errors": []
+    }
+  ]
+}

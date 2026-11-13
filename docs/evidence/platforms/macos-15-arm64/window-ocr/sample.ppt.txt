@@ -1,0 +1,69 @@
+== /Users/runner/work/_temp/out/window/sample.ppt.png
+Orca W
+Q Search
+O Onboarding checklist
+Tasks
+t Automations
+A Orca Mobile
+Projects
+C~
+•~
+runner
+Ai #
+$
+©
+L Configure usage tracking
+<>
+Hide
+< sample.doc
+/users/runh... samp le. ppt
+• sample.ppt
+PPT <
+29%
++
+1/3 •502.0 KB
+×
+⑧
++
+D
+<>
+…
+임
+1:1
+B +
+File Preview - Slides
+한글 미리보기 테스트 - 가나다라마바
+1. File Preview - Slides
+Bullets
+•First point
+• 두 번째 요점
+• Third point with a longer sentence to wrap
+2 . Bullets
+Notes: Speaker notes for slide 2
+Names
+비 Find flles
+B sample.doc
+e sample.docx
+e sample.gif
+a sample.html
+l sample.1og
+a sample.ods
+B sample.pdf
+e sample.ppt
+D sample.pptx
+e sample.svg
+B sample.tsy
+g sample.txt
+a sample.xls
+@ sample.xlsx
+@ xss-cells.csv
+a xss-css-escapes.html
+B xss-fragments.html
+③ xss-html.doc
+법 xss-rtf.doc
+B xss-vectors-utf16.xhtml
+a xss-vectors.html
+@ Off -
+Contents
+a-•>
+40

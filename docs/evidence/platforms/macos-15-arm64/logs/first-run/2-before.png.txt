@@ -1,0 +1,61 @@
+== /Users/runner/work/_temp/out/logs/first-run/2-before.png
+Orca D
+<>
+& Terminal 1
+×
++
+D
+임
+Search
+Onboarding checklist
+Tasks
+to Automations
+I Orca Mobile
+Hide
+The default interact
+To update your accou
+chsh -s /bin/zsh.
+For more details,
+pL
+apple.com/kb/HT20805
+sat12-dp155-1c8d0f59
+6-C2D5A96C67B0:~ run
+New agents start here
+Click + to start an agent, a terminal, or a browser
+tab.
+•••1of3
+mes
+3=
+Contents
+Now
+0. # +
+Proiects
+ㄱ~
+•~
+runner
+$
+L Configure usage tracking
+® "1
+Next *
+> D.Azure
+> D.azure-devops
+> D.cache
+> D.claude
+> D.config
+> D.dotnet
+> D.gradle
+> D.homebrew
+> D .local
+> D.net
+> D.npm
+> D .rustup
+> D.ssh
+> D.irash
+> D .vcpkg
+> D.yar
+> D actionarchivecache
+> D actions-runner
+> D bootstrap
+> D Desktop
+® OOff• = - .>
+야0
