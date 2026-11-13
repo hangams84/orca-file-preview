@@ -9,6 +9,7 @@ import {
   applyPap,
   applySep,
   bulletChar,
+  defaultPap,
   defaultSep,
   formatNumber,
   readLists,
@@ -598,7 +599,8 @@ export function readWord(cfb: Cfb): DocModel {
   }
 
   function resolveDefaultPap(): Pap {
-    return { ...(styles[0]?.pap ?? ({} as Pap)) }
+    const base = styles[0]?.pap ?? defaultPap()
+    return { ...base, line: { ...base.line }, tap: undefined, hugePapx: undefined }
   }
 
   const ccpText = ccp(0)

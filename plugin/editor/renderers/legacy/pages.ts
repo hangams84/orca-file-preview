@@ -545,8 +545,12 @@ export function renderPages(ctx: PreviewContext, model: DocModel, opts: PagesOpt
         tr.append(td)
       }
       el.append(tr)
-      // rows share their borders like Word's (collapsed) grid
-      if (box.childElementCount) el.style.marginTop = '-1px'
+      // Rows share their borders like Word's (collapsed) grid. Browsers draw thin borders at least
+      // 1 px wide; take the difference back so rows advance by Word's border width.
+      if (box.childElementCount) {
+        const top = Math.max(...(rf?.borders ?? [[0, 0, 0, 0]]).map((b) => b[0]), 0) * PX
+        el.style.marginTop = `${-1 - (top > 0 && top < 1 ? 1 - top : 0)}px`
+      }
       box.append(el)
     }
     return box
