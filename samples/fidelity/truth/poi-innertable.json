@@ -1,0 +1,124 @@
+{
+ "format": "doc",
+ "source": "Microsoft Word 2021 (PDF export)",
+ "pages": [
+  {
+   "w": 595.32,
+   "h": 841.92,
+   "lines": [
+    {
+     "text": "A",
+     "x": 59.42,
+     "y": 59.5,
+     "base": 67.8,
+     "size": 9.96,
+     "font": "CourierNewPSMT"
+    },
+    {
+     "text": "B",
+     "x": 220.13,
+     "y": 59.5,
+     "base": 67.8,
+     "size": 9.96,
+     "font": "CourierNewPSMT"
+    },
+    {
+     "text": "C",
+     "x": 380.71,
+     "y": 59.5,
+     "base": 67.8,
+     "size": 9.96,
+     "font": "CourierNewPSMT"
+    },
+    {
+     "text": "D",
+     "x": 59.42,
+     "y": 76.32,
+     "base": 84.62,
+     "size": 9.96,
+     "font": "CourierNewPSMT"
+    },
+    {
+     "text": "E",
+     "x": 220.13,
+     "y": 76.32,
+     "base": 84.62,
+     "size": 9.96,
+     "font": "CourierNewPSMT"
+    },
+    {
+     "text": "G",
+     "x": 380.71,
+     "y": 76.32,
+     "base": 84.62,
+     "size": 9.96,
+     "font": "CourierNewPSMT"
+    },
+    {
+     "text": "1",
+     "x": 222.89,
+     "y": 90.6,
+     "base": 98.9,
+     "size": 9.96,
+     "font": "CourierNewPSMT"
+    },
+    {
+     "text": "2",
+     "x": 300.41,
+     "y": 90.6,
+     "base": 98.9,
+     "size": 9.96,
+     "font": "CourierNewPSMT"
+    },
+    {
+     "text": "3",
+     "x": 222.89,
+     "y": 107.4,
+     "base": 115.7,
+     "size": 9.96,
+     "font": "CourierNewPSMT"
+    },
+    {
+     "text": "4",
+     "x": 300.41,
+     "y": 107.4,
+     "base": 115.7,
+     "size": 9.96,
+     "font": "CourierNewPSMT"
+    },
+    {
+     "text": "F",
+     "x": 220.13,
+     "y": 121.56,
+     "base": 129.86,
+     "size": 9.96,
+     "font": "CourierNewPSMT"
+    },
+    {
+     "text": "H",
+     "x": 59.42,
+     "y": 138.36,
+     "base": 146.66,
+     "size": 9.96,
+     "font": "CourierNewPSMT"
+    },
+    {
+     "text": "I",
+     "x": 220.13,
+     "y": 138.36,
+     "base": 146.66,
+     "size": 9.96,
+     "font": "CourierNewPSMT"
+    },
+    {
+     "text": "J",
+     "x": 380.71,
+     "y": 138.36,
+     "base": 146.66,
+     "size": 9.96,
+     "font": "CourierNewPSMT"
+    }
+   ]
+  }
+ ]
+}

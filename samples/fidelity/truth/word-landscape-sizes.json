@@ -1,0 +1,108 @@
+{
+ "format": "doc",
+ "source": "Microsoft Word 2021 (PDF export)",
+ "pages": [
+  {
+   "w": 841.92,
+   "h": 595.32,
+   "lines": [
+    {
+     "text": "8 pt 바탕 글자 크기 Size ladder",
+     "x": 70.8,
+     "y": 58.06,
+     "base": 65.78,
+     "size": 9.0,
+     "font": "Batang"
+    },
+    {
+     "text": "9 pt 바탕 글자 크기 Size ladder",
+     "x": 70.8,
+     "y": 74.03,
+     "base": 82.58,
+     "size": 9.96,
+     "font": "Batang"
+    },
+    {
+     "text": "10 pt 바탕 글자 크기 Size ladder",
+     "x": 70.8,
+     "y": 91.11,
+     "base": 100.58,
+     "size": 11.04,
+     "font": "Batang"
+    },
+    {
+     "text": "11 pt 바탕 글자 크기 Size ladder",
+     "x": 70.8,
+     "y": 109.6,
+     "base": 119.9,
+     "size": 12.0,
+     "font": "Batang"
+    },
+    {
+     "text": "12 pt 바탕 글자 크기 Size ladder",
+     "x": 70.8,
+     "y": 129.45,
+     "base": 141.5,
+     "size": 14.04,
+     "font": "Batang"
+    },
+    {
+     "text": "14 pt 바탕 글자 크기 Size ladder",
+     "x": 70.8,
+     "y": 152.05,
+     "base": 165.74,
+     "size": 15.96,
+     "font": "Batang"
+    },
+    {
+     "text": "16 pt 바탕 글자 크기 Size ladder",
+     "x": 70.8,
+     "y": 177.09,
+     "base": 192.53,
+     "size": 18.0,
+     "font": "Batang"
+    },
+    {
+     "text": "18 pt 바탕 글자 크기 Size ladder",
+     "x": 70.8,
+     "y": 204.74,
+     "base": 221.93,
+     "size": 20.04,
+     "font": "Batang"
+    },
+    {
+     "text": "20 pt 바탕 글자 크기 Size ladder",
+     "x": 70.8,
+     "y": 235.54,
+     "base": 256.13,
+     "size": 24.0,
+     "font": "Batang"
+    },
+    {
+     "text": "24 pt 바탕 글자 크기 Size ladder",
+     "x": 70.8,
+     "y": 271.38,
+     "base": 295.37,
+     "size": 27.96,
+     "font": "Batang"
+    },
+    {
+     "text": "28 pt 바탕 글자 크기 Size ladder",
+     "x": 70.8,
+     "y": 309.66,
+     "base": 321.67,
+     "size": 11.04,
+     "font": "ArialMT"
+    },
+    {
+     "text": "Arial 11 pt line for comparison",
+     "x": 70.8,
+     "y": 328.47,
+     "base": 339.31,
+     "size": 9.96,
+     "font": "MalgunGothic"
+    }
+   ]
+  }
+ ]
+}

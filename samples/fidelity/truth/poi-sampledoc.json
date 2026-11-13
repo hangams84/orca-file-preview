@@ -1,0 +1,66 @@
+{
+ "format": "doc",
+ "source": "Microsoft Word 2021 (PDF export)",
+ "pages": [
+  {
+   "w": 595.32,
+   "h": 842.04,
+   "lines": [
+    {
+     "text": "I am a test document",
+     "x": 72.02,
+     "y": 74.18,
+     "base": 82.46,
+     "size": 11.04,
+     "font": "Calibri"
+    },
+    {
+     "text": "This is page 1",
+     "x": 72.02,
+     "y": 99.62,
+     "base": 107.9,
+     "size": 11.04,
+     "font": "Calibri"
+    },
+    {
+     "text": "I am Calibri (Body) in font size 11",
+     "x": 72.02,
+     "y": 125.06,
+     "base": 133.34,
+     "size": 11.04,
+     "font": "Calibri"
+    }
+   ]
+  },
+  {
+   "w": 595.32,
+   "h": 842.04,
+   "lines": [
+    {
+     "text": "This is page two",
+     "x": 72.02,
+     "y": 97.53,
+     "base": 115.1,
+     "size": 15.96,
+     "font": "Arial-Black"
+    },
+    {
+     "text": "It’s Arial Black in 16 point",
+     "x": 72.02,
+     "y": 133.53,
+     "base": 151.1,
+     "size": 15.96,
+     "font": "Arial-Black"
+    },
+    {
+     "text": "It’s also in blue",
+     "x": 72.02,
+     "y": 169.41,
+     "base": 186.98,
+     "size": 15.96,
+     "font": "Arial-Black"
+    }
+   ]
+  }
+ ]
+}

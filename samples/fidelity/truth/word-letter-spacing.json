@@ -1,0 +1,180 @@
+{
+ "format": "doc",
+ "source": "Microsoft Word 2021 (PDF export)",
+ "pages": [
+  {
+   "w": 612.0,
+   "h": 792.0,
+   "lines": [
+    {
+     "text": "Letter page, Times New Roman 12 pt",
+     "x": 72.02,
+     "y": 72.49,
+     "base": 83.18,
+     "size": 12.0,
+     "font": "TimesNewRomanPSMT"
+    },
+    {
+     "text": "Double spaced: The quick brown fox jumps over the lazy dog. Spacing, sizes and indents must",
+     "x": 72.02,
+     "y": 115.33,
+     "base": 126.02,
+     "size": 12.0,
+     "font": "TimesNewRomanPSMT"
+    },
+    {
+     "text": "match the original layout. The quick brown fox jumps over the lazy dog. Spacing, sizes and",
+     "x": 72.02,
+     "y": 133.33,
+     "base": 144.02,
+     "size": 12.0,
+     "font": "TimesNewRomanPSMT"
+    },
+    {
+     "text": "indents must match the original layout.",
+     "x": 72.02,
+     "y": 151.33,
+     "base": 162.02,
+     "size": 12.0,
+     "font": "TimesNewRomanPSMT"
+    },
+    {
+     "text": "Exactly 18 pt: The quick brown fox jumps over the lazy dog. Spacing, sizes and indents must",
+     "x": 72.02,
+     "y": 178.09,
+     "base": 188.78,
+     "size": 12.0,
+     "font": "TimesNewRomanPSMT"
+    },
+    {
+     "text": "match the original layout. The quick brown fox jumps over the lazy dog. Spacing, sizes and",
+     "x": 72.02,
+     "y": 193.93,
+     "base": 204.62,
+     "size": 12.0,
+     "font": "TimesNewRomanPSMT"
+    },
+    {
+     "text": "indents must match the original layout.",
+     "x": 72.02,
+     "y": 209.77,
+     "base": 220.46,
+     "size": 12.0,
+     "font": "TimesNewRomanPSMT"
+    },
+    {
+     "text": "Multiple 1.15: The quick brown fox jumps over the lazy dog. Spacing, sizes and indents must",
+     "x": 90.86,
+     "y": 237.76,
+     "base": 248.45,
+     "size": 12.0,
+     "font": "TimesNewRomanPSMT"
+    },
+    {
+     "text": "match the original layout. The quick brown fox jumps over the lazy dog. Spacing, sizes and",
+     "x": 100.34,
+     "y": 251.56,
+     "base": 262.25,
+     "size": 12.0,
+     "font": "TimesNewRomanPSMT"
+    },
+    {
+     "text": "indents must match the original layout.",
+     "x": 352.75,
+     "y": 265.36,
+     "base": 276.05,
+     "size": 12.0,
+     "font": "TimesNewRomanPSMT"
+    },
+    {
+     "text": "Right aligned: The quick brown fox jumps over the lazy dog. Spacing, sizes and indents must",
+     "x": 81.62,
+     "y": 291.16,
+     "base": 301.85,
+     "size": 12.0,
+     "font": "TimesNewRomanPSMT"
+    },
+    {
+     "text": "match the original layout.",
+     "x": 244.37,
+     "y": 304.96,
+     "base": 315.65,
+     "size": 12.0,
+     "font": "TimesNewRomanPSMT"
+    },
+    {
+     "text": "Centered: The quick brown fox jumps over the lazy dog. Spacing, sizes and indents must match",
+     "x": 72.02,
+     "y": 330.76,
+     "base": 341.45,
+     "size": 12.0,
+     "font": "TimesNewRomanPSMT"
+    },
+    {
+     "text": "the original layout.",
+     "x": 108.02,
+     "y": 344.56,
+     "base": 355.25,
+     "size": 12.0,
+     "font": "TimesNewRomanPSMT"
+    },
+    {
+     "text": "Hanging indent 0.5 in: The quick brown fox jumps over the lazy",
+     "x": 144.02,
+     "y": 370.36,
+     "base": 381.05,
+     "size": 12.0,
+     "font": "TimesNewRomanPSMT"
+    },
+    {
+     "text": "dog. Spacing, sizes and indents must match the original layout.",
+     "x": 144.02,
+     "y": 384.16,
+     "base": 394.85,
+     "size": 12.0,
+     "font": "TimesNewRomanPSMT"
+    },
+    {
+     "text": "The quick brown fox jumps over the lazy dog. Spacing, sizes and",
+     "x": 144.02,
+     "y": 397.96,
+     "base": 408.65,
+     "size": 12.0,
+     "font": "TimesNewRomanPSMT"
+    },
+    {
+     "text": "indents must match the original layout.",
+     "x": 144.02,
+     "y": 411.78,
+     "base": 422.47,
+     "size": 12.0,
+     "font": "TimesNewRomanPSMT"
+    },
+    {
+     "text": "Indented both sides 1 in: The quick brown fox jumps over the lazy dog. Spacing, sizes and indents",
+     "x": 72.02,
+     "y": 427.23,
+     "base": 438.07,
+     "size": 9.96,
+     "font": "MalgunGothic"
+    },
+    {
+     "text": "must match the original layout. The quick brown fox jumps over the lazy dog. Spacing, sizes and",
+     "x": 72.02,
+     "y": 445.83,
+     "base": 456.67,
+     "size": 9.96,
+     "font": "MalgunGothic"
+    },
+    {
+     "text": "indents must match the original layout.",
+     "x": 72.02,
+     "y": 464.43,
+     "base": 475.27,
+     "size": 9.96,
+     "font": "MalgunGothic"
+    }
+   ]
+  }
+ ]
+}
