@@ -274,7 +274,37 @@ export function renderPages(ctx: PreviewContext, model: DocModel, opts: PagesOpt
       buf += ch
     })
     flush()
+    // Word's automatic spacing between Asian text and Latin letters or digits that touch it (no
+    // space between): a quarter em, and the two characters stay on one line.
+    const ALNUM = /[0-9A-Za-z]/
+    const pairs: typeof parts = []
     for (const part of parts) {
+      const prev = pairs[pairs.length - 1]
+      if (prev && !prev.wide && !part.wide && prev.cjk !== part.cjk && prev.text && part.text) {
+        const a = prev.text[prev.text.length - 1]
+        const b = part.text[0]
+        if ((ALNUM.test(a) && HANGUL.test(b)) || (HANGUL.test(a) && ALNUM.test(b))) {
+          prev.text = prev.text.slice(0, -1)
+          if (!prev.text) pairs.pop()
+          pairs.push({ text: a + b, cjk: false, pair: [prev.cjk, part.cjk] } as (typeof parts)[number] & { pair: [boolean, boolean] })
+          part.text = part.text.slice(1)
+          if (!part.text) continue
+        }
+      }
+      pairs.push(part)
+    }
+    for (const part of pairs as ((typeof parts)[number] & { pair?: [boolean, boolean] })[]) {
+      if (part.pair) {
+        const box = h('span')
+        box.style.whiteSpace = 'nowrap'
+        for (const k of [0, 1] as const) {
+          const piece = runEls({ ...r, text: part.text[k] }, para)[0] as HTMLElement
+          if (k === 1) piece.style.marginLeft = '0.25em'
+          box.append(piece)
+        }
+        out.push(box)
+        continue
+      }
       const text = part.text
       const cjk = part.cjk
       const el = h(r.sup ? 'sup' : r.sub ? 'sub' : 'span', undefined, text)
@@ -661,6 +691,34 @@ export function renderPages(ctx: PreviewContext, model: DocModel, opts: PagesOpt
     }
   }
 
+  /** Justification can stretch a space far beyond its width; Word's PDF then shows the words as
+   *  separate text groups. Mark such gaps (wider than half an em) with a group break. */
+  const markWideGaps = (el: HTMLElement) => {
+    const inner = el.firstElementChild as HTMLElement | null
+    if (!inner) return
+    const z = scale || 1
+    const range = document.createRange()
+    const cuts: { node: Text; i: number }[] = []
+    const walker = document.createTreeWalker(inner, NodeFilter.SHOW_TEXT)
+    for (let n = walker.nextNode() as Text | null; n; n = walker.nextNode() as Text | null) {
+      if (n.parentElement?.closest('.gb, .lbl')) continue
+      const size = parseFloat(getComputedStyle(n.parentElement!).fontSize) || 16
+      const t = n.data
+      for (let i = 0; i < t.length; i++) {
+        if (t[i] !== ' ') continue
+        range.setStart(n, i)
+        range.setEnd(n, i + 1)
+        const rc = range.getClientRects()[0]
+        if (rc && rc.width > 0.5 * size * z) cuts.push({ node: n, i })
+      }
+    }
+    // insert from the end so offsets stay valid
+    for (const c of cuts.reverse()) {
+      const after = c.node.splitText(c.i + 1)
+      after.parentNode!.insertBefore(groupBreak(), after)
+    }
+  }
+
   /** Splits a paragraph element at the first line that ends below `limit` (px from the body top).
    *  Returns the remainder element, or null when no split is possible. */
   const splitPara = (el: HTMLElement, limit: number, widow: boolean): HTMLElement | null => {
@@ -751,6 +809,7 @@ export function renderPages(ctx: PreviewContext, model: DocModel, opts: PagesOpt
     page.body.append(el)
     page.placed.push({ el, keepNext: !!f?.keepNext })
     if (hang) hangPunctuation(el)
+    if (p.align === 'justify') markWideGaps(el)
     for (let guard = 0; guard < 500 && !fits(page); guard++) {
       if (page.placed.length === 1) {
         // first on its page: split it across pages, or leave it overflowing
