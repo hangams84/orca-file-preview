@@ -54,49 +54,37 @@ docs/              개발·검증 문서 (README.md, index.html, evidence/)
 플러그인·설치 스크립트·테스트 도구가 바뀌어 `main` 에 푸시되면 자동 실행되고, 아래 표가 자동으로 갱신됩니다.
 
 <!-- ci-matrix:start -->
-**Orca compatibility CI** — ❌ 22 failing check(s) · 2026-11-13 06:20 UTC · [run](https://github.com/hangams84/orca-file-preview/actions/runs/43374563512)
+**Orca compatibility CI** — ❌ 8 failing check(s) · 2026-11-13 07:00 UTC · [run](https://github.com/hangams84/orca-file-preview/actions/runs/43381294500)
 
-| Orca | Ubuntu 24.04 (Docker) | macOS 15 arm64 |
-| --- | --- | --- |
-| 1.4.258 | ✅ 9/9 | ✅ 12/12 |
-| 1.4.257 | ✅ 9/9 | — |
-| 1.4.256 | ✅ 9/9 | — |
-| 1.4.255 | ✅ 9/9 | — |
-| 1.4.254 | ✅ 9/9 | — |
-| 1.4.253 | ✅ 9/9 | ✅ 12/12 |
-| 1.4.252 | ✅ 9/9 | — |
-| 1.4.251 | ❌ 5/9 | — |
-| 1.4.250 | ❌ 5/9 | — |
-| 1.4.249 | ❌ 5/9 | — |
-| 1.4.248 | ❌ 5/9 | ❌ 6/12 |
-| 1.4.247 | ✅ refused (unsupported) | — |
+| Orca | Ubuntu 24.04 (Docker) | macOS 15 arm64 | Windows 10 kernel (Server 2022) | Windows 11 kernel (Server 2025) |
+| --- | --- | --- | --- | --- |
+| 1.4.258 | ✅ 9/9 | ✅ 12/12 | ❌ 9/10 | ❌ 9/10 |
+| 1.4.257 | ✅ 9/9 | — | — | — |
+| 1.4.256 | ✅ 9/9 | — | — | — |
+| 1.4.255 | ✅ 9/9 | — | — | — |
+| 1.4.254 | ✅ 9/9 | — | — | — |
+| 1.4.253 | ✅ 9/9 | ✅ 12/12 | ❌ 9/10 | ❌ 9/10 |
+| 1.4.252 | ✅ 9/9 | — | — | — |
+| 1.4.251 | ✅ 9/9 | — | — | — |
+| 1.4.250 | ✅ 9/9 | — | — | — |
+| 1.4.249 | ✅ 9/9 | — | — | — |
+| 1.4.248 | ✅ 9/9 | ❌ 11/12 | ❌ 9/10 | ❌ 9/10 |
+| 1.4.247 | ❌ not refused | — | — | — |
+
+Windows 7: ✅ the installer refuses with a clear message — Orca (Electron 23+) needs Windows 10 or later, and no Windows 7 CI runners exist. Windows 10/11 columns run on GitHub's Windows Server images, which share the Windows 10 (build 20348) and Windows 11 24H2 (build 26100) kernels; Windows 11 Pro 26200 was also tested on a real PC.
 
 Each cell: a fresh Orca install of that version → plugin install with approval → validate · unit tests · static check → every fixture opened in the plugin editor → finished renders captured → plugin log free of errors (Windows also installs and removes through `installer/windows`). Orca below 1.4.248 must refuse the plugin (`engines.orca`).
 
 <details><summary>Failing checks</summary>
 
-- linux · Orca 1.4.248: plugin install (folder, approval ) — "Unknown command: plugin install /home/tester/file-preview"
-- linux · Orca 1.4.248: plugin listed and enabled — status= editors=
-- linux · Orca 1.4.248: editors mount in Orca without errors — 0 / 55 mounted; 0 open in Orca's own view first
-- linux · Orca 1.4.248: finished renders captured from open tabs — 0 / 8 window captures
-- linux · Orca 1.4.249: plugin install (folder, approval ) — "Unknown command: plugin install /home/tester/file-preview"
-- linux · Orca 1.4.249: plugin listed and enabled — status= editors=
-- linux · Orca 1.4.249: editors mount in Orca without errors — 0 / 55 mounted; 0 open in Orca's own view first
-- linux · Orca 1.4.249: finished renders captured from open tabs — 0 / 8 window captures
-- linux · Orca 1.4.250: plugin install (folder, approval ) — "Unknown command: plugin install /home/tester/file-preview"
-- linux · Orca 1.4.250: plugin listed and enabled — status= editors=
-- linux · Orca 1.4.250: editors mount in Orca without errors — 0 / 55 mounted; 0 open in Orca's own view first
-- linux · Orca 1.4.250: finished renders captured from open tabs — 0 / 8 window captures
-- linux · Orca 1.4.251: plugin install (folder, approval ) — "Unknown command: plugin install /home/tester/file-preview"
-- linux · Orca 1.4.251: plugin listed and enabled — status= editors=
-- linux · Orca 1.4.251: editors mount in Orca without errors — 0 / 55 mounted; 0 open in Orca's own view first
-- linux · Orca 1.4.251: finished renders captured from open tabs — 0 / 8 window captures
-- macos · Orca 1.4.248: plugin install (folder, approval ) — "Unknown command: plugin install /Users/runner/fp-work/file-preview"
-- macos · Orca 1.4.248: plugin listed and enabled — status= editors=
-- macos · Orca 1.4.248: editors mount in Orca without errors — 0 / 55 mounted; 0 open in Orca's own view first
-- macos · Orca 1.4.248: editor visible before window captures (no dialog, OCR) — logs/editor-visible.png: 
-- macos · Orca 1.4.248: finished renders captured from open tabs — 0 / 8 window captures
-- macos · Orca 1.4.248: finished renders show Korean text, no dialog (OCR) — 0 / 0:
+- linux · Orca 1.4.247: install refused on unsupported Orca 1.4.247 (needs >=1.4.248) — 
+- macos · Orca 1.4.248: finished renders show Korean text, no dialog (OCR) — 1 / 8: sample-utf16.xhtml:koreanWords=0,dialog=no; sample.doc:koreanWords=0,dialog=no; sample.docx:koreanWords=0,dialog=no; sample.gif:koreanWords=0,dialog=no; 
+- windows-2022 · Orca 1.4.248: Orca 1.4.248 desktop starts — 
+- windows-2022 · Orca 1.4.253: Orca 1.4.253 desktop starts — 
+- windows-2022 · Orca 1.4.258: Orca 1.4.258 desktop starts — 
+- windows-2025 · Orca 1.4.248: Orca 1.4.248 desktop starts — 
+- windows-2025 · Orca 1.4.253: Orca 1.4.253 desktop starts — 
+- windows-2025 · Orca 1.4.258: Orca 1.4.258 desktop starts — 
 
 </details>
 <!-- ci-matrix:end -->
