@@ -3,23 +3,27 @@
 import type { PreviewContext, ZoomController } from '../../core/types.ts'
 import { createZoom, h } from '../../core/ui.ts'
 
-const STYLE = `
-.fp-img-stage { display: grid; place-items: center; min-width: 100%; min-height: 100%; width: max-content;
-  padding: 12px; box-sizing: border-box; }
-.fp-img-box { position: relative; display: block; line-height: 0; box-shadow: 0 1px 4px rgba(0,0,0,.25);
-  --c1: #ffffff; --c2: #d9d9d9;
-  background-color: var(--c1);
-  background-image: conic-gradient(var(--c2) 25%, var(--c1) 0 50%, var(--c2) 0 75%, var(--c1) 0);
-  background-size: 16px 16px; }
-.fp-img-box.bg-checker-dark { --c1: #3b3b3b; --c2: #2b2b2b; }
-.fp-img-box.bg-white { background: #fff; }
-.fp-img-box.bg-black { background: #000; }
-.fp-img-box > img, .fp-img-box > canvas { display: block; width: 100%; height: 100%; user-select: none;
-  -webkit-user-drag: none; }
-.fp-img-box > canvas { position: absolute; inset: 0; }
-.fp-img-box.pixelated > img, .fp-img-box.pixelated > canvas { image-rendering: pixelated; }
-.fp-img-dragging { cursor: grabbing !important; }
-`
+/* Layout and backdrop are set INLINE, never through an injected <style>: in Orca's frame a
+ * renderer's <style> element did not take effect (sample.bmp showed at natural size, off-centre, at
+ * 125 % display scaling), and inline styles cannot be lost that way. */
+const STAGE_CSS =
+  'display:grid;place-items:center;min-width:100%;min-height:100%;width:max-content;height:max-content;' +
+  'padding:12px;box-sizing:border-box;margin:0'
+const BOX_CSS = 'position:relative;display:block;line-height:0;margin:0;box-shadow:0 1px 4px rgba(0,0,0,.25)'
+const LAYER_CSS = 'display:block;width:100%;height:100%;margin:0;user-select:none;-webkit-user-drag:none'
+const CHECKER = (c1: string, c2: string) =>
+  `background-color:${c1};background-image:conic-gradient(${c2} 25%, ${c1} 0 50%, ${c2} 0 75%, ${c1} 0);background-size:16px 16px`
+const BACKDROP_CSS: Record<string, string> = {
+  'checker-light': CHECKER('#ffffff', '#d9d9d9'),
+  'checker-dark': CHECKER('#3b3b3b', '#2b2b2b'),
+  white: 'background:#fff',
+  black: 'background:#000'
+}
+
+/** Styles a layer inside the image box (the <img>, or a canvas laid over it). */
+export function styleLayer(el: HTMLElement, overlay: boolean): void {
+  el.style.cssText = LAYER_CSS + (overlay ? ';position:absolute;left:0;top:0' : '')
+}
 
 export type Backdrop = 'checker-light' | 'checker-dark' | 'white' | 'black'
 const BACKDROPS: Backdrop[] = ['checker-light', 'checker-dark', 'white', 'black']
@@ -64,11 +68,13 @@ export function createImageView(
   }
 ): ImageView {
   const { root, signal, tr, toolbar } = ctx
-  const style = h('style', undefined, STYLE)
   const stage = h('div', 'fp-img-stage')
+  stage.style.cssText = STAGE_CSS
   const box = h('div', 'fp-img-box')
+  box.style.cssText = BOX_CSS
   img.alt = ''
   img.draggable = false
+  styleLayer(img, false)
   box.append(img)
   stage.append(box)
 
@@ -77,6 +83,12 @@ export function createImageView(
   let picked = storedBackdrop(opts.backdropKey)
   const setBackdrop = (b: Backdrop) => {
     for (const x of BACKDROPS) box.classList.toggle(`bg-${x}`, x === b)
+    // background longhands only, so the inline size/position of the box stay as they are
+    box.style.background = ''
+    for (const decl of BACKDROP_CSS[b].split(';')) {
+      const k = decl.slice(0, decl.indexOf(':'))
+      box.style.setProperty(k, decl.slice(k.length + 1))
+    }
   }
   const select = toolbar.select(
     tr('배경', 'Background'),
@@ -102,9 +114,22 @@ export function createImageView(
 
   const W = Math.max(1, natural.width)
   const H = Math.max(1, natural.height)
+  // Fit into the content area's displayed box (clipped by the visible viewport, in case the host
+  // frame's layout viewport is larger than what is shown).
+  const available = () => {
+    const r = root.getBoundingClientRect()
+    const vv = window.visualViewport
+    const vw = Math.min(window.innerWidth, vv ? vv.width : Infinity)
+    const vh = Math.min(window.innerHeight, vv ? vv.height : Infinity)
+    return {
+      w: Math.min(root.clientWidth, Math.max(0, vw - Math.max(0, r.left))),
+      h: Math.min(root.clientHeight, Math.max(0, vh - Math.max(0, r.top)))
+    }
+  }
   const contain = () => {
-    const cw = root.clientWidth - 24
-    const ch = root.clientHeight - 24
+    const a = available()
+    const cw = a.w - 24
+    const ch = a.h - 24
     if (cw <= 0 || ch <= 0) return 1
     return Math.min(cw / W, ch / H)
   }
@@ -116,7 +141,9 @@ export function createImageView(
     const fy = root.scrollHeight > root.clientHeight ? (root.scrollTop + root.clientHeight / 2) / root.scrollHeight : 0.5
     box.style.width = `${Math.max(1, Math.round(W * s))}px`
     box.style.height = `${Math.max(1, Math.round(H * s))}px`
-    box.classList.toggle('pixelated', opts.pixelate && s >= 2.5)
+    const pixelated = opts.pixelate && s >= 2.5
+    box.classList.toggle('pixelated', pixelated)
+    for (const layer of box.children) (layer as HTMLElement).style.imageRendering = pixelated ? 'pixelated' : ''
     if (scale && box.isConnected) {
       root.scrollLeft = fx * root.scrollWidth - root.clientWidth / 2
       root.scrollTop = fy * root.scrollHeight - root.clientHeight / 2
@@ -148,7 +175,7 @@ export function createImageView(
 
   const show = () => {
     root.onscroll = null
-    root.replaceChildren(style, stage)
+    root.replaceChildren(stage)
   }
   show()
   autoFit(!!opts.upscale)
@@ -176,6 +203,44 @@ export function createImageView(
   })
   ro.observe(root)
   window.addEventListener('resize', onResize, { signal })
+  window.visualViewport?.addEventListener('resize', onResize, { signal })
+  // Layout can settle after the first fit (fonts, toolbar wrapping, host frame sizing): re-check.
+  for (const ms of [60, 400]) {
+    const t = setTimeout(() => {
+      lastW = -1
+      onResize()
+    }, ms)
+    signal.addEventListener('abort', () => clearTimeout(t), { once: true })
+  }
+  // TEMPORARY Orca diagnostic (round 5): frame/viewport metrics and whether in-body <style> applies.
+  setTimeout(() => {
+    if (signal.aborted) return
+    const r = root.getBoundingClientRect()
+    const probe = document.createElement('div')
+    probe.className = 'fp-diag-probe'
+    const ps = document.createElement('style')
+    ps.textContent = '.fp-diag-probe{width:37px}'
+    root.append(ps, probe)
+    const probeWidth = probe.getBoundingClientRect().width
+    probe.remove()
+    ps.remove()
+    console.warn('[fp-diag] ' + JSON.stringify({
+      dpr: devicePixelRatio,
+      inner: [innerWidth, innerHeight],
+      docClient: [document.documentElement.clientWidth, document.documentElement.clientHeight],
+      body: [document.body.clientWidth, document.body.clientHeight],
+      vv: window.visualViewport ? [window.visualViewport.width, window.visualViewport.height, window.visualViewport.scale] : null,
+      screen: [screen.width, screen.height],
+      root: [root.clientWidth, root.clientHeight, Math.round(r.left), Math.round(r.top), Math.round(r.width)],
+      box: [box.offsetLeft, box.offsetTop, box.offsetWidth, box.offsetHeight],
+      zoom: zoom.get(),
+      styleSheets: document.styleSheets.length,
+      headStyles: document.head.querySelectorAll('style').length,
+      inBodyStyleApplies: probeWidth === 37,
+      viewportMeta: document.querySelector('meta[name=viewport]')?.getAttribute('content') ?? null,
+      htmlZoom: getComputedStyle(document.documentElement).zoom
+    }))
+  }, 1500)
   signal.addEventListener(
     'abort',
     () => {
@@ -194,7 +259,7 @@ export function createImageView(
       if (root.scrollWidth <= root.clientWidth && root.scrollHeight <= root.clientHeight) return
       drag = { x: e.clientX, y: e.clientY, l: root.scrollLeft, t: root.scrollTop }
       stage.setPointerCapture(e.pointerId)
-      stage.classList.add('fp-img-dragging')
+      stage.style.cursor = 'grabbing'
       e.preventDefault()
     },
     { signal }
@@ -210,7 +275,7 @@ export function createImageView(
   )
   const end = () => {
     drag = null
-    stage.classList.remove('fp-img-dragging')
+    stage.style.cursor = ''
   }
   stage.addEventListener('pointerup', end, { signal })
   stage.addEventListener('pointercancel', end, { signal })

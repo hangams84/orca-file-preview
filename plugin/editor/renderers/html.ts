@@ -9,6 +9,7 @@ import { formatBytes } from '../core/i18n.ts'
 import type { PreviewContext } from '../core/types.ts'
 import { bindZoomGestures, createZoom, h } from '../core/ui.ts'
 import { bindZoomKeys } from './media/keys.ts'
+import { adoptStyle } from './media/styles.ts'
 import { createSourceView, switchableZoom } from './media/source-view.ts'
 
 const STYLE = `
@@ -171,9 +172,11 @@ export async function render(ctx: PreviewContext): Promise<void> {
   const { text, encoding } = decodeHtml(bytes)
   const sanitized = sanitize(text)
 
-  const style = h('style', undefined, STYLE)
+  adoptStyle('html', STYLE)
   const wrap = h('div', 'fp-html')
+  wrap.style.cssText = 'position:absolute;left:0;top:0;right:0;bottom:0;display:flex;flex-direction:column'
   const frame = h('iframe')
+  frame.style.cssText = 'flex:1 1 auto;width:100%;min-height:0;border:0;display:block;background:#fff'
   frame.title = tr('HTML 미리보기', 'HTML preview')
   frame.setAttribute('referrerpolicy', 'no-referrer')
   if (FRAME_SANDBOX !== null) frame.setAttribute('sandbox', FRAME_SANDBOX)
@@ -247,7 +250,7 @@ export async function render(ctx: PreviewContext): Promise<void> {
   const sw = switchableZoom(zoom)
   const showPreview = () => {
     root.onscroll = null
-    root.replaceChildren(style, wrap)
+    root.replaceChildren(wrap)
   }
   showPreview()
   await Promise.race([loaded, new Promise((r) => setTimeout(r, 3000))])

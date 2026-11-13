@@ -12,6 +12,7 @@
 //   node tools/harness/run.mjs --dir samples/fuzz --fuzz --no-shots   # damaged inputs: must settle, never hang/crash
 //   node tools/harness/run.mjs --engine webkit ...   # Safari engine (npx playwright-core install webkit)
 //   node tools/harness/run.mjs --dpr 1.25,1.5,1.75 ...  # run each profile at these device pixel ratios
+//   node tools/harness/run.mjs --strip-styles ...      # remove renderer <style> elements after load (as seen in Orca)
 //                                                      (Windows display scaling 125 % / 150 % / 175 %)
 import { transform } from 'esbuild'
 import { createServer } from 'node:http'
@@ -303,6 +304,55 @@ async function modelCentreCheck(page, profile) {
   return null
 }
 
+const IMAGE_RE = /.(gif|bmp|svg)$/i
+
+/** Raster/SVG previews: the image must be centred in the pane and fitted (never larger than the pane;
+ *  an image larger than the pane fills it along one side), at load and after the pane resizes. */
+async function imageCentreCheck(page) {
+  const fmt = (m) => `centre ${(m.cx * 100).toFixed(1)}%/${(m.cy * 100).toFixed(1)}%, size ${(m.w * 100).toFixed(0)}%×${(m.h * 100).toFixed(0)}%`
+  const check = async (when) => {
+    const big = await page.evaluate(() => {
+      const img = document.querySelector('.fp-content img')
+      const root = document.querySelector('.fp-content')
+      return !!img && !!root && (img.naturalWidth > root.clientWidth - 24 || img.naturalHeight > root.clientHeight - 24)
+    })
+    const m = await modelCentre(page)
+    if (!m) return `image not visible ${when}`
+    if (Math.abs(m.cx - 0.5) > 0.03 || Math.abs(m.cy - 0.5) > 0.03) return `image off-centre ${when}: ${fmt(m)}`
+    if (m.w > 0.995 || m.h > 0.995) return `image not fitted ${when}: ${fmt(m)}`
+    if (big && Math.max(m.w, m.h) < 0.85) return `large image not fitted to the pane ${when}: ${fmt(m)}`
+    return null
+  }
+  const a = await check('at load')
+  if (a) return a
+  const vp = page.viewportSize()
+  await page.setViewportSize({ width: Math.round(vp.width * 0.7), height: Math.round(vp.height * 0.8) })
+  await page.waitForTimeout(500)
+  const b = await check('after resize')
+  await page.setViewportSize(vp)
+  await page.waitForTimeout(300)
+  return b
+}
+
+/** --strip-styles: what Orca's frame did to renderer stylesheets (they did not take effect): after the
+ *  preview settles, remove every renderer-added <style> (in-body ones and media/styles.ts head
+ *  sheets), keeping only the shell's own stylesheet from core/ui.ts installStyles, then resize. */
+async function stripRendererStyles(page) {
+  const removed = await page.evaluate(() => {
+    const keep = document.head.querySelector('style:not([data-fp-renderer])')
+    let n = 0
+    for (const st of document.querySelectorAll('style')) {
+      if (st === keep) continue
+      st.remove()
+      n++
+    }
+    window.dispatchEvent(new Event('resize'))
+    return n
+  })
+  await page.waitForTimeout(400)
+  return removed
+}
+
 function expectedState(name) {
   if (args.fuzz) return 'ready|error' // fuzzed input: any settled state, never a hang or a crash
   return name.startsWith('broken.') ? 'error' : 'ready'
@@ -434,6 +484,14 @@ async function run() {
             return walk(root) ? null : 'ready but nothing visible in the content area'
           })
           .catch((e) => `content check failed: ${e.message}`)
+      }
+      if (args['strip-styles'] && state === 'ready' && !args.fuzz) {
+        const n = await stripRendererStyles(page).catch(() => 0)
+        if (n) errors.push(`info: removed ${n} renderer <style> element(s)`)
+      }
+      // Images: centred and fitted in the pane, also after it resizes.
+      if (!checkError && state === 'ready' && !args.fuzz && IMAGE_RE.test(f)) {
+        checkError = await imageCentreCheck(page).catch((e) => `image centre check failed: ${e.message}`)
       }
       // 3D models: the fitted model must sit in the middle of the pane, also after the pane resizes.
       if (!checkError && state === 'ready' && !args.fuzz && MODEL_RE.test(f)) {
