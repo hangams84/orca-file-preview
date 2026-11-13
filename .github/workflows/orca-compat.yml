@@ -40,7 +40,6 @@ jobs:
         run: |
           mkdir -p out && chmod 777 out
           docker run --rm --shm-size=1g --security-opt seccomp=unconfined \
-            -e EXPECT_INCOMPATIBLE=${{ matrix.orca == '1.4.247' && '1' || '0' }} \
             -v "$PWD:/src:ro" -v "$PWD/out:/out" orca-fp
       - name: Summary
         if: always()
