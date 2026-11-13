@@ -464,6 +464,8 @@ export function readWord(cfb: Cfb): DocModel {
         pageBreakBefore: pap.pageBreakBefore,
         contextual: pap.contextual,
         style: istd,
+        tabs: pap.tabs.filter((t) => t.jc !== 4).map((t) => ({ pos: t.pos / TW, jc: t.jc })),
+        borders: pap.borders,
         markPt: markChp.hps / 2,
         markFont: fontName(markChp.ftcAscii),
         markEaFont: fontName(markChp.ftcFE)

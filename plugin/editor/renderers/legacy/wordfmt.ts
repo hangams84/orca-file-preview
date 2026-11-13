@@ -63,6 +63,16 @@ export interface Pap {
   tap?: Tap
   /** Offset into the Data stream of a "huge" PAPX. */
   hugePapx?: number
+  /** Custom tab stops: position in twips and alignment (0 left, 1 center, 2 right, 3 decimal, 4 bar). */
+  tabs: { pos: number; jc: number }[]
+  /** Paragraph borders: width and space in points, colour. */
+  borders?: { top?: Brc; left?: Brc; bottom?: Brc; right?: Brc }
+}
+
+export interface Brc {
+  width: number
+  space: number
+  color: string
 }
 
 export interface Tap {
@@ -164,7 +174,8 @@ export const defaultPap = (): Pap => ({
   ttp: false,
   itap: 0,
   ilfo: 0,
-  ilvl: 0
+  ilvl: 0,
+  tabs: []
 })
 
 export const ICO = ['', '#000000', '#0000ff', '#00ffff', '#00ff00', '#ff00ff', '#ff0000', '#ffff00', '#ffffff', '#000080',
@@ -223,12 +234,14 @@ const MAP95: Record<number, number> = {
   7: 0x2405, // pFKeep
   8: 0x2406, // pFKeepFollow
   9: 0x2407, // pFPageBreakBefore
+  15: 0xc60d, // pChgTabsPapx
   16: 0x840e, // pDxaRight
   17: 0x840f, // pDxaLeft
   19: 0x8411, // pDxaLeft1
   20: 0x6412, // pDyaLine
   21: 0xa413, // pDyaBefore
   22: 0xa414, // pDyaAfter
+  23: 0xc615, // pChgTabs
   24: 0x2416, // pFInTable
   25: 0x2417, // pFTtp
   51: 0x2431, // pFWidowControl
@@ -384,10 +397,58 @@ export function applyPap(pap: Pap, g: Uint8Array, old: boolean): void {
       case 0x460b: pap.ilfo = u16(g, o); break
       case 0x260a: pap.ilvl = v; break
       case 0x6646: pap.hugePapx = u32(g, o); break
+      case 0xc60d: case 0xc615: changeTabs(pap, g, o, size, sprm === 0xc615); break
+      case 0x6424: case 0x6425: case 0x6426: case 0x6427: {
+        const side = (['top', 'left', 'bottom', 'right'] as const)[sprm - 0x6424]
+        setBorder(pap, side, brc80(g, o))
+        break
+      }
+      case 0xc64e: case 0xc64f: case 0xc650: case 0xc651: {
+        const side = (['top', 'left', 'bottom', 'right'] as const)[sprm - 0xc64e]
+        setBorder(pap, side, brc(g, o + 1))
+        break
+      }
       default:
         if ((sprm >> 10) % 8 === 5) applyTap(pap, sprm, g, o, size, old)
     }
   }
+}
+
+function brc80(g: Uint8Array, o: number): Brc | null {
+  const type = g[o + 1]
+  if (type === 0 || type === 0xff) return null
+  const ico = g[o + 2]
+  return { width: Math.max(0.25, g[o] / 8), space: g[o + 3] & 0x1f, color: ICO[ico] || '#000000' }
+}
+
+function brc(g: Uint8Array, o: number): Brc | null {
+  const type = g[o + 5]
+  if (type === 0 || type === 0xff) return null
+  return { width: Math.max(0.25, g[o + 4] / 8), space: g[o + 6] & 0x1f, color: colorRef(g, o) ?? '#000000' }
+}
+
+function setBorder(pap: Pap, side: 'top' | 'left' | 'bottom' | 'right', b: Brc | null): void {
+  pap.borders = { ...pap.borders, [side]: b ?? undefined }
+}
+
+/** sprmPChgTabsPapx / sprmPChgTabs: delete then add tab stops. */
+function changeTabs(pap: Pap, g: Uint8Array, o: number, size: number, withClose: boolean): void {
+  let p = o + 1 // skip cb
+  const end = o + size
+  const nDel = g[p++] ?? 0
+  const del: number[] = []
+  for (let k = 0; k < nDel && p + 2 <= end; k++, p += 2) del.push(i16(g, p))
+  if (withClose) p += nDel * 2 // rgdxaClose
+  const nAdd = g[p++] ?? 0
+  const add: number[] = []
+  for (let k = 0; k < nAdd && p + 2 <= end; k++, p += 2) add.push(i16(g, p))
+  const kinds: number[] = []
+  for (let k = 0; k < nAdd && p < end; k++, p++) kinds.push(g[p] & 7)
+  let tabs = pap.tabs.filter((t) => !del.some((d) => Math.abs(d - t.pos) <= 2))
+  tabs = tabs.filter((t) => !add.includes(t.pos))
+  add.forEach((pos, k) => tabs.push({ pos, jc: kinds[k] ?? 0 }))
+  tabs.sort((a, b) => a.pos - b.pos)
+  pap.tabs = tabs
 }
 
 function tapOf(pap: Pap): Tap {

@@ -21,6 +21,7 @@ const STYLE = `
 .fp-pages .wt { border-collapse: collapse; table-layout: fixed; }
 .fp-pages .wt td { vertical-align: top; box-sizing: border-box; overflow: hidden; }
 .fp-pages img { vertical-align: bottom; }
+.fp-pages .gb { position: absolute; left: 100000px; color: transparent; pointer-events: none; user-select: none; }
 .fp-pages .obj { display: inline-block; padding: 0 .4em; border: 1px dashed #999; color: #666; font-size: .85em; }
 .fp-pages .sect { margin: 12pt 0 6pt; padding-top: 6pt; border-top: 1px solid #ccc; color: #555; font: 600 10pt/1.3 "Segoe UI", system-ui, sans-serif; }
 .fp-pages-note { align-self: stretch; max-width: 100%; padding: 6px 10px; border-radius: var(--orca-radius, 6px); box-sizing: border-box;
@@ -79,6 +80,20 @@ const WORD_METRICS: Record<string, [number, number]> = {
 /** Extra width Word gives a space after East Asian text, in em (measured against Word 2021). */
 const CJK_SPACE = 0.167
 
+const KOREAN_FACE = /맑은|malgun|바탕|batang|굴림|gulim|돋움|dotum|궁서|gungsuh|나눔|nanum|apple sd|noto (sans|serif) (kr|cjk)|한컴|함초롬|hcr|휴먼|hy|korean|gothic neo/i
+const HANGUL = /[\u1100-\u11ff\u3130-\u318f\uac00-\ud7af]/
+/** The face Word uses for East Asian text: Hangul in a font without Hangul (Japanese / Chinese
+ *  faces such as MS Mincho) falls back to Malgun Gothic, as on Korean Windows. */
+export function eaFace(ea: string | undefined, text: string): string | undefined {
+  if (!ea) return HANGUL.test(text) ? '맑은 고딕' : undefined
+  if (HANGUL.test(text) && !KOREAN_FACE.test(ea)) return '맑은 고딕'
+  return ea
+}
+/** A space that follows Hangul is drawn wider by Word when the run's Latin font is a Korean face. */
+function koreanLatin(font: string | undefined): boolean {
+  return !!font && KOREAN_FACE.test(font)
+}
+
 const q = (name: string) => `"${name.replace(/["\\]/g, '')}"`
 const stackCache = new Map<string, string>()
 /** CSS font-family for a document font: the face, its aliases, Korean fallbacks, then a generic. */
@@ -100,6 +115,17 @@ export function fontStack(font: string | undefined, ea?: string): string {
   s = names.map(q).join(', ') + (serif ? ', serif' : ', sans-serif')
   stackCache.set(key, s)
   return s
+}
+
+/** An invisible zero-width mark after a text group that Word draws apart from what follows on the
+ *  same line (table cells, text after a wide tab). Reading tools that rebuild lines from glyph
+ *  positions (like PDF text extraction) then see separate groups, as in Word's own output. */
+function groupBreak(): HTMLElement {
+  const m = document.createElement('span')
+  m.className = 'gb'
+  m.textContent = '\u200b'
+  m.setAttribute('aria-hidden', 'true')
+  return m
 }
 
 /** The first run of a list paragraph is its number or bullet (set by the reader). */
@@ -199,7 +225,7 @@ export function renderPages(ctx: PreviewContext, model: DocModel, opts: PagesOpt
     r.text.split(CJK_RUNS).forEach((t, k) => {
       if (!t) return
       const cjk = k % 2 === 1
-      if (!cjk && t[0] === ' ' && parts.length && parts[parts.length - 1].cjk) {
+      if (!cjk && t[0] === ' ' && parts.length && parts[parts.length - 1].cjk && koreanLatin(r.font ?? r.eaFont)) {
         parts.push({ text: ' ', cjk: false, wide: true })
         t = t.slice(1)
         if (!t) return
@@ -213,7 +239,7 @@ export function renderPages(ctx: PreviewContext, model: DocModel, opts: PagesOpt
       if (part.wide) el.style.wordSpacing = `${CJK_SPACE}em`
 
       const st = el.style
-      st.fontFamily = cjk ? fontStack(r.eaFont ?? r.font, r.font) : fontStack(r.font ?? para.fmt?.markFont, r.eaFont)
+      st.fontFamily = cjk ? fontStack(eaFace(r.eaFont ?? r.font, text), r.font) : fontStack(r.font ?? para.fmt?.markFont, r.eaFont)
       if (r.pt) st.fontSize = `${r.pt * PX}px`
       if (r.b) st.fontWeight = '700'
       if (r.i) st.fontStyle = 'italic'
@@ -232,13 +258,56 @@ export function renderPages(ctx: PreviewContext, model: DocModel, opts: PagesOpt
     return out
   }
 
+  /** Runs with tab characters: each tab becomes a spacer that reaches the next tab stop (custom
+   *  stops from the paragraph, the hanging indent, then default stops every 36 pt), with left,
+   *  center and right alignment. Widths come from canvas measurement in the runs' fonts. */
+  const tabbed = (runs: Run[], p: Paragraph, label: Run | null): Node[] => {
+    const f = p.fmt!
+    const pieces: { run: Run; text: string }[][] = [[]]
+    for (const r of runs) {
+      const parts = r.text.split('\t')
+      parts.forEach((t, k) => {
+        if (k > 0) pieces.push([])
+        if (t) pieces[pieces.length - 1].push({ run: r, text: t })
+      })
+    }
+    const width = (seg: { run: Run; text: string }[]) => seg.reduce((w, x) => w + textWidth({ ...x.run, text: x.text }, f), 0)
+    const out: Node[] = []
+    let x = f.left + f.first + (label ? 0 : 0)
+    if (label) x = f.left + f.first + textWidth(label, f)
+    pieces.forEach((seg, k) => {
+      if (k > 0) {
+        const w = width(seg)
+        const sizePt = seg[0]?.run.pt ?? f.markPt
+        let stop = f.tabs.find((t) => t.pos > x + 0.5)
+        if (!stop && f.first < 0 && x < f.left - 0.5) stop = { pos: f.left, jc: 0 }
+        const pos = stop ? stop.pos : Math.floor(x / 36 + 1) * 36
+        const jc = stop?.jc ?? 0
+        let gap = pos - x
+        if (jc === 1) gap -= w / 2
+        else if (jc === 2 || jc === 3) gap -= w
+        gap = Math.max(gap, 0)
+        const sp = h('span')
+        sp.style.cssText = `display:inline-block;width:${gap * PX}px`
+        out.push(sp)
+        if (gap > sizePt) out.push(groupBreak())
+        x += gap
+      }
+      for (const piece of seg) out.push(...runEls({ ...piece.run, text: piece.text }, p))
+      x += width(seg)
+    })
+    return out
+  }
+
   /** A paragraph element: outer box carries spacing and indents, the inner line box carries text. */
   const paraEl = (p: Paragraph, prevStyle: number | null): HTMLElement => {
     const f = p.fmt
     const el = h('div', 'wp')
     const inner = h('div', 'wl')
     const label = p.fmt && isLabel(p) ? p.runs[0] : null
-    for (const r of label ? p.runs.slice(1) : p.runs) inner.append(...runEls(r, p))
+    const body = label ? p.runs.slice(1) : p.runs
+    if (p.fmt && body.some((r) => r.text.includes('\t'))) inner.append(...tabbed(body, p, label))
+    else for (const r of body) inner.append(...runEls(r, p))
     const markPt = f?.markPt ?? p.runs.find((r) => r.pt)?.pt ?? 10
     const sizes = p.runs.filter((r) => r.text && !r.image).map((r) => r.pt ?? markPt)
     const maxPt = sizes.length ? Math.max(...sizes) : markPt
@@ -261,6 +330,21 @@ export function renderPages(ctx: PreviewContext, model: DocModel, opts: PagesOpt
       const sameStyleGap = f.contextual && prevStyle === f.style
       if (f.before && !sameStyleGap) st.paddingTop = `${f.before * PX}px`
       if (f.after) st.paddingBottom = `${f.after * PX}px`
+      el.dataset.before = String(sameStyleGap ? 0 : f.before)
+      el.dataset.after = String(f.after)
+      const b = f.borders
+      if (b) {
+        const ist = inner.style
+        const side = (x: { width: number; space: number; color: string } | undefined, name: 'Top' | 'Bottom' | 'Left' | 'Right') => {
+          if (!x) return
+          ist[`border${name}`] = `${Math.max(1, x.width * PX)}px solid ${x.color}`
+          ist[`padding${name}`] = `${x.space * PX}px`
+        }
+        side(b.top, 'Top')
+        side(b.bottom, 'Bottom')
+        side(b.left, 'Left')
+        side(b.right, 'Right')
+      }
       if (f.left) st.marginLeft = `${f.left * PX}px`
       if (f.right) st.marginRight = `${f.right * PX}px`
       if (f.first) st.textIndent = `${f.first * PX}px`
@@ -302,8 +386,8 @@ export function renderPages(ctx: PreviewContext, model: DocModel, opts: PagesOpt
         for (const [k, seg] of r.text.split(CJK_RUNS).entries()) {
           if (!seg) continue
           const cjk = k % 2 === 1
-          const font = cjk ? (r.eaFont ?? r.font) : (r.font ?? r.eaFont)
-          consider(font, cjk ? fontStack(r.eaFont ?? r.font, r.font) : fontStack(r.font, r.eaFont), r.pt ?? markPt, cjk)
+          const font = cjk ? eaFace(r.eaFont ?? r.font, seg) : (r.font ?? r.eaFont)
+          consider(font, cjk ? fontStack(font, r.font) : fontStack(r.font, r.eaFont), r.pt ?? markPt, cjk)
         }
       }
       if (!one) consider(f.markFont ?? f.markEaFont, fontStack(f.markFont, f.markEaFont), markPt, false)
@@ -368,6 +452,8 @@ export function renderPages(ctx: PreviewContext, model: DocModel, opts: PagesOpt
             prev = cb.fmt?.style ?? null
           } else if (cb.kind === 'table') td.append(tableEl(cb, cb.rows.map((_, k) => k)))
         }
+        const lastP = td.querySelector(':scope > .wp:last-child > .wl')
+        if (lastP) lastP.append(groupBreak())
         tr.append(td)
         col += span
       }
@@ -529,6 +615,13 @@ export function renderPages(ctx: PreviewContext, model: DocModel, opts: PagesOpt
     if (f?.pageBreakBefore && page.placed.length) page = newPage()
     let el = paraEl(p, prevStyle)
     if (f && prevPara && prevPara.style === f.style && prevPara.contextual && prevPara.el.isConnected) prevPara.el.style.paddingBottom = '0px'
+    // Word separates two paragraphs by the larger of the first one's space after and the second
+    // one's space before (not their sum).
+    if (f && prevPara && prevPara.el.isConnected && prevPara.el.parentElement === page.body) {
+      const prevAfter = parseFloat(prevPara.el.style.paddingBottom) || 0
+      const before = (Number(el.dataset.before) || 0) * PX
+      el.style.paddingTop = `${Math.max(0, before - prevAfter)}px`
+    }
     prevStyle = f?.style ?? null
     prevPara = f ? { el, style: f.style, contextual: f.contextual } : null
     page.body.append(el)

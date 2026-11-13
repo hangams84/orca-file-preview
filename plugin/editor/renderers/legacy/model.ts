@@ -57,6 +57,10 @@ export interface ParaFmt {
   /** Don't add space between paragraphs of the same style. */
   contextual: boolean
   style: number
+  /** Custom tab stops (points from the left margin) and alignment (0 left, 1 center, 2 right, 3 decimal). */
+  tabs: { pos: number; jc: number }[]
+  /** Paragraph borders (points) drawn around the text, inside the spacing before and after. */
+  borders?: { top?: { width: number; space: number; color: string }; bottom?: { width: number; space: number; color: string }; left?: { width: number; space: number; color: string }; right?: { width: number; space: number; color: string } }
   /** Font size and faces of the paragraph mark (height of an empty paragraph). */
   markPt: number
   markFont?: string
