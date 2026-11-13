@@ -57,7 +57,10 @@ $open = $null
 for ($i = 1; $i -le 3; $i++) { $open = Run @('open', '--json'); if ($open.Code -eq 0) { break }; Start-Sleep 5 }
 $open.Text | Out-File -Encoding utf8 (Join-Path $Out 'logs\open.json')
 $ver = (Run @('--version')).Text.Split("`n")[-1].Trim()
-Check "Orca $ver desktop starts" ($open.Code -eq 0) ((Json $open.Text).result.app | ConvertTo-Json -Compress)
+# `orca open` can exit non-zero on a runner even though the app comes up: judge by the app's status.
+$app = $null
+for ($i = 0; $i -lt 30; $i++) { $app = (Json (Run @('status', '--json')).Text).result.app; if ($app.running) { break }; Start-Sleep 2 }
+Check "Orca $ver desktop starts" ([bool]$app.running) "open exit $($open.Code); status: $($app | ConvertTo-Json -Compress)"
 Start-Sleep 5
 
 # --- Install with the real installer script ------------------------------------------------------------
@@ -82,6 +85,8 @@ Check 'plugin listed and enabled' ($null -ne $p -and $p.status -ne 'disabled') "
 Add-Type -AssemblyName System.Windows.Forms
 $w = New-Object -ComObject WScript.Shell
 for ($i = 0; $i -lt 3; $i++) { [void]$w.AppActivate('Orca'); Start-Sleep -Milliseconds 400; [System.Windows.Forms.SendKeys]::SendWait('{ESC}'); Start-Sleep 1 }
+# Older Orca: 3-step 'Pick your default agent' dialog that Escape does not close; Continue through it.
+for ($i = 0; $i -lt 4; $i++) { [void]$w.AppActivate('Orca'); Start-Sleep -Milliseconds 400; [System.Windows.Forms.SendKeys]::SendWait('{ENTER}'); Start-Sleep 1.5 }
 Run @('plugin', 'shot', $Key, '--window', '--out', (Join-Path $Out 'logs\after-first-run.png'), '--json') | Out-Null
 
 # --- Static checks and unit tests (from C:, see the cross-drive note in tools/verify.mjs) --------------

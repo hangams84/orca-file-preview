@@ -30,7 +30,7 @@ swiftc -O "$SRC/tools/platform-test/ocr.swift" -o "$OCR_BIN" >"$OUT/logs/ocr-bui
 ocr() { "$OCR_BIN" "$@" 2>/dev/null; }
 dialog_shown() { # png -> 0 when the first-run dialog or its "Skip onboarding?" prompt is on it
   ocr "$1" >"$1.txt"
-  grep -qiE "work with agents|Skip onboarding|Set up later" "$1.txt"
+  grep -qiE "work with agents|Skip onboarding|Set up later|WELCOME TO ORCA|Pick your default agent|Skip to project setup" "$1.txt"
 }
 
 # --- Orca desktop app -----------------------------------------------------------------------------
@@ -87,7 +87,7 @@ mkdir -p "$FR"
 sleep 3
 $ORCA computer permissions --json >"$FR/computer-permissions.json" 2>&1
 DISMISSED=false; SEEN=false
-for attempt in 1 2 3 4; do
+for attempt in 1 2 3 4 5 6 7; do
   winshot "$FR/$attempt-before.png"
   if ! dialog_shown "$FR/$attempt-before.png"; then
     DISMISSED=true
@@ -100,6 +100,11 @@ for attempt in 1 2 3 4; do
   winshot "$FR/$attempt-after-escape.png"
   if grep -qi "Skip onboarding" <(ocr "$FR/$attempt-after-escape.png"); then
     osascript -e 'tell application "System Events" to key code 36' >"$FR/$attempt-return.log" 2>&1
+    sleep 2
+  elif dialog_shown "$FR/$attempt-after-escape.png"; then
+    # Older Orca (e.g. 1.4.248): a 3-step "Pick your default agent" dialog that Escape does not close;
+    # step through it with Return (Continue) like a user accepting the defaults.
+    osascript -e 'tell application "System Events" to key code 36' >"$FR/$attempt-continue.log" 2>&1
     sleep 2
   fi
 done
@@ -171,7 +176,7 @@ for png in "$OUT"/window/*.png; do
   name=$(basename "$png" .png)
   ocr "$png" >"$OUT/window-ocr/$name.txt"
   hangul=$(perl -CSD -ne '$n += () = /\p{Hangul}{2,}/g; END { print $n+0 }' "$OUT/window-ocr/$name.txt")
-  dlg=no; grep -qiE "work with agents|Skip onboarding" "$OUT/window-ocr/$name.txt" && dlg=yes
+  dlg=no; grep -qiE "work with agents|Skip onboarding|WELCOME TO ORCA|Pick your default agent" "$OUT/window-ocr/$name.txt" && dlg=yes
   ocr_n=$((ocr_n + 1))
   case "$name" in sample.gif) need=0 ;; *) need=1 ;; esac
   if [ $dlg = no ] && [ "$hangul" -ge $need ]; then ocr_ok=$((ocr_ok + 1)); fi
