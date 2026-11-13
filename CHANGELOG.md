@@ -3,6 +3,16 @@
 All notable changes per release. Each release on GitHub carries its verification results
 (`docs/release-notes/<tag>.md`) and SHA-256 checksums for every file.
 
+## [0.2.1] — 2026-11-13
+
+### Fixed
+- Windows updater (`update.cmd`, `FilePreviewSetup.exe /update`, `file-preview.ps1 update`) reported a checksum
+  mismatch for every download: GitHub serves `.sha256` files as binary, so the hash text was parsed wrongly.
+  The v0.2.0 Windows updater cannot update itself — download 0.2.1 once by hand. macOS/Linux were not affected.
+
+### Verified
+- Updater against the real v0.2.0 release: Windows 11 (fixed script) and Ubuntu 22.04/24.04 (6/6 each).
+
 ## [0.2.0] — 2026-11-13
 
 ### Added
@@ -33,5 +43,6 @@ First verified release: read-only previews for `.docx` `.doc` `.pptx` `.ppt` `.x
 browser/mobile clients. Five verification rounds (63 issues found, all high/medium fixed); final round 10/10
 checks. [Release](https://github.com/hangams84/orca-file-preview/releases/tag/v0.1.0)
 
+[0.2.1]: https://github.com/hangams84/orca-file-preview/releases/tag/v0.2.1
 [0.2.0]: https://github.com/hangams84/orca-file-preview/releases/tag/v0.2.0
 [0.1.0]: https://github.com/hangams84/orca-file-preview/releases/tag/v0.1.0

@@ -241,9 +241,12 @@ function Do-Update {
   Say "Downloading / 내려받는 중: $base.zip"
   try {
     Invoke-WebRequest -UseBasicParsing -Uri "$base.zip" -OutFile $zip -Headers @{ 'User-Agent' = 'file-preview-updater' }
-    $want = ((Invoke-WebRequest -UseBasicParsing -Uri "$base.zip.sha256" -Headers @{ 'User-Agent' = 'file-preview-updater' }).Content -split '\s+')[0]
+    # .sha256 files are served as application/octet-stream: save, then read as text.
+    $shaFile = "$zip.sha256"
+    Invoke-WebRequest -UseBasicParsing -Uri "$base.zip.sha256" -OutFile $shaFile -Headers @{ 'User-Agent' = 'file-preview-updater' }
+    $want = ((Get-Content -Raw -Encoding ASCII $shaFile).Trim() -split '\s+')[0]
+    Remove-Item $shaFile -Force -ErrorAction SilentlyContinue
   } catch { Remove-Item $zip -Force -ErrorAction SilentlyContinue; Fail "Download failed: $($_.Exception.Message) / 내려받기 실패" }
-  if ($want -is [byte[]]) { $want = [Text.Encoding]::ASCII.GetString($want) }
   $got = (Get-FileHash -Algorithm SHA256 $zip).Hash.ToLower()
   if ("$want".Trim().ToLower() -ne $got) { Remove-Item $zip -Force; Fail 'Checksum mismatch: the download is damaged. / 체크섬 불일치' }
   Say "SHA-256 OK: $got"
