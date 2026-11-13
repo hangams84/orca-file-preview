@@ -26,7 +26,16 @@ export const RENDERERS: Record<string, Loader> = {
   xlsx: () => import('./renderers/sheet.ts'),
   xlsm: () => import('./renderers/sheet.ts'),
   xls: () => import('./renderers/sheet.ts'),
-  ods: () => import('./renderers/sheet.ts')
+  ods: () => import('./renderers/sheet.ts'),
+  stl: () => import('./renderers/model3d.ts'),
+  obj: () => import('./renderers/model3d.ts'),
+  ply: () => import('./renderers/model3d.ts'),
+  glb: () => import('./renderers/model3d.ts'),
+  gltf: () => import('./renderers/model3d.ts'),
+  '3mf': () => import('./renderers/model3d.ts'),
+  off: () => import('./renderers/model3d.ts'),
+  fbx: () => import('./renderers/model3d.ts'),
+  dae: () => import('./renderers/model3d.ts')
 }
 
 installStyles()
