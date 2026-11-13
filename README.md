@@ -1,5 +1,7 @@
 # File Preview for Orca
 
+[![orca-compat](https://github.com/hangams84/orca-file-preview/actions/workflows/orca-compat.yml/badge.svg)](https://github.com/hangams84/orca-file-preview/actions/workflows/orca-compat.yml)
+
 Orca 데스크톱(Windows · macOS · Linux)과 브라우저/모바일 클라이언트에서 Office · PDF · 텍스트 · 이미지 파일을
 **읽기 전용으로 미리보기** 하는 [Orca](https://github.com/stablyai/orca) 플러그인입니다.
 
@@ -45,6 +47,15 @@ tools/harness/     Orca 유사 CSP + 모의 호스트 브라우저 하네스 (Pl
 tools/verify.mjs   검증 라운드 실행기 (tsc, validate, 단위 테스트, 하네스 4종, fuzz, Orca 앱 캡처)
 docs/              개발·검증 문서 (README.md, index.html, evidence/)
 ```
+
+## Orca 버전별 호환성 (CI) / Orca compatibility
+
+`.github/workflows/orca-compat.yml` 이 각 Orca 릴리스를 새로 설치하고 플러그인을 설치·테스트한 결과입니다.
+플러그인·설치 스크립트·테스트 도구가 바뀌어 `main` 에 푸시되면 자동 실행되고, 아래 표가 자동으로 갱신됩니다.
+
+<!-- ci-matrix:start -->
+_아직 실행되지 않았습니다._
+<!-- ci-matrix:end -->
 
 ## 설치 스크립트 / Installers
 

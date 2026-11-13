@@ -3,8 +3,8 @@
 # Preview plugin from /src/plugin (read-only mount of the repository) and tests it in that Orca.
 # Results go to /out (results.json, summary.md, screenshots, logs).
 set -u
-SRC=/src
-OUT=/out
+SRC=${SRC:-/src}
+OUT=${OUT:-/out}
 ORCA=orca-ide
 KEY=local.file-preview
 mkdir -p "$OUT/orca" "$OUT/window" "$OUT/logs"
@@ -16,6 +16,24 @@ declare -a CHECKS=()
 check() { # name ok detail
   CHECKS+=("$(jq -cn --arg n "$1" --argjson ok "$2" --arg d "$3" '{name:$n, ok:$ok, detail:$d}')")
   printf '%s  %s  %s\n' "$([ "$2" = true ] && echo PASS || echo FAIL)" "$1" "$(echo "$3" | head -1)"
+}
+
+finish() { # writes results.json, checks.json, shots.json, summary.md; exit 0 when every check passed
+  printf '%s\n' "${CHECKS[@]}" | jq -s . >"$OUT/checks.json"
+  printf '%s\n' "${SHOTS[@]}" | jq -s . >"$OUT/shots.json"
+  jq -n --arg p "$PLATFORM" --arg pretty "$PRETTY_NAME" --arg v "$VERSION" --arg k "$(uname -r)" \
+    --argjson secs $(( $(date +%s) - START )) --slurpfile c "$OUT/checks.json" --slurpfile s "$OUT/shots.json" \
+    '{platform:$p, os:$pretty, orcaVersion:$v, kernel:$k, durationSec:$secs, date:(now|todate), checks:$c[0], shots:$s[0]}' >"$OUT/results.json"
+  {
+    echo "# $PRETTY_NAME · Orca $VERSION"
+    echo
+    echo "| Check | Result | Detail |"
+    echo "| --- | --- | --- |"
+    jq -r '.[] | "| \(.name) | \(if .ok then "✅" else "❌" end) | \(.detail | gsub("\n"; "<br>") | gsub("\\|"; "\\\\|") | .[0:300]) |"' "$OUT/checks.json"
+  } >"$OUT/summary.md"
+  $ORCA quit --json >/dev/null 2>&1 || true
+  jq -e 'all(.[]; .ok)' "$OUT/checks.json" >/dev/null
+  exit $?
 }
 
 # --- Orca on a virtual display -------------------------------------------------------------------
@@ -46,6 +64,12 @@ if [ -n "$FP" ]; then
   INSTALL_OK=$(jq -r '.ok // false' "$OUT/logs/install-2.json")
 else
   INSTALL_OK=$(jq -r '.ok // false' "$OUT/logs/install-1.json")
+fi
+if [ "${EXPECT_INCOMPATIBLE:-0}" = 1 ]; then
+  # Below engines.orca (>=1.4.248): Orca must refuse the plugin instead of running it.
+  REASON=$(jq -r '"\(.error.code // "ok"): \(.error.message // "installed")' "$OUT/logs/install-1.json" 2>/dev/null | head -c 300)
+  check "install refused on unsupported Orca $VERSION (needs >=1.4.248)" "$([ "$INSTALL_OK" != true ] && echo true || echo false)" "$REASON"
+  finish
 fi
 check "plugin install (folder, approval $FP)" "$INSTALL_OK" "$(jq -c '.error.message // .result.plugin.status // .result.status // empty' "$OUT/logs/install-2.json" "$OUT/logs/install-1.json" 2>/dev/null | head -1)"
 $ORCA plugin list --json >"$OUT/logs/plugin-list.json" 2>&1
@@ -111,18 +135,4 @@ $ORCA plugin logs "$KEY" >"$OUT/logs/plugin.log" 2>&1
 ERRS=$(grep -c ' error ' "$OUT/logs/plugin.log" || true)
 check "no error lines in the plugin log" "$([ "${ERRS:-0}" = 0 ] && echo true || echo false)" "$ERRS error lines$( [ "${ERRS:-0}" != 0 ] && grep ' error ' "$OUT/logs/plugin.log" | head -3 | sed 's/^/\n/')"
 
-# --- Results --------------------------------------------------------------------------------------
-printf '%s\n' "${CHECKS[@]}" | jq -s . >"$OUT/checks.json"
-printf '%s\n' "${SHOTS[@]}" | jq -s . >"$OUT/shots.json"
-jq -n --arg p "$PLATFORM" --arg pretty "$PRETTY_NAME" --arg v "$VERSION" --arg k "$(uname -r)" \
-  --argjson secs $(( $(date +%s) - START )) --slurpfile c "$OUT/checks.json" --slurpfile s "$OUT/shots.json" \
-  '{platform:$p, os:$pretty, orcaVersion:$v, kernel:$k, durationSec:$secs, date:(now|todate), checks:$c[0], shots:$s[0]}' >"$OUT/results.json"
-{
-  echo "# $PRETTY_NAME · Orca $VERSION"
-  echo
-  echo "| Check | Result | Detail |"
-  echo "| --- | --- | --- |"
-  jq -r '.[] | "| \(.name) | \(if .ok then "✅" else "❌" end) | \(.detail | gsub("\n"; "<br>") | gsub("\\|"; "\\\\|") | .[0:300]) |"' "$OUT/checks.json"
-} >"$OUT/summary.md"
-$ORCA quit --json >/dev/null 2>&1 || true
-jq -e 'all(.[]; .ok)' "$OUT/checks.json" >/dev/null
+finish
