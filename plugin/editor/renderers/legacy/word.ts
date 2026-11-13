@@ -48,6 +48,7 @@ interface PropRun {
 type Item =
   | { kind: 'text'; text: string; run: PropRun | null }
   | { kind: 'pic'; run: PropRun | null }
+  | { kind: 'box'; run: PropRun | null }
 
 const TW = 20 // twips per point
 
@@ -344,6 +345,8 @@ export function readWord(cfb: Cfb): DocModel {
     let items: Item[] = []
     const fields: boolean[] = [] // true while in a field's code part
     let inCode = 0 // how many entries of `fields` are true
+    let fieldCode = '' // code text of the innermost field
+    let fieldRun: PropRun | null = null
     let tableRows: Block[][][] | null = null
     let rowFmts: (RowFmt | undefined)[] = []
     let row: Block[][] = []
@@ -373,6 +376,10 @@ export function readWord(cfb: Cfb): DocModel {
       const runs: Run[] = []
       for (const it of items) {
         const chp = resolveChp(it.run, istd)
+        if (it.kind === 'box') {
+          runs.push({ text: '', checkbox: true, pt: chp.hps / 2, font: fontName(chp.ftcAscii) })
+          continue
+        }
         if (it.kind === 'pic') {
           if (chp.ole) runs.push({ text: '', object: 'OLE' })
           else {
@@ -530,19 +537,24 @@ export function readWord(cfb: Cfb): DocModel {
         if (code === 0x13) {
           fields.push(true)
           inCode++
+          fieldCode = ''
+          fieldRun = find(chpRuns, fc)
           continue
         }
-        if (code === 0x14) {
-          if (fields.length && fields[fields.length - 1]) {
-            fields[fields.length - 1] = false
-            inCode--
-          }
+        if (code === 0x14 || code === 0x15) {
+          const top = fields.length ? fields[fields.length - 1] : false
+          // a check box form field shows a box where its code was
+          if (top && /^\s*FORMCHECKBOX/i.test(fieldCode)) items.push({ kind: 'box', run: fieldRun })
+          if (code === 0x14) {
+            if (top) {
+              fields[fields.length - 1] = false
+              inCode--
+            }
+          } else if (fields.pop()) inCode--
+          fieldCode = ''
           continue
         }
-        if (code === 0x15) {
-          if (fields.pop()) inCode--
-          continue
-        }
+        if (inCode > 0 && fieldCode.length < 200) fieldCode += ch
         if (code === 0x0d || code === 0x07) {
           endPara(ch, fc, cp)
           continue

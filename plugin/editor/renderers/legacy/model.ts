@@ -29,6 +29,8 @@ export interface Run {
   image?: Picture
   /** Placeholder for an object that cannot be shown (OLE object, chart, drawing). */
   object?: string
+  /** A form check box (FORMCHECKBOX field). */
+  checkbox?: boolean
 }
 
 export interface Picture {

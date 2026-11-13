@@ -21,6 +21,8 @@ const STYLE = `
 .fp-pages .wt { border-collapse: collapse; table-layout: fixed; }
 .fp-pages .wt td { vertical-align: top; box-sizing: border-box; overflow: hidden; }
 .fp-pages img { vertical-align: bottom; }
+.fp-pages .cbx { display: inline-block; width: .75em; height: .75em; margin: 0 .2em 0 .05em; border: 1px solid #000;
+  box-sizing: border-box; vertical-align: -0.05em; }
 .fp-pages .gb { position: absolute; left: 100000px; color: transparent; pointer-events: none; user-select: none; }
 .fp-pages .obj { display: inline-block; padding: 0 .4em; border: 1px dashed #999; color: #666; font-size: .85em; }
 .fp-pages .sect { margin: 12pt 0 6pt; padding-top: 6pt; border-top: 1px solid #ccc; color: #555; font: 600 10pt/1.3 "Segoe UI", system-ui, sans-serif; }
@@ -250,6 +252,13 @@ export function renderPages(ctx: PreviewContext, model: DocModel, opts: PagesOpt
       return [img]
     }
     if (r.object) return [h('span', 'obj', r.object === 'OLE' ? tr('[개체]', '[Object]') : tr('[그림]', '[Picture]'))]
+    if (r.checkbox) {
+      const b = h('span', 'cbx')
+      b.setAttribute('role', 'checkbox')
+      b.setAttribute('aria-checked', 'false')
+      b.style.fontSize = `${(r.pt ?? 10) * PX}px`
+      return [b]
+    }
     const out: Node[] = []
     // Word draws a space next to Hangul a little wider (about 0.14 em) when the run's Latin font is
     // a Korean face: such spaces get their own piece with extra word spacing.
@@ -488,20 +497,21 @@ export function renderPages(ctx: PreviewContext, model: DocModel, opts: PagesOpt
     return el
   }
 
+  /** A table: one HTML table per Word row, because every Word row has its own cell boundaries. */
   const tableEl = (t: Table, rows: number[]): HTMLElement => {
     const fmt0 = t.rowFmt?.find((r) => r)
-    const el = h('table', 'wt')
-    const centers = fmt0?.centers
-    if (centers && centers.length > 1) {
-      el.style.marginLeft = `${centers[0] * PX}px`
-      el.style.width = `${(centers[centers.length - 1] - centers[0]) * PX}px`
-    } else el.style.width = '100%'
+    const box = h('div', 'wtb')
     for (const ri of rows) {
       const row = t.rows[ri]
       const rf = t.rowFmt?.[ri] ?? fmt0
+      const el = h('table', 'wt')
+      const centers = rf?.centers
+      if (centers && centers.length > 1) {
+        el.style.marginLeft = `${centers[0] * PX}px`
+        el.style.width = `${(centers[centers.length - 1] - centers[0]) * PX}px`
+      } else el.style.width = '100%'
       const tr = h('tr')
       if (rf?.height) tr.style.height = `${Math.abs(rf.height) * PX}px`
-      let col = 0
       for (let ci = 0; ci < row.length; ci++) {
         if (rf?.merged[ci]) continue
         const td = h('td')
@@ -510,8 +520,13 @@ export function renderPages(ctx: PreviewContext, model: DocModel, opts: PagesOpt
         if (span > 1) td.colSpan = span
         if (rf && rf.centers.length > ci + span) td.style.width = `${(rf.centers[ci + span] - rf.centers[ci]) * PX}px`
         if (rf) {
-          td.style.padding = `${rf.padTop * PX}px ${rf.padRight * PX}px ${rf.padBottom * PX}px ${rf.padLeft * PX}px`
           const b = rf.borders[ci] ?? [0, 0, 0, 0]
+          // Word's cell text area is the cell width minus the cell margins: borders do not take room
+          // from it (collapsed borders take half their width from each cell here).
+          const bw = (w: number) => (w ? Math.max(1, w * PX) / 2 : 0)
+          const padL = Math.max(0, rf.padLeft * PX - bw(b[1]))
+          const padR = Math.max(0, rf.padRight * PX - bw(b[3]) - 0.5)
+          td.style.padding = `${rf.padTop * PX}px ${padR}px ${rf.padBottom * PX}px ${padL}px`
           const side = (w: number) => (w ? `${Math.max(1, w * PX)}px solid #000` : 'none')
           td.style.borderTop = side(b[0])
           td.style.borderLeft = side(b[1])
@@ -528,11 +543,13 @@ export function renderPages(ctx: PreviewContext, model: DocModel, opts: PagesOpt
         const lastP = td.querySelector(':scope > .wp:last-child > .wl')
         if (lastP) lastP.append(groupBreak())
         tr.append(td)
-        col += span
       }
       el.append(tr)
+      // rows share their borders like Word's (collapsed) grid
+      if (box.childElementCount) el.style.marginTop = '-1px'
+      box.append(el)
     }
-    return el
+    return box
   }
 
   // ---- pages ------------------------------------------------------------------------------
@@ -692,7 +709,7 @@ export function renderPages(ctx: PreviewContext, model: DocModel, opts: PagesOpt
   }
 
   /** Justification can stretch a space far beyond its width; Word's PDF then shows the words as
-   *  separate text groups. Mark such gaps (wider than half an em) with a group break. */
+   *  separate text groups. Mark such gaps (wider than about an em) with a group break. */
   const markWideGaps = (el: HTMLElement) => {
     const inner = el.firstElementChild as HTMLElement | null
     if (!inner) return
@@ -709,7 +726,7 @@ export function renderPages(ctx: PreviewContext, model: DocModel, opts: PagesOpt
         range.setStart(n, i)
         range.setEnd(n, i + 1)
         const rc = range.getClientRects()[0]
-        if (rc && rc.width > 0.5 * size * z) cuts.push({ node: n, i })
+        if (rc && rc.width > 0.9 * size * z) cuts.push({ node: n, i })
       }
     }
     // insert from the end so offsets stay valid
@@ -847,7 +864,7 @@ export function renderPages(ctx: PreviewContext, model: DocModel, opts: PagesOpt
       page.placed.push({ el, keepNext: false })
       if (fits(page)) return
       // keep the rows that fit; move the rest to the next page
-      const trs = [...el.querySelectorAll(':scope > tr, :scope > tbody > tr')] as HTMLElement[]
+      const trs = [...el.children] as HTMLElement[]
       let keep = 0
       for (const tr of trs) {
         if (el.offsetTop + tr.offsetTop + tr.offsetHeight <= page.limit + 0.5) keep++
