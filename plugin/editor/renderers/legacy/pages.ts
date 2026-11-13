@@ -78,7 +78,7 @@ const WORD_METRICS: Record<string, [number, number]> = {
 }
 
 /** Extra width Word gives a space after East Asian text, in em (measured against Word 2021). */
-const CJK_SPACE = 0.167
+const CJK_SPACE = 0.142
 
 const KOREAN_FACE = /맑은|malgun|바탕|batang|굴림|gulim|돋움|dotum|궁서|gungsuh|나눔|nanum|apple sd|noto (sans|serif) (kr|cjk)|한컴|함초롬|hcr|휴먼|hy|korean|gothic neo/i
 const HANGUL = /[\u1100-\u11ff\u3130-\u318f\uac00-\ud7af]/
@@ -219,19 +219,29 @@ export function renderPages(ctx: PreviewContext, model: DocModel, opts: PagesOpt
     }
     if (r.object) return [h('span', 'obj', r.object === 'OLE' ? tr('[개체]', '[Object]') : tr('[그림]', '[Picture]'))]
     const out: Node[] = []
-    // Word widens a space that follows East Asian text (to about half an em): give those spaces
-    // their own piece with extra word spacing.
+    // Word draws a space next to Hangul a little wider (about 0.14 em) when the run's Latin font is
+    // a Korean face: such spaces get their own piece with extra word spacing.
     const parts: { text: string; cjk: boolean; wide?: boolean }[] = []
-    r.text.split(CJK_RUNS).forEach((t, k) => {
-      if (!t) return
-      const cjk = k % 2 === 1
-      if (!cjk && t[0] === ' ' && parts.length && parts[parts.length - 1].cjk && koreanLatin(r.font ?? r.eaFont)) {
+    const korean = koreanLatin(r.font ?? r.eaFont)
+    const chars = [...r.text]
+    let buf = ''
+    let bufCjk = false
+    const flush = () => {
+      if (buf) parts.push({ text: buf, cjk: bufCjk })
+      buf = ''
+    }
+    chars.forEach((ch, i) => {
+      if (korean && ch === ' ' && (HANGUL.test(chars[i - 1] ?? '') || HANGUL.test(chars[i + 1] ?? ''))) {
+        flush()
         parts.push({ text: ' ', cjk: false, wide: true })
-        t = t.slice(1)
-        if (!t) return
+        return
       }
-      parts.push({ text: t, cjk })
+      const cjk = CJK.test(ch)
+      if (buf && cjk !== bufCjk) flush()
+      bufCjk = cjk
+      buf += ch
     })
+    flush()
     for (const part of parts) {
       const text = part.text
       const cjk = part.cjk
@@ -347,6 +357,7 @@ export function renderPages(ctx: PreviewContext, model: DocModel, opts: PagesOpt
       }
       if (f.left) st.marginLeft = `${f.left * PX}px`
       if (f.right) st.marginRight = `${f.right * PX}px`
+      if (HANGUL.test(text) && text.length < 4000) el.dataset.hang = '1'
       if (f.first) st.textIndent = `${f.first * PX}px`
       if (label) {
         // number at left + first; text at the hanging indent, or the next tab stop past the number
@@ -538,6 +549,79 @@ export function renderPages(ctx: PreviewContext, model: DocModel, opts: PagesOpt
     }
   }
 
+  /** Korean Word lets a closing punctuation mark hang past the right margin (overflowPunct). Chrome
+   *  has no hanging punctuation: when the first word of a line would fit on the line above without
+   *  its final punctuation mark, that one mark gets a negative margin so it hangs, and lines reflow. */
+  const hangPunctuation = (el: HTMLElement) => {
+    const inner = el.firstElementChild as HTMLElement | null
+    if (!inner) return
+    const z = scale || 1
+    const range = document.createRange()
+    for (let pass = 0; pass < 40; pass++) {
+      const right = inner.getBoundingClientRect().right - (parseFloat(getComputedStyle(inner).paddingRight) || 0) * z
+      // characters with their boxes, in reading order
+      const chars: { node: Text; i: number; ch: string; rc: DOMRect }[] = []
+      const walker = document.createTreeWalker(inner, NodeFilter.SHOW_TEXT)
+      for (let n = walker.nextNode() as Text | null; n; n = walker.nextNode() as Text | null) {
+        if (n.parentElement?.closest('.gb, .lbl')) continue
+        const t = n.data
+        for (let i = 0; i < t.length; i++) {
+          range.setStart(n, i)
+          range.setEnd(n, i + 1)
+          const rc = range.getClientRects()[0]
+          if (rc) chars.push({ node: n, i, ch: t[i], rc })
+        }
+      }
+      // group into lines
+      const lines: (typeof chars)[] = []
+      for (const c of chars) {
+        const cur = lines[lines.length - 1]
+        if (cur && Math.abs(cur[0].rc.top - c.rc.top) < 3 * z) cur.push(c)
+        else lines.push([c])
+      }
+      let changed = false
+      for (let k = 0; k + 1 < lines.length && !changed; k++) {
+        const line = lines[k]
+        const next = lines[k + 1]
+        let end = 0
+        while (end < next.length && next[end].ch !== ' ' && !CJK.test(next[end].ch)) end++
+        if (CJK.test(next[0].ch)) {
+          // Hangul breaks between syllables: the candidate is a syllable followed by punctuation
+          end = 1
+          while (end < next.length && /[.,:;!?)\]}」』、。”’]/.test(next[end].ch)) end++
+        }
+        if (end < 2) continue
+        const last = next[end - 1]
+        if (!/[.,:;!?)\]}」』、。”’]/.test(last.ch)) continue
+        let tail = line.length - 1
+        while (tail >= 0 && line[tail].ch === ' ') tail--
+        if (tail < 0) continue
+        const spaceAfter = line[line.length - 1].ch === ' ' || CJK.test(next[0].ch) ? 0 : 0
+        const room = right - line[tail].rc.right - (line[tail].ch === ' ' ? 0 : spaceAfter)
+        const gapBefore = line[line.length - 1].ch === ' ' ? line[line.length - 1].rc.width : 0
+        const word = next[end - 2].rc.right - next[0].rc.left
+        if (last.node.parentElement?.classList.contains('hang') || next[0].node.parentElement?.classList.contains('hang')) continue
+        if (word + gapBefore <= room + 1 * z) {
+          // Tighten that word (when it sits in one text node) by the mark's width plus a pixel for
+          // rounding differences, spread over its letters: it then fits and the mark hangs.
+          const first = next[0]
+          if (first.node !== last.node) continue
+          const node = last.node
+          const wordNode = node.splitText(first.i)
+          wordNode.splitText(last.i - first.i + 1)
+          const hang = document.createElement('span')
+          hang.className = 'hang'
+          wordNode.replaceWith(hang)
+          hang.append(wordNode)
+          const n = last.i - first.i + 1
+          hang.style.letterSpacing = `${-((last.rc.width / z) + 1) / n}px`
+          changed = true
+        }
+      }
+      if (!changed) return
+    }
+  }
+
   /** Splits a paragraph element at the first line that ends below `limit` (px from the body top).
    *  Returns the remainder element, or null when no split is possible. */
   const splitPara = (el: HTMLElement, limit: number, widow: boolean): HTMLElement | null => {
@@ -614,6 +698,7 @@ export function renderPages(ctx: PreviewContext, model: DocModel, opts: PagesOpt
     const f = p.fmt
     if (f?.pageBreakBefore && page.placed.length) page = newPage()
     let el = paraEl(p, prevStyle)
+    const hang = el.dataset.hang === '1'
     if (f && prevPara && prevPara.style === f.style && prevPara.contextual && prevPara.el.isConnected) prevPara.el.style.paddingBottom = '0px'
     // Word separates two paragraphs by the larger of the first one's space after and the second
     // one's space before (not their sum).
@@ -626,6 +711,7 @@ export function renderPages(ctx: PreviewContext, model: DocModel, opts: PagesOpt
     prevPara = f ? { el, style: f.style, contextual: f.contextual } : null
     page.body.append(el)
     page.placed.push({ el, keepNext: !!f?.keepNext })
+    if (hang) hangPunctuation(el)
     for (let guard = 0; guard < 500 && !fits(page); guard++) {
       if (page.placed.length === 1) {
         // first on its page: split it across pages, or leave it overflowing
