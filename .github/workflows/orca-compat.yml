@@ -1,7 +1,8 @@
 name: orca-compat
 # Installs each Orca release on Linux, macOS and Windows, installs the File Preview plugin into it and
 # tests it there; the report job writes the version x OS table into README.md (between the
-# ci-matrix markers). Orca 1.4.247 is below engines.orca (>=1.4.248) and must refuse the plugin.
+# ci-matrix markers). Orca 1.4.247 is below engines.orca (>=1.4.248): Orca does not enforce that for
+# folder (dev) loads, so it runs as an informational check of the declared minimum.
 on:
   workflow_dispatch:
   push:
@@ -145,6 +146,7 @@ jobs:
             checks = @([ordered]@{ name = 'installer refuses on Windows 7 with a clear message'; ok = $ok; detail = ($out.Trim() -split "`n")[0] }) }
           [IO.File]::WriteAllText("$PWD/out/results.json", ($res | ConvertTo-Json -Depth 4), (New-Object System.Text.UTF8Encoding($false)))
           if (-not $ok) { exit 1 }
+          exit 0 # the child installer's exit code 1 is the expected refusal
       - uses: actions/upload-artifact@v4
         if: always()
         with:

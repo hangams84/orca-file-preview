@@ -87,6 +87,12 @@ for attempt in 1 2 3; do
   xdotool key Escape 2>/dev/null
   sleep 1
 done
+# Older Orca (e.g. 1.4.248) shows a 3-step "Pick your default agent" dialog instead: Continue through it.
+for attempt in 1 2 3 4; do
+  WID=$(xdotool search --name '^Orca' 2>/dev/null | head -1)
+  [ -n "$WID" ] && xdotool windowactivate --sync "$WID" key Return 2>/dev/null
+  sleep 1.5
+done
 $ORCA plugin shot "$KEY" --window --out "$OUT/logs/after-first-run.png" --json >/dev/null 2>&1 || true
 
 # --- Static checks and unit tests on this OS -----------------------------------------------------
