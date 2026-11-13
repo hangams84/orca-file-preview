@@ -31,7 +31,8 @@ export async function render(ctx: PreviewContext): Promise<void | (() => void)> 
     } catch (e) {
       if (e instanceof WordError && e.code === 'encrypted') throw encrypted(ctx)
       if (e instanceof PreviewError) throw e
-      console.error(e)
+      // A damaged file is an expected refusal, not a plugin fault.
+      console.warn("doc: unreadable structure:", e instanceof Error ? e.message : e)
       throw new PreviewError('word', tr('Word 문서 구조를 읽을 수 없습니다. 파일이 손상되었을 수 있습니다.', 'Could not read the Word document structure; the file may be damaged.'))
     }
   }

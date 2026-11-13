@@ -47,7 +47,7 @@ export async function render(ctx: PreviewContext): Promise<() => void> {
   try {
     pkg = OoxmlPackage.open(bytes, signal)
   } catch (err) {
-    console.error(err)
+    console.warn(err) // damaged input: the shell shows a friendly error
     throw new PreviewError('pptx', tr('올바른 PowerPoint(.pptx) 파일이 아닙니다. 파일이 손상되었을 수 있습니다.', 'This is not a valid PowerPoint (.pptx) file. It may be damaged.'))
   }
   const parsed = readDeck(pkg)

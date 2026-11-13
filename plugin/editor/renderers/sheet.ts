@@ -100,7 +100,7 @@ async function loadBook(ctx: PreviewContext): Promise<WorkBook> {
       finish(() => {
         if (e.data.ok && e.data.book) resolve(e.data.book)
         else {
-          console.error('sheet:', e.data.message)
+          console.warn('sheet:', e.data.message)
           reject(damaged())
         }
       })
@@ -110,7 +110,7 @@ async function loadBook(ctx: PreviewContext): Promise<WorkBook> {
     worker.onerror = (e) => {
       e.preventDefault()
       if (loaded) {
-        console.error('sheet: worker crashed', e.message)
+        console.warn('sheet: worker crashed', e.message)
         finish(() => reject(damaged()))
         return
       }
@@ -132,7 +132,7 @@ function parseHere(bytes: Uint8Array, damaged: () => Error): WorkBook {
   try {
     return read(bytes, { type: 'array', dense: true, cellStyles: true, cellNF: false, cellHTML: false, sheetRows: MAX_ROWS })
   } catch (err) {
-    console.error(err)
+    console.warn(err) // damaged input
     throw damaged()
   }
 }

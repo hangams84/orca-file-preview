@@ -100,7 +100,7 @@ export async function render(ctx: PreviewContext): Promise<void> {
   } catch (err) {
     host.remove()
     revokeAll()
-    console.error(err)
+    console.warn(err) // damaged input: the shell shows a friendly error
     throw new PreviewError(
       'docx',
       tr('Word 문서를 읽을 수 없습니다. 파일이 손상되었거나 지원하지 않는 변형일 수 있습니다.', 'Cannot read this Word document. It may be damaged or use an unsupported variant.')

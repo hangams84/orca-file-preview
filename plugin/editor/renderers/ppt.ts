@@ -70,7 +70,7 @@ export async function render(ctx: PreviewContext): Promise<void | (() => void)> 
     doc = readPpt(cfb)
   } catch (e) {
     if (e instanceof PptError && e.code === 'encrypted') throw encrypted(ctx)
-    console.error(e)
+    console.warn(e) // damaged input: the shell shows a friendly error
     throw new PreviewError('ppt', tr('프레젠테이션 구조를 읽을 수 없습니다. 파일이 손상되었을 수 있습니다.', 'Could not read the presentation structure; the file may be damaged.'))
   }
   if (!doc.slides.length) throw new PreviewError('empty', tr('슬라이드가 없습니다.', 'This presentation has no slides.'))
