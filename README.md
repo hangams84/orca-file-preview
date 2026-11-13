@@ -54,7 +54,51 @@ docs/              개발·검증 문서 (README.md, index.html, evidence/)
 플러그인·설치 스크립트·테스트 도구가 바뀌어 `main` 에 푸시되면 자동 실행되고, 아래 표가 자동으로 갱신됩니다.
 
 <!-- ci-matrix:start -->
-_아직 실행되지 않았습니다._
+**Orca compatibility CI** — ❌ 22 failing check(s) · 2026-11-13 06:20 UTC · [run](https://github.com/hangams84/orca-file-preview/actions/runs/43374563512)
+
+| Orca | Ubuntu 24.04 (Docker) | macOS 15 arm64 |
+| --- | --- | --- |
+| 1.4.258 | ✅ 9/9 | ✅ 12/12 |
+| 1.4.257 | ✅ 9/9 | — |
+| 1.4.256 | ✅ 9/9 | — |
+| 1.4.255 | ✅ 9/9 | — |
+| 1.4.254 | ✅ 9/9 | — |
+| 1.4.253 | ✅ 9/9 | ✅ 12/12 |
+| 1.4.252 | ✅ 9/9 | — |
+| 1.4.251 | ❌ 5/9 | — |
+| 1.4.250 | ❌ 5/9 | — |
+| 1.4.249 | ❌ 5/9 | — |
+| 1.4.248 | ❌ 5/9 | ❌ 6/12 |
+| 1.4.247 | ✅ refused (unsupported) | — |
+
+Each cell: a fresh Orca install of that version → plugin install with approval → validate · unit tests · static check → every fixture opened in the plugin editor → finished renders captured → plugin log free of errors (Windows also installs and removes through `installer/windows`). Orca below 1.4.248 must refuse the plugin (`engines.orca`).
+
+<details><summary>Failing checks</summary>
+
+- linux · Orca 1.4.248: plugin install (folder, approval ) — "Unknown command: plugin install /home/tester/file-preview"
+- linux · Orca 1.4.248: plugin listed and enabled — status= editors=
+- linux · Orca 1.4.248: editors mount in Orca without errors — 0 / 55 mounted; 0 open in Orca's own view first
+- linux · Orca 1.4.248: finished renders captured from open tabs — 0 / 8 window captures
+- linux · Orca 1.4.249: plugin install (folder, approval ) — "Unknown command: plugin install /home/tester/file-preview"
+- linux · Orca 1.4.249: plugin listed and enabled — status= editors=
+- linux · Orca 1.4.249: editors mount in Orca without errors — 0 / 55 mounted; 0 open in Orca's own view first
+- linux · Orca 1.4.249: finished renders captured from open tabs — 0 / 8 window captures
+- linux · Orca 1.4.250: plugin install (folder, approval ) — "Unknown command: plugin install /home/tester/file-preview"
+- linux · Orca 1.4.250: plugin listed and enabled — status= editors=
+- linux · Orca 1.4.250: editors mount in Orca without errors — 0 / 55 mounted; 0 open in Orca's own view first
+- linux · Orca 1.4.250: finished renders captured from open tabs — 0 / 8 window captures
+- linux · Orca 1.4.251: plugin install (folder, approval ) — "Unknown command: plugin install /home/tester/file-preview"
+- linux · Orca 1.4.251: plugin listed and enabled — status= editors=
+- linux · Orca 1.4.251: editors mount in Orca without errors — 0 / 55 mounted; 0 open in Orca's own view first
+- linux · Orca 1.4.251: finished renders captured from open tabs — 0 / 8 window captures
+- macos · Orca 1.4.248: plugin install (folder, approval ) — "Unknown command: plugin install /Users/runner/fp-work/file-preview"
+- macos · Orca 1.4.248: plugin listed and enabled — status= editors=
+- macos · Orca 1.4.248: editors mount in Orca without errors — 0 / 55 mounted; 0 open in Orca's own view first
+- macos · Orca 1.4.248: editor visible before window captures (no dialog, OCR) — logs/editor-visible.png: 
+- macos · Orca 1.4.248: finished renders captured from open tabs — 0 / 8 window captures
+- macos · Orca 1.4.248: finished renders show Korean text, no dialog (OCR) — 0 / 0:
+
+</details>
 <!-- ci-matrix:end -->
 
 ## 설치 스크립트 / Installers
