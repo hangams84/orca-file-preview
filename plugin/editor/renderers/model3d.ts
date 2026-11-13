@@ -399,7 +399,14 @@ function mountViewer(
   root.replaceChildren()
   root.style.overflow = 'hidden'
   const stage = h('div', 'fp-3d-stage')
-  stage.append(h('style', undefined, STYLE), renderer.domElement)
+  const canvas = renderer.domElement
+  // Sizes are pinned inline as well as in the stylesheet: the canvas must always be displayed at
+  // exactly the pane's size. If a host stylesheet wins over ours, a canvas falls back to its
+  // drawing-buffer size, which is devicePixelRatio times larger, and the model shows up cropped
+  // towards the bottom-right (seen in Orca at 125 % display scaling).
+  stage.style.cssText = 'position:absolute;inset:0;overflow:hidden'
+  canvas.style.cssText = 'position:absolute;left:0;top:0;width:100%;height:100%;display:block;touch-action:none'
+  stage.append(h('style', undefined, STYLE), canvas)
   renderer.domElement.tabIndex = 0
   renderer.domElement.setAttribute('role', 'img')
   renderer.domElement.setAttribute('aria-label', tr(`3D 모델 미리보기 (${KIND_LABEL[kind]})`, `3D model preview (${KIND_LABEL[kind]})`))
@@ -454,7 +461,10 @@ function mountViewer(
     radius = Math.max(1e-9, size.length() / 2)
     floorY = -size.y / 2
     rebuildHelpers(size)
+    centre.updateMatrixWorld(true)
+    samples = samplePoints(model, 20000)
   }
+  let samples: Float32Array = new Float32Array(0)
 
   const rebuildHelpers = (size: THREE.Vector3) => {
     for (const c of [...helpers.children]) {
@@ -510,41 +520,89 @@ function mountViewer(
   controls.zoomToCursor = true
   controls.autoRotateSpeed = 1.5
   controls.addEventListener('change', requestDraw)
+  // Until the person moves the camera, a pane resize fits the model again.
+  let userMoved = false
+  controls.addEventListener('start', () => (userMoved = true))
   disposers.push(() => controls.dispose())
 
   // Size
   let width = 0
   let height = 0
   const resize = () => {
-    const w = Math.max(1, root.clientWidth || 300)
-    const hgt = Math.max(1, root.clientHeight || 300)
-    if (w === width && hgt === height) return false
+    // The size the canvas is really displayed at (its CSS box), not a container's.
+    const r = canvas.getBoundingClientRect()
+    const w = Math.max(1, Math.round(r.width) || root.clientWidth || 300)
+    const hgt = Math.max(1, Math.round(r.height) || root.clientHeight || 300)
+    const pr = Math.min(window.devicePixelRatio || 1, counts.triangles > 2_000_000 ? 1.5 : 2)
+    if (w === width && hgt === height && pr === renderer.getPixelRatio()) return false
     width = w
     height = hgt
     // Huge meshes: cap the pixel ratio so a phone's 3× screen does not triple the fill cost.
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, counts.triangles > 2_000_000 ? 1.5 : 2))
+    renderer.setPixelRatio(pr)
     renderer.setSize(w, hgt, false)
     camera.aspect = w / hgt
     camera.updateProjectionMatrix()
     return true
   }
   const ro = new ResizeObserver(() => {
-    if (resize()) draw()
+    if (!resize()) return
+    if (!userMoved) fit()
+    draw()
   })
   ro.observe(root)
+  ro.observe(canvas)
   disposers.push(() => ro.disconnect())
 
+  /** Frames the model: the camera looks from a fixed three-quarter direction, and the model's own
+   *  projected outline (sampled vertices, not its bounding sphere) is centred in the view and fills
+   *  about three quarters of the shorter side. A few iterations settle the perspective. */
   const fit = () => {
-    const vfov = THREE.MathUtils.degToRad(camera.fov)
-    const hfov = 2 * Math.atan(Math.tan(vfov / 2) * camera.aspect)
-    // the bounding sphere is loose for most shapes: a slightly closer camera still keeps everything in view
-    const dist = (radius / Math.sin(Math.min(vfov, hfov) / 2)) * 0.95
+    const tanV = Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2)
+    const tanH = tanV * camera.aspect
     const dir = new THREE.Vector3(0.9, 0.62, 1.25).normalize()
-    camera.position.copy(dir.multiplyScalar(dist))
-    camera.near = Math.max(dist / 1000, radius / 1000)
-    camera.far = dist * 100
+    const target = new THREE.Vector3()
+    let dist = radius / Math.min(tanV, tanH) / Math.cos(Math.atan(Math.min(tanV, tanH)))
+    camera.near = radius / 500
+    const p = new THREE.Vector3()
+    const right = new THREE.Vector3()
+    const up = new THREE.Vector3()
+    for (let it = 0; it < 6 && samples.length; it++) {
+      camera.position.copy(target).addScaledVector(dir, dist)
+      camera.lookAt(target)
+      camera.updateMatrixWorld(true)
+      const inv = camera.matrixWorldInverse
+      let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity
+      let behind = false
+      for (let i = 0; i < samples.length; i += 3) {
+        p.set(samples[i], samples[i + 1], samples[i + 2]).applyMatrix4(inv)
+        const z = -p.z
+        if (z <= camera.near) {
+          behind = true
+          break
+        }
+        const x = p.x / z / tanH
+        const y = p.y / z / tanV
+        if (x < x0) x0 = x
+        if (x > x1) x1 = x
+        if (y < y0) y0 = y
+        if (y > y1) y1 = y
+      }
+      if (behind) {
+        dist *= 1.5
+        continue
+      }
+      const cx = (x0 + x1) / 2
+      const cy = (y0 + y1) / 2
+      const extent = Math.max((x1 - x0) / 2, (y1 - y0) / 2)
+      right.setFromMatrixColumn(camera.matrixWorld, 0)
+      up.setFromMatrixColumn(camera.matrixWorld, 1)
+      target.addScaledVector(right, cx * tanH * dist).addScaledVector(up, cy * tanV * dist)
+      if (extent > 0) dist *= Math.min(4, Math.max(0.25, extent / 0.75))
+    }
+    camera.position.copy(target).addScaledVector(dir, dist)
+    camera.far = dist * 25 + radius * 4
     camera.updateProjectionMatrix()
-    controls.target.set(0, 0, 0)
+    controls.target.copy(target)
     controls.minDistance = radius * 0.02
     controls.maxDistance = dist * 20
     controls.update()
@@ -734,6 +792,30 @@ function mountViewer(
   fit()
   // First frame now, without waiting for an animation frame (hidden windows never get one).
   draw()
+}
+
+/** Up to `max` vertex positions of the model in world space, evenly strided, for framing. */
+function samplePoints(root: THREE.Object3D, max: number): Float32Array {
+  const objs: THREE.Object3D[] = []
+  let total = 0
+  root.traverse((o) => {
+    const pos = ((o as THREE.Mesh).geometry as THREE.BufferGeometry | undefined)?.getAttribute?.('position')
+    if (pos && o.visible) {
+      objs.push(o)
+      total += pos.count
+    }
+  })
+  const stride = Math.max(1, Math.ceil(total / max))
+  const out: number[] = []
+  const v = new THREE.Vector3()
+  for (const o of objs) {
+    const pos = ((o as THREE.Mesh).geometry as THREE.BufferGeometry).getAttribute('position')
+    for (let i = 0; i < pos.count; i += stride) {
+      v.fromBufferAttribute(pos, i).applyMatrix4(o.matrixWorld)
+      if (Number.isFinite(v.x + v.y + v.z)) out.push(v.x, v.y, v.z)
+    }
+  }
+  return Float32Array.from(out)
 }
 
 function niceStep(x: number): number {

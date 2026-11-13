@@ -11,6 +11,8 @@
 //   node tools/harness/run.mjs --old-engine ...  # delete Promise.withResolvers, findLast, structuredClone, ... (also in workers)
 //   node tools/harness/run.mjs --dir samples/fuzz --fuzz --no-shots   # damaged inputs: must settle, never hang/crash
 //   node tools/harness/run.mjs --engine webkit ...   # Safari engine (npx playwright-core install webkit)
+//   node tools/harness/run.mjs --dpr 1.25,1.5,1.75 ...  # run each profile at these device pixel ratios
+//                                                      (Windows display scaling 125 % / 150 % / 175 %)
 import { transform } from 'esbuild'
 import { createServer } from 'node:http'
 import { mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
@@ -246,6 +248,61 @@ const OLD_ENGINE_INIT = () => {
   }
 }
 
+const MODEL_RE = /\.(stl|obj|ply|glb|gltf|3mf|off|fbx|dae)$/i
+
+/** Where the drawn model sits in the visible pane, from a real screenshot (what the person sees, so
+ *  a drawing buffer that is larger than its CSS box shows up as an off-centre model): the bounding
+ *  box of pixels that differ from the background, as fractions of the pane. */
+async function modelCentre(page) {
+  await page.evaluate(() => document.querySelectorAll('.fp-3d-note').forEach((n) => (n.style.display = 'none')))
+  const png = await page.locator('.fp-content').screenshot()
+  return page.evaluate(async (b64) => {
+    const blob = await (await fetch(`data:image/png;base64,${b64}`)).blob()
+    const bmp = await createImageBitmap(blob)
+    const c = document.createElement('canvas') // not OffscreenCanvas: Playwright's WebKit lacks it
+    c.width = bmp.width
+    c.height = bmp.height
+    const g = c.getContext('2d')
+    g.drawImage(bmp, 0, 0)
+    const d = g.getImageData(0, 0, bmp.width, bmp.height).data
+    // a 3-px margin is skipped: a pane at a fractional offset catches a sliver of the toolbar border
+    const m = 3
+    const bi = (m * bmp.width + m) * 4
+    const bg = [d[bi], d[bi + 1], d[bi + 2]]
+    let x0 = Infinity, y0 = Infinity, x1 = -1, y1 = -1
+    for (let y = m; y < bmp.height - m; y++) {
+      for (let x = m; x < bmp.width - m; x++) {
+        const i = (y * bmp.width + x) * 4
+        if (Math.abs(d[i] - bg[0]) + Math.abs(d[i + 1] - bg[1]) + Math.abs(d[i + 2] - bg[2]) > 30) {
+          if (x < x0) x0 = x
+          if (x > x1) x1 = x
+          if (y < y0) y0 = y
+          if (y > y1) y1 = y
+        }
+      }
+    }
+    if (x1 < 0) return null
+    return { cx: (x0 + x1 + 1) / 2 / bmp.width, cy: (y0 + y1 + 1) / 2 / bmp.height, w: (x1 - x0 + 1) / bmp.width, h: (y1 - y0 + 1) / bmp.height }
+  }, png.toString('base64'))
+}
+
+async function modelCentreCheck(page, profile) {
+  const fmt = (m) => `centre ${(m.cx * 100).toFixed(1)}%/${(m.cy * 100).toFixed(1)}%, size ${(m.w * 100).toFixed(0)}%×${(m.h * 100).toFixed(0)}%`
+  const off = (m) => !m || Math.abs(m.cx - 0.5) > 0.03 || Math.abs(m.cy - 0.5) > 0.03 || m.w > 0.995 || m.h > 0.995
+  const a = await modelCentre(page)
+  if (off(a)) return a ? `model off-centre at load: ${fmt(a)}` : 'model not visible'
+  // a pane resize after load (Orca splits, window resize): narrower and shorter
+  const vp = page.viewportSize()
+  await page.setViewportSize({ width: Math.round(vp.width * 0.7), height: Math.round(vp.height * 0.8) })
+  await page.waitForTimeout(500)
+  const b = await modelCentre(page)
+  await page.setViewportSize(vp)
+  await page.waitForTimeout(300)
+  if (off(b)) return b ? `model off-centre after resize: ${fmt(b)}` : 'model not visible after resize'
+  void profile
+  return null
+}
+
 function expectedState(name) {
   if (args.fuzz) return 'ready|error' // fuzzed input: any settled state, never a hang or a crash
   return name.startsWith('broken.') ? 'error' : 'ready'
@@ -285,9 +342,13 @@ async function run() {
     .filter((f) => !f.startsWith('.') && statSync(join(ROOT, SAMPLE_DIR, f)).isFile())
     .filter((f) => !only || only.some((o) => f.includes(o)))
     .sort()
-  const profiles = (typeof args.profiles === 'string' ? args.profiles.split(',') : ['desktop-dark', 'mobile-light']).map(
+  let profiles = (typeof args.profiles === 'string' ? args.profiles.split(',') : ['desktop-dark', 'mobile-light']).map(
     (p) => [p, PROFILES[p]]
   )
+  if (typeof args.dpr === 'string' || typeof args.dpr === 'number') {
+    const ratios = String(args.dpr).split(',').map(Number).filter((x) => x > 0)
+    profiles = profiles.flatMap(([p, prof]) => ratios.map((r) => [`${p}@${r}x`, { ...prof, deviceScaleFactor: r }]))
+  }
 
   const results = []
   for (const [pname, profile] of profiles) {
@@ -373,6 +434,10 @@ async function run() {
             return walk(root) ? null : 'ready but nothing visible in the content area'
           })
           .catch((e) => `content check failed: ${e.message}`)
+      }
+      // 3D models: the fitted model must sit in the middle of the pane, also after the pane resizes.
+      if (!checkError && state === 'ready' && !args.fuzz && MODEL_RE.test(f)) {
+        checkError = await modelCentreCheck(page, profile).catch((e) => `centre check failed: ${e.message}`)
       }
       const overflowX = await page
         .evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1)

@@ -160,6 +160,69 @@ const click = (page, title) => page.locator(`.fp-toolbar button[title^="${title}
   await context.close()
 }
 
+// ---------------------------------------------------------------- fractional DPR, host stylesheet loses
+// Orca at 125 % display scaling showed the model cropped towards the bottom-right: the canvas was
+// displayed at its drawing-buffer size. Reproduce the worst case: DPR 1.25 and the renderer's own
+// <style> removed (a host where our stylesheet does not apply), then a pane resize.
+{
+  const context = await browser.newContext({ viewport: { width: 1348, height: 760 }, deviceScaleFactor: 1.25 })
+  await context.addInitScript(() => {
+    new MutationObserver((list) => {
+      for (const m of list) for (const n of m.addedNodes) if (n.nodeType === 1) for (const s of n.querySelectorAll?.('style') ?? []) s.remove()
+    }).observe(document, { childList: true, subtree: true })
+  })
+  for (const file of ['sample.glb', 'sample.stl']) {
+    const { page, errors } = await open(context, `samples/${file}`)
+    const sizes = () =>
+      page.evaluate(() => {
+        const c = document.querySelector('.fp-3d-stage canvas')
+        const r = c.getBoundingClientRect()
+        const p = document.querySelector('.fp-content').getBoundingClientRect()
+        return { css: [Math.round(r.width), Math.round(r.height)], pane: [Math.round(p.width), Math.round(p.height)], buffer: [c.width, c.height] }
+      })
+    const centre = async () => {
+      const png = await page.locator('.fp-content').screenshot()
+      return page.evaluate(async (b64) => {
+        const bmp = await createImageBitmap(await (await fetch(`data:image/png;base64,${b64}`)).blob())
+        const cv = document.createElement('canvas')
+        cv.width = bmp.width
+        cv.height = bmp.height
+        const g = cv.getContext('2d')
+        g.drawImage(bmp, 0, 0)
+        const d = g.getImageData(0, 0, bmp.width, bmp.height).data
+        const m = 3, bi = (m * bmp.width + m) * 4
+        let x0 = 1e9, y0 = 1e9, x1 = -1, y1 = -1
+        for (let y = m; y < bmp.height - m; y++)
+          for (let x = m; x < bmp.width - m; x++) {
+            const i = (y * bmp.width + x) * 4
+            if (Math.abs(d[i] - d[bi]) + Math.abs(d[i + 1] - d[bi + 1]) + Math.abs(d[i + 2] - d[bi + 2]) > 30) {
+              x0 = Math.min(x0, x); x1 = Math.max(x1, x); y0 = Math.min(y0, y); y1 = Math.max(y1, y)
+            }
+          }
+        return { cx: (x0 + x1 + 1) / 2 / bmp.width, cy: (y0 + y1 + 1) / 2 / bmp.height }
+      }, png.toString('base64'))
+    }
+    const ok = (c) => Math.abs(c.cx - 0.5) <= 0.03 && Math.abs(c.cy - 0.5) <= 0.03
+    const pct = (c) => `${(c.cx * 100).toFixed(1)}%/${(c.cy * 100).toFixed(1)}%`
+    const a = await centre()
+    const sa = await sizes()
+    await shot(page, `dpr1.25-nostyle-${file}`)
+    await page.setViewportSize({ width: 900, height: 620 })
+    await page.waitForTimeout(500)
+    const b = await centre()
+    const sb = await sizes()
+    await shot(page, `dpr1.25-nostyle-resized-${file}`)
+    await page.setViewportSize({ width: 1348, height: 760 })
+    record(
+      `DPR 1.25 without our stylesheet, ${file}: centred, canvas box = pane, also after a resize`,
+      ok(a) && ok(b) && sa.css.join() === sa.pane.join() && sb.css.join() === sb.pane.join() && errors.length === 0,
+      `centre ${pct(a)} → after resize ${pct(b)}; canvas ${sa.css.join('×')} in pane ${sa.pane.join('×')} (buffer ${sa.buffer.join('×')}) → ${sb.css.join('×')} in ${sb.pane.join('×')} (buffer ${sb.buffer.join('×')})`
+    )
+    await page.close()
+  }
+  await context.close()
+}
+
 // ---------------------------------------------------------------- no WebGL (GPU disabled, old engine)
 {
   const context = await browser.newContext({ viewport: { width: 800, height: 600 } })
