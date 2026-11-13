@@ -33,6 +33,7 @@ Orca 데스크톱(Windows · macOS · Linux)과 브라우저/모바일 클라이
 | [3](#round-3) | 2026-11-12 07:15 | `9d6ca3a` | 7/8 | 168/168 | 57/58 | 11/10 |
 | [4](#round-4) | 2026-11-12 08:02 | `459a5dc` | 8/9 | 220/220 | 66/68 | 14/14 |
 | [5](#round-5) | 2026-11-12 08:31 | `0c7fc8c` | 10/10 | 220/220 | 68/68 | 5/1 |
+| [6](#round-6) | 2026-11-13 08:49 | `2d02e1e` | 10/10 | 280/280 | 86/86 | 9/8 |
 
 ### Round 1
 
@@ -207,6 +208,39 @@ Orca 데스크톱(Windows · macOS · Linux)과 브라우저/모바일 클라이
 
 증빙: [harness](evidence/round-5/harness/) · [orca](evidence/round-5/orca/) · [summary.json](evidence/round-5/summary.json)
 
+### Round 6
+
+커밋 `2d02e1e` · 2026-11-13T08:49:36.547Z · Orca 1.4.258 · win32 x64
+
+| 검사 | 결과 | 상세 |
+| --- | --- | --- |
+| TypeScript (tsc --noEmit) | ✅ |  |
+| orca plugin validate | ✅ |  |
+| orca plugin test (unit) | ✅ | passed 131 · failed 0 |
+| orca plugin check (static) | ✅ | "" |
+| Browser harness (4 profiles) | ✅ | 280 / 280 passed |
+| Harness on an older engine (no Promise.withResolvers etc.) | ✅ | 70 / 70 passed |
+| Harness on WebKit (Safari engine, phone + desktop) | ✅ | 140 / 140 passed |
+| Fuzz: damaged inputs settle without page errors | ✅ | 429 / 429 settled (234 as friendly errors) |
+| Harness without rAF/IntersectionObserver (hidden window) | ✅ | 70 / 70 passed |
+| Orca app: editor mounts without errors (plugin shot) | ✅ | 80 / 80 mounted in Orca; 60 open in Orca's own view first (preview via the view toggle) |
+
+**발견된 문제와 조치 / Issues and fixes**
+
+| ID | 심각도 | 영역 | 문제 | 원인 | 조치 | 상태 |
+| --- | --- | --- | --- | --- | --- | --- |
+| R6-1 | high | doc | .doc files from other Word versions: wrong page size, margins, spacing, indents, pagination (user report) | Section/paragraph/character properties and styles not applied; no pagination | Word 97 and 6/95 SPRMs, STSH inheritance, SEP/PAP/CHP/TAP, page layout at physical size; fidelity 3/27 -> 23/27 (all Word-made files pass) | fixed |
+| R6-2 | high | hwp | Korean .hwp/.hwpx not supported (user report) | No renderer | HWP 5 / HWPX renderer laid out from Hangul's saved line layout; fidelity 23/23 | fixed |
+| R6-3 | medium | 3d | 3D models requested (user request) | No renderer | three.js renderer for 9 formats; verified in Orca incl. WebGL | fixed |
+| R6-4 | medium | 3d | 3D model off-centre in Orca | Vertical fit used the bounding sphere; canvas size depended on an injected stylesheet | Fit from projected outline, inline sizes, refit on resize | fixed |
+| R6-5 | high | installer | Windows installer hung when Orca was closed | Pipe inherited by the launched Orca app | Output via temp files | fixed |
+| R6-6 | medium | installer | Orca 1.4.248-1.4.251 have no plugin install | CLI difference | dev load fallback in installers and CI | fixed |
+| R6-7 | low | docx | Word bullets showed as boxes on Linux/macOS | Symbol-font private-use characters | Mapped to Unicode | fixed |
+| R6-8 | info | fidelity | 4 .doc fixtures outside limits | sample.doc/sample-rtf.doc: Word adds a gap before Hangul in these LibreOffice-made files; sample-html.doc is HTML (text view); sample-docx.doc is a DOCX drawn by docx.ts | Documented | documented |
+| R6-9 | info | evidence | BMP looked off-centre in an Orca capture | Fixed crop box cut the editor pane | Crops now drop only the left sidebar | fixed |
+
+증빙: [harness](evidence/round-6/harness/) · [orca](evidence/round-6/orca/) · [summary.json](evidence/round-6/summary.json)
+
 ## 운영체제별 Orca 설치 테스트 / Platform tests
 
 각 환경에 Orca를 새로 설치하고 플러그인을 폴더에서 설치(승인 포함)한 뒤 검사·단위 테스트·전 픽스처 마운트·실제 렌더 캡처를 수행했습니다.
@@ -221,6 +255,8 @@ Orca 데스크톱(Windows · macOS · Linux)과 브라우저/모바일 클라이
 
 ## 영역별 개발 노트 / Development notes
 
+- [3d](evidence/3d/NOTES.md)
+- [hwp](evidence/hwp/NOTES.md)
 - [legacy](evidence/legacy/NOTES.md)
 - [media](evidence/media/NOTES.md)
 - [office](evidence/office/NOTES.md)

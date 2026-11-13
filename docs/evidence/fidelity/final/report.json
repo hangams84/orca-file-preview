@@ -1,0 +1,2159 @@
+[
+ {
+  "fmt": "doc",
+  "file": "samples/fidelity/doc/poi-47950.doc",
+  "name": "poi-47950",
+  "truthSource": "Microsoft Word 2021 (PDF export)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 1,
+  "total": 1,
+  "metrics": {
+   "pageSizeErr": 0,
+   "recall": 1,
+   "sizeErr": 0.03997499999999832,
+   "topErr": 2.695625000000007,
+   "leftErr": 0.01999999999999602
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "poi-47950.ours.png",
+  "truthImg": "poi-47950.truth.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 612,
+     "h": 792
+    },
+    "ours": {
+     "w": 612,
+     "h": 792
+    },
+    "err": {
+     "w": 0,
+     "h": 0
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "doc",
+  "file": "samples/fidelity/doc/poi-gaia.doc",
+  "name": "poi-gaia",
+  "truthSource": "Microsoft Word 2021 (PDF export)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 1,
+  "total": 1,
+  "metrics": {
+   "pageSizeErr": 0,
+   "recall": 1,
+   "sizeErr": 0,
+   "topErr": 0.09109375000002728,
+   "leftErr": 0.021875000000022737
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "poi-gaia.ours.png",
+  "truthImg": "poi-gaia.truth.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 612,
+     "h": 792
+    },
+    "ours": {
+     "w": 612,
+     "h": 792
+    },
+    "err": {
+     "w": 0,
+     "h": 0
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "doc",
+  "file": "samples/fidelity/doc/poi-innertable.doc",
+  "name": "poi-innertable",
+  "truthSource": "Microsoft Word 2021 (PDF export)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 0,
+  "total": 0,
+  "metrics": {
+   "pageSizeErr": 0.000051967849224030804,
+   "recall": null,
+   "sizeErr": null,
+   "topErr": null,
+   "leftErr": null
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "poi-innertable.ours.png",
+  "truthImg": "poi-innertable.truth.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.32,
+     "h": 841.92
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000051967849224030804,
+     "h": 0.000025611103192653782
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "doc",
+  "file": "samples/fidelity/doc/poi-lists-margins.doc",
+  "name": "poi-lists-margins",
+  "truthSource": "Microsoft Word 2021 (PDF export)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 8,
+  "total": 8,
+  "metrics": {
+   "pageSizeErr": 0.000051967849224030804,
+   "recall": 1,
+   "sizeErr": 0.03997499999999832,
+   "topErr": 0.26468750000000085,
+   "leftErr": 0.08468750000000114
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "poi-lists-margins.ours.png",
+  "truthImg": "poi-lists-margins.truth.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.32,
+     "h": 841.92
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000051967849224030804,
+     "h": 0.000025611103192653782
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "doc",
+  "file": "samples/fidelity/doc/poi-lists.doc",
+  "name": "poi-lists",
+  "truthSource": "Microsoft Word 2021 (PDF export)",
+  "state": "ready",
+  "ourPages": 2,
+  "matched": 38,
+  "total": 40,
+  "metrics": {
+   "pageSizeErr": 0,
+   "recall": 0.95,
+   "sizeErr": 0.03997499999999832,
+   "topErr": 2.544687500000009,
+   "leftErr": 0.01999999999999602
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "poi-lists.ours.png",
+  "truthImg": "poi-lists.truth.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 612,
+     "h": 792
+    },
+    "ours": {
+     "w": 612,
+     "h": 792
+    },
+    "err": {
+     "w": 0,
+     "h": 0
+    }
+   },
+   {
+    "truth": {
+     "w": 612,
+     "h": 792
+    },
+    "ours": {
+     "w": 612,
+     "h": 792
+    },
+    "err": {
+     "w": 0,
+     "h": 0
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "doc",
+  "file": "samples/fidelity/doc/poi-o-kurs.doc",
+  "name": "poi-o-kurs",
+  "truthSource": "Microsoft Word 2021 (PDF export)",
+  "state": "ready",
+  "ourPages": 3,
+  "matched": 62,
+  "total": 64,
+  "metrics": {
+   "pageSizeErr": 0.000060665843081826705,
+   "recall": 0.96875,
+   "sizeErr": 0,
+   "topErr": 2.2445312500000227,
+   "leftErr": 0.03531250000000341
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "poi-o-kurs.ours.png",
+  "truthImg": "poi-o-kurs.truth.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 594.96,
+     "h": 840.96
+    },
+    "ours": {
+     "w": 595,
+     "h": 841
+    },
+    "err": {
+     "w": 0.000060665843081826705,
+     "h": 0.00004291969891548185
+    }
+   },
+   {
+    "truth": {
+     "w": 594.96,
+     "h": 840.96
+    },
+    "ours": {
+     "w": 595,
+     "h": 841
+    },
+    "err": {
+     "w": 0.000060665843081826705,
+     "h": 0.00004291969891548185
+    }
+   },
+   {
+    "truth": {
+     "w": 594.96,
+     "h": 840.96
+    },
+    "ours": {
+     "w": 595,
+     "h": 841
+    },
+    "err": {
+     "w": 0.000060665843081826705,
+     "h": 0.00004291969891548185
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "doc",
+  "file": "samples/fidelity/doc/poi-page-break.doc",
+  "name": "poi-page-break",
+  "truthSource": "Microsoft Word 2021 (PDF export)",
+  "state": "ready",
+  "ourPages": 2,
+  "matched": 2,
+  "total": 2,
+  "metrics": {
+   "pageSizeErr": 0.000051967849224030804,
+   "recall": 1,
+   "sizeErr": 0,
+   "topErr": 0.13609375000000057,
+   "leftErr": 0.05531249999999943
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "poi-page-break.ours.png",
+  "truthImg": "poi-page-break.truth.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.32,
+     "h": 841.92
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000051967849224030804,
+     "h": 0.000025611103192653782
+    }
+   },
+   {
+    "truth": {
+     "w": 595.32,
+     "h": 841.92
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000051967849224030804,
+     "h": 0.000025611103192653782
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "doc",
+  "file": "samples/fidelity/doc/poi-sampledoc.doc",
+  "name": "poi-sampledoc",
+  "truthSource": "Microsoft Word 2021 (PDF export)",
+  "state": "ready",
+  "ourPages": 2,
+  "matched": 6,
+  "total": 6,
+  "metrics": {
+   "pageSizeErr": 0.000056781744335142774,
+   "recall": 1,
+   "sizeErr": 0.039975000000000094,
+   "topErr": 2.4232812500000023,
+   "leftErr": 0.01999999999999602
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "poi-sampledoc.ours.png",
+  "truthImg": "poi-sampledoc.truth.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.32,
+     "h": 842.04
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 842
+    },
+    "err": {
+     "w": 0.00004645610763950476,
+     "h": 0.000056781744335142774
+    }
+   },
+   {
+    "truth": {
+     "w": 595.32,
+     "h": 842.04
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 842
+    },
+    "err": {
+     "w": 0.00004645610763950476,
+     "h": 0.000056781744335142774
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "doc",
+  "file": "samples/fidelity/doc/poi-saved-by-table.doc",
+  "name": "poi-saved-by-table",
+  "truthSource": "Microsoft Word 2021 (PDF export)",
+  "state": "ready",
+  "ourPages": 3,
+  "matched": 72,
+  "total": 75,
+  "metrics": {
+   "pageSizeErr": 0.000051967849224030804,
+   "recall": 0.96,
+   "sizeErr": 0.039975000000000094,
+   "topErr": 1.0614062500000045,
+   "leftErr": 0.01999999999999602
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "poi-saved-by-table.ours.png",
+  "truthImg": "poi-saved-by-table.truth.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.32,
+     "h": 841.92
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000051967849224030804,
+     "h": 0.000025611103192653782
+    }
+   },
+   {
+    "truth": {
+     "w": 595.32,
+     "h": 841.92
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000051967849224030804,
+     "h": 0.000025611103192653782
+    }
+   },
+   {
+    "truth": {
+     "w": 595.32,
+     "h": 841.92
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000051967849224030804,
+     "h": 0.000025611103192653782
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "doc",
+  "file": "samples/fidelity/doc/poi-sections.doc",
+  "name": "poi-sections",
+  "truthSource": "Microsoft Word 2021 (PDF export)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 2,
+  "total": 2,
+  "metrics": {
+   "pageSizeErr": 0.000051967849224030804,
+   "recall": 1,
+   "sizeErr": 0.03997499999999832,
+   "topErr": 2.4246875000000045,
+   "leftErr": 0.01999999999999602
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "poi-sections.ours.png",
+  "truthImg": "poi-sections.truth.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.32,
+     "h": 841.92
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000051967849224030804,
+     "h": 0.000025611103192653782
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "doc",
+  "file": "samples/fidelity/doc/poi-seven-columns.doc",
+  "name": "poi-seven-columns",
+  "truthSource": "Microsoft Word 2021 (PDF export)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 0,
+  "total": 0,
+  "metrics": {
+   "pageSizeErr": 0.000056781744335142774,
+   "recall": null,
+   "sizeErr": null,
+   "topErr": null,
+   "leftErr": null
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "poi-seven-columns.ours.png",
+  "truthImg": "poi-seven-columns.truth.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.32,
+     "h": 842.04
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 842
+    },
+    "err": {
+     "w": 0.00004645610763950476,
+     "h": 0.000056781744335142774
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "doc",
+  "file": "samples/fidelity/doc/poi-simple-table.doc",
+  "name": "poi-simple-table",
+  "truthSource": "Microsoft Word 2021 (PDF export)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 9,
+  "total": 9,
+  "metrics": {
+   "pageSizeErr": 0,
+   "recall": 1,
+   "sizeErr": 0.03997499999999832,
+   "topErr": 0.4181250000000034,
+   "leftErr": 0.3003125000000182
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "poi-simple-table.ours.png",
+  "truthImg": "poi-simple-table.truth.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 612,
+     "h": 792
+    },
+    "ours": {
+     "w": 612,
+     "h": 792
+    },
+    "err": {
+     "w": 0,
+     "h": 0
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "doc",
+  "file": "samples/fidelity/doc/poi-table-merges.doc",
+  "name": "poi-table-merges",
+  "truthSource": "Microsoft Word 2021 (PDF export)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 0,
+  "total": 0,
+  "metrics": {
+   "pageSizeErr": 0.000051967849224030804,
+   "recall": null,
+   "sizeErr": null,
+   "topErr": null,
+   "leftErr": null
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "poi-table-merges.ours.png",
+  "truthImg": "poi-table-merges.truth.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.32,
+     "h": 841.92
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000051967849224030804,
+     "h": 0.000025611103192653782
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "doc",
+  "file": "samples/fidelity/doc/poi-threecol-headfoot.doc",
+  "name": "poi-threecol-headfoot",
+  "truthSource": "Microsoft Word 2021 (PDF export)",
+  "state": "ready",
+  "ourPages": 2,
+  "matched": 14,
+  "total": 14,
+  "metrics": {
+   "pageSizeErr": 0,
+   "recall": 1,
+   "sizeErr": 0.03997499999999832,
+   "topErr": 2.4607812499999966,
+   "leftErr": 0.01999999999999602
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "poi-threecol-headfoot.ours.png",
+  "truthImg": "poi-threecol-headfoot.truth.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 612,
+     "h": 792
+    },
+    "ours": {
+     "w": 612,
+     "h": 792
+    },
+    "err": {
+     "w": 0,
+     "h": 0
+    }
+   },
+   {
+    "truth": {
+     "w": 612,
+     "h": 792
+    },
+    "ours": {
+     "w": 612,
+     "h": 792
+    },
+    "err": {
+     "w": 0,
+     "h": 0
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "doc",
+  "file": "samples/fidelity/doc/poi-travel-form.doc",
+  "name": "poi-travel-form",
+  "truthSource": "Microsoft Word 2021 (PDF export)",
+  "state": "ready",
+  "ourPages": 2,
+  "matched": 123,
+  "total": 136,
+  "metrics": {
+   "pageSizeErr": 0.000051967849224030804,
+   "recall": 0.9044117647058824,
+   "sizeErr": 0.03997499999999832,
+   "topErr": 2.9584375000000023,
+   "leftErr": 0.3140624999999986
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "poi-travel-form.ours.png",
+  "truthImg": "poi-travel-form.truth.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.32,
+     "h": 841.92
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000051967849224030804,
+     "h": 0.000025611103192653782
+    }
+   },
+   {
+    "truth": {
+     "w": 595.32,
+     "h": 841.92
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000051967849224030804,
+     "h": 0.000025611103192653782
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "doc",
+  "file": "samples/fidelity/doc/poi-word6.doc",
+  "name": "poi-word6",
+  "truthSource": "LibreOffice (Word blocks Word 6 files by Trust Center policy)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 1,
+  "total": 1,
+  "metrics": {
+   "pageSizeErr": 0,
+   "recall": 1,
+   "sizeErr": 0,
+   "topErr": 0.040781249999994884,
+   "leftErr": 0.09999999999999432
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "poi-word6.ours.png",
+  "truthImg": "poi-word6.truth.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 612,
+     "h": 792
+    },
+    "ours": {
+     "w": 612,
+     "h": 792
+    },
+    "err": {
+     "w": 0,
+     "h": 0
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "doc",
+  "file": "samples/fidelity/doc/poi-word95.doc",
+  "name": "poi-word95",
+  "truthSource": "LibreOffice (Word blocks Word 95 files by Trust Center policy)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 4,
+  "total": 4,
+  "metrics": {
+   "pageSizeErr": 0,
+   "recall": 1,
+   "sizeErr": 0,
+   "topErr": 0.040781249999994884,
+   "leftErr": 0.09999999999999432
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "poi-word95.ours.png",
+  "truthImg": "poi-word95.truth.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 612,
+     "h": 792
+    },
+    "ours": {
+     "w": 612,
+     "h": 792
+    },
+    "err": {
+     "w": 0,
+     "h": 0
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "doc",
+  "file": "samples/fidelity/doc/word-a4-korean.doc",
+  "name": "word-a4-korean",
+  "truthSource": "Microsoft Word 2021 (PDF export)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 17,
+  "total": 17,
+  "metrics": {
+   "pageSizeErr": 0.000051967849224030804,
+   "recall": 1,
+   "sizeErr": 0.03997499999999832,
+   "topErr": 0.21406249999999716,
+   "leftErr": 0.057031249999994316
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "word-a4-korean.ours.png",
+  "truthImg": "word-a4-korean.truth.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.32,
+     "h": 841.92
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000051967849224030804,
+     "h": 0.000025611103192653782
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "doc",
+  "file": "samples/fidelity/doc/word-b5-dense.doc",
+  "name": "word-b5-dense",
+  "truthSource": "Microsoft Word 2021 (PDF export)",
+  "state": "ready",
+  "ourPages": 2,
+  "matched": 34,
+  "total": 34,
+  "metrics": {
+   "pageSizeErr": 0.00003281481633995197,
+   "recall": 1,
+   "sizeErr": 0,
+   "topErr": 0.23984374999997726,
+   "leftErr": 0
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "word-b5-dense.ours.png",
+  "truthImg": "word-b5-dense.truth.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 515.88,
+     "h": 728.52
+    },
+    "ours": {
+     "w": 515.9,
+     "h": 728.5
+    },
+    "err": {
+     "w": 0.00002816788788091135,
+     "h": 0.00003281481633995197
+    }
+   },
+   {
+    "truth": {
+     "w": 515.88,
+     "h": 728.52
+    },
+    "ours": {
+     "w": 515.9,
+     "h": 728.5
+    },
+    "err": {
+     "w": 0.00002816788788091135,
+     "h": 0.00003281481633995197
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "doc",
+  "file": "samples/fidelity/doc/word-landscape-sizes.doc",
+  "name": "word-landscape-sizes",
+  "truthSource": "Microsoft Word 2021 (PDF export)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 12,
+  "total": 12,
+  "metrics": {
+   "pageSizeErr": 0.000051967849224030804,
+   "recall": 1,
+   "sizeErr": 0.03997499999999832,
+   "topErr": 0.34265625000000455,
+   "leftErr": 0.03984375000000284
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "word-landscape-sizes.ours.png",
+  "truthImg": "word-landscape-sizes.truth.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 841.92,
+     "h": 595.32
+    },
+    "ours": {
+     "w": 841.9,
+     "h": 595.3
+    },
+    "err": {
+     "w": 0.000025611103192653782,
+     "h": 0.000051967849224030804
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "doc",
+  "file": "samples/fidelity/doc/word-letter-spacing.doc",
+  "name": "word-letter-spacing",
+  "truthSource": "Microsoft Word 2021 (PDF export)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 21,
+  "total": 21,
+  "metrics": {
+   "pageSizeErr": 0,
+   "recall": 1,
+   "sizeErr": 0,
+   "topErr": 0.07984374999999488,
+   "leftErr": 0.01999999999999602
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "word-letter-spacing.ours.png",
+  "truthImg": "word-letter-spacing.truth.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 612,
+     "h": 792
+    },
+    "ours": {
+     "w": 612,
+     "h": 792
+    },
+    "err": {
+     "w": 0,
+     "h": 0
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwp",
+  "file": "samples/fidelity/hwp/hwplib-blank.hwp",
+  "name": "hwplib-blank",
+  "truthSource": "Hangul layout saved in the file (PARA_LINE_SEG)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 0,
+  "total": 0,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": null,
+   "sizeErr": null,
+   "topErr": null,
+   "leftErr": null
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwplib-blank.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwp",
+  "file": "samples/fidelity/hwp/hwplib-distribution.hwp",
+  "name": "hwplib-distribution",
+  "truthSource": null,
+  "state": "error",
+  "expectRefuse": "distribution",
+  "pass": true,
+  "fails": []
+ },
+ {
+  "fmt": "hwp",
+  "file": "samples/fidelity/hwp/hwplib-equation.hwp",
+  "name": "hwplib-equation",
+  "truthSource": "Hangul layout saved in the file (PARA_LINE_SEG)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 0,
+  "total": 0,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": null,
+   "sizeErr": null,
+   "topErr": null,
+   "leftErr": null
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwplib-equation.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwp",
+  "file": "samples/fidelity/hwp/hwplib-fields.hwp",
+  "name": "hwplib-fields",
+  "truthSource": "Hangul layout saved in the file (PARA_LINE_SEG)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 1,
+  "total": 1,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": 1,
+   "sizeErr": 0.000025000000000829914,
+   "topErr": 0.24531249999999716,
+   "leftErr": 0.008750000000006253
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwplib-fields.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwp",
+  "file": "samples/fidelity/hwp/hwplib-footnotes.hwp",
+  "name": "hwplib-footnotes",
+  "truthSource": "Hangul layout saved in the file (PARA_LINE_SEG)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 0,
+  "total": 0,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": null,
+   "sizeErr": null,
+   "topErr": null,
+   "leftErr": null
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwplib-footnotes.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwp",
+  "file": "samples/fidelity/hwp/hwplib-header-footer.hwp",
+  "name": "hwplib-header-footer",
+  "truthSource": "Hangul layout saved in the file (PARA_LINE_SEG)",
+  "state": "ready",
+  "ourPages": 2,
+  "matched": 31,
+  "total": 31,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": 1,
+   "sizeErr": 0.000025000000000829914,
+   "topErr": 0.24140625000001137,
+   "leftErr": 0.004843750000006253
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwplib-header-footer.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   },
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwp",
+  "file": "samples/fidelity/hwp/hwplib-master-page.hwp",
+  "name": "hwplib-master-page",
+  "truthSource": "Hangul layout saved in the file (PARA_LINE_SEG)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 0,
+  "total": 0,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": null,
+   "sizeErr": null,
+   "topErr": null,
+   "leftErr": null
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwplib-master-page.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwp",
+  "file": "samples/fidelity/hwp/hwplib-merged-cells.hwp",
+  "name": "hwplib-merged-cells",
+  "truthSource": "Hangul layout saved in the file (PARA_LINE_SEG)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 0,
+  "total": 0,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": null,
+   "sizeErr": null,
+   "topErr": null,
+   "leftErr": null
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwplib-merged-cells.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwp",
+  "file": "samples/fidelity/hwp/hwplib-numbering.hwp",
+  "name": "hwplib-numbering",
+  "truthSource": "Hangul layout saved in the file (PARA_LINE_SEG)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 9,
+  "total": 9,
+  "metrics": {
+   "pageSizeErr": 0.000010022450288662773,
+   "recall": 1,
+   "sizeErr": 0.000025000000000829914,
+   "topErr": 0.24140625000001137,
+   "leftErr": 0.008750000000006253
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwplib-numbering.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.86
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000010022450288662773
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwp",
+  "file": "samples/fidelity/hwp/hwplib-old-5022.hwp",
+  "name": "hwplib-old-5022",
+  "truthSource": "Hangul layout saved in the file (PARA_LINE_SEG)",
+  "state": "ready",
+  "ourPages": 3,
+  "matched": 80,
+  "total": 80,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": 1,
+   "sizeErr": 0.000025000000000829914,
+   "topErr": 0.24156249999998636,
+   "leftErr": 0.008750000000006253
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwplib-old-5022.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   },
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   },
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwp",
+  "file": "samples/fidelity/hwp/hwplib-picture.hwp",
+  "name": "hwplib-picture",
+  "truthSource": "Hangul layout saved in the file (PARA_LINE_SEG)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 0,
+  "total": 0,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": null,
+   "sizeErr": null,
+   "topErr": null,
+   "leftErr": null
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwplib-picture.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwp",
+  "file": "samples/fidelity/hwp/hwplib-table.hwp",
+  "name": "hwplib-table",
+  "truthSource": "Hangul layout saved in the file (PARA_LINE_SEG)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 0,
+  "total": 0,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": null,
+   "sizeErr": null,
+   "topErr": null,
+   "leftErr": null
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwplib-table.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwp",
+  "file": "samples/fidelity/hwp/hwplib-textbox.hwp",
+  "name": "hwplib-textbox",
+  "truthSource": "Hangul layout saved in the file (PARA_LINE_SEG)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 0,
+  "total": 0,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": null,
+   "sizeErr": null,
+   "topErr": null,
+   "leftErr": null
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwplib-textbox.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwpx",
+  "file": "samples/fidelity/hwpx/hwpxlib-equation.hwpx",
+  "name": "hwpxlib-equation",
+  "truthSource": "Hangul layout saved in the file (<hp:lineseg>)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 0,
+  "total": 0,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": null,
+   "sizeErr": null,
+   "topErr": null,
+   "leftErr": null
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwpxlib-equation.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwpx",
+  "file": "samples/fidelity/hwpx/hwpxlib-header-footer.hwpx",
+  "name": "hwpxlib-header-footer",
+  "truthSource": "Hangul layout saved in the file (<hp:lineseg>)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 0,
+  "total": 0,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": null,
+   "sizeErr": null,
+   "topErr": null,
+   "leftErr": null
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwpxlib-header-footer.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwpx",
+  "file": "samples/fidelity/hwpx/hwpxlib-multi-column.hwpx",
+  "name": "hwpxlib-multi-column",
+  "truthSource": "Hangul layout saved in the file (<hp:lineseg>)",
+  "state": "ready",
+  "ourPages": 2,
+  "matched": 14,
+  "total": 14,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": 1,
+   "sizeErr": 0.000025000000000829914,
+   "topErr": 0.24140625000001137,
+   "leftErr": null
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwpxlib-multi-column.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   },
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwpx",
+  "file": "samples/fidelity/hwpx/hwpxlib-page-size-margin.hwpx",
+  "name": "hwpxlib-page-size-margin",
+  "truthSource": "Hangul layout saved in the file (<hp:lineseg>)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 0,
+  "total": 0,
+  "metrics": {
+   "pageSizeErr": 0.000010600407055586864,
+   "recall": null,
+   "sizeErr": null,
+   "topErr": null,
+   "leftErr": null
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwpxlib-page-size-margin.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 1031.8,
+     "h": 728.52
+    },
+    "ours": {
+     "w": 1031.8,
+     "h": 728.5
+    },
+    "err": {
+     "w": 0.000010600407055586864,
+     "h": 6.434277713471286e-7
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwpx",
+  "file": "samples/fidelity/hwpx/hwpxlib-picture.hwpx",
+  "name": "hwpxlib-picture",
+  "truthSource": "Hangul layout saved in the file (<hp:lineseg>)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 0,
+  "total": 0,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": null,
+   "sizeErr": null,
+   "topErr": null,
+   "leftErr": null
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwpxlib-picture.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwpx",
+  "file": "samples/fidelity/hwpx/hwpxlib-project-plan.hwpx",
+  "name": "hwpxlib-project-plan",
+  "truthSource": "Hangul layout saved in the file (<hp:lineseg>)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 0,
+  "total": 0,
+  "metrics": {
+   "pageSizeErr": 0.000010022450288662773,
+   "recall": null,
+   "sizeErr": null,
+   "topErr": null,
+   "leftErr": null
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwpxlib-project-plan.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.86
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000010022450288662773
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwpx",
+  "file": "samples/fidelity/hwpx/hwpxlib-real-test.hwpx",
+  "name": "hwpxlib-real-test",
+  "truthSource": "Hangul layout saved in the file (<hp:lineseg>)",
+  "state": "ready",
+  "ourPages": 3,
+  "matched": 3,
+  "total": 3,
+  "metrics": {
+   "pageSizeErr": 0.000010022450288662773,
+   "recall": 1,
+   "sizeErr": 0.000024999999999053557,
+   "topErr": 0.11218750000000455,
+   "leftErr": 0.006406249999997726
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwpxlib-real-test.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.86
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000010022450288662773
+    }
+   },
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.86
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000010022450288662773
+    }
+   },
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.86
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.00001781768940202214
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwpx",
+  "file": "samples/fidelity/hwpx/hwpxlib-rectangle.hwpx",
+  "name": "hwpxlib-rectangle",
+  "truthSource": "Hangul layout saved in the file (<hp:lineseg>)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 0,
+  "total": 0,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": null,
+   "sizeErr": null,
+   "topErr": null,
+   "leftErr": null
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwpxlib-rectangle.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwpx",
+  "file": "samples/fidelity/hwpx/hwpxlib-table.hwpx",
+  "name": "hwpxlib-table",
+  "truthSource": "Hangul layout saved in the file (<hp:lineseg>)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 0,
+  "total": 0,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": null,
+   "sizeErr": null,
+   "topErr": null,
+   "leftErr": null
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwpxlib-table.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwpx",
+  "file": "samples/fidelity/hwpx/hwpxlib-test-doc.hwpx",
+  "name": "hwpxlib-test-doc",
+  "truthSource": "Hangul layout saved in the file (<hp:lineseg>)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 9,
+  "total": 9,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": 1,
+   "sizeErr": 0.000025000000000829914,
+   "topErr": 0.24140625000001137,
+   "leftErr": 0.0078125
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwpxlib-test-doc.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "doc",
+  "file": "samples/sample-docx.doc",
+  "name": "sample-docx",
+  "truthSource": "Microsoft Word 2021 (PDF export)",
+  "state": "ready",
+  "ourPages": 2,
+  "matched": 33,
+  "total": 42,
+  "metrics": {
+   "pageSizeErr": 0,
+   "recall": 0.7857142857142857,
+   "sizeErr": 0.03997499999999832,
+   "topErr": 32.142656250000016,
+   "leftErr": 0.01999999999999602
+  },
+  "pass": false,
+  "fails": [
+   "text recall 79%",
+   "line top ±32.1pt"
+  ],
+  "oursImg": "sample-docx.ours.png",
+  "truthImg": "sample-docx.truth.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 612,
+     "h": 792
+    },
+    "ours": {
+     "w": 612,
+     "h": 792
+    },
+    "err": {
+     "w": 0,
+     "h": 0
+    }
+   },
+   {
+    "truth": {
+     "w": 612,
+     "h": 792
+    },
+    "ours": {
+     "w": 612,
+     "h": 792
+    },
+    "err": {
+     "w": 0,
+     "h": 0
+    }
+   },
+   {
+    "truth": {
+     "w": 612,
+     "h": 792
+    },
+    "ours": null
+   }
+  ]
+ },
+ {
+  "fmt": "doc",
+  "file": "samples/sample-html.doc",
+  "name": "sample-html",
+  "truthSource": "Microsoft Word 2021 (PDF export)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 7,
+  "total": 8,
+  "metrics": {
+   "pageSizeErr": 0.00039196123147097224,
+   "recall": 0.875,
+   "sizeErr": 0.75,
+   "topErr": 52.31218749999999,
+   "leftErr": 15.769999999999996
+  },
+  "pass": false,
+  "fails": [
+   "text recall 88%",
+   "font size ±0.8pt",
+   "line top ±52.3pt",
+   "left ±15.8pt"
+  ],
+  "oursImg": "sample-html.ours.png",
+  "truthImg": "sample-html.truth.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.32,
+     "h": 841.92
+    },
+    "ours": {
+     "w": 595.5,
+     "h": 842.3
+    },
+    "err": {
+     "w": 0.00030235839548469726,
+     "h": 0.00039196123147097224
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "doc",
+  "file": "samples/sample-large.doc",
+  "name": "sample-large",
+  "truthSource": "Microsoft Word 2021 (PDF export)",
+  "state": "ready",
+  "ourPages": 3,
+  "matched": 81,
+  "total": 82,
+  "metrics": {
+   "pageSizeErr": 0.000051967849224030804,
+   "recall": 0.9878048780487805,
+   "sizeErr": 0,
+   "topErr": 1.2979687499999955,
+   "leftErr": 0.05531249999999943
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "sample-large.ours.png",
+  "truthImg": "sample-large.truth.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.32,
+     "h": 841.92
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000051967849224030804,
+     "h": 0.000025611103192653782
+    }
+   },
+   {
+    "truth": {
+     "w": 595.32,
+     "h": 841.92
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000051967849224030804,
+     "h": 0.000025611103192653782
+    }
+   },
+   {
+    "truth": {
+     "w": 595.32,
+     "h": 841.92
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000051967849224030804,
+     "h": 0.000025611103192653782
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "doc",
+  "file": "samples/sample-rtf.doc",
+  "name": "sample-rtf",
+  "truthSource": "Microsoft Word 2021 (PDF export)",
+  "state": "ready",
+  "ourPages": 3,
+  "matched": 33,
+  "total": 42,
+  "metrics": {
+   "pageSizeErr": 0,
+   "recall": 0.7857142857142857,
+   "sizeErr": 0.03997499999999832,
+   "topErr": 4.22312500000001,
+   "leftErr": 0.01999999999999602
+  },
+  "pass": false,
+  "fails": [
+   "text recall 79%",
+   "line top ±4.2pt"
+  ],
+  "oursImg": "sample-rtf.ours.png",
+  "truthImg": "sample-rtf.truth.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 612,
+     "h": 792
+    },
+    "ours": {
+     "w": 612,
+     "h": 792
+    },
+    "err": {
+     "w": 0,
+     "h": 0
+    }
+   },
+   {
+    "truth": {
+     "w": 612,
+     "h": 792
+    },
+    "ours": {
+     "w": 612,
+     "h": 792
+    },
+    "err": {
+     "w": 0,
+     "h": 0
+    }
+   },
+   {
+    "truth": {
+     "w": 612,
+     "h": 792
+    },
+    "ours": {
+     "w": 612,
+     "h": 792
+    },
+    "err": {
+     "w": 0,
+     "h": 0
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "doc",
+  "file": "samples/sample-word97.doc",
+  "name": "sample-word97",
+  "truthSource": "Microsoft Word 2021 (PDF export)",
+  "state": "ready",
+  "ourPages": 3,
+  "matched": 42,
+  "total": 42,
+  "metrics": {
+   "pageSizeErr": 0,
+   "recall": 1,
+   "sizeErr": 0.03997499999999832,
+   "topErr": 0.8704687499999864,
+   "leftErr": 0.01999999999999602
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "sample-word97.ours.png",
+  "truthImg": "sample-word97.truth.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 612,
+     "h": 792
+    },
+    "ours": {
+     "w": 612,
+     "h": 792
+    },
+    "err": {
+     "w": 0,
+     "h": 0
+    }
+   },
+   {
+    "truth": {
+     "w": 612,
+     "h": 792
+    },
+    "ours": {
+     "w": 612,
+     "h": 792
+    },
+    "err": {
+     "w": 0,
+     "h": 0
+    }
+   },
+   {
+    "truth": {
+     "w": 612,
+     "h": 792
+    },
+    "ours": {
+     "w": 612,
+     "h": 792
+    },
+    "err": {
+     "w": 0,
+     "h": 0
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "doc",
+  "file": "samples/sample.doc",
+  "name": "sample",
+  "truthSource": "Microsoft Word 2021 (PDF export)",
+  "state": "ready",
+  "ourPages": 3,
+  "matched": 31,
+  "total": 40,
+  "metrics": {
+   "pageSizeErr": 0,
+   "recall": 0.775,
+   "sizeErr": 0.03997499999999832,
+   "topErr": 1.0307812500000182,
+   "leftErr": 0.01999999999999602
+  },
+  "pass": false,
+  "fails": [
+   "text recall 78%"
+  ],
+  "oursImg": "sample.ours.png",
+  "truthImg": "sample.truth.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 612,
+     "h": 792
+    },
+    "ours": {
+     "w": 612,
+     "h": 792
+    },
+    "err": {
+     "w": 0,
+     "h": 0
+    }
+   },
+   {
+    "truth": {
+     "w": 612,
+     "h": 792
+    },
+    "ours": {
+     "w": 612,
+     "h": 792
+    },
+    "err": {
+     "w": 0,
+     "h": 0
+    }
+   }
+  ]
+ }
+]

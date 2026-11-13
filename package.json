@@ -1,7 +1,7 @@
 {
   "name": "orca-file-preview",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Orca plugin: read-only previews for Office, PDF, text, CSV, HTML, SVG, GIF and BMP files.",
   "type": "module",
   "license": "MIT",

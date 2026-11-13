@@ -1,0 +1,83 @@
+[
+  {
+    "id": "R6-1",
+    "severity": "high",
+    "area": "doc",
+    "title": ".doc files from other Word versions: wrong page size, margins, spacing, indents, pagination (user report)",
+    "cause": "Section/paragraph/character properties and styles not applied; no pagination",
+    "fix": "Word 97 and 6/95 SPRMs, STSH inheritance, SEP/PAP/CHP/TAP, page layout at physical size; fidelity 3/27 -> 23/27 (all Word-made files pass)",
+    "status": "fixed"
+  },
+  {
+    "id": "R6-2",
+    "severity": "high",
+    "area": "hwp",
+    "title": "Korean .hwp/.hwpx not supported (user report)",
+    "cause": "No renderer",
+    "fix": "HWP 5 / HWPX renderer laid out from Hangul's saved line layout; fidelity 23/23",
+    "status": "fixed"
+  },
+  {
+    "id": "R6-3",
+    "severity": "medium",
+    "area": "3d",
+    "title": "3D models requested (user request)",
+    "cause": "No renderer",
+    "fix": "three.js renderer for 9 formats; verified in Orca incl. WebGL",
+    "status": "fixed"
+  },
+  {
+    "id": "R6-4",
+    "severity": "medium",
+    "area": "3d",
+    "title": "3D model off-centre in Orca",
+    "cause": "Vertical fit used the bounding sphere; canvas size depended on an injected stylesheet",
+    "fix": "Fit from projected outline, inline sizes, refit on resize",
+    "status": "fixed"
+  },
+  {
+    "id": "R6-5",
+    "severity": "high",
+    "area": "installer",
+    "title": "Windows installer hung when Orca was closed",
+    "cause": "Pipe inherited by the launched Orca app",
+    "fix": "Output via temp files",
+    "status": "fixed"
+  },
+  {
+    "id": "R6-6",
+    "severity": "medium",
+    "area": "installer",
+    "title": "Orca 1.4.248-1.4.251 have no plugin install",
+    "cause": "CLI difference",
+    "fix": "dev load fallback in installers and CI",
+    "status": "fixed"
+  },
+  {
+    "id": "R6-7",
+    "severity": "low",
+    "area": "docx",
+    "title": "Word bullets showed as boxes on Linux/macOS",
+    "cause": "Symbol-font private-use characters",
+    "fix": "Mapped to Unicode",
+    "status": "fixed"
+  },
+  {
+    "id": "R6-8",
+    "severity": "info",
+    "area": "fidelity",
+    "title": "4 .doc fixtures outside limits",
+    "cause": "sample.doc/sample-rtf.doc: Word adds a gap before Hangul in these LibreOffice-made files; sample-html.doc is HTML (text view); sample-docx.doc is a DOCX drawn by docx.ts",
+    "fix": "Documented",
+    "status": "documented"
+  },
+  {
+    "id": "R6-9",
+    "severity": "info",
+    "area": "evidence",
+    "title": "BMP looked off-centre in an Orca capture",
+    "cause": "Fixed crop box cut the editor pane",
+    "fix": "Crops now drop only the left sidebar",
+    "status": "fixed"
+  }
+]

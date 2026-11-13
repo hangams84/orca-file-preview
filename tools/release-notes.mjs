@@ -84,6 +84,18 @@ if (platforms.length) {
 if (installer.length) {
   out.push('### Installer scripts', '', installer.map(([d, okN, bad]) => `${d}: ${bad ? '❌' : '✅'} ${okN}/${okN + bad}`).join(' · '), '')
 }
+const fid = join(EV, 'fidelity', 'final', 'report.json')
+if (existsSync(fid)) {
+  const rep = JSON.parse(read(fid))
+  const by = {}
+  for (const r of rep) (by[r.fmt] ??= []).push(r)
+  out.push('### Layout fidelity vs Word / Hangul', '', '| Format | Within limits | Truth |', '| --- | --- | --- |')
+  for (const [fmt, rs] of Object.entries(by))
+    out.push(`| .${fmt} | ${rs.filter((r) => r.pass).length}/${rs.length} | ${fmt === 'doc' ? 'Word 2021 PDF export' : "Hangul's saved line layout"} |`)
+  const bad = rep.filter((r) => !r.pass)
+  if (bad.length) out.push('', `Outside limits: ${bad.map((r) => `\`${r.file.split('/').pop()}\``).join(', ')} — see [docs/evidence/fidelity/final/report.md](${repo}/blob/v${v}/docs/evidence/fidelity/final/report.md) (LibreOffice-made, HTML-as-.doc and DOCX-as-.doc fixtures).`)
+  out.push('')
+}
 if (ci) out.push('### Orca version matrix (CI)', '', ci.trim(), '')
 out.push(`Full reports, screenshots and charts: [docs/README.md](${repo}/blob/v${v}/docs/README.md) · [docs/index.html](${repo}/blob/v${v}/docs/index.html)`, '')
 out.push('## Known limitations', '')
