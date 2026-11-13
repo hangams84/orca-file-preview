@@ -3,7 +3,7 @@
   "id": "file-preview",
   "name": "File Preview",
   "version": "0.1.0",
-  "description": "Read-only previews for Word (doc, docx), PowerPoint (ppt, pptx), Excel (xls, xlsx, xlsm, ods), PDF, text, CSV/TSV, HTML, SVG, GIF and BMP files on desktop, browser and mobile clients.",
+  "description": "Read-only previews for Word (doc, docx), PowerPoint (ppt, pptx), Excel (xls, xlsx, xlsm, ods), PDF, text, CSV/TSV, HTML, SVG, GIF and BMP files, and 3D models (STL, OBJ, PLY, glTF/GLB, 3MF, OFF, FBX, COLLADA) on desktop, browser and mobile clients.",
   "engines": {
     "orca": ">=1.4.248"
   },
@@ -97,6 +97,24 @@
         "extensions": [
           ".txt",
           ".log"
+        ],
+        "entry": "editor/main.ts",
+        "contentKind": "bytes",
+        "frame": "any"
+      },
+      {
+        "id": "model3d",
+        "title": "3D Preview",
+        "extensions": [
+          ".stl",
+          ".obj",
+          ".ply",
+          ".glb",
+          ".gltf",
+          ".3mf",
+          ".off",
+          ".fbx",
+          ".dae"
         ],
         "entry": "editor/main.ts",
         "contentKind": "bytes",

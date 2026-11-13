@@ -1,1 +1,6 @@
-{ "extends": "./.orca/types/tsconfig.json", "include": ["editor"] }
+{
+  "extends": "./.orca/types/tsconfig.json",
+  "include": ["editor"],
+  // @types/three (vendor/three.d.ts) pulls in @webgpu/types, which clashes with lib.dom's own WebGPU types
+  "compilerOptions": { "skipLibCheck": true }
+}

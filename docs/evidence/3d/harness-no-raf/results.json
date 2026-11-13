@@ -1,0 +1,160 @@
+[
+  {
+    "file": "broken.glb",
+    "profile": "desktop-dark",
+    "state": "error",
+    "expected": "error",
+    "ms": 944,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ],
+    "shot": "broken.glb.desktop-dark.png"
+  },
+  {
+    "file": "broken.stl",
+    "profile": "desktop-dark",
+    "state": "error",
+    "expected": "error",
+    "ms": 828,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "broken.stl.desktop-dark.png"
+  },
+  {
+    "file": "sample-ascii.stl",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 1064,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-ascii.stl.desktop-dark.png"
+  },
+  {
+    "file": "sample-draco.glb",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 1004,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-draco.glb.desktop-dark.png"
+  },
+  {
+    "file": "sample-embedded.gltf",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 850,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample-embedded.gltf.desktop-dark.png"
+  },
+  {
+    "file": "sample.3mf",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 916,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.3mf.desktop-dark.png"
+  },
+  {
+    "file": "sample.dae",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 840,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.dae.desktop-dark.png"
+  },
+  {
+    "file": "sample.fbx",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 904,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.fbx.desktop-dark.png"
+  },
+  {
+    "file": "sample.glb",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 840,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.glb.desktop-dark.png"
+  },
+  {
+    "file": "sample.obj",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 943,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.obj.desktop-dark.png"
+  },
+  {
+    "file": "sample.off",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 938,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.off.desktop-dark.png"
+  },
+  {
+    "file": "sample.ply",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 872,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.ply.desktop-dark.png"
+  },
+  {
+    "file": "sample.stl",
+    "profile": "desktop-dark",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 932,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.stl.desktop-dark.png"
+  }
+]
