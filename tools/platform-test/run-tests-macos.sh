@@ -101,6 +101,10 @@ for attempt in 1 2 3 4; do
     sleep 2
   fi
 done
+# Size the window like the Linux runs (1600x1000) so captures are comparable; a user can drag it.
+osascript -e 'tell application "System Events" to tell process "Orca"' \
+  -e 'set position of window 1 to {0, 25}' -e 'set size of window 1 to {1600, 1000}' \
+  -e 'get size of window 1' -e 'end tell' >"$OUT/logs/window-size.log" 2>&1
 winshot "$OUT/logs/after-first-run.png"
 dialog_shown "$OUT/logs/after-first-run.png" && DISMISSED=false
 check "first-run dialog dismissed (Escape, then Skip)" "$DISMISSED" "dialog seen: $SEEN; after $attempt attempt(s); OCR of logs/after-first-run.png: $(head -c 200 "$OUT/logs/after-first-run.png.txt" | tr '\n' ' ')"
