@@ -5,6 +5,7 @@ on:
   workflow_dispatch:
   push:
     branches: [ci/macos-orca]
+    paths-ignore: ['docs/**']
 
 permissions:
   contents: read
