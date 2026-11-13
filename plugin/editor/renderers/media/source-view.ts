@@ -2,6 +2,7 @@
  *  the person scrolls so large files stay responsive. Mirrors the look of renderers/text.ts. */
 import type { PreviewContext, ZoomController } from '../../core/types.ts'
 import { createZoom, h } from '../../core/ui.ts'
+import { adoptStyle } from './styles.ts'
 
 const STYLE = `
 .fp-src { margin: 0; padding: 10px 0; font: 13px/1.55 ui-monospace, "Cascadia Mono", Consolas, "D2Coding", Menlo, monospace;
@@ -25,7 +26,7 @@ export interface SourceView {
 
 export function createSourceView(ctx: PreviewContext, text: string): SourceView {
   const { root } = ctx
-  const style = h('style', undefined, STYLE)
+  adoptStyle('source', STYLE)
   const pre = h('div', ctx.compact ? 'fp-src wrap' : 'fp-src')
   pre.setAttribute('role', 'document')
   const lines = text.split(/\r\n|\r|\n/)
@@ -44,7 +45,7 @@ export function createSourceView(ctx: PreviewContext, text: string): SourceView 
     zoom,
     show() {
       if (shown === 0) more()
-      root.replaceChildren(style, pre)
+      root.replaceChildren(pre)
       root.scrollTo(0, 0)
       root.onscroll = () => {
         if (shown < lines.length && root.scrollTop + root.clientHeight > root.scrollHeight - 600) more()

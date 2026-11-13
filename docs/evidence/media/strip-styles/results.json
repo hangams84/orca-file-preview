@@ -1,0 +1,1786 @@
+[
+  {
+    "file": "broken.pdf",
+    "profile": "desktop-dark@1x",
+    "state": "error",
+    "expected": "error",
+    "ms": 933,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ],
+    "shot": "broken.pdf.desktop-dark@1x.png"
+  },
+  {
+    "file": "sample-euckr.html",
+    "profile": "desktop-dark@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 774,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "sample-euckr.html.desktop-dark@1x.png"
+  },
+  {
+    "file": "sample-html.doc",
+    "profile": "desktop-dark@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 771,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample-html.doc.desktop-dark@1x.png"
+  },
+  {
+    "file": "sample-large.pdf",
+    "profile": "desktop-dark@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 878,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample-large.pdf.desktop-dark@1x.png"
+  },
+  {
+    "file": "sample-password.pdf",
+    "profile": "desktop-dark@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 878,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample-password.pdf.desktop-dark@1x.png"
+  },
+  {
+    "file": "sample-slides.pdf",
+    "profile": "desktop-dark@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 874,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample-slides.pdf.desktop-dark@1x.png"
+  },
+  {
+    "file": "sample-utf16.xhtml",
+    "profile": "desktop-dark@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 755,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "sample-utf16.xhtml.desktop-dark@1x.png"
+  },
+  {
+    "file": "sample-viewbox.svg",
+    "profile": "desktop-dark@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 774,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample-viewbox.svg.desktop-dark@1x.png"
+  },
+  {
+    "file": "sample.bmp",
+    "profile": "desktop-dark@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 774,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.bmp.desktop-dark@1x.png"
+  },
+  {
+    "file": "sample.gif",
+    "profile": "desktop-dark@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 768,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.gif.desktop-dark@1x.png"
+  },
+  {
+    "file": "sample.html",
+    "profile": "desktop-dark@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 761,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "sample.html.desktop-dark@1x.png"
+  },
+  {
+    "file": "sample.pdf",
+    "profile": "desktop-dark@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 1027,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample.pdf.desktop-dark@1x.png"
+  },
+  {
+    "file": "sample.svg",
+    "profile": "desktop-dark@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 774,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample.svg.desktop-dark@1x.png"
+  },
+  {
+    "file": "xss-css-escapes.html",
+    "profile": "desktop-dark@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 775,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "xss-css-escapes.html.desktop-dark@1x.png"
+  },
+  {
+    "file": "xss-fragments.html",
+    "profile": "desktop-dark@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 780,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "xss-fragments.html.desktop-dark@1x.png"
+  },
+  {
+    "file": "xss-html.doc",
+    "profile": "desktop-dark@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 775,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "xss-html.doc.desktop-dark@1x.png"
+  },
+  {
+    "file": "xss-vectors-utf16.xhtml",
+    "profile": "desktop-dark@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 783,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Blocked form submission to '' because the form's frame is sandboxed and the 'allow-forms' permission is not set.",
+      "console: Blocked form submission to '' because the form's frame is sandboxed and the 'allow-forms' permission is not set.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "xss-vectors-utf16.xhtml.desktop-dark@1x.png"
+  },
+  {
+    "file": "xss-vectors.html",
+    "profile": "desktop-dark@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 760,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Blocked form submission to '' because the form's frame is sandboxed and the 'allow-forms' permission is not set.",
+      "console: Blocked form submission to '' because the form's frame is sandboxed and the 'allow-forms' permission is not set.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "xss-vectors.html.desktop-dark@1x.png"
+  },
+  {
+    "file": "xss-vectors.svg",
+    "profile": "desktop-dark@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 763,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "xss-vectors.svg.desktop-dark@1x.png"
+  },
+  {
+    "file": "broken.pdf",
+    "profile": "desktop-dark@1.25x",
+    "state": "error",
+    "expected": "error",
+    "ms": 885,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "broken.pdf.desktop-dark@1.25x.png"
+  },
+  {
+    "file": "sample-euckr.html",
+    "profile": "desktop-dark@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 760,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "sample-euckr.html.desktop-dark@1.25x.png"
+  },
+  {
+    "file": "sample-html.doc",
+    "profile": "desktop-dark@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 779,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample-html.doc.desktop-dark@1.25x.png"
+  },
+  {
+    "file": "sample-large.pdf",
+    "profile": "desktop-dark@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 865,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample-large.pdf.desktop-dark@1.25x.png"
+  },
+  {
+    "file": "sample-password.pdf",
+    "profile": "desktop-dark@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 883,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample-password.pdf.desktop-dark@1.25x.png"
+  },
+  {
+    "file": "sample-slides.pdf",
+    "profile": "desktop-dark@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 875,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample-slides.pdf.desktop-dark@1.25x.png"
+  },
+  {
+    "file": "sample-utf16.xhtml",
+    "profile": "desktop-dark@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 757,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "sample-utf16.xhtml.desktop-dark@1.25x.png"
+  },
+  {
+    "file": "sample-viewbox.svg",
+    "profile": "desktop-dark@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 768,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample-viewbox.svg.desktop-dark@1.25x.png"
+  },
+  {
+    "file": "sample.bmp",
+    "profile": "desktop-dark@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 787,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.bmp.desktop-dark@1.25x.png"
+  },
+  {
+    "file": "sample.gif",
+    "profile": "desktop-dark@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 771,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.gif.desktop-dark@1.25x.png"
+  },
+  {
+    "file": "sample.html",
+    "profile": "desktop-dark@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 766,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "sample.html.desktop-dark@1.25x.png"
+  },
+  {
+    "file": "sample.pdf",
+    "profile": "desktop-dark@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 1005,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample.pdf.desktop-dark@1.25x.png"
+  },
+  {
+    "file": "sample.svg",
+    "profile": "desktop-dark@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 780,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample.svg.desktop-dark@1.25x.png"
+  },
+  {
+    "file": "xss-css-escapes.html",
+    "profile": "desktop-dark@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 768,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "xss-css-escapes.html.desktop-dark@1.25x.png"
+  },
+  {
+    "file": "xss-fragments.html",
+    "profile": "desktop-dark@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 767,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "xss-fragments.html.desktop-dark@1.25x.png"
+  },
+  {
+    "file": "xss-html.doc",
+    "profile": "desktop-dark@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 763,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "xss-html.doc.desktop-dark@1.25x.png"
+  },
+  {
+    "file": "xss-vectors-utf16.xhtml",
+    "profile": "desktop-dark@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 775,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Blocked form submission to '' because the form's frame is sandboxed and the 'allow-forms' permission is not set.",
+      "console: Blocked form submission to '' because the form's frame is sandboxed and the 'allow-forms' permission is not set.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "xss-vectors-utf16.xhtml.desktop-dark@1.25x.png"
+  },
+  {
+    "file": "xss-vectors.html",
+    "profile": "desktop-dark@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 761,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Blocked form submission to '' because the form's frame is sandboxed and the 'allow-forms' permission is not set.",
+      "console: Blocked form submission to '' because the form's frame is sandboxed and the 'allow-forms' permission is not set.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "xss-vectors.html.desktop-dark@1.25x.png"
+  },
+  {
+    "file": "xss-vectors.svg",
+    "profile": "desktop-dark@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 778,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "xss-vectors.svg.desktop-dark@1.25x.png"
+  },
+  {
+    "file": "broken.pdf",
+    "profile": "desktop-dark@1.5x",
+    "state": "error",
+    "expected": "error",
+    "ms": 874,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "broken.pdf.desktop-dark@1.5x.png"
+  },
+  {
+    "file": "sample-euckr.html",
+    "profile": "desktop-dark@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 764,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "sample-euckr.html.desktop-dark@1.5x.png"
+  },
+  {
+    "file": "sample-html.doc",
+    "profile": "desktop-dark@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 766,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample-html.doc.desktop-dark@1.5x.png"
+  },
+  {
+    "file": "sample-large.pdf",
+    "profile": "desktop-dark@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 860,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample-large.pdf.desktop-dark@1.5x.png"
+  },
+  {
+    "file": "sample-password.pdf",
+    "profile": "desktop-dark@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 871,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample-password.pdf.desktop-dark@1.5x.png"
+  },
+  {
+    "file": "sample-slides.pdf",
+    "profile": "desktop-dark@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 889,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample-slides.pdf.desktop-dark@1.5x.png"
+  },
+  {
+    "file": "sample-utf16.xhtml",
+    "profile": "desktop-dark@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 792,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "sample-utf16.xhtml.desktop-dark@1.5x.png"
+  },
+  {
+    "file": "sample-viewbox.svg",
+    "profile": "desktop-dark@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 781,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample-viewbox.svg.desktop-dark@1.5x.png"
+  },
+  {
+    "file": "sample.bmp",
+    "profile": "desktop-dark@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 768,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.bmp.desktop-dark@1.5x.png"
+  },
+  {
+    "file": "sample.gif",
+    "profile": "desktop-dark@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 783,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.gif.desktop-dark@1.5x.png"
+  },
+  {
+    "file": "sample.html",
+    "profile": "desktop-dark@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 774,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "sample.html.desktop-dark@1.5x.png"
+  },
+  {
+    "file": "sample.pdf",
+    "profile": "desktop-dark@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 999,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample.pdf.desktop-dark@1.5x.png"
+  },
+  {
+    "file": "sample.svg",
+    "profile": "desktop-dark@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 770,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample.svg.desktop-dark@1.5x.png"
+  },
+  {
+    "file": "xss-css-escapes.html",
+    "profile": "desktop-dark@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 778,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "xss-css-escapes.html.desktop-dark@1.5x.png"
+  },
+  {
+    "file": "xss-fragments.html",
+    "profile": "desktop-dark@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 767,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "xss-fragments.html.desktop-dark@1.5x.png"
+  },
+  {
+    "file": "xss-html.doc",
+    "profile": "desktop-dark@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 775,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "xss-html.doc.desktop-dark@1.5x.png"
+  },
+  {
+    "file": "xss-vectors-utf16.xhtml",
+    "profile": "desktop-dark@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 772,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Blocked form submission to '' because the form's frame is sandboxed and the 'allow-forms' permission is not set.",
+      "console: Blocked form submission to '' because the form's frame is sandboxed and the 'allow-forms' permission is not set.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "xss-vectors-utf16.xhtml.desktop-dark@1.5x.png"
+  },
+  {
+    "file": "xss-vectors.html",
+    "profile": "desktop-dark@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 761,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Blocked form submission to '' because the form's frame is sandboxed and the 'allow-forms' permission is not set.",
+      "console: Blocked form submission to '' because the form's frame is sandboxed and the 'allow-forms' permission is not set.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "xss-vectors.html.desktop-dark@1.5x.png"
+  },
+  {
+    "file": "xss-vectors.svg",
+    "profile": "desktop-dark@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 761,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "xss-vectors.svg.desktop-dark@1.5x.png"
+  },
+  {
+    "file": "broken.pdf",
+    "profile": "mobile-light@1x",
+    "state": "error",
+    "expected": "error",
+    "ms": 882,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "broken.pdf.mobile-light@1x.png"
+  },
+  {
+    "file": "sample-euckr.html",
+    "profile": "mobile-light@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 772,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "sample-euckr.html.mobile-light@1x.png"
+  },
+  {
+    "file": "sample-html.doc",
+    "profile": "mobile-light@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 765,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample-html.doc.mobile-light@1x.png"
+  },
+  {
+    "file": "sample-large.pdf",
+    "profile": "mobile-light@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 973,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample-large.pdf.mobile-light@1x.png"
+  },
+  {
+    "file": "sample-password.pdf",
+    "profile": "mobile-light@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 865,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample-password.pdf.mobile-light@1x.png"
+  },
+  {
+    "file": "sample-slides.pdf",
+    "profile": "mobile-light@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 992,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample-slides.pdf.mobile-light@1x.png"
+  },
+  {
+    "file": "sample-utf16.xhtml",
+    "profile": "mobile-light@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 768,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "sample-utf16.xhtml.mobile-light@1x.png"
+  },
+  {
+    "file": "sample-viewbox.svg",
+    "profile": "mobile-light@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 765,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample-viewbox.svg.mobile-light@1x.png"
+  },
+  {
+    "file": "sample.bmp",
+    "profile": "mobile-light@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 771,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.bmp.mobile-light@1x.png"
+  },
+  {
+    "file": "sample.gif",
+    "profile": "mobile-light@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 771,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.gif.mobile-light@1x.png"
+  },
+  {
+    "file": "sample.html",
+    "profile": "mobile-light@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 765,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "sample.html.mobile-light@1x.png"
+  },
+  {
+    "file": "sample.pdf",
+    "profile": "mobile-light@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 997,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample.pdf.mobile-light@1x.png"
+  },
+  {
+    "file": "sample.svg",
+    "profile": "mobile-light@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 776,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample.svg.mobile-light@1x.png"
+  },
+  {
+    "file": "xss-css-escapes.html",
+    "profile": "mobile-light@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 770,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "xss-css-escapes.html.mobile-light@1x.png"
+  },
+  {
+    "file": "xss-fragments.html",
+    "profile": "mobile-light@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 767,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "xss-fragments.html.mobile-light@1x.png"
+  },
+  {
+    "file": "xss-html.doc",
+    "profile": "mobile-light@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 765,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "xss-html.doc.mobile-light@1x.png"
+  },
+  {
+    "file": "xss-vectors-utf16.xhtml",
+    "profile": "mobile-light@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 791,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Blocked form submission to '' because the form's frame is sandboxed and the 'allow-forms' permission is not set.",
+      "console: Blocked form submission to '' because the form's frame is sandboxed and the 'allow-forms' permission is not set.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "xss-vectors-utf16.xhtml.mobile-light@1x.png"
+  },
+  {
+    "file": "xss-vectors.html",
+    "profile": "mobile-light@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 772,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Blocked form submission to '' because the form's frame is sandboxed and the 'allow-forms' permission is not set.",
+      "console: Blocked form submission to '' because the form's frame is sandboxed and the 'allow-forms' permission is not set.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "xss-vectors.html.mobile-light@1x.png"
+  },
+  {
+    "file": "xss-vectors.svg",
+    "profile": "mobile-light@1x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 770,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "xss-vectors.svg.mobile-light@1x.png"
+  },
+  {
+    "file": "broken.pdf",
+    "profile": "mobile-light@1.25x",
+    "state": "error",
+    "expected": "error",
+    "ms": 763,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "broken.pdf.mobile-light@1.25x.png"
+  },
+  {
+    "file": "sample-euckr.html",
+    "profile": "mobile-light@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 771,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "sample-euckr.html.mobile-light@1.25x.png"
+  },
+  {
+    "file": "sample-html.doc",
+    "profile": "mobile-light@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 769,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample-html.doc.mobile-light@1.25x.png"
+  },
+  {
+    "file": "sample-large.pdf",
+    "profile": "mobile-light@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 991,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample-large.pdf.mobile-light@1.25x.png"
+  },
+  {
+    "file": "sample-password.pdf",
+    "profile": "mobile-light@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 866,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample-password.pdf.mobile-light@1.25x.png"
+  },
+  {
+    "file": "sample-slides.pdf",
+    "profile": "mobile-light@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 974,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample-slides.pdf.mobile-light@1.25x.png"
+  },
+  {
+    "file": "sample-utf16.xhtml",
+    "profile": "mobile-light@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 794,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "sample-utf16.xhtml.mobile-light@1.25x.png"
+  },
+  {
+    "file": "sample-viewbox.svg",
+    "profile": "mobile-light@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 787,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample-viewbox.svg.mobile-light@1.25x.png"
+  },
+  {
+    "file": "sample.bmp",
+    "profile": "mobile-light@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 776,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.bmp.mobile-light@1.25x.png"
+  },
+  {
+    "file": "sample.gif",
+    "profile": "mobile-light@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 767,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.gif.mobile-light@1.25x.png"
+  },
+  {
+    "file": "sample.html",
+    "profile": "mobile-light@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 770,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "sample.html.mobile-light@1.25x.png"
+  },
+  {
+    "file": "sample.pdf",
+    "profile": "mobile-light@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 994,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample.pdf.mobile-light@1.25x.png"
+  },
+  {
+    "file": "sample.svg",
+    "profile": "mobile-light@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 765,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample.svg.mobile-light@1.25x.png"
+  },
+  {
+    "file": "xss-css-escapes.html",
+    "profile": "mobile-light@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 769,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "xss-css-escapes.html.mobile-light@1.25x.png"
+  },
+  {
+    "file": "xss-fragments.html",
+    "profile": "mobile-light@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 772,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "xss-fragments.html.mobile-light@1.25x.png"
+  },
+  {
+    "file": "xss-html.doc",
+    "profile": "mobile-light@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 772,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "xss-html.doc.mobile-light@1.25x.png"
+  },
+  {
+    "file": "xss-vectors-utf16.xhtml",
+    "profile": "mobile-light@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 792,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Blocked form submission to '' because the form's frame is sandboxed and the 'allow-forms' permission is not set.",
+      "console: Blocked form submission to '' because the form's frame is sandboxed and the 'allow-forms' permission is not set.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "xss-vectors-utf16.xhtml.mobile-light@1.25x.png"
+  },
+  {
+    "file": "xss-vectors.html",
+    "profile": "mobile-light@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 760,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Blocked form submission to '' because the form's frame is sandboxed and the 'allow-forms' permission is not set.",
+      "console: Blocked form submission to '' because the form's frame is sandboxed and the 'allow-forms' permission is not set.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "xss-vectors.html.mobile-light@1.25x.png"
+  },
+  {
+    "file": "xss-vectors.svg",
+    "profile": "mobile-light@1.25x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 768,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "xss-vectors.svg.mobile-light@1.25x.png"
+  },
+  {
+    "file": "broken.pdf",
+    "profile": "mobile-light@1.5x",
+    "state": "error",
+    "expected": "error",
+    "ms": 880,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "broken.pdf.mobile-light@1.5x.png"
+  },
+  {
+    "file": "sample-euckr.html",
+    "profile": "mobile-light@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 776,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "sample-euckr.html.mobile-light@1.5x.png"
+  },
+  {
+    "file": "sample-html.doc",
+    "profile": "mobile-light@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 771,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample-html.doc.mobile-light@1.5x.png"
+  },
+  {
+    "file": "sample-large.pdf",
+    "profile": "mobile-light@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 883,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample-large.pdf.mobile-light@1.5x.png"
+  },
+  {
+    "file": "sample-password.pdf",
+    "profile": "mobile-light@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 867,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample-password.pdf.mobile-light@1.5x.png"
+  },
+  {
+    "file": "sample-slides.pdf",
+    "profile": "mobile-light@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 974,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample-slides.pdf.mobile-light@1.5x.png"
+  },
+  {
+    "file": "sample-utf16.xhtml",
+    "profile": "mobile-light@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 758,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "sample-utf16.xhtml.mobile-light@1.5x.png"
+  },
+  {
+    "file": "sample-viewbox.svg",
+    "profile": "mobile-light@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 767,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample-viewbox.svg.mobile-light@1.5x.png"
+  },
+  {
+    "file": "sample.bmp",
+    "profile": "mobile-light@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 776,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.bmp.mobile-light@1.5x.png"
+  },
+  {
+    "file": "sample.gif",
+    "profile": "mobile-light@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 756,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [],
+    "shot": "sample.gif.mobile-light@1.5x.png"
+  },
+  {
+    "file": "sample.html",
+    "profile": "mobile-light@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 766,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "sample.html.mobile-light@1.5x.png"
+  },
+  {
+    "file": "sample.pdf",
+    "profile": "mobile-light@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 1004,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample.pdf.mobile-light@1.5x.png"
+  },
+  {
+    "file": "sample.svg",
+    "profile": "mobile-light@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 799,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "sample.svg.mobile-light@1.5x.png"
+  },
+  {
+    "file": "xss-css-escapes.html",
+    "profile": "mobile-light@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 797,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "xss-css-escapes.html.mobile-light@1.5x.png"
+  },
+  {
+    "file": "xss-fragments.html",
+    "profile": "mobile-light@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 853,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "xss-fragments.html.mobile-light@1.5x.png"
+  },
+  {
+    "file": "xss-html.doc",
+    "profile": "mobile-light@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 794,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "xss-html.doc.mobile-light@1.5x.png"
+  },
+  {
+    "file": "xss-vectors-utf16.xhtml",
+    "profile": "mobile-light@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 786,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Blocked form submission to '' because the form's frame is sandboxed and the 'allow-forms' permission is not set.",
+      "console: Blocked form submission to '' because the form's frame is sandboxed and the 'allow-forms' permission is not set.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "xss-vectors-utf16.xhtml.mobile-light@1.5x.png"
+  },
+  {
+    "file": "xss-vectors.html",
+    "profile": "mobile-light@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 769,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Blocked form submission to '' because the form's frame is sandboxed and the 'allow-forms' permission is not set.",
+      "console: Blocked form submission to '' because the form's frame is sandboxed and the 'allow-forms' permission is not set.",
+      "info: removed 2 renderer <style> element(s)"
+    ],
+    "shot": "xss-vectors.html.mobile-light@1.5x.png"
+  },
+  {
+    "file": "xss-vectors.svg",
+    "profile": "mobile-light@1.5x",
+    "state": "ready",
+    "expected": "ready",
+    "ms": 775,
+    "pass": true,
+    "checkError": null,
+    "overflowX": false,
+    "errors": [
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "console: Executing inline event handler violates the following Content Security Policy directive 'script-src 'self' blob:'. Either the 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+      "info: removed 1 renderer <style> element(s)"
+    ],
+    "shot": "xss-vectors.svg.mobile-light@1.5x.png"
+  }
+]

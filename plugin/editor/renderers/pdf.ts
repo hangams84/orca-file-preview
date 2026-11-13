@@ -18,6 +18,7 @@ import { formatBytes } from '../core/i18n.ts'
 import { PreviewError, type PreviewContext } from '../core/types.ts'
 import { bindZoomGestures, clampZoom, createZoom, h, showMessage } from '../core/ui.ts'
 import { isTyping, zoomKeyHandler } from './media/keys.ts'
+import { adoptStyle } from './media/styles.ts'
 
 const asset = (p: string) => new URL(`../../vendor/${p}`, import.meta.url).href
 
@@ -202,7 +203,6 @@ function passwordForm(ctx: PreviewContext, wrong: boolean, submit: (pw: string) 
   ok.type = 'submit'
   form.append(input, ok)
   box.append(
-    h('style', undefined, STYLE),
     h('h2', undefined, tr('암호로 보호된 PDF입니다', 'This PDF is password-protected')),
     h('div', wrong ? 'bad' : undefined, wrong ? tr('암호가 올바르지 않습니다. 다시 입력하세요.', 'Incorrect password. Try again.') : tr('문서를 열려면 암호를 입력하세요.', 'Enter the password to open the document.')),
     form
@@ -213,6 +213,7 @@ function passwordForm(ctx: PreviewContext, wrong: boolean, submit: (pw: string) 
     ok.disabled = true
     submit(input.value)
   })
+  adoptStyle('pdf', STYLE)
   root.replaceChildren(box)
   if (!ctx.compact) input.focus()
 }
@@ -231,12 +232,15 @@ async function mount(ctx: PreviewContext, doc: PDFDocumentProxy, cleanups: (() =
   if (signal.aborted) return
   const vp1 = first ? first.getViewport({ scale: 1 }) : { width: 595, height: 842 }
 
-  const style = h('style', undefined, STYLE)
+  adoptStyle('pdf', STYLE)
   const container = h('div', 'fp-pdf')
+  // Critical layout inline (see media/styles.ts): page boxes centred, canvases filling them.
+  container.style.cssText = `box-sizing:border-box;padding:0 ${ctx.compact ? 8 : 12}px ${ctx.compact ? 8 : 12}px`
   const slots: Slot[] = []
   for (let n = 1; n <= N; n++) {
     const el = h('div', 'fp-page fp-pdf-page')
     el.dataset.page = String(n)
+    el.style.cssText = `position:relative;overflow:hidden;margin:${ctx.compact ? 8 : 12}px auto`
     el.setAttribute('role', 'img')
     el.setAttribute('aria-label', tr(`${n}쪽`, `Page ${n}`))
     slots.push({ n, el, w: vp1.width, h: vp1.height, drawnAt: 0, visible: false })
@@ -305,6 +309,7 @@ async function mount(ctx: PreviewContext, doc: PDFDocumentProxy, cleanups: (() =
     let ratio = window.devicePixelRatio || 1
     if (vp.width * vp.height * ratio * ratio > MAX_PIXELS) ratio = Math.sqrt(MAX_PIXELS / (vp.width * vp.height))
     const canvas = h('canvas')
+    canvas.style.cssText = 'position:absolute;left:0;top:0;width:100%;height:100%;display:block'
     canvas.width = Math.max(1, Math.floor(vp.width * ratio))
     canvas.height = Math.max(1, Math.floor(vp.height * ratio))
     // pdf.js paces 'display' renders with requestAnimationFrame, which is paused while Orca's
@@ -465,6 +470,7 @@ async function mount(ctx: PreviewContext, doc: PDFDocumentProxy, cleanups: (() =
   const prev = toolbar.button({ label: '‹', title: tr('이전 페이지', 'Previous page'), onClick: () => go(current - 1) })
   const next = toolbar.button({ label: '›', title: tr('다음 페이지', 'Next page'), onClick: () => go(current + 1) })
   const input = h('input', 'fp-pdf-nav-input')
+  input.style.width = ctx.compact ? '3em' : '3.4em'
   input.type = 'text'
   input.inputMode = 'numeric'
   input.enterKeyHint = 'go'
@@ -522,7 +528,7 @@ async function mount(ctx: PreviewContext, doc: PDFDocumentProxy, cleanups: (() =
   window.addEventListener('keydown', onKey, { signal })
 
   // ---- show --------------------------------------------------------------------------------
-  root.replaceChildren(style, container)
+  root.replaceChildren(container)
   layout()
   setAuto(autoScale())
   clearTimeout(redrawTimer)

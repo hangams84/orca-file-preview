@@ -4,6 +4,7 @@
  *  frame delays. Returns null where ImageDecoder is missing; the GIF then just animates. */
 import type { PreviewContext } from '../../core/types.ts'
 import { h } from '../../core/ui.ts'
+import { styleLayer } from './image-view.ts'
 
 interface DecodedFrame {
   image: CanvasImageSource & { close(): void }
@@ -40,7 +41,8 @@ export async function createGifPlayer(
   const canvas = h('canvas')
   canvas.width = size.width
   canvas.height = size.height
-  canvas.hidden = true
+  styleLayer(canvas, true)
+  canvas.style.display = 'none'
   box.append(canvas)
   const g = canvas.getContext('2d')
   let decoder: Decoder | null = null
@@ -89,7 +91,7 @@ export async function createGifPlayer(
           while (frame < delays.length - 1 && t >= delays[frame]) t -= delays[frame++]
           await draw(frame)
           ours = true
-          canvas.hidden = false
+          canvas.style.display = 'block'
           img.style.visibility = 'hidden'
         }
       } else {

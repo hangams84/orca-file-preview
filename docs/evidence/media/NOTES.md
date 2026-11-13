@@ -281,3 +281,22 @@ Verification: `npx tsc -p plugin --noEmit` passes; media harness 24/24 normal an
 - Verification (desktop-dark + mobile-light unless noted): media `--only pdf,gif,bmp,svg,html` 38/38 normal, 38/38
   `--no-raf`, 38/38 `--old-engine`; all fixtures `--old-engine` 102/102; fuzz (desktop-dark) 113/113
   (`fuzz/`); xss 16/16 normal and 16/16 `--no-raf` (`security/`); `npx tsc -p plugin --noEmit` passes.
+
+## Round 5: image "off-centre at 125 %" report
+
+- **Cause: not a defect.** A temporary `[fp-diag]` log run in Orca (Windows 11, build 4fbf30f) showed a 2053-px-wide
+  editor pane, `devicePixelRatio` 1, in-body `<style>` applied, image box at 707/272 = centred. The evidence image
+  was a fixed 1685-px crop of that pane (removed from master). The diagnostic is removed again.
+- **Kept as low-risk hardening** (the 3D renderer did hit a lost-stylesheet case, so media no longer depends on it):
+  - `media/image-view.ts` (+ `gif-player.ts`): stage, box, image/canvas layers and backdrops are inline styles; the fit
+    uses the content area's displayed box clipped to the visible viewport, and refits on window and visualViewport
+    resize and again 60 ms / 400 ms after load.
+  - `pdf.ts` page boxes, canvases and the page box width, and `html.ts` wrapper/iframe have inline critical layout.
+  - Remaining renderer CSS (pdf, html, source view) is installed once in `document.head` (`media/styles.ts`), like
+    core's `installStyles`, instead of an in-body `<style>`.
+- **Harness** (`tools/harness/run.mjs`): `--strip-styles` removes every renderer `<style>` after load (keeps core's),
+  and every gif/bmp/svg must be centred (±3 %) and fitted, at load and after the pane shrinks to 70 %×80 %. The old
+  image-view fails it at DPR 1.25 (SVG at 15.7 %/15.9 %, GIF overflowing); the new one passes.
+- Verification, `--only pdf,gif,bmp,svg,html`, desktop-dark + mobile-light: normal 38/38, `--no-raf` 38/38,
+  `--old-engine` 38/38, `--engine webkit` 38/38, `--strip-styles --dpr 1,1.25,1.5` 114/114, `--dpr 1.25,1.5` 76/76;
+  `npx tsc -p plugin --noEmit` passes.
