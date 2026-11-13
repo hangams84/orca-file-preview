@@ -208,10 +208,10 @@ if (!args['skip-orca']) {
   })
 
   // Finished renders from real tabs: open, wait, capture the window, crop to the editor area
-  // (the crop box assumes the left/right sidebars at their default widths; --crop x0,y0,x1,y1).
+  // (drops the left sidebar, which lists the person's projects; --crop x0,y0,x1,y1, 0 = to the edge).
   // Curated so only a few tabs stay open in the person's Orca.
   const curated = (typeof args.window === 'string' ? args.window.split(',') : ['sample.docx', 'sample.pptx', 'sample.xlsx', 'sample.pdf', 'sample.doc', 'sample.ppt'])
-  const crop = typeof args.crop === 'string' ? args.crop.split(',').map(Number) : [280, 0, 1965, 1005]
+  const crop = typeof args.crop === 'string' ? args.crop.split(',').map(Number) : [280, 0, 0, 0] // drop the left sidebar only
   const py = process.env.FP_PYTHON
   for (const f of curated) {
     const raw = join(OUT, 'orca', `${f}.window-raw.png`)
