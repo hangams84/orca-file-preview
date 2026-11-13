@@ -47,7 +47,7 @@
   {
     "name": "auto-rotate animates, and stops again",
     "ok": true,
-    "detail": "30 frames in 0.5 s while on, 0 after off"
+    "detail": "31 frames in 0.5 s while on, 0 after off"
   },
   {
     "name": "theme switch repaints the background",
@@ -80,6 +80,16 @@
     "detail": ""
   },
   {
+    "name": "DPR 1.25 without our stylesheet, sample.glb: centred, canvas box = pane, also after a resize",
+    "ok": true,
+    "detail": "centre 50.0%/50.0% → after resize 50.0%/50.0%; canvas 1348×724 in pane 1348×724 (buffer 1685×905) → 900×584 in 900×584 (buffer 1125×730)"
+  },
+  {
+    "name": "DPR 1.25 without our stylesheet, sample.stl: centred, canvas box = pane, also after a resize",
+    "ok": true,
+    "detail": "centre 50.0%/50.0% → after resize 50.0%/50.0%; canvas 1348×724 in pane 1348×724 (buffer 1685×905) → 900×584 in 900×584 (buffer 1125×730)"
+  },
+  {
     "name": "no WebGL: friendly 'webgl' message",
     "ok": true,
     "detail": "Cannot preview this fileWebGL is not available here, so the 3D preview cannot be shown. Graphics acceleration may be turned off or unsupported by this browser.D"
@@ -87,6 +97,6 @@
   {
     "name": "large mesh large-2M.stl: loads, main thread never blocked > 1 s",
     "ok": true,
-    "detail": "state=ready, 1870 ms to ready, longest main-thread stall 327 ms, orbit step 108 ms · STL (binary) · 2,000,000 triangles · 6,000,000 vertices · 131.3 × 137.1 × 63.99 (units as stored) · 95.4 MB"
+    "detail": "state=ready, 1685 ms to ready, longest main-thread stall 348 ms, orbit step 128 ms · STL (binary) · 2,000,000 triangles · 6,000,000 vertices · 131.3 × 137.1 × 63.99 (units as stored) · 95.4 MB"
   }
 ]

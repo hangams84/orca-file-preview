@@ -97,11 +97,12 @@ URL is never requested: it becomes a 1×1 white PNG and is listed in the note.
 | `orca plugin validate` / `orca plugin check` | ✅ valid, no issues |
 | `orca plugin test` (from a copy on C:) | ✅ 88/88, including the new `model3d/format.test.ts` and `model3d/parse.test.ts` |
 | Harness: desktop-dark, desktop-light, mobile-light, tablet-dark (`harness/`) | ✅ 52/52, ready in 0.8–1.1 s |
+| Harness `--dpr 1.25,1.5,1.75`, desktop-dark and mobile-light (`harness-dpr/`) | ✅ 78/78 |
 | Harness `--no-raf` (`harness-no-raf/`) | ✅ 13/13: models are drawn without animation frames |
-| Harness `--engine webkit`, desktop-dark and mobile-light (`harness-webkit/`) | ✅ 26/26: Playwright WebKit has WebGL 2, so every model renders (no `webgl` fallback was needed) |
+| Harness `--engine webkit`, desktop-dark and mobile-light at DPR 1 and 1.25 (`harness-webkit/`) | ✅ 52/52: Playwright WebKit has WebGL 2, so every model renders (no `webgl` fallback was needed) |
 | Harness `--old-engine`, mobile-light (`harness-old-engine/`) | ✅ 13/13: the bundle and the worker do not depend on `structuredClone`, `findLast` or `Promise.withResolvers` |
 | Fuzz (`node tools/make-fuzz.mjs`; 92 damaged 3D files: truncated, bit-flipped, zeroed, random, empty) (`harness-fuzz/`) | ✅ 92/92 settle (23 still render, 69 show a friendly error), with no hangs or page errors |
-| Interaction (`node tools/harness/model3d-interact.mjs`) (`interact/`) | ✅ 18/18, see below |
+| Interaction (`node tools/harness/model3d-interact.mjs`) (`interact/`) | ✅ 20/20, see below |
 
 The interaction checks in `interact/results.json`:
 
@@ -133,3 +134,41 @@ On real old engines that have WebGL 1 but no WebGL 2 (iOS before 15), three r17x
 - glTF animations and skinning: the preview shows the static pose.
 - Textures referenced from OBJ, FBX and COLLADA files: they are separate files, so they are not loaded.
 - KTX2/Basis textures: no transcoder is vendored.
+
+## Fix: model off-centre in Orca at 125 % display scaling
+
+### Symptom
+
+In the real Orca app (Windows 11, display scaling 125 %, devicePixelRatio 1.25), the model was drawn about 1.2× too large and pushed towards the bottom-right of the pane. `sample.glb` sat at about 58 %/67 %, and `sample.stl` about 61 % across. Screenshots: `orca-sample.glb.window.png` and `orca-sample.stl.window.png` in this folder.
+
+### Cause
+
+The canvas was displayed at its **drawing-buffer** size instead of the pane's size: 1685×905 CSS px in a 1348×724 pane, which is 1.25×. Two things combined:
+
+- Its `width: 100%; height: 100%` came only from the renderer's injected `<style>`, and in Orca's frame that rule did not take effect.
+- `setSize(w, h, false)` does not set a style.
+
+The overflow-hidden pane then cropped the oversized canvas from the top-left. That is exactly the shift seen in Orca.
+
+I reproduced it with the new interaction case `DPR 1.25 without our stylesheet`, which removes the renderer's in-body `<style>` at DPR 1.25. The old renderer gives canvas 1685×905 in pane 1348×724, with the model centre at 62.5 %/66 % for the GLB and 62.5 %/57 % for the STL. DPR alone, with the stylesheet working, does not reproduce it.
+
+A second, smaller problem showed up too. The fit centred the 3D bounding box rather than the drawn outline, so even in the harness the GLB's outline sat at 57.7 % vertically because of the perspective.
+
+### Fix (`renderers/model3d.ts`)
+
+1. The stage and canvas sizes are pinned **inline** (`position:absolute; inset/left/top 0; width/height 100%`), so no host stylesheet can let the canvas fall back to its buffer size.
+2. The drawing-buffer size is computed from the canvas's own displayed box (`getBoundingClientRect`) times the pixel ratio. `camera.aspect` is updated in the same place. A ResizeObserver watches both the pane and the canvas.
+3. Until the person moves the camera, every resize re-fits the model. This covers a pane that gets its final size after the first draw.
+4. The fit frames the model's **projected outline** instead of its bounding sphere:
+   - It projects up to 20,000 sampled vertices and runs six iterations.
+   - It centres the outline exactly and fills 75 % of the shorter side of the pane.
+   - The orbit target becomes the outline's centre.
+
+### Checks
+
+- `tools/harness/run.mjs` has two additions:
+  - A `--dpr 1.25,1.5,1.75` option, which runs every profile at those device pixel ratios.
+  - For every 3D fixture, a pixel-based centring check. It takes a real screenshot of the pane and finds the bounding box of the non-background pixels. The centre must be within 3 % of the pane centre, both at load and after the viewport shrinks to 70 %×80 %.
+- `model3d-interact.mjs` has the stylesheet-removal case above. The old renderer fails it; the new one passes: 50.0 %/50.0 % before and after the resize, and the canvas box equals the pane.
+
+The coordinator still needs to confirm the fix in the real Orca app. It is still unknown why the injected `<style>` loses in Orca's frame, and the inline sizes make the canvas independent of that. Other renderers that put a `<style>` inside the content area (for example `media/image-view.ts`) may be worth checking in Orca for the same reason.
