@@ -23,16 +23,28 @@ check() { # name ok detail
 winshot() { # out.png -> captures Orca's whole window (never raises it)
   $ORCA plugin shot "$KEY" --window --out "$1" --json >"$1.json" 2>&1
 }
-# Accessibility query for the first-run dialog's "Set up later" button (prints the snapshot JSON).
-dialog_state() {
-  $ORCA computer get-app-state --app Orca --query "Set up later" --no-screenshot --json 2>&1
+# Text in a window capture, read by macOS Vision (tools/platform-test/ocr.swift). Orca's own
+# accessibility tree needs a permission the runner does not grant, so the screen is checked by OCR.
+OCR_BIN="$WORK/ocr"
+swiftc -O "$SRC/tools/platform-test/ocr.swift" -o "$OCR_BIN" >"$OUT/logs/ocr-build.log" 2>&1
+ocr() { "$OCR_BIN" "$@" 2>&1; }
+dialog_shown() { # png -> 0 when the first-run dialog or its "Skip onboarding?" prompt is on it
+  ocr "$1" >"$1.txt"
+  grep -qiE "work with agents|Skip onboarding|Set up later" "$1.txt"
 }
 
 # --- Orca desktop app -----------------------------------------------------------------------------
-$ORCA open --json >"$OUT/logs/open.json" 2>&1
-OPEN_OK=$(jq -r '.ok // false' "$OUT/logs/open.json" 2>/dev/null || echo false)
+# A cold first launch can outlast `orca open`'s own wait (runtime_timeout on the first try): retry.
+OPEN_OK=false
+for attempt in 1 2 3; do
+  $ORCA open --json >"$OUT/logs/open-$attempt.json" 2>&1
+  cp "$OUT/logs/open-$attempt.json" "$OUT/logs/open.json"
+  OPEN_OK=$(jq -r '.ok // false' "$OUT/logs/open.json" 2>/dev/null || echo false)
+  [ "$OPEN_OK" = true ] && break
+  sleep 5
+done
 VERSION=$($ORCA --version 2>/dev/null | tail -1)
-check "Orca $VERSION desktop starts (macOS GUI session)" "$OPEN_OK" "$(jq -c '.result.app // .error // empty' "$OUT/logs/open.json" 2>/dev/null)"
+check "Orca $VERSION desktop starts (macOS GUI session)" "$OPEN_OK" "attempt $attempt: $(jq -c '.result.app // .error // empty' "$OUT/logs/open.json" 2>/dev/null)"
 for i in $(seq 1 30); do # wait for the runtime graph
   st=$($ORCA status --json 2>/dev/null | jq -r '.result.runtime.state // empty')
   [ "$st" = ready ] && break
@@ -65,50 +77,33 @@ EDITORS=$(jq -r --arg k "$KEY" '.result.plugins[] | select(.pluginKey==$k) | .cu
 check "plugin listed and enabled" "$([ -n "$STATUS" ] && [ "$STATUS" != disabled ] && echo true || echo false)" "status=$STATUS editors=$EDITORS"
 
 # --- First-run dialog ("How do you want to work with agents?"): dismiss it like a user ----------
-# Tries, in order, until the accessibility tree no longer shows "Set up later": (a) click the button
-# found in Orca's accessibility tree, (b) Escape through Orca's computer-use provider, (c) Escape
-# through System Events. Each step is logged and followed by a window capture.
+# Escape on the dialog asks "Skip onboarding?" with Skip focused; Return then confirms Skip.
+# Keys go through System Events (the runner grants it Accessibility); each step is captured and
+# read by OCR.
 FR="$OUT/logs/first-run"
 mkdir -p "$FR"
 sleep 3
-winshot "$FR/0-initial.png"
-osascript -e 'tell application "Orca" to activate' >"$FR/activate.log" 2>&1
-sleep 1
-$ORCA computer capabilities --json >"$FR/capabilities.json" 2>&1
-$ORCA computer permissions --json >"$FR/permissions.json" 2>&1
-$ORCA computer list-windows --app Orca --json >"$FR/list-windows.json" 2>&1
-dialog_state >"$FR/state-0.json"
-# The accessibility tree is trusted only once it has shown the button: an empty tree proves nothing.
-AX_SAW=false
-jq -r '.result.snapshot.treeText // ""' "$FR/state-0.json" | grep -q "Set up later" && AX_SAW=true
-DISMISSED_BY=""
-step=0
-for method in ax-click computer-escape sysevents-escape; do
-  [ -n "$DISMISSED_BY" ] && break
-  step=$((step + 1))
-  case $method in
-    ax-click)
-      idx=$(jq -r '.result.snapshot.treeText // ""' "$FR/state-0.json" | grep "Set up later" | head -1 | sed -E 's/^[^0-9]*([0-9]+).*/\1/')
-      if [ -n "$idx" ]; then
-        $ORCA computer click --app Orca --element-index "$idx" --no-screenshot --json >"$FR/$step-$method.json" 2>&1
-      else
-        echo "no element index in tree" >"$FR/$step-$method.json"
-      fi ;;
-    computer-escape)
-      $ORCA computer press-key --app Orca --key Escape --restore-window --no-screenshot --json >"$FR/$step-$method.json" 2>&1 ;;
-    sysevents-escape)
-      osascript -e 'tell application "Orca" to activate' -e 'delay 0.5'         -e 'tell application "System Events" to key code 53' >"$FR/$step-$method.json" 2>&1 ;;
-  esac
-  sleep 2
-  winshot "$FR/$step-$method.png"
-  dialog_state >"$FR/state-$step.json"
-  if [ $AX_SAW = true ] && ! jq -r '.result.snapshot.treeText // ""' "$FR/state-$step.json" | grep -q "Set up later"; then
-    DISMISSED_BY=$method
+$ORCA computer permissions --json >"$FR/computer-permissions.json" 2>&1
+DISMISSED=false; SEEN=false
+for attempt in 1 2 3 4; do
+  winshot "$FR/$attempt-before.png"
+  if ! dialog_shown "$FR/$attempt-before.png"; then
+    DISMISSED=true
+    break
+  fi
+  SEEN=true
+  osascript -e 'tell application "Orca" to activate' -e 'delay 1' \
+    -e 'tell application "System Events" to key code 53' >"$FR/$attempt-escape.log" 2>&1
+  sleep 1.5
+  winshot "$FR/$attempt-after-escape.png"
+  if grep -qi "Skip onboarding" <(ocr "$FR/$attempt-after-escape.png"); then
+    osascript -e 'tell application "System Events" to key code 36' >"$FR/$attempt-return.log" 2>&1
+    sleep 2
   fi
 done
-[ -z "$DISMISSED_BY" ] && [ $AX_SAW = false ] && DISMISSED_BY="unverified (accessibility tree never showed the dialog; see logs/first-run PNGs)"
 winshot "$OUT/logs/after-first-run.png"
-check "first-run dialog dismissed" "$([ -n "$DISMISSED_BY" ] && echo true || echo false)" "by: ${DISMISSED_BY:-nothing worked (see logs/first-run)}"
+dialog_shown "$OUT/logs/after-first-run.png" && DISMISSED=false
+check "first-run dialog dismissed (Escape, then Skip)" "$DISMISSED" "dialog seen: $SEEN; after $attempt attempt(s); OCR of logs/after-first-run.png: $(head -c 200 "$OUT/logs/after-first-run.png.txt" | tr '\n' ' ')"
 
 # --- Static checks and unit tests on this OS -----------------------------------------------------
 $ORCA plugin validate "$WORK/file-preview" --json >"$OUT/logs/validate.json" 2>&1
@@ -149,9 +144,9 @@ check "editors mount in Orca without errors" "$([ $mounted = $total ] && echo tr
 $ORCA plugin open "$KEY" --editor "$WORK/samples/sample.docx" --json >"$OUT/logs/open-editor.json" 2>&1
 sleep 6
 winshot "$OUT/logs/editor-visible.png"
-dialog_state >"$OUT/logs/editor-visible-state.json"
-VIS_OK=$([ -s "$OUT/logs/editor-visible.png" ] && ! jq -r '.result.snapshot.treeText // ""' "$OUT/logs/editor-visible-state.json" | grep -q "Set up later" && echo true || echo false)
-check "editor visible before window captures (no dialog)" "$VIS_OK" "logs/editor-visible.png"
+VIS_OK=false
+[ -s "$OUT/logs/editor-visible.png" ] && ! dialog_shown "$OUT/logs/editor-visible.png" && VIS_OK=true
+check "editor visible before window captures (no dialog, OCR)" "$VIS_OK" "logs/editor-visible.png: $(head -c 200 "$OUT/logs/editor-visible.png.txt" | tr '\n' ' ')"
 wins=0; wins_ok=0
 for f in sample.docx sample.pptx sample.xlsx sample.pdf sample.doc sample.ppt sample-utf16.xhtml sample.gif; do
   [ -f "$WORK/samples/$f" ] || continue
@@ -161,6 +156,21 @@ for f in sample.docx sample.pptx sample.xlsx sample.pdf sample.doc sample.ppt sa
   if $ORCA plugin shot "$KEY" --window --out "$OUT/window/$f.png" --json >/dev/null 2>&1; then wins_ok=$((wins_ok + 1)); fi
 done
 check "finished renders captured from open tabs" "$([ $wins_ok = $wins ] && echo true || echo false)" "$wins_ok / $wins window captures"
+# OCR every finished render: no dialog over it, and Hangul text where the fixture has Korean text.
+mkdir -p "$OUT/window-ocr"
+ocr_ok=0; ocr_n=0; ocr_detail=""
+for png in "$OUT"/window/*.png; do
+  [ -f "$png" ] || continue
+  name=$(basename "$png" .png)
+  ocr "$png" >"$OUT/window-ocr/$name.txt"
+  hangul=$(perl -CSD -ne '$n += () = /\p{Hangul}/g; END { print $n+0 }' "$OUT/window-ocr/$name.txt")
+  dlg=no; grep -qiE "work with agents|Skip onboarding" "$OUT/window-ocr/$name.txt" && dlg=yes
+  ocr_n=$((ocr_n + 1))
+  case "$name" in sample.gif) need=0 ;; *) need=1 ;; esac
+  if [ $dlg = no ] && [ "$hangul" -ge $need ]; then ocr_ok=$((ocr_ok + 1)); fi
+  ocr_detail="$ocr_detail $name:hangul=$hangul,dialog=$dlg;"
+done
+check "finished renders show Korean text, no dialog (OCR)" "$([ $ocr_ok = $ocr_n ] && [ $ocr_n -gt 0 ] && echo true || echo false)" "$ocr_ok / $ocr_n:$ocr_detail"
 
 $ORCA plugin logs "$KEY" >"$OUT/logs/plugin.log" 2>&1
 ERRS=$(grep -c ' error ' "$OUT/logs/plugin.log" || true)
