@@ -59,18 +59,20 @@ rm -rf "$WORK/file-preview/.orca"
 cp -R "$SRC/samples" "$WORK/samples"
 rm -rf "$WORK/samples/fuzz" "$WORK/samples/perf"
 $ORCA plugin system on --json >/dev/null 2>&1
-$ORCA plugin install "$WORK/file-preview" --json >"$OUT/logs/install-1.json" 2>&1
+# Orca 1.4.248-1.4.251 have no `plugin install`; they register a folder with `plugin dev load`.
+if $ORCA plugin install --help 2>&1 | grep -q 'Unknown command'; then INSTALL_VERB="dev load"; else INSTALL_VERB="install"; fi
+$ORCA plugin $INSTALL_VERB "$WORK/file-preview" --json >"$OUT/logs/install-1.json" 2>&1
 FP=$(jq -r '.error.data.approvalFingerprint // empty' "$OUT/logs/install-1.json")
 if [ -n "$FP" ]; then
   jq -c '.error.data.grants' "$OUT/logs/install-1.json" >"$OUT/logs/grants.json"
-  $ORCA plugin install "$WORK/file-preview" --approve "$FP" --json >"$OUT/logs/install-2.json" 2>&1
+  $ORCA plugin $INSTALL_VERB "$WORK/file-preview" --approve "$FP" --json >"$OUT/logs/install-2.json" 2>&1
   INSTALL_OK=$(jq -r '.ok // false' "$OUT/logs/install-2.json")
   INSTALL_LOG="$OUT/logs/install-2.json"
 else
   INSTALL_OK=$(jq -r '.ok // false' "$OUT/logs/install-1.json")
   INSTALL_LOG="$OUT/logs/install-1.json"
 fi
-check "plugin install (folder, approval $FP)" "$INSTALL_OK" "$(jq -c '.error.message // .result.plugin.status // .result.status // empty' "$INSTALL_LOG" 2>/dev/null | head -1)"
+check "plugin $INSTALL_VERB (folder, approval $FP)" "$INSTALL_OK" "$(jq -c '.error.message // .result.plugin.status // .result.status // empty' "$INSTALL_LOG" 2>/dev/null | head -1)"
 $ORCA plugin list --json >"$OUT/logs/plugin-list.json" 2>&1
 STATUS=$(jq -r --arg k "$KEY" '.result.plugins[] | select(.pluginKey==$k) | .status' "$OUT/logs/plugin-list.json" 2>/dev/null)
 EDITORS=$(jq -r --arg k "$KEY" '.result.plugins[] | select(.pluginKey==$k) | .customEditors | length' "$OUT/logs/plugin-list.json" 2>/dev/null)

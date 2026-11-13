@@ -94,6 +94,10 @@ with_approval() {
   return 0
 }
 
+# Orca 1.4.248-1.4.251 have no `plugin install`/`uninstall`: there the folder is registered with
+# `plugin dev load` (files load from the folder, so keep it).
+can_install() { ! "$ORCA" plugin install --help 2>&1 | grep -q 'Unknown command'; }
+
 resolve_source() {
   if [ -n "$SOURCE" ]; then
     case "$SOURCE" in
@@ -110,6 +114,21 @@ do_install() {
   say "Source / 설치 원본: $SOURCE"
   existing=$(plugin_lines | grep -v ', dev' | awk '{print $1}' | head -1)
   dev=$(plugin_lines | grep ', dev' | awk '{print $1}' | head -1)
+  if ! can_install; then
+    case "$SOURCE" in http*|git@*|ssh://*) die "This Orca (1.4.248-1.4.251) has no 'plugin install': install from the package folder or update Orca to 1.4.252+. / 이 Orca 버전은 폴더 설치만 지원합니다." ;; esac
+    say "This Orca (1.4.248-1.4.251) has no 'plugin install': registering the folder with 'plugin dev load' (keep this folder)."
+    say "이 Orca 버전은 개발 폴더 등록 방식으로 설치합니다(폴더를 지우지 마세요)."
+    if [ -n "$dev" ]; then
+      say "Already registered: reloading. / 이미 등록되어 있어 다시 읽어 옵니다."
+      "$ORCA" plugin dev reload >/dev/null 2>&1
+    else
+      with_approval "$ORCA" plugin dev load "$SOURCE" || die "Registration failed. / 등록 실패"
+    fi
+    line=$(plugin_lines | head -1)
+    [ -n "$line" ] || die "Orca does not list the plugin after registering. / 등록 후 목록에 없습니다."
+    say ""; say "Installed / 설치 완료: $line"
+    return 0
+  fi
   if [ -n "$dev" ] && [ -z "$existing" ] && case "$SOURCE" in http*|git@*|ssh://*) false ;; *) true ;; esac; then
     die "A development copy ($dev) is loaded from a folder. Remove it first: \"$ORCA\" plugin dev unload <that folder>
       개발용으로 등록된 사본($dev)이 있습니다. 먼저 'plugin dev unload <폴더>' 로 해제하세요."
@@ -131,6 +150,13 @@ do_install() {
 
 do_uninstall() {
   find_orca; ensure_running
+  if ! can_install; then
+    if [ -z "$(plugin_lines)" ]; then say "File Preview is not installed. / 설치되어 있지 않습니다."; return 0; fi
+    confirm "Remove File Preview from Orca? / Orca에서 제거할까요?" || die "Cancelled. / 취소되었습니다."
+    "$ORCA" plugin dev unload "$PKG_ROOT/plugin" >/dev/null 2>&1 || die "Could not unregister $PKG_ROOT/plugin"
+    say "Removed / 제거됨: $PKG_ROOT/plugin"
+    return 0
+  fi
   keys=$(plugin_lines | grep -v ', dev' | awk '{print $1}')
   dev=$(plugin_lines | grep ', dev' | awk '{print $1}')
   if [ -z "$keys" ]; then

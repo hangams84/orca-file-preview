@@ -42,25 +42,45 @@ function Find-Orca {
 
 # Runs the Orca CLI and returns @{ Code; Text }. Native stderr is merged without PowerShell wrapping it.
 function Invoke-Orca([string[]]$Arguments) {
-  $psi = New-Object System.Diagnostics.ProcessStartInfo
-  $psi.FileName = $script:Orca
-  $psi.Arguments = ($Arguments | ForEach-Object { if ($_ -match '[\s"]') { '"' + ($_ -replace '"', '\"') + '"' } else { $_ } }) -join ' '
-  $psi.RedirectStandardOutput = $true
-  $psi.RedirectStandardError = $true
-  $psi.UseShellExecute = $false
-  $psi.StandardOutputEncoding = [Text.Encoding]::UTF8
-  $psi.StandardErrorEncoding = [Text.Encoding]::UTF8
-  $p = [Diagnostics.Process]::Start($psi)
-  $out = $p.StandardOutput.ReadToEndAsync()
-  $err = $p.StandardError.ReadToEnd()
-  $p.WaitForExit()
-  return @{ Code = $p.ExitCode; Text = ($out.Result + $err).Trim() }
+  # Output goes to temp files, not pipes: `orca open` launches the Orca app, which inherits the
+  # handles and would keep a pipe open (reading to the end would then never finish).
+  $outFile = [IO.Path]::GetTempFileName()
+  $errFile = [IO.Path]::GetTempFileName()
+  try {
+    $argLine = ($Arguments | ForEach-Object { if ($_ -match '[\s"]') { '"' + ($_ -replace '"', '\"') + '"' } else { $_ } }) -join ' '
+    $p = Start-Process -FilePath $script:Orca -ArgumentList $argLine -NoNewWindow -PassThru `
+      -RedirectStandardOutput $outFile -RedirectStandardError $errFile
+    [void]$p.Handle # keeps the exit code readable after the process ends
+    $p.WaitForExit()
+    $text = ([IO.File]::ReadAllText($outFile, [Text.Encoding]::UTF8) + [IO.File]::ReadAllText($errFile, [Text.Encoding]::UTF8)).Trim()
+    return @{ Code = $p.ExitCode; Text = $text }
+  } finally {
+    Remove-Item $outFile, $errFile -Force -ErrorAction SilentlyContinue
+  }
 }
 
 function Confirm-Step([string]$Question) {
   if ($Yes) { return $true }
   $answer = Read-Host "$Question [y/N]"
   return $answer -match '^(y|yes|예|네)$'
+}
+
+# Orca is an Electron app: Electron 23+ (and so every Orca release) needs Windows 10 or later.
+# FP_TEST_OS_VERSION overrides the detected version so CI can exercise this message.
+function Assert-Windows {
+  $v = if ($env:FP_TEST_OS_VERSION) { [version]$env:FP_TEST_OS_VERSION } else { [Environment]::OSVersion.Version }
+  if ($v.Major -lt 10) {
+    $name = switch ("$($v.Major).$($v.Minor)") { '6.1' { 'Windows 7' } '6.2' { 'Windows 8' } '6.3' { 'Windows 8.1' } default { "Windows $v" } }
+    Fail ("Orca needs Windows 10 or later; this PC runs $name ($v). Orca and this plugin cannot be installed here.`n" +
+      "       Orca는 Windows 10 이상에서만 동작합니다. 이 PC는 $name ($v) 입니다.")
+  }
+}
+
+# Orca 1.4.248-1.4.251 have no `plugin install`/`uninstall`: there the folder is registered with
+# `plugin dev load` (files load from the folder, so keep it).
+function Test-CanInstall {
+  $r = Invoke-Orca @('plugin', 'install', '--help')
+  return -not ($r.Text -match 'Unknown command')
 }
 
 function Ensure-Running {
@@ -107,16 +127,30 @@ function Resolve-Source {
 }
 
 function Do-Install {
-  Find-Orca; Ensure-Running; Resolve-Source
+  Assert-Windows; Find-Orca; Ensure-Running; Resolve-Source
   Say ("Orca: " + (Invoke-Orca @('--version')).Text.Split("`n")[-1] + "  ($($script:Orca))")
   Say "Source / 설치 원본: $($script:Source)"
   $lines = Get-PluginLines
   $existing = @($lines | Where-Object { $_ -notmatch ', dev' } | ForEach-Object { ($_ -split ' ')[0] })
   $dev = @($lines | Where-Object { $_ -match ', dev' } | ForEach-Object { ($_ -split ' ')[0] })
   $isFolder = $script:Source -notmatch '^(https?://|git@|ssh://)'
-  if ($dev.Count -gt 0 -and $existing.Count -eq 0 -and $isFolder) {
+  $canInstall = Test-CanInstall
+  if ($canInstall -and $dev.Count -gt 0 -and $existing.Count -eq 0 -and $isFolder) {
     Fail ("A development copy ($($dev[0])) is loaded from a folder. Remove it first: orca plugin dev unload <that folder>`n" +
       "       개발용으로 등록된 사본($($dev[0]))이 있습니다. 먼저 'plugin dev unload <폴더>' 로 해제하세요.")
+  }
+  if (-not $canInstall) {
+    if (-not $isFolder) { Fail 'This Orca has no `plugin install` (Orca 1.4.248-1.4.251): install from the plugin folder of this package, or update Orca to 1.4.252+. / 이 Orca 버전은 폴더 설치만 지원합니다.' }
+    Say 'This Orca (1.4.248-1.4.251) has no `plugin install`: registering the folder with `plugin dev load` (keep this folder). / 이 Orca 버전은 개발 폴더 등록 방식으로 설치합니다(폴더를 지우지 마세요).'
+    if ($dev.Count -gt 0) {
+      Say 'Already registered: reloading. / 이미 등록되어 있어 다시 읽어 옵니다.'
+      [void](Invoke-Orca @('plugin', 'dev', 'reload'))
+    } elseif (-not (Invoke-WithApproval @('plugin', 'dev', 'load', $script:Source))) { Fail 'Registration failed. / 등록 실패' }
+    $line = @(Get-PluginLines)
+    if ($line.Count -eq 0) { Fail 'Orca does not list the plugin after registering. / 등록 후 목록에 없습니다.' }
+    Say ''
+    Say "Installed / 설치 완료: $($line[0])"
+    return
   }
   if ($existing.Count -gt 0) {
     Say "Updating $($existing[0]) ... / 기존 설치를 업데이트합니다"
@@ -136,7 +170,16 @@ function Do-Install {
 }
 
 function Do-Uninstall {
-  Find-Orca; Ensure-Running
+  Assert-Windows; Find-Orca; Ensure-Running
+  if (-not (Test-CanInstall)) {
+    $folder = Join-Path $PkgRoot 'plugin'
+    if (@(Get-PluginLines).Count -eq 0) { Say 'File Preview is not installed. / 설치되어 있지 않습니다.'; return }
+    if (-not (Confirm-Step 'Remove File Preview from Orca? / Orca에서 제거할까요?')) { Fail 'Cancelled. / 취소되었습니다.' }
+    $r = Invoke-Orca @('plugin', 'dev', 'unload', $folder)
+    if ($r.Code -ne 0) { Fail "Could not unregister $folder ($($r.Text))" }
+    Say "Removed / 제거됨: $folder"
+    return
+  }
   $lines = Get-PluginLines
   $keys = @($lines | Where-Object { $_ -notmatch ', dev' } | ForEach-Object { ($_ -split ' ')[0] })
   $dev = @($lines | Where-Object { $_ -match ', dev' } | ForEach-Object { ($_ -split ' ')[0] })

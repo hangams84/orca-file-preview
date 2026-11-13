@@ -87,12 +87,15 @@ jobs:
           retention-days: 30
 
   windows:
-    name: windows · Orca ${{ matrix.orca }}
-    runs-on: windows-2025
+    # windows-2022: Windows Server 2022 (Windows 10 21H2 kernel family, build 20348)
+    # windows-2025: Windows Server 2025 (Windows 11 24H2 kernel family, build 26100)
+    name: ${{ matrix.os }} · Orca ${{ matrix.orca }}
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
+        os: [windows-2022, windows-2025]
         orca: ['1.4.248', '1.4.253', '1.4.258']
     steps:
       - uses: actions/checkout@v4
@@ -117,13 +120,41 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: result-windows-${{ matrix.orca }}
+          name: result-${{ matrix.os }}-${{ matrix.orca }}
           path: ${{ runner.temp }}/out
+          retention-days: 30
+
+  windows7:
+    # Orca (Electron 23+) cannot run on Windows 7/8; GitHub has no Windows 7 runners. This checks that
+    # the Windows installer refuses there with a clear message (OS version overridden for the test).
+    name: windows 7 guard
+    runs-on: windows-2025
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Installer on "Windows 7" (6.1.7601) must refuse clearly
+        shell: powershell
+        run: |
+          $env:FP_TEST_OS_VERSION = '6.1.7601'
+          $out = & powershell -NoProfile -ExecutionPolicy Bypass -File installer/windows/file-preview.ps1 install -Yes 2>&1 | Out-String
+          $code = $LASTEXITCODE
+          Write-Host $out
+          $ok = ($code -ne 0) -and ($out -match 'Windows 10 or later') -and ($out -match 'Windows 7')
+          New-Item -ItemType Directory -Force out | Out-Null
+          $res = [ordered]@{ platform = 'windows7-guard'; os = 'Windows 7 (simulated 6.1.7601)'; orcaVersion = 'n/a'
+            checks = @([ordered]@{ name = 'installer refuses on Windows 7 with a clear message'; ok = $ok; detail = ($out.Trim() -split "`n")[0] }) }
+          [IO.File]::WriteAllText("$PWD/out/results.json", ($res | ConvertTo-Json -Depth 4), (New-Object System.Text.UTF8Encoding($false)))
+          if (-not $ok) { exit 1 }
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: result-windows7-guard
+          path: out
           retention-days: 30
 
   report:
     name: report → README
-    needs: [linux, macos, windows]
+    needs: [linux, macos, windows, windows7]
     if: always()
     runs-on: ubuntu-24.04
     permissions:

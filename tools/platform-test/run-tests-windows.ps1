@@ -15,15 +15,23 @@ function Check([string]$Name, [bool]$Ok, [string]$Detail) {
   Write-Host ("{0}  {1}  {2}" -f ($(if ($Ok) { 'PASS' } else { 'FAIL' }), $Name, ($Detail -split "`n")[0]))
 }
 function Run([string[]]$A) {
-  $psi = New-Object System.Diagnostics.ProcessStartInfo
-  $psi.FileName = $Orca
-  $psi.Arguments = ($A | ForEach-Object { if ($_ -match '[\s"]') { '"' + ($_ -replace '"', '\"') + '"' } else { $_ } }) -join ' '
-  $psi.RedirectStandardOutput = $true; $psi.RedirectStandardError = $true; $psi.UseShellExecute = $false
-  $psi.StandardOutputEncoding = [Text.Encoding]::UTF8; $psi.StandardErrorEncoding = [Text.Encoding]::UTF8
-  $p = [Diagnostics.Process]::Start($psi)
-  $o = $p.StandardOutput.ReadToEndAsync(); $e = $p.StandardError.ReadToEnd(); $p.WaitForExit()
-  return @{ Code = $p.ExitCode; Text = ($o.Result + $e).Trim() }
+  # Output goes to temp files, not pipes: `orca open` launches the Orca app, which inherits the
+  # handles and would keep a pipe open (reading to the end would then never finish).
+  $outFile = [IO.Path]::GetTempFileName()
+  $errFile = [IO.Path]::GetTempFileName()
+  try {
+    $argLine = ($A | ForEach-Object { if ($_ -match '[\s"]') { '"' + ($_ -replace '"', '\"') + '"' } else { $_ } }) -join ' '
+    $p = Start-Process -FilePath $Orca -ArgumentList $argLine -NoNewWindow -PassThru `
+      -RedirectStandardOutput $outFile -RedirectStandardError $errFile
+    [void]$p.Handle # keeps the exit code readable after the process ends
+    $p.WaitForExit()
+    $text = ([IO.File]::ReadAllText($outFile, [Text.Encoding]::UTF8) + [IO.File]::ReadAllText($errFile, [Text.Encoding]::UTF8)).Trim()
+    return @{ Code = $p.ExitCode; Text = $text }
+  } finally {
+    Remove-Item $outFile, $errFile -Force -ErrorAction SilentlyContinue
+  }
 }
+
 function Json([string]$t) { try { $i = $t.IndexOf('{'); if ($i -ge 0) { return ($t.Substring($i) | ConvertFrom-Json) } } catch {}; return $null }
 function Finish {
   $os = (Get-CimInstance Win32_OperatingSystem)

@@ -20,13 +20,22 @@ if (!dir || !existsSync(dir)) {
 const OS = [
   ['linux', 'Ubuntu 24.04 (Docker)'],
   ['macos', 'macOS 15 arm64'],
-  ['windows', 'Windows Server 2025']
+  ['windows-2022', 'Windows 10 kernel (Server 2022)'],
+  ['windows-2025', 'Windows 11 kernel (Server 2025)'],
+  ['windows', 'Windows']
 ]
+let guard = null
 const cells = new Map() // `${os}|${version}` -> result
 const versions = new Set()
 const failures = []
 for (const name of readdirSync(dir)) {
-  const m = name.match(/^result-(linux|macos|windows)-(\d+\.\d+\.\d+)$/)
+  if (name === 'result-windows7-guard') {
+    const f = join(dir, name, 'results.json')
+    guard = existsSync(f) ? JSON.parse(readFileSync(f, 'utf8').replace(/^﻿/, '')) : { checks: [] }
+    if (!guard.checks?.[0]?.ok) failures.push('- Windows 7 guard: the installer did not refuse clearly')
+    continue
+  }
+  const m = name.match(/^result-(linux|macos|windows(?:-\d{4})?)-(\d+\.\d+\.\d+)$/)
   if (!m) continue
   const [, os, version] = m
   const file = join(dir, name, 'results.json')
@@ -63,6 +72,7 @@ const lines = [
   `| --- | ${usedOs.map(() => '---').join(' | ')} |`,
   ...vs.map((v) => `| ${v} | ${usedOs.map(([k]) => cell(k, v)).join(' | ')} |`),
   '',
+  ...(guard ? [`Windows 7: ${guard.checks?.[0]?.ok ? '✅' : '❌'} the installer refuses with a clear message — Orca (Electron 23+) needs Windows 10 or later, and no Windows 7 CI runners exist. Windows 10/11 columns run on GitHub's Windows Server images, which share the Windows 10 (build 20348) and Windows 11 24H2 (build 26100) kernels; Windows 11 Pro 26200 was also tested on a real PC.`, ''] : []),
   'Each cell: a fresh Orca install of that version → plugin install with approval → validate · unit tests · static check → every fixture opened in the plugin editor → finished renders captured → plugin log free of errors (Windows also installs and removes through `installer/windows`). Orca below 1.4.248 must refuse the plugin (`engines.orca`).'
 ]
 if (failures.length) lines.push('', '<details><summary>Failing checks</summary>', '', ...failures, '', '</details>')
