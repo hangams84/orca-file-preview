@@ -1,0 +1,83 @@
+== /Users/runner/work/_temp/out/window/sample.doc.png
+Orca
+ㅁ
+<>
+Search
+Onboarding checklist
+Tasks
+to Automations
+.
+Orca Mobile
+Projects
+C~
+•~
+runner
+Hide
+<
+sample.pdf
+e sample.doc
+×
+>
+/users/runn... samp le.doc
+DOC
+100%
+1:1
+⑧
+Word 97-2003 • 2 pages • 24 paragraphs
++ D
+<>
+…
+임
+Names
+비 Find files
+e sample.doc
+e sample.docx
+B sample.git
+a sample.html
+⑧ sample.log
+a sample.ods
+B sample.pdf
+D sample.ppt
+D sample.pptx
+e sample.svg
+B sample.tsv
+g sample.txt
+a sample.xls
+⑥ sample.xisx
+@ xss-cells.csv
+B xss-css-escapes.html
+B xss-fragments.html
+e xsS-html.doc
+법 xss-rtf.doc
+B xss-vectors-utf16.xhtml
+a xss-vectors.html
+@ Off -
+Contents
+New
+Ai #
+ㅁ +
+File Preview - Word
+sample
+한글 미리보기 테스트 - 가나다라마바사
+Mixed bold, italic and coloured text.
+Table
+항목
+수량
+가격
+사과
+3
+1,500
+배
+2
+3,000
+합계
+5
+4,500
+Image
+Ora
+$
+®
+"
+L Configure usage tracking
+a-•>
+40

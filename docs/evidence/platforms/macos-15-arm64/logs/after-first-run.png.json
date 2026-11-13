@@ -1,0 +1,13 @@
+{
+  "ok": true,
+  "result": {
+    "pluginKey": "local.file-preview",
+    "region": "window",
+    "width": 1024,
+    "height": 685,
+    "themeApplied": false,
+    "errors": [],
+    "path": "/Users/runner/work/_temp/out/logs/after-first-run.png",
+    "theme": "light"
+  }
+}

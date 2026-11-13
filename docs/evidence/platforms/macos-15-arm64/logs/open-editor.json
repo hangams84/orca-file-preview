@@ -1,0 +1,10 @@
+{
+  "ok": true,
+  "result": {
+    "pluginKey": "local.file-preview",
+    "kind": "editor",
+    "editorId": "word",
+    "title": "Word Preview",
+    "filePath": "/Users/runner/fp-work/samples/sample.docx"
+  }
+}

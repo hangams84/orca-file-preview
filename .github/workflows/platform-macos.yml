@@ -1,0 +1,55 @@
+name: platform-macos
+# Installs Orca's macOS desktop app on a GitHub-hosted Apple-silicon runner (GUI session) and tests
+# the File Preview plugin in it with tools/platform-test/run-tests-macos.sh.
+on:
+  workflow_dispatch:
+  push:
+    branches: [ci/macos-orca]
+    paths-ignore: ['docs/**']
+
+permissions:
+  contents: read
+
+jobs:
+  orca-macos:
+    runs-on: macos-15
+    timeout-minutes: 30
+    env:
+      ORCA_VERSION: 1.4.258
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Orca ${{ env.ORCA_VERSION }}
+        run: |
+          set -eux
+          curl -fsSL -o "$RUNNER_TEMP/orca.dmg" \
+            "https://github.com/stablyai/orca/releases/download/v${ORCA_VERSION}/orca-macos-arm64.dmg"
+          hdiutil attach -nobrowse -readonly -mountpoint "$RUNNER_TEMP/orca-dmg" "$RUNNER_TEMP/orca.dmg"
+          ls "$RUNNER_TEMP/orca-dmg"
+          APP=$(find "$RUNNER_TEMP/orca-dmg" -maxdepth 1 -name '*.app' | head -1)
+          sudo cp -R "$APP" /Applications/Orca.app
+          hdiutil detach "$RUNNER_TEMP/orca-dmg"
+          sudo xattr -dr com.apple.quarantine /Applications/Orca.app || true
+          CLI=$(find /Applications/Orca.app/Contents -path '*/bin/orca' -type f | head -1)
+          echo "ORCA=$CLI" >>"$GITHUB_ENV"
+          "$CLI" --version
+          sw_vers; uname -m
+          system_profiler SPDisplaysDataType | grep -E 'Resolution|Display Type' || true
+
+      - name: Test the plugin in Orca
+        run: bash tools/platform-test/run-tests-macos.sh "$GITHUB_WORKSPACE" "$RUNNER_TEMP/out"
+
+      - name: Orca app logs
+        if: always()
+        run: |
+          mkdir -p "$RUNNER_TEMP/out/logs/app"
+          cp -R "$HOME/Library/Logs/Orca" "$RUNNER_TEMP/out/logs/app/" 2>/dev/null || true
+          cp -R "$HOME/Library/Logs/orca" "$RUNNER_TEMP/out/logs/app/" 2>/dev/null || true
+          cat "$RUNNER_TEMP/out/summary.md" >>"$GITHUB_STEP_SUMMARY" 2>/dev/null || true
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: platform-macos-15-arm64
+          path: ${{ runner.temp }}/out
+          retention-days: 14

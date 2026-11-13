@@ -1,0 +1,215 @@
+{
+  "ok": true,
+  "result": {
+    "plugins": [
+      {
+        "pluginKey": "local.file-preview",
+        "consentFingerprint": "sha256-pGZbE7Ki39amQAUaRSFXszGY+3LLwhsNR+R7sxi1LgU=",
+        "name": "File Preview",
+        "version": "0.1.0",
+        "publisher": "local",
+        "description": "Read-only previews for Word (doc, docx), PowerPoint (ppt, pptx), Excel (xls, xlsx, xlsm, ods), PDF, text, CSV/TSV, HTML, SVG, GIF and BMP files on desktop, browser and mobile clients.",
+        "execution": "sandboxed-ui",
+        "types": [
+          "editor"
+        ],
+        "license": "MIT",
+        "status": "idle",
+        "needsReconsent": false,
+        "isDev": false,
+        "official": false,
+        "bundled": false,
+        "capabilities": [],
+        "panels": [],
+        "customEditors": [
+          {
+            "id": "word",
+            "title": "Word Preview",
+            "extensions": [
+              ".docx",
+              ".doc"
+            ],
+            "filenames": [],
+            "priority": "default",
+            "contentKind": "bytes",
+            "frame": "any"
+          },
+          {
+            "id": "slides",
+            "title": "Slides Preview",
+            "extensions": [
+              ".pptx",
+              ".ppt"
+            ],
+            "filenames": [],
+            "priority": "default",
+            "contentKind": "bytes",
+            "frame": "any"
+          },
+          {
+            "id": "sheet",
+            "title": "Sheet Preview",
+            "extensions": [
+              ".xlsx",
+              ".xlsm",
+              ".xls",
+              ".ods"
+            ],
+            "filenames": [],
+            "priority": "default",
+            "contentKind": "bytes",
+            "frame": "any"
+          },
+          {
+            "id": "pdf",
+            "title": "PDF Preview",
+            "extensions": [
+              ".pdf"
+            ],
+            "filenames": [],
+            "priority": "default",
+            "contentKind": "bytes",
+            "frame": "any"
+          },
+          {
+            "id": "image",
+            "title": "Image Preview",
+            "extensions": [
+              ".gif",
+              ".bmp",
+              ".svg"
+            ],
+            "filenames": [],
+            "priority": "default",
+            "contentKind": "bytes",
+            "frame": "any"
+          },
+          {
+            "id": "web",
+            "title": "HTML Preview",
+            "extensions": [
+              ".html",
+              ".htm",
+              ".xhtml"
+            ],
+            "filenames": [],
+            "priority": "default",
+            "contentKind": "bytes",
+            "frame": "any"
+          },
+          {
+            "id": "csv",
+            "title": "Table Preview",
+            "extensions": [
+              ".csv",
+              ".tsv"
+            ],
+            "filenames": [],
+            "priority": "default",
+            "contentKind": "bytes",
+            "frame": "any"
+          },
+          {
+            "id": "text",
+            "title": "Text Preview",
+            "extensions": [
+              ".txt",
+              ".log"
+            ],
+            "filenames": [],
+            "priority": "default",
+            "contentKind": "bytes",
+            "frame": "any"
+          }
+        ],
+        "newFiles": [],
+        "fonts": [],
+        "commands": [],
+        "statusBarItems": [],
+        "hooks": [],
+        "hasWorker": false,
+        "vmRecipes": [],
+        "restarts": 0,
+        "source": {
+          "kind": "local-path",
+          "reference": "/Users/runner/fp-work/file-preview",
+          "resolvedCommit": null,
+          "contentHash": "5655b530a28d20015596af5331cac6641b0038080d37c2fc5b624842bac39dba"
+        }
+      },
+      {
+        "pluginKey": "stablyai.orca-github-vscode-theme",
+        "consentFingerprint": "sha256-T1PNoYwrqgwDVLtfmj7L5e0Sq02OEbqHPC8RFhICuUU=",
+        "name": "GitHub Themes for Orca",
+        "version": "1.0.0",
+        "publisher": "stablyai",
+        "description": "GitHub's own VS Code themes: Light Default, Dark Default, Dark Dimmed and the high-contrast variants.",
+        "execution": "data",
+        "types": [
+          "app-theme",
+          "terminal-theme"
+        ],
+        "license": "MIT",
+        "repository": "https://github.com/stablyai/orca-plugins/tree/main/plugins/github-vscode-theme",
+        "status": "idle",
+        "needsReconsent": false,
+        "isDev": false,
+        "official": true,
+        "bundled": true,
+        "capabilities": [],
+        "panels": [],
+        "customEditors": [],
+        "newFiles": [],
+        "fonts": [],
+        "commands": [],
+        "statusBarItems": [],
+        "hooks": [],
+        "hasWorker": false,
+        "vmRecipes": [],
+        "restarts": 0,
+        "source": {
+          "kind": "bundled",
+          "reference": "bundled:stablyai.orca-github-vscode-theme",
+          "resolvedCommit": null,
+          "contentHash": "7e17af8557dd0163ee0bc74aca3a6eb227f00bdd4b2ca04a68d78d891a24afb3"
+        }
+      },
+      {
+        "pluginKey": "stablyai.orca-vscode-default-themes",
+        "consentFingerprint": "sha256-T1PNoYwrqgwDVLtfmj7L5e0Sq02OEbqHPC8RFhICuUU=",
+        "name": "VS Code Default Themes for Orca",
+        "version": "1.0.0",
+        "publisher": "stablyai",
+        "description": "Unofficial ports of VS Code's default color themes: Dark Modern, Light Modern, Dark+ and Light+.",
+        "execution": "data",
+        "types": [
+          "app-theme"
+        ],
+        "license": "MIT",
+        "repository": "https://github.com/stablyai/orca-plugins/tree/main/plugins/vscode-default-themes",
+        "status": "idle",
+        "needsReconsent": false,
+        "isDev": false,
+        "official": true,
+        "bundled": true,
+        "capabilities": [],
+        "panels": [],
+        "customEditors": [],
+        "newFiles": [],
+        "fonts": [],
+        "commands": [],
+        "statusBarItems": [],
+        "hooks": [],
+        "hasWorker": false,
+        "vmRecipes": [],
+        "restarts": 0,
+        "source": {
+          "kind": "bundled",
+          "reference": "bundled:stablyai.orca-vscode-default-themes",
+          "resolvedCommit": null,
+          "contentHash": "ce11b29f4c21bedeaa3613e7ce9c4a6863f800e6945754ad1e36d04e24991139"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "ok": true,
+  "result": {
+    "path": "/Users/runner/fp-work/file-preview",
+    "file": "/Users/runner/fp-work/file-preview/orca-plugin.json",
+    "kind": "plugin",
+    "valid": true,
+    "errors": [],
+    "plugin": {
+      "pluginKey": "local.file-preview",
+      "name": "File Preview",
+      "version": "0.1.0",
+      "needsApproval": true,
+      "grants": {
+        "execution": "sandboxed-ui",
+        "executionDescription": "Shows its own code in sandboxed panels or editors inside Orca; an editor reads every file it opens.",
+        "capabilities": [],
+        "contributions": [
+          {
+            "kind": "customEditors",
+            "name": "Word Preview",
+            "detail": ".docx, .doc"
+          },
+          {
+            "kind": "customEditors",
+            "name": "Slides Preview",
+            "detail": ".pptx, .ppt"
+          },
+          {
+            "kind": "customEditors",
+            "name": "Sheet Preview",
+            "detail": ".xlsx, .xlsm, .xls, .ods"
+          },
+          {
+            "kind": "customEditors",
+            "name": "PDF Preview",
+            "detail": ".pdf"
+          },
+          {
+            "kind": "customEditors",
+            "name": "Image Preview",
+            "detail": ".gif, .bmp, .svg"
+          },
+          {
+            "kind": "customEditors",
+            "name": "HTML Preview",
+            "detail": ".html, .htm, .xhtml"
+          },
+          {
+            "kind": "customEditors",
+            "name": "Table Preview",
+            "detail": ".csv, .tsv"
+          },
+          {
+            "kind": "customEditors",
+            "name": "Text Preview",
+            "detail": ".txt, .log"
+          }
+        ]
+      }
+    }
+  }
+}

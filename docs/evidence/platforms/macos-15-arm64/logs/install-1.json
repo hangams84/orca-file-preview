@@ -1,0 +1,87 @@
+{
+  "id": "local",
+  "ok": false,
+  "error": {
+    "code": "approval_required",
+    "message": "local.file-preview 0.1.0 needs approval before it can run.\nApproving File Preview (local.file-preview 0.1.0) grants:\n- Shows its own code in sandboxed panels or editors inside Orca; an editor reads every file it opens.\nAdds: customEditors \"Word Preview\", customEditors \"Slides Preview\", customEditors \"Sheet Preview\", customEditors \"PDF Preview\", customEditors \"Image Preview\", customEditors \"HTML Preview\", customEditors \"Table Preview\", customEditors \"Text Preview\"\nSource: the folder /Users/runner/fp-work/file-preview on the Orca host.\nPublisher: local.\nMake sure you trust this folder: Orca has not checked it, so only install it if you trust where it came from.\nWhy approval is needed: It can run code or act in Orca, so Orca does not enable it without an explicit approval bound to exactly these files and this access.\nFingerprint: ap1-6cd35a3a7972a48c4242f060b93e76d0",
+    "data": {
+      "pluginKey": "local.file-preview",
+      "name": "File Preview",
+      "version": "0.1.0",
+      "action": "install",
+      "approvalFingerprint": "ap1-6cd35a3a7972a48c4242f060b93e76d0",
+      "contentIdentity": "5655b530a28d20015596af5331cac6641b0038080d37c2fc5b624842bac39dba",
+      "isDev": false,
+      "grants": {
+        "execution": "sandboxed-ui",
+        "executionDescription": "Shows its own code in sandboxed panels or editors inside Orca; an editor reads every file it opens.",
+        "capabilities": [],
+        "contributions": [
+          {
+            "kind": "customEditors",
+            "name": "Word Preview",
+            "detail": ".docx, .doc"
+          },
+          {
+            "kind": "customEditors",
+            "name": "Slides Preview",
+            "detail": ".pptx, .ppt"
+          },
+          {
+            "kind": "customEditors",
+            "name": "Sheet Preview",
+            "detail": ".xlsx, .xlsm, .xls, .ods"
+          },
+          {
+            "kind": "customEditors",
+            "name": "PDF Preview",
+            "detail": ".pdf"
+          },
+          {
+            "kind": "customEditors",
+            "name": "Image Preview",
+            "detail": ".gif, .bmp, .svg"
+          },
+          {
+            "kind": "customEditors",
+            "name": "HTML Preview",
+            "detail": ".html, .htm, .xhtml"
+          },
+          {
+            "kind": "customEditors",
+            "name": "Table Preview",
+            "detail": ".csv, .tsv"
+          },
+          {
+            "kind": "customEditors",
+            "name": "Text Preview",
+            "detail": ".txt, .log"
+          }
+        ]
+      },
+      "why": "It can run code or act in Orca, so Orca does not enable it without an explicit approval bound to exactly these files and this access.",
+      "approveFlag": "--approve ap1-6cd35a3a7972a48c4242f060b93e76d0",
+      "nextSteps": [
+        "Approving grants the access listed above. Confirm with your user first unless they already asked for exactly this plugin and access.",
+        "To approve, run: orca plugin install /Users/runner/fp-work/file-preview --json --approve ap1-6cd35a3a7972a48c4242f060b93e76d0",
+        "A different plugin, version, set of files, or more access gets a new fingerprint and needs a new approval.",
+        "Nothing was installed."
+      ],
+      "source": {
+        "kind": "local-path",
+        "official": false,
+        "publisher": "local",
+        "repository": null,
+        "url": null,
+        "ref": null,
+        "commit": null,
+        "path": "/Users/runner/fp-work/file-preview",
+        "catalog": null
+      },
+      "command": "orca plugin install /Users/runner/fp-work/file-preview --json --approve ap1-6cd35a3a7972a48c4242f060b93e76d0"
+    }
+  },
+  "_meta": {
+    "runtimeId": null
+  }
+}

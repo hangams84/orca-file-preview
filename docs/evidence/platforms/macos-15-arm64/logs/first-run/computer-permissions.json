@@ -1,0 +1,25 @@
+{
+  "id": "3459a7e1-909e-49ab-942d-e4f837903cf0",
+  "ok": true,
+  "result": {
+    "platform": "darwin",
+    "helperAppPath": "/Applications/Orca.app/Contents/Resources/Orca Computer Use.app",
+    "openedSettings": false,
+    "launchedHelper": true,
+    "launchQueued": false,
+    "permissions": [
+      {
+        "id": "accessibility",
+        "status": "not-granted"
+      },
+      {
+        "id": "screenshots",
+        "status": "not-granted"
+      }
+    ],
+    "nextStep": "Grant Accessibility to Orca Computer Use, then retry get-app-state."
+  },
+  "_meta": {
+    "runtimeId": "c7621bef-e511-40e6-8f7c-8eb458c51011"
+  }
+}
