@@ -47,7 +47,7 @@ export async function render(ctx: PreviewContext): Promise<void | (() => void)> 
     )
   }
   if (isRtf(bytes)) {
-    return renderPaper(ctx, readRtf(bytes), { note: tr('이 .doc 파일은 실제로 RTF 형식입니다.', 'This .doc file is actually in Rich Text Format (RTF).') })
+    return showWord(ctx, readRtf(bytes), tr('이 .doc 파일은 실제로 RTF 형식입니다.', 'This .doc file is actually in Rich Text Format (RTF).'))
   }
   if (looksLikeMime(bytes)) {
     throw new PreviewError(
@@ -70,7 +70,7 @@ export async function render(ctx: PreviewContext): Promise<void | (() => void)> 
 
 /** Binary Word: page layout (Word's pages and margins) by default, reading layout (reflowed to the
  *  window) by default on phones; a toolbar button switches between them. */
-function showWord(ctx: PreviewContext, model: DocModel): () => void {
+function showWord(ctx: PreviewContext, model: DocModel, note?: string): () => void {
   const { tr } = ctx
   let page = !ctx.compact && !!model.paged
   let sub: AbortController | null = null
@@ -86,7 +86,7 @@ function showWord(ctx: PreviewContext, model: DocModel): () => void {
     sub?.abort()
     sub = new AbortController()
     const sctx: PreviewContext = { ...ctx, signal: sub.signal }
-    cleanup = page ? renderPages(sctx, model) : renderPaper(sctx, model)
+    cleanup = page ? renderPages(sctx, model, { note }) : renderPaper(sctx, model, { note })
     btn.textContent = page ? tr('읽기 모드', 'Reading') : tr('페이지', 'Page')
     btn.title = page ? tr('창 너비에 맞춰 다시 흐르게 보기', 'Reflow the text to the window') : tr('Word와 같은 쪽 배치로 보기', "Show Word's page layout")
     btn.setAttribute('aria-label', btn.title)

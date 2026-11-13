@@ -429,6 +429,8 @@ export function renderPages(ctx: PreviewContext, model: DocModel, opts: PagesOpt
       if (f.left) st.marginLeft = `${f.left * PX}px`
       if (f.right) st.marginRight = `${f.right * PX}px`
       if (HANGUL.test(text) && text.length < 4000) el.dataset.hang = '1'
+      // Hangul tagged with a non-Asian language is wrapped like Latin text: only at spaces.
+      if (p.runs.some((r) => r.latinFE && HANGUL.test(r.text))) st.wordBreak = 'keep-all'
       if (f.first) st.textIndent = `${f.first * PX}px`
       if (label) {
         // number at left + first; text at the hanging indent, or the next tab stop past the number
@@ -448,7 +450,7 @@ export function renderPages(ctx: PreviewContext, model: DocModel, opts: PagesOpt
         // Word's PDF keeps a number and its text on one text line unless the gap is wide or the
         // bullet comes from a symbol font; reading order follows (it decides how lines are read).
         const gap = textPos - numberPos - lw
-        labelFirst = !/^symbol$/i.test(label.symbolFont ?? "") && gap <= (label.pt ?? f.markPt) * 1.0
+        labelFirst = !!label.joinLabel || (!/^symbol$/i.test(label.symbolFont ?? '') && gap <= (label.pt ?? f.markPt) * 1.0)
       }
       // Line height and baseline as Word computes them: the tallest run's single spacing times the
       // rule; Word puts extra leading below the text (multiple) or keeps 20 % below the baseline (exact).

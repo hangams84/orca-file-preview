@@ -29,6 +29,8 @@ export interface Chp {
   data: boolean
   /** Character style (0 = default paragraph font). */
   istd: number
+  /** Language of East Asian text (0 = not set). */
+  lidFE: number
 }
 
 export interface LineSpacing {
@@ -151,7 +153,8 @@ export const defaultChp = (): Chp => ({
   special: false,
   ole: false,
   data: false,
-  istd: 10
+  istd: 10,
+  lidFE: 0
 })
 
 export const defaultPap = (): Pap => ({
@@ -358,6 +361,7 @@ export function applyChp(chp: Chp, g: Uint8Array, style: Chp, old: boolean, char
       case 0x4a50: chp.ftcFE = u16(g, o); break
       case 0x4a51: chp.ftcOther = u16(g, o); break
       case 0x4a4e: break // ftcBi
+      case 0x486e: case 0x4874: chp.lidFE = u16(g, o); break
       case 0x6a03: chp.picLocation = u32(g, o); break
       case 0x0855: chp.special = toggle(v, false); break
       case 0x080a: chp.ole = toggle(v, false); break

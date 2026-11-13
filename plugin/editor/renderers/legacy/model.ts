@@ -25,12 +25,16 @@ export interface Run {
   labelWidth?: number
   /** The label's font is a symbol font (its glyph was mapped to Unicode); used for line metrics. */
   symbolFont?: string
+  /** The label and its text form one text line in Word's output (RTF list text). */
+  joinLabel?: boolean
   /** Inline picture. */
   image?: Picture
   /** Placeholder for an object that cannot be shown (OLE object, chart, drawing). */
   object?: string
   /** A form check box (FORMCHECKBOX field). */
   checkbox?: boolean
+  /** East Asian text tagged with a non-Asian language: Word wraps it only at spaces. */
+  latinFE?: boolean
 }
 
 export interface Picture {

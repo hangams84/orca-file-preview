@@ -52,6 +52,8 @@ type Item =
   | { kind: 'box'; run: PropRun | null }
 
 const TW = 20 // twips per point
+/** Korean, Japanese and Chinese language ids. */
+const ASIAN_LIDS = new Set([0x412, 0x812, 0x411, 0x804, 0x404, 0xc04, 0x1004, 0x1404])
 
 export function readWord(cfb: Cfb): DocModel {
   const wd = cfb.stream('WordDocument')
@@ -404,6 +406,7 @@ export function readWord(cfb: Cfb): DocModel {
         if (chp.dxaSpace) r.spacing = chp.dxaSpace / TW
         r.font = fontName(chp.ftcAscii)
         r.eaFont = fontName(chp.ftcFE)
+        if (chp.lidFE && !ASIAN_LIDS.has(chp.lidFE)) r.latinFE = true
         const prev = runs[runs.length - 1]
         if (prev && sameLook(prev, r)) prev.text += r.text
         else runs.push(r)
@@ -678,7 +681,7 @@ function sameLook(a: Run, b: Run): boolean {
   return (
     !a.image && !a.object && a.b === b.b && a.i === b.i && a.u === b.u && a.s === b.s && a.color === b.color && a.bg === b.bg &&
     a.pt === b.pt && a.sup === b.sup && a.sub === b.sub && a.font === b.font && a.eaFont === b.eaFont && a.caps === b.caps &&
-    a.smallCaps === b.smallCaps && a.spacing === b.spacing
+    a.smallCaps === b.smallCaps && a.spacing === b.spacing && a.latinFE === b.latinFE
   )
 }
 
