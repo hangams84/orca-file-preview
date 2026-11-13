@@ -212,35 +212,6 @@ export function createImageView(
     }, ms)
     signal.addEventListener('abort', () => clearTimeout(t), { once: true })
   }
-  // TEMPORARY Orca diagnostic (round 5): frame/viewport metrics and whether in-body <style> applies.
-  setTimeout(() => {
-    if (signal.aborted) return
-    const r = root.getBoundingClientRect()
-    const probe = document.createElement('div')
-    probe.className = 'fp-diag-probe'
-    const ps = document.createElement('style')
-    ps.textContent = '.fp-diag-probe{width:37px}'
-    root.append(ps, probe)
-    const probeWidth = probe.getBoundingClientRect().width
-    probe.remove()
-    ps.remove()
-    console.warn('[fp-diag] ' + JSON.stringify({
-      dpr: devicePixelRatio,
-      inner: [innerWidth, innerHeight],
-      docClient: [document.documentElement.clientWidth, document.documentElement.clientHeight],
-      body: [document.body.clientWidth, document.body.clientHeight],
-      vv: window.visualViewport ? [window.visualViewport.width, window.visualViewport.height, window.visualViewport.scale] : null,
-      screen: [screen.width, screen.height],
-      root: [root.clientWidth, root.clientHeight, Math.round(r.left), Math.round(r.top), Math.round(r.width)],
-      box: [box.offsetLeft, box.offsetTop, box.offsetWidth, box.offsetHeight],
-      zoom: zoom.get(),
-      styleSheets: document.styleSheets.length,
-      headStyles: document.head.querySelectorAll('style').length,
-      inBodyStyleApplies: probeWidth === 37,
-      viewportMeta: document.querySelector('meta[name=viewport]')?.getAttribute('content') ?? null,
-      htmlZoom: getComputedStyle(document.documentElement).zoom
-    }))
-  }, 1500)
   signal.addEventListener(
     'abort',
     () => {
