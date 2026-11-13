@@ -1,0 +1,157 @@
+{
+  "ok": true,
+  "result": {
+    "pluginKey": "local.file-preview",
+    "version": "0.1.0",
+    "previousVersion": null,
+    "contentHash": "235ba8baa2015887e86d62b9fa26300b3a4b8138e8c1334e3cad29ff2dbf689a",
+    "resolvedCommit": null,
+    "approval": "approve-flag",
+    "source": {
+      "kind": "local-path",
+      "official": false,
+      "publisher": "local",
+      "repository": null,
+      "url": null,
+      "ref": null,
+      "commit": null,
+      "path": "/home/tester/file-preview",
+      "catalog": null
+    },
+    "plugin": {
+      "pluginKey": "local.file-preview",
+      "consentFingerprint": "sha256-QqalInN17g/AQpM/NGETeobUxmHoB+pfpzURpRnRcmU=",
+      "name": "File Preview",
+      "version": "0.1.0",
+      "publisher": "local",
+      "description": "Read-only previews for Word (doc, docx), PowerPoint (ppt, pptx), Excel (xls, xlsx, xlsm, ods), PDF, text, CSV/TSV, HTML, SVG, GIF and BMP files on desktop, browser and mobile clients.",
+      "execution": "sandboxed-ui",
+      "types": [
+        "editor"
+      ],
+      "license": "MIT",
+      "status": "idle",
+      "needsReconsent": false,
+      "isDev": false,
+      "official": false,
+      "bundled": false,
+      "capabilities": [],
+      "panels": [],
+      "customEditors": [
+        {
+          "id": "word",
+          "title": "Word Preview",
+          "extensions": [
+            ".docx",
+            ".doc"
+          ],
+          "filenames": [],
+          "priority": "default",
+          "contentKind": "bytes",
+          "frame": "any"
+        },
+        {
+          "id": "slides",
+          "title": "Slides Preview",
+          "extensions": [
+            ".pptx",
+            ".ppt"
+          ],
+          "filenames": [],
+          "priority": "default",
+          "contentKind": "bytes",
+          "frame": "any"
+        },
+        {
+          "id": "sheet",
+          "title": "Sheet Preview",
+          "extensions": [
+            ".xlsx",
+            ".xlsm",
+            ".xls",
+            ".ods"
+          ],
+          "filenames": [],
+          "priority": "default",
+          "contentKind": "bytes",
+          "frame": "any"
+        },
+        {
+          "id": "pdf",
+          "title": "PDF Preview",
+          "extensions": [
+            ".pdf"
+          ],
+          "filenames": [],
+          "priority": "default",
+          "contentKind": "bytes",
+          "frame": "any"
+        },
+        {
+          "id": "image",
+          "title": "Image Preview",
+          "extensions": [
+            ".gif",
+            ".bmp",
+            ".svg"
+          ],
+          "filenames": [],
+          "priority": "default",
+          "contentKind": "bytes",
+          "frame": "any"
+        },
+        {
+          "id": "web",
+          "title": "HTML Preview",
+          "extensions": [
+            ".html",
+            ".htm",
+            ".xhtml"
+          ],
+          "filenames": [],
+          "priority": "default",
+          "contentKind": "bytes",
+          "frame": "any"
+        },
+        {
+          "id": "csv",
+          "title": "Table Preview",
+          "extensions": [
+            ".csv",
+            ".tsv"
+          ],
+          "filenames": [],
+          "priority": "default",
+          "contentKind": "bytes",
+          "frame": "any"
+        },
+        {
+          "id": "text",
+          "title": "Text Preview",
+          "extensions": [
+            ".txt",
+            ".log"
+          ],
+          "filenames": [],
+          "priority": "default",
+          "contentKind": "bytes",
+          "frame": "any"
+        }
+      ],
+      "newFiles": [],
+      "fonts": [],
+      "commands": [],
+      "statusBarItems": [],
+      "hooks": [],
+      "hasWorker": false,
+      "vmRecipes": [],
+      "restarts": 0,
+      "source": {
+        "kind": "local-path",
+        "reference": "/home/tester/file-preview",
+        "resolvedCommit": null,
+        "contentHash": "235ba8baa2015887e86d62b9fa26300b3a4b8138e8c1334e3cad29ff2dbf689a"
+      }
+    }
+  }
+}

@@ -123,7 +123,7 @@ export async function render(ctx: PreviewContext): Promise<void> {
   const libCss: string[] = []
   for (const st of libStyle.querySelectorAll('style')) {
     // Word's "single" spacing is the font's line gap (~1.15–1.3), not 1.0: Korean text touched borders.
-    st.textContent = patchCssFonts(st.textContent ?? '').replace(/line-height:\s*1\.00\s*;/g, 'line-height: 1.15;')
+    st.textContent = symbolBullets(patchCssFonts(st.textContent ?? '')).replace(/line-height:\s*1\.00\s*;/g, 'line-height: 1.15;')
     libCss.push(st.textContent)
   }
   // List markers aligned at the hanging indent, table-style bands, cell padding, scrollable tables.
@@ -168,4 +168,28 @@ export async function render(ctx: PreviewContext): Promise<void> {
   }
   // Phones read reflowed text; wider screens get pages, fitted when the paper is wider than the view.
   setMode(reading)
+}
+
+/** Word stores list bullets as Symbol/Wingdings private-use code points (U+F0xx), which only draw
+ *  where those fonts exist (Windows). Map the common ones to Unicode so macOS, Linux and phones
+ *  show a bullet instead of an empty box. Handles raw characters and CSS escapes. */
+const SYMBOL_BULLETS: Record<number, string> = {
+  0xf0b7: '•', // Symbol bullet
+  0xf0a7: '▪', // Wingdings small square
+  0xf06e: '■', // Wingdings filled square
+  0xf0a8: '○', // Symbol/Wingdings hollow circle
+  0xf06f: '□', // hollow square
+  0xf0d8: '➢', // arrowhead
+  0xf0e8: '➔', // arrow
+  0xf076: '❖', // diamond with dots
+  0xf0fc: '✓', // check mark
+  0xf0b2: '◆' // diamond
+}
+export function symbolBullets(css: string): string {
+  return css
+    .replace(/\\0*(f0[0-9a-f]{2})\s?/gi, (m, hex: string) => {
+      const u = SYMBOL_BULLETS[parseInt(hex, 16)]
+      return u ? `\\${u.codePointAt(0)!.toString(16)} ` : m
+    })
+    .replace(/[-]/g, (c) => SYMBOL_BULLETS[c.charCodeAt(0)] ?? '•')
 }
