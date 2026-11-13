@@ -18,6 +18,10 @@ export interface Cfb {
   rootNames(): string[]
   /** A stream directly under the root storage, or null. */
   stream(name: string): Uint8Array | null
+  /** A stream by storage path such as `BodyText/Section0` (case-insensitive), or null. */
+  open?(path: string): Uint8Array | null
+  /** Names of the children of a storage path (`''` is the root), or [] when it does not exist. */
+  list?(path: string): string[]
 }
 
 const SIG = [0xd0, 0xcf, 0x11, 0xe0, 0xa1, 0xb1, 0x1a, 0xe1]
@@ -162,9 +166,29 @@ export function readCfb(bytes: Uint8Array): Cfb {
     return readChain(e.start, e.size)
   }
 
+  /** Entry index for a path of storage / stream names, or -1. */
+  const resolve = (path: string): number => {
+    let cur = 0
+    for (const part of path.split('/').filter(Boolean)) {
+      const lower = part.toLowerCase()
+      const next = children(cur).find((k) => entries[k].name.toLowerCase() === lower)
+      if (next == null) return -1
+      cur = next
+    }
+    return cur
+  }
+
   return {
     entries,
     rootNames: () => rootKids.map((i) => entries[i].name),
+    open(path) {
+      const i = resolve(path)
+      return i > 0 && entries[i].type === 2 ? readEntry(entries[i]) : null
+    },
+    list(path) {
+      const i = resolve(path)
+      return i < 0 || entries[i].type === 2 ? [] : children(i).map((k) => entries[k].name)
+    },
     stream(name) {
       const lower = name.toLowerCase()
       const i = rootKids.find((k) => entries[k].type === 2 && entries[k].name.toLowerCase() === lower)

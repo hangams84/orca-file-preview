@@ -112,7 +112,7 @@ function compare(truth, ours) {
       best.ol.used = true
       res.matched++
       res.dTop.push(best.ol.y - tl.y)
-      res.dLeft.push(best.ol.x - tl.x)
+      if (tl.x != null) res.dLeft.push(best.ol.x - tl.x)
       res.dSize.push(best.ol.size - tl.size)
     }
   }
@@ -172,7 +172,7 @@ for (const f of files) {
       else row.fails = ['no truth']
       // Overlay truth line boxes (red) on the first page, then capture it.
       if (ours[0]) {
-        const boxes = (truth?.pages?.[0]?.lines ?? []).map((l) => ({ x: l.x / 0.75, y: l.y / 0.75, w: Math.max(4, (l.width ?? l.text.length * l.size * 0.5) / 0.75), h: l.size / 0.75 }))
+        const boxes = (truth?.pages?.[0]?.lines ?? []).filter((l) => l.x != null).map((l) => ({ x: l.x / 0.75, y: l.y / 0.75, w: Math.max(4, (l.width ?? l.text.length * l.size * 0.5) / 0.75), h: l.size / 0.75 }))
         await page.evaluate(
           ({ p, boxes }) => {
             const ov = document.createElement('div')

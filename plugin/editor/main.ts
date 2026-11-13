@@ -35,7 +35,9 @@ export const RENDERERS: Record<string, Loader> = {
   '3mf': () => import('./renderers/model3d.ts'),
   off: () => import('./renderers/model3d.ts'),
   fbx: () => import('./renderers/model3d.ts'),
-  dae: () => import('./renderers/model3d.ts')
+  dae: () => import('./renderers/model3d.ts'),
+  hwp: () => import('./renderers/hwp.ts'),
+  hwpx: () => import('./renderers/hwp.ts')
 }
 
 installStyles()

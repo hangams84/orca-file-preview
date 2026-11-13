@@ -62,7 +62,7 @@ def pdf_truth():
 
 # --------------------------------------------------------------------------------------- HWP 5
 HWPTAG_BEGIN = 0x10
-PARA_HEADER, PARA_TEXT, PARA_LINE_SEG, PAGE_DEF = HWPTAG_BEGIN + 50, HWPTAG_BEGIN + 51, HWPTAG_BEGIN + 53, HWPTAG_BEGIN + 57
+PARA_HEADER, PARA_TEXT, PARA_LINE_SEG, CTRL_HEADER, PAGE_DEF = HWPTAG_BEGIN + 50, HWPTAG_BEGIN + 51, HWPTAG_BEGIN + 53, HWPTAG_BEGIN + 55, HWPTAG_BEGIN + 57
 # Control characters that occupy 8 WCHARs in PARA_TEXT (extended and inline controls).
 WIDE = {1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23}
 
@@ -112,22 +112,27 @@ def lines_from_paragraph(chars, segs, unit):
     return lines
 
 
-def page_lines(paras, page, unit):
-    """Assigns paragraph lines to pages (a vertical position that jumps back up starts a new page)."""
+def page_lines(paras, page, unit, cols=1):
+    """Assigns paragraph lines to pages. A vertical position that jumps back up starts the next
+    column; every `cols` such jumps start a new page. Line positions are relative to their column,
+    so the left edge is only known for single-column sections."""
     pages = [{"w": page["w"], "h": page["h"], "margins": page["margins"], "lines": []}]
     last = -1
+    resets = 0
     body_top = page["margins"]["top"] + page["margins"]["header"]
     left = page["margins"]["left"]
     for p in paras:
         for ln in p:
             if last >= 0 and ln["vertpos"] < last - unit * 2:
-                pages.append({"w": page["w"], "h": page["h"], "margins": page["margins"], "lines": []})
+                resets += 1
+                if resets % max(1, cols) == 0:
+                    pages.append({"w": page["w"], "h": page["h"], "margins": page["margins"], "lines": []})
             last = ln["vertpos"]
             if not ln["text"]:
                 continue
             pages[-1]["lines"].append({
                 "text": ln["text"],
-                "x": round((left + ln["horzpos"]) / unit, 2),
+                "x": round((left + ln["horzpos"]) / unit, 2) if cols <= 1 else None,
                 "y": round((body_top + ln["vertpos"] + ln["vertsize"] - ln["textheight"]) / unit, 2),
                 "base": round((body_top + ln["vertpos"] + ln["baseline"]) / unit, 2),
                 "size": round(ln["textheight"] / unit, 2),
@@ -154,6 +159,7 @@ def hwp_truth(path):
     compressed = bool(flags & 0x1)
     sections = sorted([e for e in ole.listdir() if e[0] == "BodyText"], key=lambda e: int(e[1].replace("Section", "")))
     page = None
+    cols = 1
     paras = []
     for sec in sections:
         data = ole.openstream(sec).read()
@@ -162,8 +168,13 @@ def hwp_truth(path):
         chars, segs = None, None
         for tag, level, body in records(data):
             if tag == PAGE_DEF and page is None:
-                w, h, l, r, t, b, hd, ft, gt = struct.unpack_from("<9I", body, 0)
+                w, h, l, r, t, b, hd, ft, gt, props = struct.unpack_from("<10I", body, 0)
+                if props & 1:  # landscape ("넓게"): the stored size is portrait
+                    w, h = h, w
                 page = {"w": w / 100, "h": h / 100, "margins": {"left": l, "right": r, "top": t, "bottom": b, "header": hd, "footer": ft, "gutter": gt}}
+            if tag == CTRL_HEADER and len(body) >= 6 and body[:4] == b"dloc" and cols == 1:
+                (attr,) = struct.unpack_from("<H", body, 4)
+                cols = max(1, (attr >> 2) & 0xFF)
             # Top-level body paragraphs only: their PARA_HEADER is level 0 and its records level 1;
             # paragraphs inside tables, boxes and notes nest deeper and have their own frames.
             if tag == PARA_HEADER:
@@ -182,7 +193,7 @@ def hwp_truth(path):
             paras.append(lines_from_paragraph(chars, segs, 100))
     if page is None:
         return write(name, {"format": "hwp", "refuse": "no-page-def"})
-    pages = page_lines(paras, page, 100)
+    pages = page_lines(paras, page, 100, cols)
     for p in pages:
         p["w"], p["h"] = page["w"], page["h"]
         p["margins"] = {k: v / 100 for k, v in page["margins"].items()}
@@ -199,6 +210,7 @@ def hwpx_truth(path):
     z = zipfile.ZipFile(path)
     secs = sorted([n for n in z.namelist() if n.startswith("Contents/section") and n.endswith(".xml")], key=lambda n: int("".join(c for c in n if c.isdigit()) or 0))
     page = None
+    hwpx_cols = 1
     paras = []
     for s in secs:
         root = ET.fromstring(z.read(s))
@@ -207,7 +219,13 @@ def hwpx_truth(path):
             if pp is not None:
                 m = pp.find(f"{HP}margin")
                 g = lambda k: int(m.get(k, 0)) if m is not None else 0
-                page = {"w": int(pp.get("width")), "h": int(pp.get("height")), "margins": {k: g(k) for k in ("left", "right", "top", "bottom", "header", "footer", "gutter")}}
+                w, h = int(pp.get("width")), int(pp.get("height"))
+                if pp.get("landscape") == "NARROWLY":  # OWPML: WIDELY = portrait (default), NARROWLY = landscape
+                    w, h = h, w
+                page = {"w": w, "h": h, "margins": {k: g(k) for k in ("left", "right", "top", "bottom", "header", "footer", "gutter")}}
+                cp = root.find(f".//{HP}colPr")
+                if cp is not None:
+                    hwpx_cols = max(1, int(cp.get("colCount", "1")))
         for p in root.findall(f"{HP}p"):  # top-level paragraphs of the section
             text = []
             for run in p.findall(f"{HP}run"):
@@ -224,7 +242,7 @@ def hwpx_truth(path):
                 paras.append(lines_from_paragraph(chars, segs, 100))
     if page is None:
         return write(name, {"format": "hwpx", "refuse": "no-page-def"})
-    pages = page_lines(paras, page, 100)
+    pages = page_lines(paras, page, 100, hwpx_cols)
     for p in pages:
         p["w"], p["h"] = page["w"] / 100, page["h"] / 100
         p["margins"] = {k: v / 100 for k, v in page["margins"].items()}

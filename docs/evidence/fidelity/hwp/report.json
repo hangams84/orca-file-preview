@@ -1,0 +1,888 @@
+[
+ {
+  "fmt": "hwp",
+  "file": "samples/fidelity/hwp/hwplib-blank.hwp",
+  "name": "hwplib-blank",
+  "truthSource": "Hangul layout saved in the file (PARA_LINE_SEG)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 0,
+  "total": 0,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": null,
+   "sizeErr": null,
+   "topErr": null,
+   "leftErr": null
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwplib-blank.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwp",
+  "file": "samples/fidelity/hwp/hwplib-distribution.hwp",
+  "name": "hwplib-distribution",
+  "truthSource": null,
+  "state": "error",
+  "expectRefuse": "distribution",
+  "pass": true,
+  "fails": []
+ },
+ {
+  "fmt": "hwp",
+  "file": "samples/fidelity/hwp/hwplib-equation.hwp",
+  "name": "hwplib-equation",
+  "truthSource": "Hangul layout saved in the file (PARA_LINE_SEG)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 0,
+  "total": 0,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": null,
+   "sizeErr": null,
+   "topErr": null,
+   "leftErr": null
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwplib-equation.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwp",
+  "file": "samples/fidelity/hwp/hwplib-fields.hwp",
+  "name": "hwplib-fields",
+  "truthSource": "Hangul layout saved in the file (PARA_LINE_SEG)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 1,
+  "total": 1,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": 1,
+   "sizeErr": 0.000025000000000829914,
+   "topErr": 0.24531249999999716,
+   "leftErr": 0.008750000000006253
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwplib-fields.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwp",
+  "file": "samples/fidelity/hwp/hwplib-footnotes.hwp",
+  "name": "hwplib-footnotes",
+  "truthSource": "Hangul layout saved in the file (PARA_LINE_SEG)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 0,
+  "total": 0,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": null,
+   "sizeErr": null,
+   "topErr": null,
+   "leftErr": null
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwplib-footnotes.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwp",
+  "file": "samples/fidelity/hwp/hwplib-header-footer.hwp",
+  "name": "hwplib-header-footer",
+  "truthSource": "Hangul layout saved in the file (PARA_LINE_SEG)",
+  "state": "ready",
+  "ourPages": 2,
+  "matched": 31,
+  "total": 31,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": 1,
+   "sizeErr": 0.000025000000000829914,
+   "topErr": 0.24140625000001137,
+   "leftErr": 0.004843750000006253
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwplib-header-footer.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   },
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwp",
+  "file": "samples/fidelity/hwp/hwplib-master-page.hwp",
+  "name": "hwplib-master-page",
+  "truthSource": "Hangul layout saved in the file (PARA_LINE_SEG)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 0,
+  "total": 0,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": null,
+   "sizeErr": null,
+   "topErr": null,
+   "leftErr": null
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwplib-master-page.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwp",
+  "file": "samples/fidelity/hwp/hwplib-merged-cells.hwp",
+  "name": "hwplib-merged-cells",
+  "truthSource": "Hangul layout saved in the file (PARA_LINE_SEG)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 0,
+  "total": 0,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": null,
+   "sizeErr": null,
+   "topErr": null,
+   "leftErr": null
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwplib-merged-cells.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwp",
+  "file": "samples/fidelity/hwp/hwplib-numbering.hwp",
+  "name": "hwplib-numbering",
+  "truthSource": "Hangul layout saved in the file (PARA_LINE_SEG)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 9,
+  "total": 9,
+  "metrics": {
+   "pageSizeErr": 0.000010022450288662773,
+   "recall": 1,
+   "sizeErr": 0.000025000000000829914,
+   "topErr": 0.24140625000001137,
+   "leftErr": 0.008750000000006253
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwplib-numbering.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.86
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000010022450288662773
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwp",
+  "file": "samples/fidelity/hwp/hwplib-old-5022.hwp",
+  "name": "hwplib-old-5022",
+  "truthSource": "Hangul layout saved in the file (PARA_LINE_SEG)",
+  "state": "ready",
+  "ourPages": 3,
+  "matched": 80,
+  "total": 80,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": 1,
+   "sizeErr": 0.000025000000000829914,
+   "topErr": 0.24156249999998636,
+   "leftErr": 0.008750000000006253
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwplib-old-5022.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   },
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   },
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwp",
+  "file": "samples/fidelity/hwp/hwplib-picture.hwp",
+  "name": "hwplib-picture",
+  "truthSource": "Hangul layout saved in the file (PARA_LINE_SEG)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 0,
+  "total": 0,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": null,
+   "sizeErr": null,
+   "topErr": null,
+   "leftErr": null
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwplib-picture.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwp",
+  "file": "samples/fidelity/hwp/hwplib-table.hwp",
+  "name": "hwplib-table",
+  "truthSource": "Hangul layout saved in the file (PARA_LINE_SEG)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 0,
+  "total": 0,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": null,
+   "sizeErr": null,
+   "topErr": null,
+   "leftErr": null
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwplib-table.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwp",
+  "file": "samples/fidelity/hwp/hwplib-textbox.hwp",
+  "name": "hwplib-textbox",
+  "truthSource": "Hangul layout saved in the file (PARA_LINE_SEG)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 0,
+  "total": 0,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": null,
+   "sizeErr": null,
+   "topErr": null,
+   "leftErr": null
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwplib-textbox.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwpx",
+  "file": "samples/fidelity/hwpx/hwpxlib-equation.hwpx",
+  "name": "hwpxlib-equation",
+  "truthSource": "Hangul layout saved in the file (<hp:lineseg>)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 0,
+  "total": 0,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": null,
+   "sizeErr": null,
+   "topErr": null,
+   "leftErr": null
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwpxlib-equation.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwpx",
+  "file": "samples/fidelity/hwpx/hwpxlib-header-footer.hwpx",
+  "name": "hwpxlib-header-footer",
+  "truthSource": "Hangul layout saved in the file (<hp:lineseg>)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 0,
+  "total": 0,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": null,
+   "sizeErr": null,
+   "topErr": null,
+   "leftErr": null
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwpxlib-header-footer.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwpx",
+  "file": "samples/fidelity/hwpx/hwpxlib-multi-column.hwpx",
+  "name": "hwpxlib-multi-column",
+  "truthSource": "Hangul layout saved in the file (<hp:lineseg>)",
+  "state": "ready",
+  "ourPages": 2,
+  "matched": 14,
+  "total": 14,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": 1,
+   "sizeErr": 0.000025000000000829914,
+   "topErr": 0.24140625000001137,
+   "leftErr": null
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwpxlib-multi-column.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   },
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwpx",
+  "file": "samples/fidelity/hwpx/hwpxlib-page-size-margin.hwpx",
+  "name": "hwpxlib-page-size-margin",
+  "truthSource": "Hangul layout saved in the file (<hp:lineseg>)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 0,
+  "total": 0,
+  "metrics": {
+   "pageSizeErr": 0.000010600407055586864,
+   "recall": null,
+   "sizeErr": null,
+   "topErr": null,
+   "leftErr": null
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwpxlib-page-size-margin.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 1031.8,
+     "h": 728.52
+    },
+    "ours": {
+     "w": 1031.8,
+     "h": 728.5
+    },
+    "err": {
+     "w": 0.000010600407055586864,
+     "h": 6.434277713471286e-7
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwpx",
+  "file": "samples/fidelity/hwpx/hwpxlib-picture.hwpx",
+  "name": "hwpxlib-picture",
+  "truthSource": "Hangul layout saved in the file (<hp:lineseg>)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 0,
+  "total": 0,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": null,
+   "sizeErr": null,
+   "topErr": null,
+   "leftErr": null
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwpxlib-picture.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwpx",
+  "file": "samples/fidelity/hwpx/hwpxlib-project-plan.hwpx",
+  "name": "hwpxlib-project-plan",
+  "truthSource": "Hangul layout saved in the file (<hp:lineseg>)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 0,
+  "total": 0,
+  "metrics": {
+   "pageSizeErr": 0.000010022450288662773,
+   "recall": null,
+   "sizeErr": null,
+   "topErr": null,
+   "leftErr": null
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwpxlib-project-plan.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.86
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000010022450288662773
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwpx",
+  "file": "samples/fidelity/hwpx/hwpxlib-real-test.hwpx",
+  "name": "hwpxlib-real-test",
+  "truthSource": "Hangul layout saved in the file (<hp:lineseg>)",
+  "state": "ready",
+  "ourPages": 3,
+  "matched": 3,
+  "total": 3,
+  "metrics": {
+   "pageSizeErr": 0.000010022450288662773,
+   "recall": 1,
+   "sizeErr": 0.000024999999999053557,
+   "topErr": 0.11218750000000455,
+   "leftErr": 0.006406249999997726
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwpxlib-real-test.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.86
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000010022450288662773
+    }
+   },
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.86
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000010022450288662773
+    }
+   },
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.86
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.00001781768940202214
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwpx",
+  "file": "samples/fidelity/hwpx/hwpxlib-rectangle.hwpx",
+  "name": "hwpxlib-rectangle",
+  "truthSource": "Hangul layout saved in the file (<hp:lineseg>)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 0,
+  "total": 0,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": null,
+   "sizeErr": null,
+   "topErr": null,
+   "leftErr": null
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwpxlib-rectangle.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwpx",
+  "file": "samples/fidelity/hwpx/hwpxlib-table.hwpx",
+  "name": "hwpxlib-table",
+  "truthSource": "Hangul layout saved in the file (<hp:lineseg>)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 0,
+  "total": 0,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": null,
+   "sizeErr": null,
+   "topErr": null,
+   "leftErr": null
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwpxlib-table.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ },
+ {
+  "fmt": "hwpx",
+  "file": "samples/fidelity/hwpx/hwpxlib-test-doc.hwpx",
+  "name": "hwpxlib-test-doc",
+  "truthSource": "Hangul layout saved in the file (<hp:lineseg>)",
+  "state": "ready",
+  "ourPages": 1,
+  "matched": 9,
+  "total": 9,
+  "metrics": {
+   "pageSizeErr": 0.000005939088706223515,
+   "recall": 1,
+   "sizeErr": 0.000025000000000829914,
+   "topErr": 0.24140625000001137,
+   "leftErr": 0.0078125
+  },
+  "pass": true,
+  "fails": [],
+  "oursImg": "hwpxlib-test-doc.ours.png",
+  "pages": [
+   {
+    "truth": {
+     "w": 595.28,
+     "h": 841.88
+    },
+    "ours": {
+     "w": 595.3,
+     "h": 841.9
+    },
+    "err": {
+     "w": 0.000004462185862069472,
+     "h": 0.000005939088706223515
+    }
+   }
+  ]
+ }
+]
