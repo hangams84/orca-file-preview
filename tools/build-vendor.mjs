@@ -33,9 +33,14 @@ for (const file of entries) {
 }
 
 // Files copied as-is (already ESM, loaded separately such as a Web Worker script).
-const copies = [['node_modules/pdfjs-dist/legacy/build/pdf.worker.min.mjs', 'pdf.worker.min.js']]
+const copies = [
+  ['node_modules/pdfjs-dist/legacy/build/pdf.worker.min.mjs', 'pdf.worker.min.js'],
+  // Draco's asm.js decoder for glTF (no WebAssembly, so no 'wasm-unsafe-eval' needed; no eval)
+  ['node_modules/three/examples/jsm/libs/draco/gltf/draco_decoder.js', 'draco/draco_decoder.js']
+]
 for (const [from, to] of copies) {
   try {
+    mkdirSync(dirname(join(outDir, to)), { recursive: true })
     copyFileSync(join(root, from), join(outDir, to))
     report.push([to, statSync(join(outDir, to)).size])
   } catch {
