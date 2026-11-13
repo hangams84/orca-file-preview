@@ -666,7 +666,12 @@ function parseStd(s: Uint8Array, cbBase: number, old: boolean): RawStd {
 
 /** Font names from SttbfFfn (Word 97: UTF-16 names; Word 6/95: 8-bit names). */
 export function readFonts(table: Uint8Array, fc: number, lcb: number, old: boolean): string[] {
-  const out: string[] = []
+  return readFontTable(table, fc, lcb, old).map((f) => f.name)
+}
+
+/** Font names with their family class (FFN ff: 1 roman, 2 swiss, 3 modern, 4 script, 5 decorative). */
+export function readFontTable(table: Uint8Array, fc: number, lcb: number, old: boolean): { name: string; ff: number }[] {
+  const out: { name: string; ff: number }[] = []
   if (!lcb || fc + lcb > table.length) return out
   try {
     const g = table.subarray(fc, fc + lcb)
@@ -678,7 +683,7 @@ export function readFonts(table: Uint8Array, fc: number, lcb: number, old: boole
         if (cb < 7) break
         let name = ''
         for (let k = p + 6; k < p + cb && g[k]; k++) name += String.fromCharCode(g[k])
-        out.push(name)
+        out.push({ name, ff: (g[p + 1] >> 4) & 7 })
         p += cb
       }
       return out
@@ -693,7 +698,7 @@ export function readFonts(table: Uint8Array, fc: number, lcb: number, old: boole
         if (!c) break
         name += String.fromCharCode(c)
       }
-      out.push(name)
+      out.push({ name, ff: (g[p + 1] >> 4) & 7 })
       p += cb
     }
   } catch {

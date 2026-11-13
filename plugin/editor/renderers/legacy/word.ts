@@ -12,7 +12,7 @@ import {
   defaultSep,
   formatNumber,
   readLists,
-  readFonts,
+  readFontTable,
   readStyleSheet,
   type Chp,
   type ListLevel,
@@ -193,7 +193,10 @@ export function readWord(cfb: Cfb): DocModel {
   const [fcStsh, lcbStsh] = fcLcb(1)
   const { styles, defaults } = readStyleSheet(table, fcStsh, lcbStsh, old)
   const [fcFfn, lcbFfn] = fcLcb(15)
-  const fonts = readFonts(table, fcFfn, lcbFfn, old)
+  const fontTable = readFontTable(table, fcFfn, lcbFfn, old)
+  const fonts = fontTable.map((f) => f.name)
+  const fontClasses: Record<string, number> = {}
+  for (const f of fontTable) if (f.name) fontClasses[f.name] = f.ff
   const styleAt = (istd: number): Style | undefined => styles[istd]
   const normalStyle = styles[0]
   const baseChp: Chp = normalStyle?.chp ?? { ...defaults }
@@ -610,14 +613,23 @@ export function readWord(cfb: Cfb): DocModel {
     }
     let header: Block[] | undefined
     let footer: Block[] | undefined
+    let firstHeader: Block[] | undefined
+    let firstFooter: Block[] | undefined
     let s = 0
     for (const b of blocks) {
       if (b.kind !== 'sect') continue
       const base = 6 + s * 6
       header = storyAt(base + 1) ?? header
       footer = storyAt(base + 3) ?? footer
+      firstHeader = storyAt(base + 4) ?? firstHeader
+      firstFooter = storyAt(base + 5) ?? firstFooter
       if (header) b.header = header
       if (footer) b.footer = footer
+      if (sections[s]?.sep.titlePage) {
+        b.titlePage = true
+        b.firstHeader = firstHeader
+        b.firstFooter = firstFooter
+      }
       s++
     }
   }
@@ -639,7 +651,13 @@ export function readWord(cfb: Cfb): DocModel {
   if (flags & 0x8000) warnings.push('obfuscated')
   if (old) warnings.push('old')
   chpIds = new WeakMap()
-  return { blocks, variant: old ? `Word 6/95` : 'Word 97-2003', warnings, paged: true }
+  // DOP copts: fDontUseHTMLParagraphAutoSpacing (Word 2000+ documents; older ones add the spacings)
+  let collapseSpacing = false
+  if (!old) {
+    const [fcDop, lcbDop] = fcLcb(31)
+    if (lcbDop >= 513 && fcDop + 513 <= table.length) collapseSpacing = (table[fcDop + 512] & 0x04) === 0
+  }
+  return { blocks, variant: old ? `Word 6/95` : 'Word 97-2003', warnings, paged: true, fontClasses, collapseSpacing }
 }
 
 function sameLook(a: Run, b: Run): boolean {

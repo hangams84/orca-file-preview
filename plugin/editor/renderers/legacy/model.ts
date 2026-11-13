@@ -136,6 +136,10 @@ export interface SectionStart {
   /** Header and footer paragraphs for the pages of this section. */
   header?: Block[]
   footer?: Block[]
+  /** A different first page: its own header and footer (possibly none). */
+  titlePage?: boolean
+  firstHeader?: Block[]
+  firstFooter?: Block[]
 }
 
 export type Block = Paragraph | Table | PageBreak | Section | SectionStart
@@ -147,6 +151,12 @@ export interface DocModel {
   warnings: string[]
   /** True when the blocks carry Word's page and paragraph geometry (page layout possible). */
   paged?: boolean
+  /** Font family class per font name (1 roman, 2 swiss, 3 modern, 4 script, 5 decorative), used to
+   *  substitute fonts that are not installed the way Word does. */
+  fontClasses?: Record<string, number>
+  /** Word's HTML paragraph spacing (compatibility option off): the space between two paragraphs is
+   *  the larger of space after and space before instead of their sum. */
+  collapseSpacing?: boolean
 }
 
 export function paragraphText(p: Paragraph): string {

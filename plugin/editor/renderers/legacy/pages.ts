@@ -94,10 +94,40 @@ function koreanLatin(font: string | undefined): boolean {
   return !!font && KOREAN_FACE.test(font)
 }
 
+const availableCache = new Map<string, boolean>()
+let probeCtx: CanvasRenderingContext2D | null = null
+/** Whether a font is installed (canvas width test against two generic families). */
+export function fontInstalled(name: string): boolean {
+  let v = availableCache.get(name)
+  if (v != null) return v
+  probeCtx ??= document.createElement('canvas').getContext('2d')
+  if (!probeCtx) return true
+  const sample = 'mmmmmmmmmmlliWW@#한글가나'
+  const w = (fam: string) => {
+    probeCtx!.font = `40px ${fam}`
+    return probeCtx!.measureText(sample).width
+  }
+  const nm = `"${name.replace(/["\\]/g, '')}"`
+  v = w(`${nm}, monospace`) !== w('monospace') || w(`${nm}, serif`) !== w('serif')
+  availableCache.set(name, v)
+  return v
+}
+
+/** Word's substitute for a font that is not installed, by the font table's family class. */
+let fontClasses: Record<string, number> = {}
+export function realFont(name: string | undefined): string | undefined {
+  if (!name) return name
+  if (FONT_ALIASES[name.toLowerCase()]?.some((a) => fontInstalled(a)) || fontInstalled(name)) return name
+  const ff = fontClasses[name] ?? 0
+  return ff === 1 ? 'Times New Roman' : ff === 3 ? 'Courier New' : 'Calibri'
+}
+
 const q = (name: string) => `"${name.replace(/["\\]/g, '')}"`
 const stackCache = new Map<string, string>()
 /** CSS font-family for a document font: the face, its aliases, Korean fallbacks, then a generic. */
 export function fontStack(font: string | undefined, ea?: string): string {
+  font = realFont(font)
+  ea = realFont(ea)
   const key = `${font ?? ''}|${ea ?? ''}`
   let s = stackCache.get(key)
   if (s) return s
@@ -161,6 +191,7 @@ const DEFAULT_PAGE: PageFmt = { w: 595.3, h: 841.9, top: 72, bottom: 72, left: 7
 
 export function renderPages(ctx: PreviewContext, model: DocModel, opts: PagesOptions = {}): () => void {
   const { root, toolbar, tr, signal } = ctx
+  fontClasses = model.fontClasses ?? {}
   const wrap = h('div', 'fp-pages')
   const style = h('style', undefined, STYLE)
   if (opts.note) wrap.append(h('div', 'fp-pages-note', opts.note))
@@ -200,6 +231,7 @@ export function renderPages(ctx: PreviewContext, model: DocModel, opts: PagesOpt
   }
   /** Word's single line height and descent for a run, in px. */
   const wordMetrics = (font: string | undefined, family: string, sizePx: number, cjk: boolean) => {
+    font = realFont(font)
     const m = font ? WORD_METRICS[font.toLowerCase()] : undefined
     if (m) return { single: m[0] * sizePx, descent: m[1] * sizePx }
     const c = chrome(family, sizePx, cjk)
@@ -476,8 +508,12 @@ export function renderPages(ctx: PreviewContext, model: DocModel, opts: PagesOpt
   // ---- pages ------------------------------------------------------------------------------
   const pages: PageBox[] = []
   let fmt: PageFmt = DEFAULT_PAGE
-  let header: Block[] | undefined
-  let footer: Block[] | undefined
+  let headerOf: Block[] | undefined
+  let footerOf: Block[] | undefined
+  let firstHeader: Block[] | undefined
+  let firstFooter: Block[] | undefined
+  let titlePage = false
+  let sectionPages = 0
   const hfEl = (blocks: Block[]): HTMLElement[] => {
     const out: HTMLElement[] = []
     let prev: number | null = null
@@ -491,6 +527,9 @@ export function renderPages(ctx: PreviewContext, model: DocModel, opts: PagesOpt
   }
   const newPage = (): PageBox => {
     const f = fmt
+    const first = sectionPages++ === 0 && titlePage
+    const header = first ? firstHeader : headerOf
+    const footer = first ? firstFooter : footerOf
     const el = h('div', 'fp-page')
     el.dataset.fpPage = String(pages.length + 1)
     el.setAttribute('role', 'document')
@@ -702,7 +741,7 @@ export function renderPages(ctx: PreviewContext, model: DocModel, opts: PagesOpt
     if (f && prevPara && prevPara.style === f.style && prevPara.contextual && prevPara.el.isConnected) prevPara.el.style.paddingBottom = '0px'
     // Word separates two paragraphs by the larger of the first one's space after and the second
     // one's space before (not their sum).
-    if (f && prevPara && prevPara.el.isConnected && prevPara.el.parentElement === page.body) {
+    if (model.collapseSpacing && f && prevPara && prevPara.el.isConnected && prevPara.el.parentElement === page.body) {
       const prevAfter = parseFloat(prevPara.el.style.paddingBottom) || 0
       const before = (Number(el.dataset.before) || 0) * PX
       el.style.paddingTop = `${Math.max(0, before - prevAfter)}px`
@@ -787,8 +826,12 @@ export function renderPages(ctx: PreviewContext, model: DocModel, opts: PagesOpt
       const b = blocks[next]
       if (b.kind === 'sect') {
         fmt = b.page
-        header = b.header
-        footer = b.footer
+        headerOf = b.header
+        footerOf = b.footer
+        titlePage = !!b.titlePage
+        firstHeader = b.firstHeader
+        firstFooter = b.firstFooter
+        if (b.page.newPage || firstSection) sectionPages = 0
         if (firstSection) {
           // the first page was made before the first section's setup was known
           const old = page
