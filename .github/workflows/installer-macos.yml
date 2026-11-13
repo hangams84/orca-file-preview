@@ -1,0 +1,45 @@
+name: installer-macos
+# Tests installer/macos (*.command) and installer/unix/file-preview.sh against Orca's macOS app on a
+# GitHub-hosted Apple-silicon runner. Manual only: gh workflow run installer-macos
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  installer-macos:
+    runs-on: macos-15
+    timeout-minutes: 20
+    env:
+      ORCA_VERSION: 1.4.258
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Orca ${{ env.ORCA_VERSION }}
+        run: |
+          set -eux
+          curl -fsSL -o "$RUNNER_TEMP/orca.dmg" \
+            "https://github.com/stablyai/orca/releases/download/v${ORCA_VERSION}/orca-macos-arm64.dmg"
+          hdiutil attach -nobrowse -readonly -mountpoint "$RUNNER_TEMP/orca-dmg" "$RUNNER_TEMP/orca.dmg"
+          APP=$(find "$RUNNER_TEMP/orca-dmg" -maxdepth 1 -name '*.app' | head -1)
+          sudo cp -R "$APP" /Applications/Orca.app
+          hdiutil detach "$RUNNER_TEMP/orca-dmg"
+          sudo xattr -dr com.apple.quarantine /Applications/Orca.app || true
+          CLI=$(find /Applications/Orca.app/Contents -path '*/bin/orca' -type f | head -1)
+          echo "ORCA=$CLI" >>"$GITHUB_ENV"
+          "$CLI" --version
+
+      - name: Test the installer scripts
+        run: bash tools/platform-test/test-installer-macos.sh "$GITHUB_WORKSPACE" "$RUNNER_TEMP/out"
+
+      - name: Summary
+        if: always()
+        run: cat "$RUNNER_TEMP/out/installer.md" >>"$GITHUB_STEP_SUMMARY" 2>/dev/null || true
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: installer-macos-15-arm64
+          path: ${{ runner.temp }}/out
+          retention-days: 14

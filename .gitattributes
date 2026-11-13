@@ -4,3 +4,7 @@ vendor/*.js binary linguist-vendored
 docs/evidence/** binary
 *.png binary
 *.gif binary
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+*.command text eol=lf
+*.sh text eol=lf
