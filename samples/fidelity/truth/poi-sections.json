@@ -1,0 +1,28 @@
+{
+ "format": "doc",
+ "source": "Microsoft Word 2021 (PDF export)",
+ "pages": [
+  {
+   "w": 595.32,
+   "h": 841.92,
+   "lines": [
+    {
+     "text": "Section1",
+     "x": 72.02,
+     "y": 74.16,
+     "base": 82.44,
+     "size": 11.04,
+     "font": "Calibri"
+    },
+    {
+     "text": "Section2",
+     "x": 72.02,
+     "y": 99.62,
+     "base": 107.9,
+     "size": 11.04,
+     "font": "Calibri"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,378 @@
+{
+ "format": "doc",
+ "source": "Microsoft Word 2021 (PDF export)",
+ "pages": [
+  {
+   "w": 612.0,
+   "h": 792.0,
+   "lines": [
+    {
+     "text": "Heading Level 1",
+     "x": 72.02,
+     "y": 96.0,
+     "base": 109.34,
+     "size": 14.04,
+     "font": "Cambria-Bold"
+    },
+    {
+     "text": "This document has different lists in it for testing",
+     "x": 72.02,
+     "y": 117.02,
+     "base": 125.3,
+     "size": 11.04,
+     "font": "Calibri"
+    },
+    {
+     "text": "•",
+     "x": 90.02,
+     "y": 140.24,
+     "base": 151.34,
+     "size": 11.04,
+     "font": "SymbolMT"
+    },
+    {
+     "text": "Unordered list 1",
+     "x": 108.02,
+     "y": 143.06,
+     "base": 151.34,
+     "size": 11.04,
+     "font": "Calibri"
+    },
+    {
+     "text": "•",
+     "x": 90.02,
+     "y": 156.32,
+     "base": 167.42,
+     "size": 11.04,
+     "font": "SymbolMT"
+    },
+    {
+     "text": "UL 2",
+     "x": 108.02,
+     "y": 159.14,
+     "base": 167.42,
+     "size": 11.04,
+     "font": "Calibri"
+    },
+    {
+     "text": "•",
+     "x": 90.02,
+     "y": 172.28,
+     "base": 183.38,
+     "size": 11.04,
+     "font": "SymbolMT"
+    },
+    {
+     "text": "UL 3",
+     "x": 108.02,
+     "y": 175.1,
+     "base": 183.38,
+     "size": 11.04,
+     "font": "Calibri"
+    },
+    {
+     "text": "Next up is an ordered list:",
+     "x": 72.02,
+     "y": 200.54,
+     "base": 208.82,
+     "size": 11.04,
+     "font": "Calibri"
+    },
+    {
+     "text": "1. Ordered list 1",
+     "x": 90.02,
+     "y": 225.98,
+     "base": 234.26,
+     "size": 11.04,
+     "font": "Calibri"
+    },
+    {
+     "text": "2. OL 2",
+     "x": 90.02,
+     "y": 241.49,
+     "base": 249.77,
+     "size": 11.04,
+     "font": "Calibri"
+    },
+    {
+     "text": "3. OL 3",
+     "x": 90.02,
+     "y": 256.97,
+     "base": 265.25,
+     "size": 11.04,
+     "font": "Calibri"
+    },
+    {
+     "text": "Now for an un-ordered list with a different bullet style:",
+     "x": 72.02,
+     "y": 282.41,
+     "base": 290.69,
+     "size": 11.04,
+     "font": "Calibri"
+    },
+    {
+     "text": "✓ Tick 1",
+     "x": 90.02,
+     "y": 306.21,
+     "base": 316.13,
+     "size": 11.04,
+     "font": "Wingdings-Regular"
+    },
+    {
+     "text": "✓ Tick 2",
+     "x": 90.02,
+     "y": 321.57,
+     "base": 331.49,
+     "size": 11.04,
+     "font": "Wingdings-Regular"
+    },
+    {
+     "text": "Multi-level un-ordered list:",
+     "x": 72.02,
+     "y": 348.65,
+     "base": 356.93,
+     "size": 11.04,
+     "font": "Calibri"
+    },
+    {
+     "text": "❖ ML 1:1",
+     "x": 72.02,
+     "y": 372.45,
+     "base": 382.37,
+     "size": 11.04,
+     "font": "Wingdings-Regular"
+    },
+    {
+     "text": "❖ ML 1:2",
+     "x": 72.02,
+     "y": 387.93,
+     "base": 397.85,
+     "size": 11.04,
+     "font": "Wingdings-Regular"
+    },
+    {
+     "text": "➢ ML 2:1",
+     "x": 90.02,
+     "y": 403.43,
+     "base": 413.35,
+     "size": 11.04,
+     "font": "Wingdings-Regular"
+    },
+    {
+     "text": "➢ ML 2:2",
+     "x": 90.02,
+     "y": 418.79,
+     "base": 428.71,
+     "size": 11.04,
+     "font": "Wingdings-Regular"
+    },
+    {
+     "text": "➢ ML 2:3",
+     "x": 90.02,
+     "y": 434.27,
+     "base": 444.19,
+     "size": 11.04,
+     "font": "Wingdings-Regular"
+    },
+    {
+     "text": "▪",
+     "x": 108.02,
+     "y": 449.75,
+     "base": 459.67,
+     "size": 11.04,
+     "font": "Wingdings-Regular"
+    },
+    {
+     "text": "ML 3:1",
+     "x": 126.02,
+     "y": 451.39,
+     "base": 459.67,
+     "size": 11.04,
+     "font": "Calibri"
+    },
+    {
+     "text": "•",
+     "x": 126.02,
+     "y": 464.65,
+     "base": 475.75,
+     "size": 11.04,
+     "font": "SymbolMT"
+    },
+    {
+     "text": "ML 4:1",
+     "x": 144.02,
+     "y": 467.47,
+     "base": 475.75,
+     "size": 11.04,
+     "font": "Calibri"
+    },
+    {
+     "text": " ML 5:1",
+     "x": 144.02,
+     "y": 480.61,
+     "base": 491.71,
+     "size": 11.04,
+     "font": "SymbolMT"
+    },
+    {
+     "text": " ML 5:2",
+     "x": 144.02,
+     "y": 496.69,
+     "base": 507.79,
+     "size": 11.04,
+     "font": "SymbolMT"
+    },
+    {
+     "text": "➢ ML 2:4",
+     "x": 90.02,
+     "y": 513.23,
+     "base": 523.15,
+     "size": 11.04,
+     "font": "Wingdings-Regular"
+    },
+    {
+     "text": "❖ ML 1:3",
+     "x": 72.02,
+     "y": 528.71,
+     "base": 538.63,
+     "size": 11.04,
+     "font": "Wingdings-Regular"
+    },
+    {
+     "text": "Multi-level ordered list:",
+     "x": 72.02,
+     "y": 555.79,
+     "base": 564.07,
+     "size": 11.04,
+     "font": "Calibri"
+    },
+    {
+     "text": "1. OL 1",
+     "x": 72.02,
+     "y": 581.26,
+     "base": 589.54,
+     "size": 11.04,
+     "font": "Calibri"
+    },
+    {
+     "text": "2. OL 2",
+     "x": 72.02,
+     "y": 596.74,
+     "base": 605.02,
+     "size": 11.04,
+     "font": "Calibri"
+    },
+    {
+     "text": "2.1. OL 2.1",
+     "x": 90.02,
+     "y": 612.1,
+     "base": 620.38,
+     "size": 11.04,
+     "font": "Calibri"
+    },
+    {
+     "text": "2.2. OL 2.2",
+     "x": 90.02,
+     "y": 627.58,
+     "base": 635.86,
+     "size": 11.04,
+     "font": "Calibri"
+    },
+    {
+     "text": "2.2.1. OL 2.2.1",
+     "x": 108.02,
+     "y": 643.06,
+     "base": 651.34,
+     "size": 11.04,
+     "font": "Calibri"
+    },
+    {
+     "text": "2.2.2. OL 2.2.2",
+     "x": 108.02,
+     "y": 658.42,
+     "base": 666.7,
+     "size": 11.04,
+     "font": "Calibri"
+    },
+    {
+     "text": "2.2.2.1.",
+     "x": 126.02,
+     "y": 673.9,
+     "base": 682.18,
+     "size": 11.04,
+     "font": "Calibri"
+    },
+    {
+     "text": "OL 2.2.2.1",
+     "x": 180.02,
+     "y": 673.9,
+     "base": 682.18,
+     "size": 11.04,
+     "font": "Calibri"
+    },
+    {
+     "text": "2.2.3. OL 2.2.3",
+     "x": 108.02,
+     "y": 689.38,
+     "base": 697.66,
+     "size": 11.04,
+     "font": "Calibri"
+    },
+    {
+     "text": "3. OL 3",
+     "x": 72.02,
+     "y": 704.74,
+     "base": 713.02,
+     "size": 11.04,
+     "font": "Calibri"
+    }
+   ]
+  },
+  {
+   "w": 612.0,
+   "h": 792.0,
+   "lines": [
+    {
+     "text": "Finally we want some indents, to tell the difference",
+     "x": 72.02,
+     "y": 74.18,
+     "base": 82.46,
+     "size": 11.04,
+     "font": "Calibri"
+    },
+    {
+     "text": "Indented once",
+     "x": 108.02,
+     "y": 99.62,
+     "base": 107.9,
+     "size": 11.04,
+     "font": "Calibri"
+    },
+    {
+     "text": "Indented twice",
+     "x": 144.02,
+     "y": 125.06,
+     "base": 133.34,
+     "size": 11.04,
+     "font": "Calibri"
+    },
+    {
+     "text": "Indented three times",
+     "x": 180.02,
+     "y": 150.5,
+     "base": 158.78,
+     "size": 11.04,
+     "font": "Calibri"
+    },
+    {
+     "text": "The end!",
+     "x": 72.02,
+     "y": 175.94,
+     "base": 184.22,
+     "size": 11.04,
+     "font": "Calibri"
+    }
+   ]
+  }
+ ]
+}

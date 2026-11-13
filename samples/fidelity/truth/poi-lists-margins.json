@@ -1,0 +1,76 @@
+{
+ "format": "doc",
+ "source": "Microsoft Word 2021 (PDF export)",
+ "pages": [
+  {
+   "w": 595.32,
+   "h": 841.92,
+   "lines": [
+    {
+     "text": "1.",
+     "x": 198.53,
+     "y": 57.04,
+     "base": 64.2,
+     "size": 8.04,
+     "font": "TimesNewRomanPSMT"
+    },
+    {
+     "text": "Left 0in. First +0in. Tab stops at 0.5in;",
+     "x": 234.53,
+     "y": 57.04,
+     "base": 64.2,
+     "size": 8.04,
+     "font": "TimesNewRomanPSMT"
+    },
+    {
+     "text": "2.",
+     "x": 216.89,
+     "y": 66.28,
+     "base": 73.44,
+     "size": 8.04,
+     "font": "TimesNewRomanPSMT"
+    },
+    {
+     "text": "Left 0in. First +0.25in; Tab stops at 0.5in;",
+     "x": 234.53,
+     "y": 66.28,
+     "base": 73.44,
+     "size": 8.04,
+     "font": "TimesNewRomanPSMT"
+    },
+    {
+     "text": "3.",
+     "x": 248.93,
+     "y": 75.4,
+     "base": 82.56,
+     "size": 8.04,
+     "font": "TimesNewRomanPSMT"
+    },
+    {
+     "text": "Left 0in. First +0.7in. Tab stops at 1in;",
+     "x": 269.09,
+     "y": 75.4,
+     "base": 82.56,
+     "size": 8.04,
+     "font": "TimesNewRomanPSMT"
+    },
+    {
+     "text": "4.",
+     "x": 105.14,
+     "y": 84.66,
+     "base": 91.82,
+     "size": 8.04,
+     "font": "TimesNewRomanPSMT"
+    },
+    {
+     "text": "Left -0.7in; First -0.6in; Tab stops at -1in;",
+     "x": 234.53,
+     "y": 84.66,
+     "base": 91.82,
+     "size": 8.04,
+     "font": "TimesNewRomanPSMT"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,20 @@
+{
+ "format": "doc",
+ "source": "Microsoft Word 2021 (PDF export)",
+ "pages": [
+  {
+   "w": 612.0,
+   "h": 792.0,
+   "lines": [
+    {
+     "text": "This is a sample Word document",
+     "x": 72.02,
+     "y": 74.18,
+     "base": 82.46,
+     "size": 11.04,
+     "font": "Calibri"
+    }
+   ]
+  }
+ ]
+}

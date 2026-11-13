@@ -1,0 +1,392 @@
+{
+ "format": "doc",
+ "source": "Microsoft Word 2021 (PDF export)",
+ "pages": [
+  {
+   "w": 612.0,
+   "h": 792.0,
+   "lines": [
+    {
+     "text": "File Preview — Word sample",
+     "x": 90.02,
+     "y": 77.21,
+     "base": 96.74,
+     "size": 26.04,
+     "font": "Calibri"
+    },
+    {
+     "text": "한글 미리보기 테스트 - 가나다라마바사",
+     "x": 90.02,
+     "y": 125.89,
+     "base": 137.9,
+     "size": 11.04,
+     "font": "MalgunGothic"
+    },
+    {
+     "text": "Mixed bold, italic and coloured text.",
+     "x": 90.02,
+     "y": 155.64,
+     "base": 168.98,
+     "size": 14.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "Table",
+     "x": 90.02,
+     "y": 201.29,
+     "base": 211.82,
+     "size": 14.04,
+     "font": "Calibri-Bold"
+    },
+    {
+     "text": "항목",
+     "x": 90.02,
+     "y": 218.77,
+     "base": 230.78,
+     "size": 11.04,
+     "font": "MalgunGothicBold"
+    },
+    {
+     "text": "수량",
+     "x": 234.05,
+     "y": 218.77,
+     "base": 230.78,
+     "size": 11.04,
+     "font": "MalgunGothicBold"
+    },
+    {
+     "text": "가격",
+     "x": 378.07,
+     "y": 218.77,
+     "base": 230.78,
+     "size": 11.04,
+     "font": "MalgunGothicBold"
+    },
+    {
+     "text": "3",
+     "x": 234.05,
+     "y": 237.84,
+     "base": 248.33,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "1,500",
+     "x": 378.07,
+     "y": 237.84,
+     "base": 248.33,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "사과",
+     "x": 90.02,
+     "y": 240.04,
+     "base": 252.05,
+     "size": 11.04,
+     "font": "MalgunGothicBold"
+    },
+    {
+     "text": "2",
+     "x": 234.05,
+     "y": 257.88,
+     "base": 268.37,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "3,000",
+     "x": 378.07,
+     "y": 257.88,
+     "base": 268.37,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "배",
+     "x": 90.02,
+     "y": 260.08,
+     "base": 272.09,
+     "size": 11.04,
+     "font": "MalgunGothicBold"
+    },
+    {
+     "text": "5",
+     "x": 234.05,
+     "y": 277.92,
+     "base": 288.41,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "4,500",
+     "x": 378.07,
+     "y": 277.92,
+     "base": 288.41,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "합계",
+     "x": 90.02,
+     "y": 280.12,
+     "base": 292.13,
+     "size": 11.04,
+     "font": "MalgunGothicBold"
+    },
+    {
+     "text": "Image",
+     "x": 90.02,
+     "y": 324.8,
+     "base": 335.33,
+     "size": 14.04,
+     "font": "Calibri-Bold"
+    },
+    {
+     "text": "List",
+     "x": 90.02,
+     "y": 489.34,
+     "base": 499.87,
+     "size": 14.04,
+     "font": "Calibri-Bold"
+    },
+    {
+     "text": "• First bullet",
+     "x": 90.02,
+     "y": 503.65,
+     "base": 515.71,
+     "size": 12.0,
+     "font": "SymbolMT"
+    },
+    {
+     "text": "• 두 번째 항목",
+     "x": 90.02,
+     "y": 520.77,
+     "base": 533.83,
+     "size": 12.0,
+     "font": "SymbolMT"
+    },
+    {
+     "text": "• Third bullet",
+     "x": 90.02,
+     "y": 539.17,
+     "base": 551.23,
+     "size": 12.0,
+     "font": "SymbolMT"
+    }
+   ]
+  },
+  {
+   "w": 612.0,
+   "h": 792.0,
+   "lines": [
+    {
+     "text": "Page 2",
+     "x": 90.02,
+     "y": 74.81,
+     "base": 85.34,
+     "size": 14.04,
+     "font": "Calibri-Bold"
+    },
+    {
+     "text": "Paragraph 1: Lorem ipsum dolor sit amet, consectetur adipiscing elit. 한글 미리보기",
+     "x": 90.02,
+     "y": 91.21,
+     "base": 103.22,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "테스트 - 가나다라마바사",
+     "x": 90.02,
+     "y": 113.17,
+     "base": 125.18,
+     "size": 11.04,
+     "font": "MalgunGothic"
+    },
+    {
+     "text": "Paragraph 2: Lorem ipsum dolor sit amet, consectetur adipiscing elit. 한글 미리보기",
+     "x": 90.02,
+     "y": 145.09,
+     "base": 157.1,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "테스트 - 가나다라마바사",
+     "x": 90.02,
+     "y": 166.93,
+     "base": 178.94,
+     "size": 11.04,
+     "font": "MalgunGothic"
+    },
+    {
+     "text": "Paragraph 3: Lorem ipsum dolor sit amet, consectetur adipiscing elit. 한글 미리보기",
+     "x": 90.02,
+     "y": 198.85,
+     "base": 210.86,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "테스트 - 가나다라마바사",
+     "x": 90.02,
+     "y": 220.69,
+     "base": 232.7,
+     "size": 11.04,
+     "font": "MalgunGothic"
+    },
+    {
+     "text": "Paragraph 4: Lorem ipsum dolor sit amet, consectetur adipiscing elit. 한글 미리보기",
+     "x": 90.02,
+     "y": 252.64,
+     "base": 264.65,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "테스트 - 가나다라마바사",
+     "x": 90.02,
+     "y": 274.48,
+     "base": 286.49,
+     "size": 11.04,
+     "font": "MalgunGothic"
+    },
+    {
+     "text": "Paragraph 5: Lorem ipsum dolor sit amet, consectetur adipiscing elit. 한글 미리보기",
+     "x": 90.02,
+     "y": 306.4,
+     "base": 318.41,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "테스트 - 가나다라마바사",
+     "x": 90.02,
+     "y": 328.24,
+     "base": 340.25,
+     "size": 11.04,
+     "font": "MalgunGothic"
+    },
+    {
+     "text": "Paragraph 6: Lorem ipsum dolor sit amet, consectetur adipiscing elit. 한글 미리보기",
+     "x": 90.02,
+     "y": 360.16,
+     "base": 372.17,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "테스트 - 가나다라마바사",
+     "x": 90.02,
+     "y": 382.0,
+     "base": 394.01,
+     "size": 11.04,
+     "font": "MalgunGothic"
+    },
+    {
+     "text": "Paragraph 7: Lorem ipsum dolor sit amet, consectetur adipiscing elit. 한글 미리보기",
+     "x": 90.02,
+     "y": 413.94,
+     "base": 425.95,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "테스트 - 가나다라마바사",
+     "x": 90.02,
+     "y": 435.78,
+     "base": 447.79,
+     "size": 11.04,
+     "font": "MalgunGothic"
+    },
+    {
+     "text": "Paragraph 8: Lorem ipsum dolor sit amet, consectetur adipiscing elit. 한글 미리보기",
+     "x": 90.02,
+     "y": 467.7,
+     "base": 479.71,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "테스트 - 가나다라마바사",
+     "x": 90.02,
+     "y": 489.54,
+     "base": 501.55,
+     "size": 11.04,
+     "font": "MalgunGothic"
+    },
+    {
+     "text": "Paragraph 9: Lorem ipsum dolor sit amet, consectetur adipiscing elit. 한글 미리보기",
+     "x": 90.02,
+     "y": 521.46,
+     "base": 533.47,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "테스트 - 가나다라마바사",
+     "x": 90.02,
+     "y": 543.3,
+     "base": 555.31,
+     "size": 11.04,
+     "font": "MalgunGothic"
+    },
+    {
+     "text": "Paragraph 10: Lorem ipsum dolor sit amet, consectetur adipiscing elit. 한글 미리보기",
+     "x": 90.02,
+     "y": 575.25,
+     "base": 587.26,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "테스트 - 가나다라마바사",
+     "x": 90.02,
+     "y": 597.09,
+     "base": 609.1,
+     "size": 11.04,
+     "font": "MalgunGothic"
+    },
+    {
+     "text": "Paragraph 11: Lorem ipsum dolor sit amet, consectetur adipiscing elit. 한글 미리보기",
+     "x": 90.02,
+     "y": 629.01,
+     "base": 641.02,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "테스트 - 가나다라마바사",
+     "x": 90.02,
+     "y": 650.97,
+     "base": 662.98,
+     "size": 11.04,
+     "font": "MalgunGothic"
+    }
+   ]
+  },
+  {
+   "w": 612.0,
+   "h": 792.0,
+   "lines": [
+    {
+     "text": "Paragraph 12: Lorem ipsum dolor sit amet, consectetur adipiscing elit. 한글 미리보기",
+     "x": 90.02,
+     "y": 74.17,
+     "base": 86.18,
+     "size": 11.04,
+     "font": "Cambria"
+    },
+    {
+     "text": "테스트 - 가나다라마바사",
+     "x": 90.02,
+     "y": 96.01,
+     "base": 108.02,
+     "size": 11.04,
+     "font": "MalgunGothic"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,20 @@
+{
+ "format": "doc",
+ "source": "LibreOffice (Word blocks Word 6 files by Trust Center policy)",
+ "pages": [
+  {
+   "w": 612.0,
+   "h": 792.0,
+   "lines": [
+    {
+     "text": "The quick brown fox jumps over the lazy dog",
+     "x": 90.1,
+     "y": 72.51,
+     "base": 83.2,
+     "size": 12.0,
+     "font": "TimesNewRomanPSMT"
+    }
+   ]
+  }
+ ]
+}

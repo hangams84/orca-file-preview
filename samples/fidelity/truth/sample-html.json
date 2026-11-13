@@ -1,0 +1,92 @@
+{
+ "format": "doc",
+ "source": "Microsoft Word 2021 (PDF export)",
+ "pages": [
+  {
+   "w": 595.32,
+   "h": 841.92,
+   "lines": [
+    {
+     "text": "HTML saved with a .doc suffix",
+     "x": 72.02,
+     "y": 88.75,
+     "base": 109.34,
+     "size": 24.0,
+     "font": "Gulim"
+    },
+    {
+     "text": "Word and many web apps export \"Word\" files that are really HTML. 한글",
+     "x": 72.02,
+     "y": 132.16,
+     "base": 142.46,
+     "size": 12.0,
+     "font": "Gulim"
+    },
+    {
+     "text": "문단입니다.",
+     "x": 72.02,
+     "y": 147.76,
+     "base": 158.06,
+     "size": 12.0,
+     "font": "Gulim"
+    },
+    {
+     "text": "Bold and italic text.",
+     "x": 72.02,
+     "y": 177.28,
+     "base": 187.58,
+     "size": 12.0,
+     "font": "Gulim"
+    },
+    {
+     "text": "•",
+     "x": 90.02,
+     "y": 207.21,
+     "base": 217.22,
+     "size": 9.96,
+     "font": "SymbolMT"
+    },
+    {
+     "text": "First item",
+     "x": 108.02,
+     "y": 206.92,
+     "base": 217.22,
+     "size": 12.0,
+     "font": "Gulim"
+    },
+    {
+     "text": "•",
+     "x": 90.02,
+     "y": 222.81,
+     "base": 232.82,
+     "size": 9.96,
+     "font": "SymbolMT"
+    },
+    {
+     "text": "두 번째 항목",
+     "x": 108.02,
+     "y": 222.52,
+     "base": 232.82,
+     "size": 12.0,
+     "font": "Gulim"
+    },
+    {
+     "text": "A B",
+     "x": 75.38,
+     "y": 255.91,
+     "base": 266.21,
+     "size": 12.0,
+     "font": "Gulim"
+    },
+    {
+     "text": "1 2",
+     "x": 75.38,
+     "y": 276.07,
+     "base": 286.37,
+     "size": 12.0,
+     "font": "Gulim"
+    }
+   ]
+  }
+ ]
+}
