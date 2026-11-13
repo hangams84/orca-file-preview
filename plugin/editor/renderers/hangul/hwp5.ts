@@ -353,11 +353,33 @@ export function readBorderFill(d: Uint8Array): BorderFill {
   r.skip(6) // diagonal
   const fillType = r.u32()
   let fill: string | null = null
+  const out: BorderFill = { left, right, top, bottom, fill }
   if (fillType & 1) {
     const bk = r.u32()
+    r.skip(8) // pattern colour and type
     fill = colorRef(bk)
+    out.fill = fill
   }
-  return { left, right, top, bottom, fill }
+  if (fillType & 4) {
+    r.i16() // type
+    const angle = r.i16()
+    r.skip(6) // centre, blur
+    const n = Math.max(0, Math.min(16, r.i16()))
+    if (n > 2) r.skip(4 * n)
+    const colors: string[] = []
+    for (let i = 0; i < n; i++) {
+      const c = colorRef(r.u32())
+      if (c) colors.push(c)
+    }
+    if (colors.length) out.gradient = { colors, angle }
+  }
+  if (fillType & 2) {
+    r.u8() // image fill mode
+    r.skip(3) // brightness, contrast, effect
+    const bin = r.u16()
+    if (bin) out.image = String(bin)
+  }
+  return out
 }
 
 export function readNumbering(d: Uint8Array): Numbering {
@@ -399,9 +421,13 @@ export function readSection(roots: HwpRecord[], ctx: SectionCtx): Section[] {
     const para = readPara(rec, ctx)
     const sec = para.ctrls.find((c) => c?.kind === 'section')
     if (sec && sec.kind === 'section' && (!cur || cur.paras.length)) {
-      cur = { page: sec.page, paras: [] }
+      cur = { page: sec.page, paras: [], masters: sec.masters, pageFill: sec.pageFill }
       out.push(cur)
-    } else if (sec && sec.kind === 'section' && cur) cur.page = sec.page
+    } else if (sec && sec.kind === 'section' && cur) {
+      cur.page = sec.page
+      cur.masters = sec.masters
+      cur.pageFill = sec.pageFill
+    }
     if (!cur) {
       cur = { page: { ...A4 }, paras: [] }
       out.push(cur)
@@ -522,7 +548,26 @@ function readCtrl(rec: HwpRecord, ctx: SectionCtx): Ctrl | null {
   switch (id) {
     case 'secd': {
       const pd = kids.find((k) => k.tag === TAG.PAGE_DEF)
-      return { kind: 'section', page: pd ? readPageDef(pd.data) : { ...A4 } }
+      // Master pages: LIST_HEADER + paragraphs after the page definition records.
+      const masters: Para[][] = []
+      for (let i = 0; i < kids.length; i++) {
+        if (kids[i].tag !== TAG.LIST_HEADER) continue
+        const count = new Reader(kids[i].data).i32()
+        const list = readList(kids, i + 1, count, ctx)
+        if (list.paras.length) masters.push(list.paras)
+        i = list.next - 1
+      }
+      // Page border / background: the first PAGE_BORDER_FILL (both pages).
+      const pbf = kids.find((k) => k.tag === TAG.PAGE_BORDER_FILL)
+      let pageFill: Section['pageFill']
+      if (pbf) {
+        const pr = new Reader(pbf.data)
+        const props = pr.u32()
+        pr.skip(8)
+        const id = pr.u16()
+        if (id) pageFill = { id, area: ((props >>> 3) & 3) === 0 ? 'paper' : 'page' }
+      }
+      return { kind: 'section', page: pd ? readPageDef(pd.data) : { ...A4 }, masters: masters.length ? masters : undefined, pageFill }
     }
     case 'cold': {
       const props = r.u16()

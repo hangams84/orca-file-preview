@@ -61,6 +61,9 @@ export interface Page {
   pageNum: PageNumberPos | null
   /** The section had no saved line layout: draw its paragraphs as flowing text in this page. */
   flow?: Section
+  /** Master page lists drawn behind the body. */
+  masters?: Para[][]
+  pageFill?: Section['pageFill']
 }
 
 export interface Layout {
@@ -233,7 +236,9 @@ export function layoutDoc(doc: HangulDoc): Layout {
         footer: null,
         footnotes: [],
         endnotes: [],
-        pageNum
+        pageNum,
+        masters: sec.masters,
+        pageFill: sec.pageFill
       }
       pages.push(pg)
       return pg

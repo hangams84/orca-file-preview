@@ -59,6 +59,10 @@ export interface BorderFill {
   bottom: Border
   /** Background colour or null. */
   fill: string | null
+  /** Gradient colours (first to last) and angle in degrees. */
+  gradient?: { colors: string[]; angle: number }
+  /** Picture fill (bin key), stretched over the area. */
+  image?: string
 }
 
 export interface Numbering {
@@ -229,6 +233,11 @@ export interface Columns {
 export interface SectionCtrl {
   kind: 'section'
   page: PageDef
+  pageFill?: Section['pageFill']
+  /** Master page (바탕쪽) contents, drawn behind the body of every page. */
+  masters?: Para[][]
+  /** HWPX: manifest ids of the master page parts. */
+  masterRefs?: string[]
 }
 
 export interface Break {
@@ -253,6 +262,9 @@ export interface PageDef {
 export interface Section {
   page: PageDef
   paras: Para[]
+  masters?: Para[][]
+  /** Page background / border (쪽 테두리/배경): border fill id (1-based) and the area it covers. */
+  pageFill?: { id: number; area: 'paper' | 'page' }
 }
 
 export interface BinItem {

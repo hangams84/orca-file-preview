@@ -3,7 +3,7 @@
   "id": "file-preview",
   "name": "File Preview",
   "version": "0.1.0",
-  "description": "Read-only previews for Word (doc, docx), PowerPoint (ppt, pptx), Excel (xls, xlsx, xlsm, ods), PDF, text, CSV/TSV, HTML, SVG, GIF and BMP files on desktop, browser and mobile clients.",
+  "description": "Read-only previews for Word (doc, docx), Hangul (hwp, hwpx), PowerPoint (ppt, pptx), Excel (xls, xlsx, xlsm, ods), PDF, text, CSV/TSV, HTML, SVG, GIF and BMP files on desktop, browser and mobile clients.",
   "engines": {
     "orca": ">=1.4.248"
   },
@@ -86,6 +86,17 @@
         "extensions": [
           ".csv",
           ".tsv"
+        ],
+        "entry": "editor/main.ts",
+        "contentKind": "bytes",
+        "frame": "any"
+      },
+      {
+        "id": "hangul",
+        "title": "Hangul Preview",
+        "extensions": [
+          ".hwp",
+          ".hwpx"
         ],
         "entry": "editor/main.ts",
         "contentKind": "bytes",

@@ -13,13 +13,14 @@ import {
   layoutDoc,
   listHeight,
   objHeight,
+  objPosition,
   objWidth,
   tableGeom,
   type Layout,
   type Page,
   type PlacedObj
 } from './layout.ts'
-import { EMPTY_BORDER_FILL, type Border, type Caption, type CharShape, type HangulDoc, type HeaderFooter, type Obj, type Para, type ParaShape, type Table } from './model.ts'
+import { EMPTY_BORDER_FILL, type Border, type BorderFill, type Caption, type CharShape, type HangulDoc, type HeaderFooter, type Obj, type Para, type ParaShape, type Table } from './model.ts'
 
 /** px per em at 100 %: 10 pt. */
 const BASE_PX = 40 / 3
@@ -48,6 +49,8 @@ const STYLE = `
 .fp-hwp .hp-sep { position: absolute; border-top: 1px solid #000; height: 0; }
 .fp-hwp .hp-flow { position: absolute; }
 .fp-hwp img.ho { object-fit: fill; }
+.fp-hwp .hl .hpre::before { content: attr(data-pre); position: absolute; right: 100%; top: auto; padding-right: .25em; white-space: pre; }
+.fp-hwp .hl .hpre { position: static; }
 .fp-hwp sup.hn { font-size: .6em; vertical-align: super; line-height: 0; }
 /* Reading view */
 .fp-hwp.reading { width: auto; min-width: 0; padding: 0; }
@@ -63,6 +66,8 @@ const STYLE = `
   font: 0.9em/1.4 system-ui, sans-serif; padding: .25em .6em; margin: .2em 0; white-space: normal; }
 .fp-hwp .hr-pb { border: 0; border-top: 1px dashed #b8bcc4; margin: 1.2em 0; }
 .fp-hwp .hr-notes { margin-top: 1.4em; padding-top: .6em; border-top: 1px solid #999; font-size: .92em; }
+.fp-hwp .hr-hf { color: #555; border-bottom: 1px dashed #ccc; margin: 0 0 1em; padding-bottom: .4em; }
+.fp-hwp .hr-hf.f { border-bottom: 0; border-top: 1px dashed #ccc; margin: 1.4em 0 0; padding: .4em 0 0; }
 .fp-hwp .hr-cap { font-size: .95em; margin: .2em 0 .6em; }
 .fp-hwp-note { margin: 0 auto 8px; max-width: 800px; padding: 6px 10px; border-radius: var(--orca-radius, 6px); box-sizing: border-box;
   background: var(--orca-muted, #f4f4f5); color: var(--orca-foreground, #111); font-size: 12px; }
@@ -78,6 +83,7 @@ function charCss(shapes: CharShape[]): string {
     if (c.italic) d.push('font-style:italic')
     if (c.color && c.color !== '#000000') d.push(`color:${c.color}`)
     if (c.spacing) d.push(`letter-spacing:${c.spacing / 100}em`)
+    if (c.spacing < 0) rules.push(`.fp-hwp.reading .k${i}{word-spacing:${-c.spacing / 100}em}`)
     const deco = [c.underline === 'below' ? 'underline' : c.underline === 'above' ? 'overline' : '', c.strike ? 'line-through' : ''].filter(Boolean)
     if (deco.length) d.push(`text-decoration:${deco.join(' ')}`)
     if (c.underline !== 'none' && c.underlineColor && c.underlineColor !== c.color) d.push(`text-decoration-color:${c.underlineColor}`)
@@ -98,6 +104,8 @@ interface Env {
   url(bin: string): string | null
   /** Text spans painted since the last fit pass. */
   fits: Fit[]
+  /** Page-view flow fallback (no saved line layout): floating objects are positioned on this page. */
+  flowPage?: { page: Page; frag: DocumentFragment } | null
 }
 
 interface Fit {
@@ -233,7 +241,11 @@ function paintLine(parent: HTMLElement | DocumentFragment, para: Para, li: numbe
   const tx = h('span', 'ht')
   if (li === 0) {
     const pre = env.layout.prefixes.get(para)
-    if (pre) tx.append(h('span', `k${para.runs[0]?.cs ?? 0}`, pre + ' '))
+    if (pre) {
+      const s0 = h('span', `k${para.runs[0]?.cs ?? 0} hpre`)
+      s0.dataset.pre = pre + ' '
+      tx.append(s0)
+    }
   }
   const st = appendRange(tx, para, s, end, env, { inNote, flow: false, lineH: line.height, lineBase: line.baseline })
   div.append(spacer, tx)
@@ -270,11 +282,12 @@ function fitLines(fits: Fit[], basePx: number): void {
 /** Paragraphs of a sub-list at (0, 0) of `parent`, from their own saved lines. */
 function paintList(parent: HTMLElement, paras: Para[], width: number, env: Env, inNote = false): void {
   if (!hasLineLayout(paras)) {
-    const flow = h('div', 'hp-flow')
+    const flow = h('div')
     flow.style.width = em(width)
-    flow.style.left = '0'
-    flow.style.top = '0'
+    const saved = env.flowPage
+    env.flowPage = null
     flow.append(flowParas(paras, env))
+    env.flowPage = saved
     parent.append(flow)
     return
   }
@@ -302,6 +315,17 @@ function borderCss(el: HTMLElement, side: 'Left' | 'Right' | 'Top' | 'Bottom', b
   if (b.style === 'none') return
   const w = hairline(b.style === 'double' ? Math.max(b.width, 0.5) : b.width)
   el.style.setProperty(`border-${side.toLowerCase()}`, `${w} ${b.style} ${b.color}`)
+}
+
+/** Background of a border fill: colour, gradient or a stretched picture. */
+function fillCss(el: HTMLElement, bf: BorderFill, env: Env): void {
+  const img = bf.image ? env.url(bf.image) : null
+  if (img) {
+    el.style.backgroundImage = `url("${img}")`
+    el.style.backgroundSize = '100% 100%'
+  } else if (bf.gradient && bf.gradient.colors.length > 1) el.style.backgroundImage = `linear-gradient(${(bf.gradient.angle + 180) % 360}deg, ${bf.gradient.colors.join(', ')})`
+  if (bf.fill) el.style.backgroundColor = bf.fill
+  else if (!img && bf.gradient?.colors.length === 1) el.style.backgroundColor = bf.gradient.colors[0]
 }
 
 function placeObj(parent: HTMLElement | DocumentFragment, o: Obj, x: number, y: number, env: Env, rows?: [number, number]): void {
@@ -457,18 +481,20 @@ function paintTable(t: Table, env: Env, rows?: [number, number]): HTMLElement {
     cell.style.width = em(x1 - x0)
     cell.style.height = em(bottom - top)
     const bf = env.doc.borderFills[c.borderFillId - 1] ?? EMPTY_BORDER_FILL
-    if (bf.fill) cell.style.background = bf.fill
-    // Borders are centred on the cell edges so neighbours' shared edges coincide.
+    fillCss(cell, bf, env)
+    // Each shared edge is drawn once (by the cell left of / above it), centred on the edge.
     const bd = h('i', 'hd')
+    const lastCol = c.col + c.colSpan >= g.colX.length - 1
+    const lastRow = Math.min(r1, to) >= to
     const half = (b: Border) => (b.style === 'none' ? '0' : `calc(${hairline(b.width)} / -2)`)
     bd.style.left = half(bf.left)
-    bd.style.right = half(bf.right)
     bd.style.top = half(bf.top)
-    bd.style.bottom = half(bf.bottom)
+    bd.style.right = lastCol ? half(bf.right) : '0'
+    bd.style.bottom = lastRow ? half(bf.bottom) : '0'
     borderCss(bd, 'Left', bf.left)
-    borderCss(bd, 'Right', bf.right)
     borderCss(bd, 'Top', bf.top)
-    borderCss(bd, 'Bottom', bf.bottom)
+    if (lastCol) borderCss(bd, 'Right', bf.right)
+    if (lastRow) borderCss(bd, 'Bottom', bf.bottom)
     if (r0 >= from) {
       const [ml, mr, mt, mb] = c.margin
       const inner = h('div', 'ho')
@@ -476,8 +502,16 @@ function paintTable(t: Table, env: Env, rows?: [number, number]): HTMLElement {
       const room = g.rowY[r1] - g.rowY[r0] - mt - mb
       const off = c.vAlign === 'center' ? (room - contentH) / 2 : c.vAlign === 'bottom' ? room - contentH : 0
       inner.style.left = em(ml)
-      inner.style.top = em(mt + Math.max(0, off))
       inner.style.width = em(Math.max(0, x1 - x0 - ml - mr))
+      if (hasLineLayout(c.paras)) inner.style.top = em(mt + Math.max(0, off))
+      else {
+        // No saved lines: let the browser centre the flowing text in the cell.
+        inner.style.top = em(mt)
+        inner.style.height = em(Math.max(0, room))
+        inner.style.display = 'flex'
+        inner.style.flexDirection = 'column'
+        inner.style.justifyContent = c.vAlign === 'center' ? 'center' : c.vAlign === 'bottom' ? 'flex-end' : 'flex-start'
+      }
       paintList(inner, c.paras, x1 - x0 - ml - mr, env)
       cell.append(inner)
     }
@@ -496,13 +530,39 @@ function paintPage(el: HTMLElement, page: Page, env: Env): void {
   const behind = objs.filter((o) => o.obj.pos.wrap === 'behind')
   const rest = objs.filter((o) => o.obj.pos.wrap !== 'behind')
   const place = (p: PlacedObj) => placeObj(frag, p.obj, p.x, p.y, env, p.rows)
+  if (page.pageFill) {
+    const bf = env.doc.borderFills[page.pageFill.id - 1]
+    if (bf && (bf.fill || bf.image || bf.gradient)) {
+      const bg = h('div', 'ho')
+      const b = page.pageFill.area === 'paper' ? { x: 0, y: 0, w: page.width, h: page.height } : page.body
+      bg.style.left = em(b.x)
+      bg.style.top = em(b.y)
+      bg.style.width = em(b.w)
+      bg.style.height = em(b.h)
+      fillCss(bg, bf, env)
+      frag.append(bg)
+    }
+  }
+  for (const m of page.masters ?? []) {
+    const box = h('div', 'ho')
+    box.style.left = em(page.body.x)
+    box.style.top = em(page.body.y)
+    box.style.width = em(page.body.w)
+    paintList(box, m, page.body.w, env)
+    frag.append(box)
+  }
   behind.forEach(place)
   if (page.flow) {
     const flow = h('div', 'hp-flow')
     flow.style.left = em(page.body.x)
     flow.style.top = em(page.body.y)
     flow.style.width = em(page.body.w)
-    flow.append(flowParas(page.flow.paras, env))
+    env.flowPage = { page, frag }
+    try {
+      flow.append(flowParas(page.flow.paras, env))
+    } finally {
+      env.flowPage = null
+    }
     frag.append(flow)
   }
   for (const l of page.lines) paintLine(frag, l.para, l.li, l.x, l.y, env)
@@ -592,9 +652,46 @@ function flowParas(paras: Para[], env: Env): DocumentFragment {
   const frag = document.createDocumentFragment()
   for (const p of paras) {
     const ps = env.doc.paraShapes[p.ps]
-    // Floating objects of the paragraph come first, as blocks.
+    // Floating objects of the paragraph come first: as blocks in the reading view; in a page
+    // without saved layout, at their offsets (paper / page objects on the page itself).
+    const fp = env.flowPage
     p.ctrls.forEach((c) => {
-      if (c && (c.kind === 'table' || c.kind === 'picture' || c.kind === 'shape' || c.kind === 'placeholder') && !c.pos.inline) frag.append(flowObj(c, env, false))
+      if (!c || !(c.kind === 'table' || c.kind === 'picture' || c.kind === 'shape' || c.kind === 'placeholder') || c.pos.inline) return
+      if (!fp) {
+        frag.append(flowObj(c, env, false))
+        return
+      }
+      const body = fp.page.body
+      const w = objWidth(c)
+      const hh = objHeight(c)
+      if (c.pos.vertRel !== 'para') {
+        const at = objPosition(c.pos, w, hh, {
+          paper: { x: 0, y: 0, w: fp.page.width, h: fp.page.height },
+          page: body,
+          column: body,
+          para: body
+        })
+        placeObj(fp.frag, c, at.x, at.y, env)
+        return
+      }
+      const at = objPosition(c.pos, w, hh, {
+        paper: { x: -body.x, y: 0, w: fp.page.width, h: fp.page.height },
+        page: { ...body, x: 0, y: 0 },
+        column: { ...body, x: 0, y: 0 },
+        para: { ...body, x: 0, y: 0 }
+      })
+      if (c.pos.wrap === 'topbottom') {
+        // Takes its height in the text flow.
+        const holder = h('div')
+        holder.style.cssText = `position:relative;height:${em(hh + c.pos.margin[2] + c.pos.margin[3])}`
+        placeObj(holder, c, at.x, c.pos.margin[2] + Math.max(0, c.pos.y), env)
+        frag.append(holder)
+      } else {
+        const anchor = h('div')
+        anchor.style.cssText = 'position:relative;height:0'
+        placeObj(anchor, c, at.x, at.y, env)
+        frag.append(anchor)
+      }
     })
     const div = h('div', 'hr-p')
     const st = div.style
@@ -630,10 +727,14 @@ function flowObj(o: Obj, env: Env, inline: boolean): HTMLElement {
     const g = tableGeom(o)
     const t = h('table', 'hr-t')
     t.style.width = em(g.width)
+    // Narrow tables shrink to the screen; wide ones keep their widths and scroll sideways.
+    const fitWidth = g.colX.length - 1 <= 5
+    if (fitWidth) t.style.maxWidth = '100%'
     const cg = h('colgroup')
     for (let i = 0; i + 1 < g.colX.length; i++) {
       const col = h('col')
-      col.style.width = em(g.colX[i + 1] - g.colX[i])
+      const w = g.colX[i + 1] - g.colX[i]
+      col.style.width = fitWidth && g.width > 0 ? `${((w / g.width) * 100).toFixed(3)}%` : em(w)
       cg.append(col)
     }
     t.append(cg)
@@ -753,16 +854,20 @@ export function renderHangul(ctx: PreviewContext, doc: HangulDoc, opts: ViewOpti
   const pagesBox = h('div')
   const readBox = h('div')
   wrap.append(pagesBox, readBox)
-  const banner = opts.note ? h('div', 'fp-hwp-note', opts.note) : null
+  const empty = isEmptyDoc(doc)
+  const noteText = [opts.note, empty ? tr('내용이 없는 빈 문서입니다.', 'This document is empty.') : ''].filter(Boolean).join(' ')
+  const banner = noteText ? h('div', 'fp-hwp-note', noteText) : null
 
   // Page shells with their final size, painted on demand.
   const shells = pages.map((p, i) => {
-    const el = h('div', 'hp-page')
+    const el = h('div', 'hp-page fp-page')
+    el.setAttribute('data-fp-page', String(i + 1))
     el.style.width = em(p.width)
-    el.style.height = em(p.height)
+    // A page without saved layout grows with its flowing text.
+    if (p.flow) el.style.minHeight = em(p.height)
+    else el.style.height = em(p.height)
     el.setAttribute('role', 'document')
     el.setAttribute('aria-label', `${tr('쪽', 'Page')} ${i + 1}`)
-    el.dataset.page = String(i + 1)
     return el
   })
   const painted = new Uint8Array(pages.length)
@@ -832,10 +937,32 @@ export function renderHangul(ctx: PreviewContext, doc: HangulDoc, opts: ViewOpti
         if (p.pageBreak && chunks[chunks.length - 1].length) chunks.push([])
         chunks[chunks.length - 1].push(p)
       }
+      const hf = (kind: 'header' | 'footer') => {
+        for (const p of sec.paras) for (const c of p.ctrls) if (c && c.kind === kind && c.paras.some((q) => visibleText(q))) return c
+        return null
+      }
+      const head = hf('header')
+      if (head && head.kind === 'header') {
+        const d = h('div', 'hr-hf')
+        d.append(flowParas(head.paras, env))
+        box.append(d)
+      }
+      for (const m of sec.masters ?? []) {
+        if (!m.some(visibleText)) continue
+        const d = h('div', 'hr-hf')
+        d.append(flowParas(m, env))
+        box.append(d)
+      }
       chunks.forEach((ch, i) => {
         if (i) box.append(h('hr', 'hr-pb'))
         box.append(flowParas(ch, env))
       })
+      const foot = hf('footer')
+      if (foot && foot.kind === 'footer') {
+        const d = h('div', 'hr-hf f')
+        d.append(flowParas(foot.paras, env))
+        box.append(d)
+      }
       // Footnotes and endnotes of the section at its end.
       const notes: { n: number; paras: Para[] }[] = []
       for (const p of sec.paras) for (const c of p.ctrls) if (c && (c.kind === 'footnote' || c.kind === 'endnote')) notes.push({ n: c.number, paras: c.paras })
@@ -872,10 +999,15 @@ export function renderHangul(ctx: PreviewContext, doc: HangulDoc, opts: ViewOpti
   )
   wrap.style.fontSize = `${BASE_PX}px`
 
-  const modeBtn = toolbar.button({
+  const readBtn = toolbar.button({
     label: tr('읽기', 'Reading'),
-    title: tr('읽기 모드 (화면 폭에 맞춰 줄바꿈) / 페이지 모드', 'Reading layout (wrap to the screen) / page layout'),
-    onClick: () => setMode(!reading)
+    title: tr('읽기 모드: 화면 폭에 맞춰 줄바꿈', 'Reading layout: text wraps to the screen'),
+    onClick: () => setMode(true)
+  })
+  const pageBtn = toolbar.button({
+    label: tr('페이지', 'Page'),
+    title: tr('페이지 모드: 한글과 같은 쪽 배치', 'Page layout: pages as Hangul lays them out'),
+    onClick: () => setMode(false)
   })
   const count = pages.length
   const info = [doc.format === 'HWP' ? `HWP ${doc.version}` : 'HWPX', `${count.toLocaleString()} ${tr('쪽', count === 1 ? 'page' : 'pages')}`]
@@ -886,7 +1018,8 @@ export function renderHangul(ctx: PreviewContext, doc: HangulDoc, opts: ViewOpti
 
   const setMode = (next: boolean) => {
     reading = next
-    modeBtn.setAttribute('aria-pressed', String(reading))
+    readBtn.setAttribute('aria-pressed', String(reading))
+    pageBtn.setAttribute('aria-pressed', String(!reading))
     wrap.classList.toggle('reading', reading)
     if (reading) buildReading()
     pagesBox.style.display = reading ? 'none' : ''
@@ -905,6 +1038,24 @@ export function renderHangul(ctx: PreviewContext, doc: HangulDoc, opts: ViewOpti
   if (!reading) check()
   timer = window.setTimeout(idle, 250)
   return () => window.clearTimeout(timer)
+}
+
+const visibleText = (p: Para): boolean => !!p.text.replace(/￼/g, '').trim()
+
+/** No text, objects, headers or master pages anywhere. */
+function isEmptyDoc(doc: HangulDoc): boolean {
+  for (const s of doc.sections) {
+    if (s.masters?.some((m) => m.some(visibleText))) return false
+    for (const p of s.paras) {
+      if (visibleText(p)) return false
+      for (const c of p.ctrls) {
+        if (!c) continue
+        if (c.kind === 'table' || c.kind === 'picture' || c.kind === 'shape' || c.kind === 'placeholder') return false
+        if ((c.kind === 'header' || c.kind === 'footer' || c.kind === 'footnote' || c.kind === 'endnote') && c.paras.some(visibleText)) return false
+      }
+    }
+  }
+  return true
 }
 
 export { ctrlIndex }

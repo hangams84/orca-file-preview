@@ -85,7 +85,17 @@ export function readHwpx(bytes: Uint8Array): HangulDoc {
     if (!xml) continue
     const root = safeParse(xml)
     if (!root) continue
-    sections.push(...readSectionXml(root, { notes }))
+    sections.push(
+      ...readSectionXml(root, {
+        notes,
+        master: (id) => {
+          const href = items.get(id) ?? `Contents/${id}.xml`
+          const mx = str(href)
+          const mroot = mx ? safeParse(mx) : null
+          return mroot ? readParas(kid(mroot, 'subList') ?? find(mroot, 'subList'), { notes }) : null
+        }
+      })
+    )
   }
   if (!sections.length) throw new HangulError('damaged', 'no sections')
 
@@ -184,14 +194,23 @@ export function readBorderFillXml(bf: XNode): BorderFill {
     const b = kid(bf, name)
     return { style: borderStyle(b?.attrs.type ?? 'NONE'), width: mm(b?.attrs.width), color: color(b?.attrs.color) ?? '#000000' }
   }
-  const brush = find(bf, 'winBrush')
-  return {
+  const fb = kid(bf, 'fillBrush')
+  const brush = kid(fb, 'winBrush')
+  const out: BorderFill = {
     left: side('leftBorder'),
     right: side('rightBorder'),
     top: side('topBorder'),
     bottom: side('bottomBorder'),
     fill: color(brush?.attrs.faceColor)
   }
+  const grad = kid(fb, 'gradation')
+  if (grad) {
+    const colors = kids(grad, 'color').map((c) => color(c.attrs.value)).filter((c): c is string => !!c)
+    if (colors.length) out.gradient = { colors, angle: num(grad, 'angle', 0) }
+  }
+  const img = find(kid(fb, 'imgBrush'), 'img')
+  if (img?.attrs.binaryItemIDRef) out.image = img.attrs.binaryItemIDRef
+  return out
 }
 
 export function readCharPr(cp: XNode, faces: Record<string, string[]>): CharShape {
@@ -261,6 +280,8 @@ export function readParaPr(pp: XNode): ParaShape {
 
 interface Ctx {
   notes: Set<string>
+  /** Paragraphs of a master page part by manifest id. */
+  master?: (id: string) => Para[] | null
 }
 
 export function readSectionXml(root: XNode, ctx: Ctx): Section[] {
@@ -270,8 +291,12 @@ export function readSectionXml(root: XNode, ctx: Ctx): Section[] {
     const para = readP(p, ctx)
     const sec = para.ctrls.find((c) => c?.kind === 'section')
     if (sec && sec.kind === 'section' && (!cur || cur.paras.length)) {
-      cur = { page: sec.page, paras: [] }
+      cur = { page: sec.page, paras: [], pageFill: sec.pageFill }
       out.push(cur)
+    }
+    if (sec && sec.kind === 'section' && cur && sec.masterRefs?.length && ctx.master) {
+      const masters = sec.masterRefs.map((id) => ctx.master!(id)).filter((m): m is Para[] => !!m && m.length > 0)
+      if (masters.length) cur.masters = masters
     }
     if (!cur) {
       cur = { page: { ...A4 }, paras: [] }
@@ -323,7 +348,12 @@ export function readP(p: XNode, ctx: Ctx): Para {
           }
           break
         case 'secPr':
-          addCtrl({ kind: 'section', page: readPagePr(item) })
+          addCtrl({
+            kind: 'section',
+            page: readPagePr(item),
+            masterRefs: kids(item, 'masterPage').map((m) => m.attrs.idRef ?? '').filter(Boolean),
+            pageFill: readPageFill(item)
+          })
           break
         case 'ctrl':
           for (const c of kids(item)) {
@@ -381,6 +411,13 @@ export function readPagePr(secPr: XNode): PageDef {
   }
   if (page.width < 1000 || page.height < 1000) return { ...A4 }
   return page
+}
+
+function readPageFill(secPr: XNode): Section['pageFill'] {
+  const pbf = kids(secPr, 'pageBorderFill').find((p) => (p.attrs.type ?? 'BOTH').toUpperCase() === 'BOTH')
+  const id = num(pbf, 'borderFillIDRef', 0)
+  if (!pbf || !id) return undefined
+  return { id, area: (pbf.attrs.fillArea ?? 'PAPER').toUpperCase() === 'PAPER' ? 'paper' : 'page' }
 }
 
 const PAGE_NUM_POS: Record<string, number> = {

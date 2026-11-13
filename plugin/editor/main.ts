@@ -26,7 +26,9 @@ export const RENDERERS: Record<string, Loader> = {
   xlsx: () => import('./renderers/sheet.ts'),
   xlsm: () => import('./renderers/sheet.ts'),
   xls: () => import('./renderers/sheet.ts'),
-  ods: () => import('./renderers/sheet.ts')
+  ods: () => import('./renderers/sheet.ts'),
+  hwp: () => import('./renderers/hwp.ts'),
+  hwpx: () => import('./renderers/hwp.ts')
 }
 
 installStyles()
