@@ -4,14 +4,20 @@ name: release
 #   file-preview-setup-<v>.run            macOS/Linux self-extracting installer
 #   FilePreviewSetup-<v>.exe              Windows installer/updater (package embedded)
 #   File-Preview-Setup-<v>-macos.zip      macOS app ("File Preview Setup.app")
-# each with a .sha256. Release notes come from docs/release-notes/<tag>.md (tools/release-notes.mjs).
+# each with a .sha256. Release notes come from docs/release-notes/v<version>.md (tools/release-notes.mjs).
+#
+# Orca installs a plugin from a Git URL by taking the newest vX.Y.Z tag and expects orca-plugin.json at
+# the repository root within its download size limit. So a release is started from the source with a
+# `source-vX.Y.Z` tag on main; this workflow then commits the plugin files to the root of the `dist`
+# branch, tags that commit `vX.Y.Z` and publishes the release there:
+#   git tag -a source-v0.2.2 -m 0.2.2 && git push origin source-v0.2.2
 on:
   push:
-    tags: ['v*']
+    tags: ['source-v*']
   workflow_dispatch:
     inputs:
-      tag:
-        description: 'Existing tag to (re)build, e.g. v0.1.0'
+      source:
+        description: 'Existing source tag to (re)build, e.g. source-v0.2.2'
         required: true
 
 permissions:
@@ -22,16 +28,18 @@ jobs:
     runs-on: ubuntu-24.04
     outputs:
       tag: ${{ steps.v.outputs.tag }}
+      src: ${{ steps.v.outputs.src }}
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.inputs.tag || github.ref }}
+          ref: ${{ github.event.inputs.source || github.ref }}
       - id: v
         run: |
-          TAG="${{ github.event.inputs.tag || github.ref_name }}"
+          SRC="${{ github.event.inputs.source || github.ref_name }}"
           VER=$(node -p "require('./plugin/orca-plugin.json').version")
-          [ "v$VER" = "$TAG" ] || { echo "tag $TAG does not match plugin version $VER" >&2; exit 1; }
-          echo "tag=$TAG" >>"$GITHUB_OUTPUT"
+          [ "source-v$VER" = "$SRC" ] || { echo "tag $SRC does not match plugin version $VER" >&2; exit 1; }
+          echo "tag=v$VER" >>"$GITHUB_OUTPUT"
+          echo "src=$SRC" >>"$GITHUB_OUTPUT"
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -54,7 +62,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ needs.package.outputs.tag }}
+          ref: ${{ needs.package.outputs.src }}
       - uses: actions/download-artifact@v4
         with:
           name: dist-package
@@ -83,7 +91,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ needs.package.outputs.tag }}
+          ref: ${{ needs.package.outputs.src }}
       - uses: actions/download-artifact@v4
         with:
           name: dist-package
@@ -109,12 +117,31 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ needs.package.outputs.tag }}
+          ref: ${{ needs.package.outputs.src }}
       - uses: actions/download-artifact@v4
         with:
           pattern: dist-*
           path: dist
           merge-multiple: true
+      - name: Commit the plugin to the dist branch and tag ${{ needs.package.outputs.tag }}
+        env:
+          TAG: ${{ needs.package.outputs.tag }}
+          SRC: ${{ needs.package.outputs.src }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git fetch -q origin dist; then git worktree add -q dist-wt FETCH_HEAD; else git worktree add -q --detach dist-wt && git -C dist-wt checkout -q --orphan dist; fi
+          find dist-wt -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -r plugin/. dist-wt/ && cp LICENSE dist-wt/ && rm -rf dist-wt/.orca
+          cd dist-wt
+          git add -A
+          git commit -q -m "dist: File Preview ${TAG#v} (from $SRC, $(git -C .. rev-parse --short HEAD))" || echo "dist unchanged"
+          if git rev-parse -q --verify "refs/tags/$TAG" >/dev/null || git ls-remote --exit-code --tags origin "$TAG" >/dev/null; then
+            echo "$TAG already exists: keeping it"
+          else
+            git tag -a "$TAG" -m "File Preview for Orca ${TAG#v}"
+            git push -q origin "HEAD:refs/heads/dist" "$TAG"
+          fi
       - name: Publish ${{ needs.package.outputs.tag }}
         env:
           GH_TOKEN: ${{ github.token }}
@@ -129,3 +156,21 @@ jobs:
           else
             gh release create "$TAG" dist/* --title "File Preview for Orca ${TAG#v}" --notes-file "$NOTES" --latest
           fi
+
+  git-install:
+    # What Orca's Settings -> Plugins -> Install -> Git URL does: the plain repository URL must resolve
+    # to this release (newest vX.Y.Z tag on dist), stay within Orca's download limits and install.
+    needs: [package, publish]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.package.outputs.src }}
+      - name: Orca image
+        run: docker build -q -t orca-fp --build-arg UBUNTU=24.04 --build-arg MIRROR=http://azure.archive.ubuntu.com/ubuntu tools/platform-test
+      - name: Install from the Git URL in a fresh Orca
+        env:
+          TAG: ${{ needs.package.outputs.tag }}
+        run: |
+          mkdir -p out && chmod 777 out
+          docker run --rm --shm-size=1g --security-opt seccomp=unconfined -e EXPECT="${TAG#v}"             -v "$PWD:/src:ro" -v "$PWD/out:/out" --entrypoint bash orca-fp             /src/tools/platform-test/test-git-install.sh "https://github.com/${{ github.repository }}.git"

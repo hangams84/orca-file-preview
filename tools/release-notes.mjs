@@ -58,7 +58,7 @@ out.push(`| Windows 10/11 | \`FilePreviewSetup-${v}.exe\` (메뉴: 설치 · 업
 out.push(`| macOS | \`File-Preview-Setup-${v}-macos.zip\` → *File Preview Setup.app* (first open: Control-click → Open) | \`file-preview-setup-${v}.run\` or \`orca-file-preview-${v}.tar.gz\` → \`installer/macos/*.command\` |`)
 out.push(`| Linux | \`sh file-preview-setup-${v}.run [install\\|update\\|uninstall\\|status]\` | \`orca-file-preview-${v}.tar.gz\` → \`installer/linux/{install,update,uninstall}.sh\` |`, '')
 out.push("Every installer shows the access Orca asks you to approve and approves only after you confirm. **Update** checks this repository's latest release, downloads it, verifies the SHA-256 and reinstalls (`update --check` only reports). Orca 1.4.248–1.4.251 have no `plugin install`, so the folder is registered with `plugin dev load` there. Windows 7/8 are refused with a clear message (Orca needs Windows 10+). The executables are unsigned: Windows SmartScreen → *More info* → *Run anyway*; macOS Gatekeeper → Control-click → *Open*.", '')
-out.push(`Without the packages: \`orca plugin install ${repo}/tree/v${v}/plugin\` (Orca 1.4.252+).`, '')
+out.push(`Without the packages: \`orca plugin install ${repo}\` (newest release) or \`${repo}#v${v}\`, or paste \`${repo}.git\` in Orca → Settings → Plugins → Install → Git URL (Orca 1.4.252+).`, '')
 if (shas.length) out.push('<details><summary>SHA-256</summary>', '', '```', ...shas, '```', '', '</details>', '')
 
 out.push('## 검증 결과 / Verification', '')
@@ -93,11 +93,11 @@ if (existsSync(fid)) {
   for (const [fmt, rs] of Object.entries(by))
     out.push(`| .${fmt} | ${rs.filter((r) => r.pass).length}/${rs.length} | ${fmt === 'doc' ? 'Word 2021 PDF export' : "Hangul's saved line layout"} |`)
   const bad = rep.filter((r) => !r.pass)
-  if (bad.length) out.push('', `Outside limits: ${bad.map((r) => `\`${r.file.split('/').pop()}\``).join(', ')} — see [docs/evidence/fidelity/final/report.md](${repo}/blob/v${v}/docs/evidence/fidelity/final/report.md) (LibreOffice-made, HTML-as-.doc and DOCX-as-.doc fixtures).`)
+  if (bad.length) out.push('', `Outside limits: ${bad.map((r) => `\`${r.file.split('/').pop()}\``).join(', ')} — see [docs/evidence/fidelity/final/report.md](${repo}/blob/source-v${v}/docs/evidence/fidelity/final/report.md) (LibreOffice-made, HTML-as-.doc and DOCX-as-.doc fixtures).`)
   out.push('')
 }
 if (ci) out.push('### Orca version matrix (CI)', '', ci.trim(), '')
-out.push(`Full reports, screenshots and charts: [docs/README.md](${repo}/blob/v${v}/docs/README.md) · [docs/index.html](${repo}/blob/v${v}/docs/index.html)`, '')
+out.push(`Full reports, screenshots and charts: [docs/README.md](${repo}/blob/source-v${v}/docs/README.md) · [docs/index.html](${repo}/blob/source-v${v}/docs/index.html)`, '')
 out.push('## Known limitations', '')
 out.push("- Orca opens `.txt .csv .tsv .log .html .svg` (and text-like files) in its own Source view first: pick the preview with the view toggle at the tab's top right.")
 out.push('- Office rendering is a preview, not Office: charts/SmartArt in PPTX and cell styles in sheets are simplified; spreadsheets show the first 20,000 rows; .hwp equations/charts/OLE objects show as labelled boxes; 3D glTF with external .bin/textures and meshopt compression is not supported (no network).')

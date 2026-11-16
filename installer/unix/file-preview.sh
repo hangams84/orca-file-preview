@@ -16,7 +16,8 @@
 set -u
 
 PLUGIN_ID=file-preview
-GITHUB_SOURCE=https://github.com/hangams84/orca-file-preview/tree/main/plugin
+# Newest vX.Y.Z tag: those point at the dist branch, which has the plugin at its root.
+GITHUB_SOURCE=https://github.com/hangams84/orca-file-preview
 HERE=$(cd "$(dirname "$0")" && pwd)
 PKG_ROOT=$(cd "$HERE/../.." 2>/dev/null && pwd)
 

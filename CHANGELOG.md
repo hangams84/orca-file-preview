@@ -3,6 +3,18 @@
 All notable changes per release. Each release on GitHub carries its verification results
 (`docs/release-notes/<tag>.md`) and SHA-256 checksums for every file.
 
+## [0.2.2] — 2026-11-16
+
+### Fixed
+- **Install from the Git URL** (`https://github.com/hangams84/orca-file-preview.git` in Orca → Settings → Plugins →
+  Install, or `orca plugin install <url>`) failed with "plugin exceeds the install size or file count limit": Orca
+  installs the newest `vX.Y.Z` tag and expects `orca-plugin.json` at the repository root, but the tags pointed at the
+  whole source tree (tests, evidence, tools). Releases now commit only the plugin to the root of the `dist` branch and
+  put the version tag there; the source is tagged `source-vX.Y.Z`. Every release checks the Git URL install in a fresh
+  Orca. The installers' online source and the READMEs use the plain repository URL.
+- Older tags (v0.1.0–v0.2.1) still point at the source tree, so installing exactly those by Git URL keeps failing;
+  their release packages and executables are unaffected.
+
 ## [0.2.1] — 2026-11-13
 
 ### Fixed
@@ -43,6 +55,7 @@ First verified release: read-only previews for `.docx` `.doc` `.pptx` `.ppt` `.x
 browser/mobile clients. Five verification rounds (63 issues found, all high/medium fixed); final round 10/10
 checks. [Release](https://github.com/hangams84/orca-file-preview/releases/tag/v0.1.0)
 
+[0.2.2]: https://github.com/hangams84/orca-file-preview/releases/tag/v0.2.2
 [0.2.1]: https://github.com/hangams84/orca-file-preview/releases/tag/v0.2.1
 [0.2.0]: https://github.com/hangams84/orca-file-preview/releases/tag/v0.2.0
 [0.1.0]: https://github.com/hangams84/orca-file-preview/releases/tag/v0.1.0

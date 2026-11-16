@@ -26,7 +26,8 @@ $ErrorActionPreference = 'Stop'
 try { [Console]::OutputEncoding = [Text.Encoding]::UTF8 } catch {}
 
 $PluginId = 'file-preview'
-$GitHubSource = 'https://github.com/hangams84/orca-file-preview/tree/main/plugin'
+# Newest vX.Y.Z tag: those point at the dist branch, which has the plugin at its root.
+$GitHubSource = 'https://github.com/hangams84/orca-file-preview'
 $script:PkgRoot = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 
 function Say([string]$Text) { Write-Host $Text }
