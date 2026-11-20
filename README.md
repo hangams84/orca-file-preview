@@ -61,15 +61,16 @@ docs/              개발·검증 문서 (README.md, index.html, evidence/)
 플러그인·설치 스크립트·테스트 도구가 바뀌어 `main` 에 푸시되면 자동 실행되고, 아래 표가 자동으로 갱신됩니다.
 
 <!-- ci-matrix:start -->
-**Orca compatibility CI** — ✅ all passing · 2026-11-20 12:46 UTC · [run](https://github.com/hangams84/orca-file-preview/actions/runs/44734396513)
+**Orca compatibility CI** — ✅ all passing · 2026-11-20 13:16 UTC · [run](https://github.com/hangams84/orca-file-preview/actions/runs/44738966982)
 
 | Orca | Ubuntu 24.04 (Docker) | macOS 15 arm64 | Windows 10 kernel (Server 2022) | Windows 11 kernel (Server 2025) |
 | --- | --- | --- | --- | --- |
 | 1.4.258 | ✅ 9/9 | ✅ 12/12 | ✅ 10/10 | ✅ 10/10 |
 | 1.4.257 | ✅ 9/9 | — | — | — |
 | 1.4.256 | ✅ 9/9 | — | — | — |
+| 1.4.255 | ✅ 9/9 | — | — | — |
 | 1.4.254 | ✅ 9/9 | — | — | — |
-| 1.4.253 | — | ✅ 12/12 | ✅ 10/10 | ✅ 10/10 |
+| 1.4.253 | ✅ 9/9 | ✅ 12/12 | ✅ 10/10 | ✅ 10/10 |
 | 1.4.252 | ✅ 9/9 | — | — | — |
 | 1.4.251 | ✅ 9/9 | — | — | — |
 | 1.4.250 | ✅ 9/9 | — | — | — |
