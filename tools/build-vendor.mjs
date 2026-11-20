@@ -36,7 +36,13 @@ for (const file of entries) {
 const copies = [
   ['node_modules/pdfjs-dist/legacy/build/pdf.worker.min.mjs', 'pdf.worker.min.js'],
   // Draco's asm.js decoder for glTF (no WebAssembly, so no 'wasm-unsafe-eval' needed; no eval)
-  ['node_modules/three/examples/jsm/libs/draco/gltf/draco_decoder.js', 'draco/draco_decoder.js']
+  ['node_modules/three/examples/jsm/libs/draco/gltf/draco_decoder.js', 'draco/draco_decoder.js'],
+  // occt-import-js (LGPL-2.1, OpenCascade in WebAssembly) for STEP/IGES/BREP: shipped unmodified as
+  // separate, replaceable files with their licences (see THIRD_PARTY_NOTICES.md and vendor/occt/README.md)
+  ['node_modules/occt-import-js/dist/occt-import-js.js', 'occt/occt-import-js.js'],
+  ['node_modules/occt-import-js/dist/occt-import-js.wasm', 'occt/occt-import-js.wasm'],
+  ['node_modules/occt-import-js/dist/license.occt-import-js.txt', 'occt/license.occt-import-js.txt'],
+  ['node_modules/occt-import-js/dist/license.occt.txt', 'occt/license.occt.txt']
 ]
 for (const [from, to] of copies) {
   try {

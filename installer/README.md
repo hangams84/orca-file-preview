@@ -33,7 +33,7 @@ Orca 1.4.248 이상이 설치되어 있고 한 번 이상 실행된 PC에서 사
 - Orca 1.4.248–1.4.251 에는 `plugin install` 이 없어 개발 폴더 등록(`plugin dev load`)으로 설치합니다. 이때는 폴더를 지우지 마세요.
 - Windows 7/8 은 Orca(Electron)가 지원하지 않아 설치를 명확한 안내와 함께 거절합니다(Windows 10 이상 필요).
 - `orca plugin dev load` 로 개발용 등록을 해 둔 경우 먼저 `orca plugin dev unload <폴더>` 로 해제해야 합니다(설치 스크립트가 알려 줍니다).
-- 설치 후: Orca에서 파일을 열면 미리보기가 열립니다. `.txt .csv .html .svg` 등은 Orca 기본 보기로 먼저 열리므로 탭 오른쪽 위 보기 전환 버튼으로 미리보기를 선택하세요.
+- 설치 후: Orca에서 파일을 열면 미리보기가 열립니다. `.txt .csv .html .svg` 등과 CAD 파일 `.step .stp .iges .igs .brep`(텍스트 형식)은 Orca 기본(Source) 보기로 먼저 열리므로 탭 오른쪽 위 보기 전환 버튼으로 미리보기를 선택하세요.
 
 ## English
 
@@ -49,3 +49,4 @@ Orca asks you to approve (sandboxed UI only) and approves only after you confirm
   reinstalls (keeps the previous version). `--check` reports only; `--force` reinstalls; `--version vX.Y.Z` picks a release.
 - Orca 1.4.248–1.4.251 have no `plugin install`: the folder is registered with `plugin dev load` instead (keep the folder).
 - Windows 7/8 are refused with a clear message (Orca needs Windows 10+).
+- After installing: `.txt .csv .html .svg` and the CAD formats `.step .stp .iges .igs .brep` (text files) open in Orca's Source view first; pick the preview with the view toggle at the tab's top right.

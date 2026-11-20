@@ -17,7 +17,8 @@ Read-only previews for Office, PDF, text and image files inside Orca, on desktop
 | 웹 | `.html` `.htm` `.xhtml` | DOMPurify + 샌드박스 iframe (스크립트 미실행) |
 | 표 | `.csv` `.tsv` | 자체 RFC 4180 파서 (인코딩·구분자 감지, 정렬, 필터) |
 | 텍스트 | `.txt` `.log` | 인코딩 감지 (UTF-8/16, EUC-KR 등), 줄 번호, 줄바꿈 |
-| 3D 모델 | `.stl` `.obj` `.ply` `.glb` `.gltf` `.3mf` `.off` `.fbx` `.dae` | three.js (WebGL, 회전·확대·이동, 터치, Draco, Web Worker 파싱) |
+| 3D 모델 | `.stl` `.obj` `.ply` `.glb` `.gltf` `.3mf` `.off` `.fbx` `.dae` | three.js (WebGL, 회전·확대·이동, 터치, Draco·meshopt, Web Worker 파싱) |
+| CAD (B-rep) | `.step` `.stp` `.iges` `.igs` `.brep` | OpenCascade (occt-import-js, WebAssembly, Web Worker): 어셈블리·부품 목록·색, 테셀레이션 품질 선택 |
 
 공통: 다크/라이트 테마 실시간 반영, 한국어/영어 UI, Ctrl+휠 · 핀치 · 버튼 확대/축소, 휴대폰 화면에서 폭 맞춤,
 파일이 바뀌면 자동 갱신, 손상 파일은 친절한 오류 안내.
@@ -38,8 +39,11 @@ orca plugin install ./plugin
 플러그인은 `sandboxed-ui` 권한만 사용합니다(추가 capability 없음, 네트워크 없음, 파일 수정 없음).
 
 > Orca가 직접 여는 형식(`.txt` `.csv` `.tsv` `.log` `.html` `.svg`)과 텍스트로 보이는 파일은 Orca의 Source
-> 보기로 먼저 열립니다. 탭 오른쪽 위 보기 전환 버튼으로 미리보기로 바꿀 수 있습니다.
-> Files Orca opens itself open in Source first; switch with the view toggle at the tab's top right.
+> 보기로 먼저 열립니다. 탭 오른쪽 위 보기 전환 버튼으로 미리보기로 바꿀 수 있습니다. **STEP(`.step` `.stp`), IGES
+> (`.iges` `.igs`), BREP(`.brep`)도 텍스트 형식이라 Source로 먼저 열립니다** (Orca 1.4.258에서 확인). ASCII 3D 형식
+> (`.obj`, ASCII `.stl`/`.ply`, `.off`, `.gltf`, `.dae`, ASCII `.fbx`)도 마찬가지일 수 있습니다.
+> Files Orca opens itself open in Source first; switch with the view toggle at the tab's top right. **STEP, IGES and
+> BREP files are text and open in Source first** (checked in Orca 1.4.258); text-based 3D formats may do the same.
 
 ## 저장소 구조 / Layout
 

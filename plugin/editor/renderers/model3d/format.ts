@@ -14,6 +14,9 @@ export type ModelKind =
   | 'fbx-binary'
   | 'fbx-ascii'
   | 'dae'
+  | 'step'
+  | 'iges'
+  | 'brep'
 
 /** Formats parsed in the worker (geometry only, no DOM needed). The rest parse on the main thread. */
 export const WORKER_KINDS: ReadonlySet<ModelKind> = new Set(['stl-binary', 'stl-ascii', 'obj', 'ply', 'off'])
@@ -29,15 +32,21 @@ export const KIND_LABEL: Record<ModelKind, string> = {
   off: 'OFF',
   'fbx-binary': 'FBX (binary)',
   'fbx-ascii': 'FBX (ASCII)',
-  dae: 'COLLADA'
+  dae: 'COLLADA',
+  step: 'STEP',
+  iges: 'IGES',
+  brep: 'BREP (OpenCascade)'
 }
 
+/** B-rep CAD formats read by OpenCascade (occt-import-js) in vendor/occt/. */
+export const CAD_KINDS: ReadonlySet<ModelKind> = new Set(['step', 'iges', 'brep'])
+
 /** Suffixes registered for the 3D preview (keep in step with orca-plugin.json and main.ts). */
-export const MODEL_EXTENSIONS = ['stl', 'obj', 'ply', 'glb', 'gltf', '3mf', 'off', 'fbx', 'dae'] as const
+export const MODEL_EXTENSIONS = ['stl', 'obj', 'ply', 'glb', 'gltf', '3mf', 'off', 'fbx', 'dae', 'step', 'stp', 'iges', 'igs', 'brep'] as const
 
 /** CAD and 3D-printing formats store Z as up; the preview turns them so Z points up on screen. */
 export function defaultZUp(kind: ModelKind): boolean {
-  return kind === 'stl-binary' || kind === 'stl-ascii' || kind === '3mf' || kind === 'off'
+  return kind === 'stl-binary' || kind === 'stl-ascii' || kind === '3mf' || kind === 'off' || CAD_KINDS.has(kind)
 }
 
 const ascii = (b: Uint8Array, start: number, end: number): string => {
@@ -80,6 +89,9 @@ export function detectModel(b: Uint8Array, ext: string): ModelKind | null {
   if (text) {
     if (/^(ST)?C?N?OFF(\s|$)/.test(h)) return 'off'
     if (/<COLLADA[\s>]/.test(h)) return 'dae'
+    if (/^ISO-10303-21\s*;/.test(h)) return 'step'
+    if (/^(DBRep_DrawableShape|CASCADE Topology V\d)/.test(h)) return 'brep'
+    if (isIges(ascii(b, 0, 4096).replace(/^\xef\xbb\xbf/, ''))) return 'iges' // columns matter: no trimming
     if (h.startsWith('{') && (ext === 'gltf' || /"asset"\s*:/.test(h))) return 'gltf'
     if (/^;\s*FBX/.test(h) || /\bFBXHeaderExtension\s*:/.test(h)) return 'fbx-ascii'
   }
@@ -93,6 +105,32 @@ export function detectModel(b: Uint8Array, ext: string): ModelKind | null {
   if (ext === 'stl' && n !== null && n > 0 && 84 + n * 50 <= b.length && !/^solid\b/i.test(h)) return 'stl-binary'
   if (ext === 'obj' && text && /^(v|vn|vt|f|o|g|mtllib|usemtl|#)\s/m.test(h)) return 'obj'
   return null
+}
+
+/** IGES: fixed 80-column records; the first is a Start ('S') record, sequence number 1, and a
+ *  Global ('G') record follows. */
+export function isIges(text: string): boolean {
+  const lines = text.split(/\r?\n/, 4)
+  const first = lines[0] ?? ''
+  if (first.length < 73 || first[72] !== 'S' || !/^\s*0*1\s*$/.test(first.slice(73, 80))) return false
+  return lines.slice(1).some((l) => l.length >= 73 && (l[72] === 'G' || l[72] === 'S'))
+}
+
+/** Tessellation presets for CAD files: OpenCascade's linear deflection as a ratio of the model's
+ *  bounding box (so the same setting suits a screw and a building) and its angular deflection. */
+export type CadQuality = 'coarse' | 'normal' | 'fine'
+export const CAD_QUALITY: Record<CadQuality, { linearDeflection: number; angularDeflection: number }> = {
+  coarse: { linearDeflection: 0.004, angularDeflection: 0.8 },
+  normal: { linearDeflection: 0.001, angularDeflection: 0.5 },
+  fine: { linearDeflection: 0.0003, angularDeflection: 0.25 }
+}
+export function cadParams(q: CadQuality): Record<string, string | number> {
+  return { linearUnit: 'millimeter', linearDeflectionType: 'bounding_box_ratio', ...CAD_QUALITY[q] }
+}
+
+/** Time allowed to read and tessellate a CAD file: 20 s plus 5 s per MB, at most 5 minutes. */
+export function cadTimeLimitMs(bytes: number): number {
+  return Math.min(300_000, 20_000 + Math.ceil(bytes / (1024 * 1024)) * 5_000)
 }
 
 export interface SizeEstimate {

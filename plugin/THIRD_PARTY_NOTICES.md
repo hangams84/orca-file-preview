@@ -15,6 +15,7 @@ its own license; the license texts are included in the bundles' trailing comment
 | `vendor/three.js` | [three.js](https://github.com/mrdoob/three.js) (core subset, loaders STL/OBJ/PLY/GLTF/3MF/FBX/COLLADA/DRACO, OrbitControls, RoomEnvironment, BufferGeometryUtils) | 0.179.1 | MIT |
 | `vendor/three.js` (bundled dependency of the 3MF/FBX loaders) | [fflate](https://github.com/101arrowz/fflate) (copy shipped in three.js) | 0.8.x | MIT |
 | `vendor/meshopt.js` | [meshoptimizer](https://github.com/zeux/meshoptimizer) decoder (copy shipped in three.js) | three 0.179.1 | MIT |
+| `vendor/occt/occt-import-js.js`, `vendor/occt/occt-import-js.wasm` | [occt-import-js](https://github.com/kovacsv/occt-import-js) (OpenCascade Technology compiled to WebAssembly) | 0.0.23 | LGPL-2.1 (occt-import-js); OCCT: LGPL-2.1 with the Open CASCADE exception. Files unchanged on disk; at load time two `new Function` code-generation calls are swapped for closures (CSP, see `vendor/occt/README.md`); licence texts in `vendor/occt/license.*.txt`; see `vendor/occt/README.md` |
 | `vendor/draco/draco_decoder.js` | [Draco](https://github.com/google/draco) glTF decoder, asm.js build (copy shipped in three.js) | three 0.179.1 | Apache-2.0 |
 
 `vendor/pdf-assets/cmaps/` and `vendor/pdf-assets/standard_fonts/` come from `pdfjs-dist` and carry

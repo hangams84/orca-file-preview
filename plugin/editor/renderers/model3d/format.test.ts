@@ -1,5 +1,9 @@
 import { assert, test } from 'orca/testing'
 import {
+  CAD_KINDS,
+  CAD_QUALITY,
+  cadParams,
+  cadTimeLimitMs,
   defaultZUp,
   detectModel,
   estimateSize,
@@ -8,6 +12,8 @@ import {
   formatLength,
   gltfFacts,
   glbJson,
+  isIges,
+  KIND_LABEL,
   offHeaderCounts,
   triangleLimit
 } from './format.ts'
@@ -136,4 +142,37 @@ test('GLB JSON chunk; damaged containers give null', () => {
   assert.deepEqual(glbJson(glb({ asset: { version: '2.0' } })), { asset: { version: '2.0' } })
   assert.equal(glbJson(glb({ a: 1 }).subarray(0, 24)), null)
   assert.equal(glbJson(new Uint8Array(10)), null)
+})
+
+test('CAD: STEP, BREP and IGES by content', () => {
+  const step = 'ISO-10303-21;\nHEADER;\nFILE_DESCRIPTION((\'\'),\'2;1\');\nENDSEC;\nDATA;\n'
+  assert.equal(detectModel(enc(step), 'step'), 'step')
+  assert.equal(detectModel(enc('﻿\r\n' + step), 'stp'), 'step')
+  assert.equal(detectModel(enc('DBRep_DrawableShape\n\nCASCADE Topology V1, (c) Matra-Datavision\n'), 'brep'), 'brep')
+  assert.equal(detectModel(enc('CASCADE Topology V3, (c) Open Cascade\nLocations 0\n'), 'brep'), 'brep')
+  const s = (text: string, sec: string, n: number) => text.padEnd(72, ' ') + sec + String(n).padStart(7, '0')
+  const iges = [s('', 'S', 1), s(',,31HOpen CASCADE IGES processor 8.0,', 'G', 1), s('', 'G', 2)].join('\n') + '\n'
+  assert.equal(detectModel(enc(iges), 'igs'), 'iges')
+  assert.equal(detectModel(enc(iges.replace(/\n/g, '\r\n')), 'iges'), 'iges')
+})
+
+test('CAD: lookalikes are refused', () => {
+  assert.equal(detectModel(enc('ISO-10303-28 xml\n'), 'step'), null)
+  assert.equal(detectModel(enc('just some text that is long enough to be eighty columns wide but is not IGES at all ok'), 'igs'), null)
+  assert.equal(isIges('S      1'), false)
+  assert.equal(isIges(' '.repeat(72) + 'S0000001'), false) // a Start record alone, no Global section
+})
+
+test('CAD: Z-up, labels, tessellation presets and time limit', () => {
+  assert.equal(defaultZUp('step'), true)
+  assert.equal(KIND_LABEL.iges, 'IGES')
+  assert.ok(CAD_KINDS.has('brep') && !CAD_KINDS.has('stl-binary'))
+  const p = cadParams('normal')
+  assert.equal(p.linearUnit, 'millimeter')
+  assert.equal(p.linearDeflectionType, 'bounding_box_ratio')
+  assert.ok(CAD_QUALITY.fine.linearDeflection < CAD_QUALITY.normal.linearDeflection)
+  assert.ok(CAD_QUALITY.normal.linearDeflection < CAD_QUALITY.coarse.linearDeflection)
+  assert.equal(cadTimeLimitMs(100 * 1024), 25_000)
+  assert.equal(cadTimeLimitMs(18 * 1024 * 1024), 110_000)
+  assert.equal(cadTimeLimitMs(500 * 1024 * 1024), 300_000)
 })

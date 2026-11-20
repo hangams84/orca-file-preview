@@ -1,110 +1,157 @@
 # Harness results
 
-92 / 92 passed · 2026-11-13T07:41:11.788Z
+139 / 139 passed · 2026-11-20T09:01:30.891Z
 
 | Result | Profile | File | State | Time (ms) | Notes |
 | --- | --- | --- | --- | ---: | --- |
-| ✅ | desktop-dark | `broken.empty.glb` | ready (expect ready|error) | 737 | console: Failed to load resource: the server responded with a status of 404 (Not Found) |
-| ✅ | desktop-dark | `broken.empty.stl` | ready (expect ready|error) | 692 |  |
-| ✅ | desktop-dark | `broken.flip.glb` | error (expect ready|error) | 777 |  |
-| ✅ | desktop-dark | `broken.flip.stl` | error (expect ready|error) | 775 |  |
-| ✅ | desktop-dark | `broken.one-byte.glb` | error (expect ready|error) | 776 |  |
-| ✅ | desktop-dark | `broken.one-byte.stl` | error (expect ready|error) | 764 |  |
-| ✅ | desktop-dark | `broken.random.glb` | error (expect ready|error) | 774 |  |
+| ✅ | desktop-dark | `broken.empty.glb` | ready (expect ready|error) | 788 | console: Failed to load resource: the server responded with a status of 404 (Not Found) |
+| ✅ | desktop-dark | `broken.empty.step` | ready (expect ready|error) | 687 |  |
+| ✅ | desktop-dark | `broken.empty.stl` | ready (expect ready|error) | 677 |  |
+| ✅ | desktop-dark | `broken.flip.glb` | error (expect ready|error) | 776 |  |
+| ✅ | desktop-dark | `broken.flip.step` | error (expect ready|error) | 807 |  |
+| ✅ | desktop-dark | `broken.flip.stl` | error (expect ready|error) | 778 |  |
+| ✅ | desktop-dark | `broken.one-byte.glb` | error (expect ready|error) | 779 |  |
+| ✅ | desktop-dark | `broken.one-byte.step` | error (expect ready|error) | 777 |  |
+| ✅ | desktop-dark | `broken.one-byte.stl` | error (expect ready|error) | 765 |  |
+| ✅ | desktop-dark | `broken.random.glb` | error (expect ready|error) | 802 |  |
+| ✅ | desktop-dark | `broken.random.step` | error (expect ready|error) | 801 |  |
 | ✅ | desktop-dark | `broken.random.stl` | error (expect ready|error) | 786 |  |
-| ✅ | desktop-dark | `broken.trunc10.glb` | error (expect ready|error) | 779 |  |
-| ✅ | desktop-dark | `broken.trunc10.stl` | error (expect ready|error) | 771 |  |
-| ✅ | desktop-dark | `broken.trunc50.glb` | error (expect ready|error) | 771 |  |
-| ✅ | desktop-dark | `broken.trunc50.stl` | error (expect ready|error) | 781 |  |
-| ✅ | desktop-dark | `broken.trunc90.glb` | error (expect ready|error) | 767 |  |
-| ✅ | desktop-dark | `broken.trunc90.stl` | error (expect ready|error) | 767 |  |
-| ✅ | desktop-dark | `broken.zero.glb` | error (expect ready|error) | 779 |  |
-| ✅ | desktop-dark | `broken.zero.stl` | error (expect ready|error) | 775 |  |
-| ✅ | desktop-dark | `sample-ascii.flip.stl` | ready (expect ready|error) | 1007 | console: THREE.STLLoader: Something isn't right with the vertices of face number 4<br>console: THREE.STLLoader: Something isn't right with the normal of face number 6<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 8<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 10<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 20<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 22<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 26<br>console: THREE.STLLoader: Something isn't right with the normal of face number 29<br>console: THREE.STLLoader: Something isn't right with the normal of face number 33<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 33<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 41<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 44<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 49<br>console: THREE.STLLoader: Something isn't right with the normal of face number 61<br>console: THREE.STLLoader: Something isn't right with the normal of face number 62<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 66<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 73<br>console: THREE.STLLoader: Something isn't right with the normal of face number 76<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 76<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 80<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 98<br>console: THREE.STLLoader: Something isn't right with the normal of face number 113<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 113<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 116<br>console: THREE.STLLoader: Something isn't right with the normal of face number 126<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 126<br>console: THREE.STLLoader: Something isn't right with the normal of face number 135<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 135<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 138<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 151<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 152<br>console: THREE.STLLoader: Something isn't right with the normal of face number 156<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 158<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 159<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 162<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 163<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 177<br>console: THREE.STLLoader: Something isn't right with the normal of face number 186<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 186<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 195<br>console: THREE.STLLoader: Something isn't right with the normal of face number 197<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 197<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 199<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 205<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 211<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 217<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 223<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 230<br>console: THREE.STLLoader: Something isn't right with the normal of face number 231<br>console: THREE.STLLoader: Something isn't right with the normal of face number 238<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 244<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 259<br>console: THREE.STLLoader: Something isn't right with the normal of face number 264<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 264<br>console: THREE.STLLoader: Something isn't right with the normal of face number 267<br>console: THREE.STLLoader: Something isn't right with the normal of face number 273<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 285<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 288<br>console: THREE.STLLoader: Something isn't right with the normal of face number 294<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 296<br>console: THREE.STLLoader: Something isn't right with the normal of face number 303<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 304<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 312<br>console: THREE.STLLoader: Something isn't right with the normal of face number 317<br>console: THREE.STLLoader: Something isn't right with the normal of face number 331<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 331<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 335<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 338<br>console: THREE.STLLoader: Something isn't right with the normal of face number 342<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 342<br>console: THREE.STLLoader: Something isn't right with the normal of face number 345<br>console: THREE.STLLoader: Something isn't right with the normal of face number 348<br>console: THREE.STLLoader: Something isn't right with the normal of face number 349<br>console: THREE.STLLoader: Something isn't right with the normal of face number 355<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 356<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 367<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 374<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 377<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 387<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 391<br>console: THREE.STLLoader: Something isn't right with the normal of face number 394<br>console: THREE.STLLoader: Something isn't right with the normal of face number 401<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 405<br>console: THREE.STLLoader: Something isn't right with the normal of face number 409<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 414<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 419<br>console: THREE.STLLoader: Something isn't right with the normal of face number 420<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 420<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 422<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 423<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 430<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 431<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 438<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 440<br>console: THREE.STLLoader: Something isn't right with the normal of face number 447<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 454<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 455<br>console: THREE.STLLoader: Something isn't right with the normal of face number 463<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 467<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 473<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 482<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 484<br>console: THREE.STLLoader: Something isn't right with the normal of face number 489<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 500<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 503<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 522<br>console: THREE.STLLoader: Something isn't right with the normal of face number 524<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 524<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 525<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 527<br>console: THREE.STLLoader: Something isn't right with the normal of face number 533<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 536<br>console: THREE.STLLoader: Something isn't right with the normal of face number 544<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 544<br>console: THREE.STLLoader: Something isn't right with the normal of face number 545<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 545<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 551<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 556<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 568<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 569<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 572<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 573<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 585<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 587<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 588<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 589<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 595<br>console: THREE.STLLoader: Something isn't right with the normal of face number 600<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 603<br>console: THREE.STLLoader: Something isn't right with the normal of face number 609<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 626<br>console: THREE.STLLoader: Something isn't right with the normal of face number 628<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 630<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 638<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 643<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 645<br>console: THREE.STLLoader: Something isn't right with the normal of face number 649<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 662<br>console: THREE.STLLoader: Something isn't right with the normal of face number 665<br>console: THREE.STLLoader: Something isn't right with the normal of face number 678<br>console: THREE.STLLoader: Something isn't right with the normal of face number 681<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 681<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 682<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 692<br>console: THREE.STLLoader: Something isn't right with the normal of face number 694<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 695<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 707<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 709<br>console: THREE.STLLoader: Something isn't right with the normal of face number 713<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 717<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 726<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 729<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 730<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 733<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 738<br>console: THREE.STLLoader: Something isn't right with the normal of face number 742<br>console: THREE.STLLoader: Something isn't right with the vertices of face number 744<br>console: THREE.BufferGeometry.computeBoundingBox(): Computed min/max have NaN values. The "position" attribute is likely to have NaN values. s<br>console: THREE.BufferGeometry.computeBoundingSphere(): Computed radius is NaN. The "position" attribute is likely to have NaN values. s |
-| ✅ | desktop-dark | `sample-ascii.trunc10.stl` | error (expect ready|error) | 775 |  |
-| ✅ | desktop-dark | `sample-ascii.trunc50.stl` | error (expect ready|error) | 798 |  |
-| ✅ | desktop-dark | `sample-ascii.trunc90.stl` | error (expect ready|error) | 885 |  |
-| ✅ | desktop-dark | `sample-ascii.zero.stl` | ready (expect ready|error) | 866 | console: THREE.STLLoader: Something isn't right with the vertices of face number 42 |
-| ✅ | desktop-dark | `sample-draco.flip.glb` | error (expect ready|error) | 787 |  |
-| ✅ | desktop-dark | `sample-draco.trunc10.glb` | error (expect ready|error) | 777 | console: THREE.GLTFLoader: Couldn't load texture blob:http://127.0.0.1:3449/38b667d7-fe9c-4757-b604-17c1664bdcab<br>console: Error: THREE.DRACOLoader: Decoding failed: Failed to decode geometry data.
-    at t (blob:http://127.0.0.1:3449/7157edd1-205c-418a-9117-a2699041fd2e:38<br>console: Error: THREE.DRACOLoader: Unexpected geometry type.
-    at t (blob:http://127.0.0.1:3449/7157edd1-205c-418a-9117-a2699041fd2e:38:827)
+| ✅ | desktop-dark | `broken.trunc10.glb` | error (expect ready|error) | 781 |  |
+| ✅ | desktop-dark | `broken.trunc10.step` | error (expect ready|error) | 894 |  |
+| ✅ | desktop-dark | `broken.trunc10.stl` | error (expect ready|error) | 788 |  |
+| ✅ | desktop-dark | `broken.trunc50.glb` | error (expect ready|error) | 781 |  |
+| ✅ | desktop-dark | `broken.trunc50.step` | error (expect ready|error) | 943 |  |
+| ✅ | desktop-dark | `broken.trunc50.stl` | error (expect ready|error) | 812 |  |
+| ✅ | desktop-dark | `broken.trunc90.glb` | error (expect ready|error) | 821 |  |
+| ✅ | desktop-dark | `broken.trunc90.step` | error (expect ready|error) | 904 |  |
+| ✅ | desktop-dark | `broken.trunc90.stl` | error (expect ready|error) | 773 |  |
+| ✅ | desktop-dark | `broken.zero.glb` | error (expect ready|error) | 781 |  |
+| ✅ | desktop-dark | `broken.zero.step` | error (expect ready|error) | 899 |  |
+| ✅ | desktop-dark | `broken.zero.stl` | error (expect ready|error) | 781 |  |
+| ✅ | desktop-dark | `sample-ap203.empty.stp` | ready (expect ready|error) | 666 |  |
+| ✅ | desktop-dark | `sample-ap203.flip.stp` | error (expect ready|error) | 981 |  |
+| ✅ | desktop-dark | `sample-ap203.one-byte.stp` | error (expect ready|error) | 777 |  |
+| ✅ | desktop-dark | `sample-ap203.random.stp` | error (expect ready|error) | 773 |  |
+| ✅ | desktop-dark | `sample-ap203.trunc10.stp` | error (expect ready|error) | 885 |  |
+| ✅ | desktop-dark | `sample-ap203.trunc50.stp` | error (expect ready|error) | 886 |  |
+| ✅ | desktop-dark | `sample-ap203.trunc90.stp` | error (expect ready|error) | 876 |  |
+| ✅ | desktop-dark | `sample-ap203.zero.stp` | error (expect ready|error) | 1097 |  |
+| ✅ | desktop-dark | `sample-ap242.flip.step` | error (expect ready|error) | 944 |  |
+| ✅ | desktop-dark | `sample-ap242.trunc10.step` | error (expect ready|error) | 879 |  |
+| ✅ | desktop-dark | `sample-ap242.trunc50.step` | error (expect ready|error) | 879 |  |
+| ✅ | desktop-dark | `sample-ap242.trunc90.step` | error (expect ready|error) | 889 |  |
+| ✅ | desktop-dark | `sample-ap242.zero.step` | ready (expect ready|error) | 1315 |  |
+| ✅ | desktop-dark | `sample-ascii.flip.stl` | error (expect ready|error) | 788 |  |
+| ✅ | desktop-dark | `sample-ascii.trunc10.stl` | error (expect ready|error) | 803 |  |
+| ✅ | desktop-dark | `sample-ascii.trunc50.stl` | error (expect ready|error) | 791 |  |
+| ✅ | desktop-dark | `sample-ascii.trunc90.stl` | error (expect ready|error) | 787 |  |
+| ✅ | desktop-dark | `sample-ascii.zero.stl` | ready (expect ready|error) | 978 | console: THREE.STLLoader: Something isn't right with the vertices of face number 272 |
+| ✅ | desktop-dark | `sample-draco.flip.glb` | error (expect ready|error) | 796 |  |
+| ✅ | desktop-dark | `sample-draco.trunc10.glb` | error (expect ready|error) | 793 | console: THREE.GLTFLoader: Couldn't load texture blob:http://127.0.0.1:1033/0a3c6545-fd9f-48ad-8ec4-9c1fa48cf5cc<br>console: Error: THREE.DRACOLoader: Decoding failed: Failed to decode geometry data.
+    at t (blob:http://127.0.0.1:1033/a5680f9f-9c21-43e9-8d09-7a9ce87c79d9:38<br>console: Error: THREE.DRACOLoader: Unexpected geometry type.
+    at t (blob:http://127.0.0.1:1033/a5680f9f-9c21-43e9-8d09-7a9ce87c79d9:38:827)
     at blob:http: |
-| ✅ | desktop-dark | `sample-draco.trunc50.glb` | error (expect ready|error) | 770 | console: THREE.GLTFLoader: Couldn't load texture blob:http://127.0.0.1:3449/38be1cce-e0ff-462d-b7b7-83f1875fee84<br>console: Error: THREE.DRACOLoader: Decoding failed: Failed to decode geometry data.
-    at t (blob:http://127.0.0.1:3449/655490d7-e03f-44e6-b8bd-6186a4ca2f96:38<br>console: Error: THREE.DRACOLoader: Unexpected geometry type.
-    at t (blob:http://127.0.0.1:3449/655490d7-e03f-44e6-b8bd-6186a4ca2f96:38:827)
+| ✅ | desktop-dark | `sample-draco.trunc50.glb` | error (expect ready|error) | 780 | console: THREE.GLTFLoader: Couldn't load texture blob:http://127.0.0.1:1033/56f8c9f3-b2bb-4d32-af49-a331173b5c1b<br>console: Error: THREE.DRACOLoader: Decoding failed: Failed to decode geometry data.
+    at t (blob:http://127.0.0.1:1033/0de22174-8074-4c93-9464-36b5348eb158:38<br>console: Error: THREE.DRACOLoader: Unexpected geometry type.
+    at t (blob:http://127.0.0.1:1033/0de22174-8074-4c93-9464-36b5348eb158:38:827)
     at blob:http: |
-| ✅ | desktop-dark | `sample-draco.trunc90.glb` | error (expect ready|error) | 779 | console: THREE.GLTFLoader: Couldn't load texture blob:http://127.0.0.1:3449/5d6281e2-57f0-41eb-b232-292a010c96cd<br>console: Error: THREE.DRACOLoader: Decoding failed: Failed to decode geometry data.
-    at t (blob:http://127.0.0.1:3449/89041a9b-b584-406b-befb-e40d95f6b461:38 |
-| ✅ | desktop-dark | `sample-draco.zero.glb` | ready (expect ready|error) | 1010 |  |
-| ✅ | desktop-dark | `sample-embedded.empty.gltf` | ready (expect ready|error) | 679 |  |
-| ✅ | desktop-dark | `sample-embedded.flip.gltf` | error (expect ready|error) | 773 |  |
-| ✅ | desktop-dark | `sample-embedded.one-byte.gltf` | error (expect ready|error) | 781 |  |
-| ✅ | desktop-dark | `sample-embedded.random.gltf` | error (expect ready|error) | 770 |  |
-| ✅ | desktop-dark | `sample-embedded.trunc10.gltf` | error (expect ready|error) | 803 |  |
-| ✅ | desktop-dark | `sample-embedded.trunc50.gltf` | error (expect ready|error) | 771 |  |
-| ✅ | desktop-dark | `sample-embedded.trunc90.gltf` | error (expect ready|error) | 768 |  |
-| ✅ | desktop-dark | `sample-embedded.zero.gltf` | error (expect ready|error) | 796 |  |
-| ✅ | desktop-dark | `sample.empty.3mf` | ready (expect ready|error) | 673 |  |
-| ✅ | desktop-dark | `sample.empty.dae` | ready (expect ready|error) | 681 |  |
-| ✅ | desktop-dark | `sample.empty.fbx` | ready (expect ready|error) | 673 |  |
-| ✅ | desktop-dark | `sample.empty.obj` | ready (expect ready|error) | 678 |  |
-| ✅ | desktop-dark | `sample.empty.off` | ready (expect ready|error) | 668 |  |
-| ✅ | desktop-dark | `sample.empty.ply` | ready (expect ready|error) | 670 |  |
-| ✅ | desktop-dark | `sample.flip.3mf` | error (expect ready|error) | 774 |  |
-| ✅ | desktop-dark | `sample.flip.dae` | error (expect ready|error) | 784 | console: THREE.ColladaLoader: Failed to parse collada file.
- error on line 3 at column 107: Unexpected closing tag: {http://www.collada.org/2005/11/COLLADASchem |
-| ✅ | desktop-dark | `sample.flip.fbx` | ready (expect ready|error) | 808 | console: THREE.BufferGeometry.computeBoundingBox(): Computed min/max have NaN values. The "position" attribute is likely to have NaN values. s<br>console: THREE.BufferGeometry.computeBoundingSphere(): Computed radius is NaN. The "position" attribute is likely to have NaN values. s |
-| ✅ | desktop-dark | `sample.flip.glb` | error (expect ready|error) | 783 |  |
-| ✅ | desktop-dark | `sample.flip.obj` | ready (expect ready|error) | 953 | console: THREE.BufferGeometry.computeBoundingBox(): Computed min/max have NaN values. The "position" attribute is likely to have NaN values. s<br>console: THREE.BufferGeometry.computeBoundingBox(): Computed min/max have NaN values. The "position" attribute is likely to have NaN values. s<br>console: THREE.BufferGeometry.computeBoundingSphere(): Computed radius is NaN. The "position" attribute is likely to have NaN values. s<br>console: THREE.BufferGeometry.computeBoundingSphere(): Computed radius is NaN. The "position" attribute is likely to have NaN values. s |
-| ✅ | desktop-dark | `sample.flip.off` | error (expect ready|error) | 779 |  |
-| ✅ | desktop-dark | `sample.flip.ply` | error (expect ready|error) | 874 |  |
-| ✅ | desktop-dark | `sample.flip.stl` | ready (expect ready|error) | 899 |  |
-| ✅ | desktop-dark | `sample.one-byte.3mf` | error (expect ready|error) | 782 |  |
-| ✅ | desktop-dark | `sample.one-byte.dae` | error (expect ready|error) | 786 |  |
-| ✅ | desktop-dark | `sample.one-byte.fbx` | error (expect ready|error) | 775 |  |
-| ✅ | desktop-dark | `sample.one-byte.obj` | error (expect ready|error) | 781 |  |
-| ✅ | desktop-dark | `sample.one-byte.off` | error (expect ready|error) | 795 |  |
-| ✅ | desktop-dark | `sample.one-byte.ply` | error (expect ready|error) | 791 |  |
-| ✅ | desktop-dark | `sample.random.3mf` | error (expect ready|error) | 780 |  |
-| ✅ | desktop-dark | `sample.random.dae` | error (expect ready|error) | 787 |  |
-| ✅ | desktop-dark | `sample.random.fbx` | error (expect ready|error) | 775 |  |
-| ✅ | desktop-dark | `sample.random.obj` | error (expect ready|error) | 779 |  |
-| ✅ | desktop-dark | `sample.random.off` | error (expect ready|error) | 783 |  |
-| ✅ | desktop-dark | `sample.random.ply` | error (expect ready|error) | 773 |  |
-| ✅ | desktop-dark | `sample.trunc10.3mf` | error (expect ready|error) | 786 |  |
-| ✅ | desktop-dark | `sample.trunc10.dae` | error (expect ready|error) | 768 | console: THREE.ColladaLoader: Failed to parse collada file.
+| ✅ | desktop-dark | `sample-draco.trunc90.glb` | error (expect ready|error) | 918 | console: THREE.GLTFLoader: Couldn't load texture blob:http://127.0.0.1:1033/59cee4c7-9739-4147-9f45-d5ba11777e12<br>console: Error: THREE.DRACOLoader: Decoding failed: Failed to decode geometry data.
+    at t (blob:http://127.0.0.1:1033/52eb95ae-6223-4074-b876-cc78f2122ff3:38 |
+| ✅ | desktop-dark | `sample-draco.zero.glb` | ready (expect ready|error) | 1008 |  |
+| ✅ | desktop-dark | `sample-embedded.empty.gltf` | ready (expect ready|error) | 706 |  |
+| ✅ | desktop-dark | `sample-embedded.flip.gltf` | error (expect ready|error) | 779 |  |
+| ✅ | desktop-dark | `sample-embedded.one-byte.gltf` | error (expect ready|error) | 784 |  |
+| ✅ | desktop-dark | `sample-embedded.random.gltf` | error (expect ready|error) | 774 |  |
+| ✅ | desktop-dark | `sample-embedded.trunc10.gltf` | error (expect ready|error) | 775 |  |
+| ✅ | desktop-dark | `sample-embedded.trunc50.gltf` | error (expect ready|error) | 773 |  |
+| ✅ | desktop-dark | `sample-embedded.trunc90.gltf` | error (expect ready|error) | 782 |  |
+| ✅ | desktop-dark | `sample-embedded.zero.gltf` | error (expect ready|error) | 820 |  |
+| ✅ | desktop-dark | `sample-meshopt.flip.glb` | error (expect ready|error) | 787 |  |
+| ✅ | desktop-dark | `sample-meshopt.trunc10.glb` | error (expect ready|error) | 787 |  |
+| ✅ | desktop-dark | `sample-meshopt.trunc50.glb` | error (expect ready|error) | 810 | console: THREE.GLTFLoader: Couldn't load texture blob:http://127.0.0.1:1033/fd2a6140-b213-4088-8a91-094b35ac47f3 |
+| ✅ | desktop-dark | `sample-meshopt.trunc90.glb` | error (expect ready|error) | 789 | console: THREE.GLTFLoader: Couldn't load texture blob:http://127.0.0.1:1033/2522fa63-e457-4fe8-bbe4-f08480ff331d |
+| ✅ | desktop-dark | `sample-meshopt.zero.glb` | error (expect ready|error) | 1618 |  |
+| ✅ | desktop-dark | `sample.empty.3mf` | ready (expect ready|error) | 676 |  |
+| ✅ | desktop-dark | `sample.empty.brep` | ready (expect ready|error) | 677 |  |
+| ✅ | desktop-dark | `sample.empty.dae` | ready (expect ready|error) | 683 |  |
+| ✅ | desktop-dark | `sample.empty.fbx` | ready (expect ready|error) | 678 |  |
+| ✅ | desktop-dark | `sample.empty.igs` | ready (expect ready|error) | 676 |  |
+| ✅ | desktop-dark | `sample.empty.obj` | ready (expect ready|error) | 688 |  |
+| ✅ | desktop-dark | `sample.empty.off` | ready (expect ready|error) | 660 |  |
+| ✅ | desktop-dark | `sample.empty.ply` | ready (expect ready|error) | 669 |  |
+| ✅ | desktop-dark | `sample.flip.3mf` | error (expect ready|error) | 1029 |  |
+| ✅ | desktop-dark | `sample.flip.brep` | error (expect ready|error) | 25763 |  |
+| ✅ | desktop-dark | `sample.flip.dae` | error (expect ready|error) | 791 | console: THREE.ColladaLoader: Failed to parse collada file.
+ error on line 5 at column 53: Unexpected closing tag: {http://www.collada.org/2005/11/COLLADASchema |
+| ✅ | desktop-dark | `sample.flip.fbx` | ready (expect ready|error) | 819 | console: THREE.BufferGeometry.computeBoundingBox(): Computed min/max have NaN values. The "position" attribute is likely to have NaN values. s<br>console: THREE.BufferGeometry.computeBoundingSphere(): Computed radius is NaN. The "position" attribute is likely to have NaN values. s |
+| ✅ | desktop-dark | `sample.flip.glb` | error (expect ready|error) | 810 |  |
+| ✅ | desktop-dark | `sample.flip.igs` | error (expect ready|error) | 773 |  |
+| ✅ | desktop-dark | `sample.flip.obj` | ready (expect ready|error) | 954 | console: THREE.BufferGeometry.computeBoundingBox(): Computed min/max have NaN values. The "position" attribute is likely to have NaN values. s<br>console: THREE.BufferGeometry.computeBoundingBox(): Computed min/max have NaN values. The "position" attribute is likely to have NaN values. s<br>console: THREE.BufferGeometry.computeBoundingSphere(): Computed radius is NaN. The "position" attribute is likely to have NaN values. s<br>console: THREE.BufferGeometry.computeBoundingSphere(): Computed radius is NaN. The "position" attribute is likely to have NaN values. s |
+| ✅ | desktop-dark | `sample.flip.off` | error (expect ready|error) | 1008 |  |
+| ✅ | desktop-dark | `sample.flip.ply` | error (expect ready|error) | 908 |  |
+| ✅ | desktop-dark | `sample.flip.step` | error (expect ready|error) | 1262 |  |
+| ✅ | desktop-dark | `sample.flip.stl` | ready (expect ready|error) | 1004 |  |
+| ✅ | desktop-dark | `sample.one-byte.3mf` | error (expect ready|error) | 799 |  |
+| ✅ | desktop-dark | `sample.one-byte.brep` | error (expect ready|error) | 803 |  |
+| ✅ | desktop-dark | `sample.one-byte.dae` | error (expect ready|error) | 789 |  |
+| ✅ | desktop-dark | `sample.one-byte.fbx` | error (expect ready|error) | 768 |  |
+| ✅ | desktop-dark | `sample.one-byte.igs` | error (expect ready|error) | 775 |  |
+| ✅ | desktop-dark | `sample.one-byte.obj` | error (expect ready|error) | 772 |  |
+| ✅ | desktop-dark | `sample.one-byte.off` | error (expect ready|error) | 700 |  |
+| ✅ | desktop-dark | `sample.one-byte.ply` | error (expect ready|error) | 816 |  |
+| ✅ | desktop-dark | `sample.random.3mf` | error (expect ready|error) | 803 |  |
+| ✅ | desktop-dark | `sample.random.brep` | error (expect ready|error) | 797 |  |
+| ✅ | desktop-dark | `sample.random.dae` | error (expect ready|error) | 784 |  |
+| ✅ | desktop-dark | `sample.random.fbx` | error (expect ready|error) | 796 |  |
+| ✅ | desktop-dark | `sample.random.igs` | error (expect ready|error) | 783 |  |
+| ✅ | desktop-dark | `sample.random.obj` | error (expect ready|error) | 772 |  |
+| ✅ | desktop-dark | `sample.random.off` | error (expect ready|error) | 791 |  |
+| ✅ | desktop-dark | `sample.random.ply` | error (expect ready|error) | 784 |  |
+| ✅ | desktop-dark | `sample.trunc10.3mf` | error (expect ready|error) | 790 |  |
+| ✅ | desktop-dark | `sample.trunc10.brep` | error (expect ready|error) | 879 |  |
+| ✅ | desktop-dark | `sample.trunc10.dae` | error (expect ready|error) | 781 | console: THREE.ColladaLoader: Failed to parse collada file.
  error on line 9 at column 13879: Unexpected end of stream: still inside the root element |
 | ✅ | desktop-dark | `sample.trunc10.fbx` | error (expect ready|error) | 779 |  |
-| ✅ | desktop-dark | `sample.trunc10.glb` | error (expect ready|error) | 778 | console: THREE.GLTFLoader: Couldn't load texture blob:http://127.0.0.1:3449/a2f6fc2b-0e8e-4ab1-9e3c-b1e84d906ca1 |
-| ✅ | desktop-dark | `sample.trunc10.obj` | ready (expect ready|error) | 873 |  |
-| ✅ | desktop-dark | `sample.trunc10.off` | error (expect ready|error) | 780 |  |
-| ✅ | desktop-dark | `sample.trunc10.ply` | error (expect ready|error) | 770 |  |
-| ✅ | desktop-dark | `sample.trunc10.stl` | error (expect ready|error) | 773 |  |
-| ✅ | desktop-dark | `sample.trunc50.3mf` | error (expect ready|error) | 773 |  |
-| ✅ | desktop-dark | `sample.trunc50.dae` | error (expect ready|error) | 782 | console: THREE.ColladaLoader: Failed to parse collada file.
+| ✅ | desktop-dark | `sample.trunc10.glb` | error (expect ready|error) | 779 | console: THREE.GLTFLoader: Couldn't load texture blob:http://127.0.0.1:1033/cc447f87-0d7c-4dd4-bc8c-899c2d58bca1 |
+| ✅ | desktop-dark | `sample.trunc10.igs` | error (expect ready|error) | 886 |  |
+| ✅ | desktop-dark | `sample.trunc10.obj` | ready (expect ready|error) | 863 |  |
+| ✅ | desktop-dark | `sample.trunc10.off` | error (expect ready|error) | 781 |  |
+| ✅ | desktop-dark | `sample.trunc10.ply` | error (expect ready|error) | 780 |  |
+| ✅ | desktop-dark | `sample.trunc10.step` | error (expect ready|error) | 920 |  |
+| ✅ | desktop-dark | `sample.trunc10.stl` | error (expect ready|error) | 777 |  |
+| ✅ | desktop-dark | `sample.trunc50.3mf` | error (expect ready|error) | 775 |  |
+| ✅ | desktop-dark | `sample.trunc50.brep` | error (expect ready|error) | 25738 |  |
+| ✅ | desktop-dark | `sample.trunc50.dae` | error (expect ready|error) | 785 | console: THREE.ColladaLoader: Failed to parse collada file.
  error on line 16 at column 7139: Unexpected end of stream: still inside the root element |
-| ✅ | desktop-dark | `sample.trunc50.fbx` | error (expect ready|error) | 782 |  |
-| ✅ | desktop-dark | `sample.trunc50.glb` | error (expect ready|error) | 801 | console: THREE.GLTFLoader: Couldn't load texture blob:http://127.0.0.1:3449/2a983273-2e39-4036-afd2-d9d23c877dcb |
-| ✅ | desktop-dark | `sample.trunc50.obj` | ready (expect ready|error) | 837 |  |
-| ✅ | desktop-dark | `sample.trunc50.off` | error (expect ready|error) | 769 |  |
-| ✅ | desktop-dark | `sample.trunc50.ply` | error (expect ready|error) | 776 |  |
-| ✅ | desktop-dark | `sample.trunc50.stl` | error (expect ready|error) | 795 |  |
-| ✅ | desktop-dark | `sample.trunc90.3mf` | error (expect ready|error) | 772 |  |
-| ✅ | desktop-dark | `sample.trunc90.dae` | error (expect ready|error) | 769 | console: THREE.ColladaLoader: Failed to parse collada file.
+| ✅ | desktop-dark | `sample.trunc50.fbx` | error (expect ready|error) | 786 |  |
+| ✅ | desktop-dark | `sample.trunc50.glb` | error (expect ready|error) | 779 | console: THREE.GLTFLoader: Couldn't load texture blob:http://127.0.0.1:1033/d5b98fd3-f815-4e6b-b180-80623d4490fc |
+| ✅ | desktop-dark | `sample.trunc50.igs` | error (expect ready|error) | 893 |  |
+| ✅ | desktop-dark | `sample.trunc50.obj` | ready (expect ready|error) | 974 |  |
+| ✅ | desktop-dark | `sample.trunc50.off` | error (expect ready|error) | 925 |  |
+| ✅ | desktop-dark | `sample.trunc50.ply` | error (expect ready|error) | 883 |  |
+| ✅ | desktop-dark | `sample.trunc50.step` | error (expect ready|error) | 1007 |  |
+| ✅ | desktop-dark | `sample.trunc50.stl` | error (expect ready|error) | 781 |  |
+| ✅ | desktop-dark | `sample.trunc90.3mf` | error (expect ready|error) | 773 |  |
+| ✅ | desktop-dark | `sample.trunc90.brep` | error (expect ready|error) | 25719 |  |
+| ✅ | desktop-dark | `sample.trunc90.dae` | error (expect ready|error) | 783 | console: THREE.ColladaLoader: Failed to parse collada file.
  error on line 16 at column 65682: Unexpected end of stream: still inside the root element |
-| ✅ | desktop-dark | `sample.trunc90.fbx` | error (expect ready|error) | 772 |  |
-| ✅ | desktop-dark | `sample.trunc90.glb` | error (expect ready|error) | 786 | console: THREE.GLTFLoader: Couldn't load texture blob:http://127.0.0.1:3449/f832a537-d051-442b-92fd-c0d74c9559e4 |
-| ✅ | desktop-dark | `sample.trunc90.obj` | ready (expect ready|error) | 870 |  |
-| ✅ | desktop-dark | `sample.trunc90.off` | error (expect ready|error) | 769 |  |
-| ✅ | desktop-dark | `sample.trunc90.ply` | error (expect ready|error) | 780 |  |
-| ✅ | desktop-dark | `sample.trunc90.stl` | error (expect ready|error) | 772 |  |
-| ✅ | desktop-dark | `sample.zero.3mf` | error (expect ready|error) | 772 |  |
-| ✅ | desktop-dark | `sample.zero.dae` | error (expect ready|error) | 781 | console: THREE.ColladaLoader: Failed to parse collada file.
- error on line 16 at column 8208: Invalid character U+0000 |
-| ✅ | desktop-dark | `sample.zero.fbx` | ready (expect ready|error) | 845 | console: THREE.BufferGeometry.computeBoundingBox(): Computed min/max have NaN values. The "position" attribute is likely to have NaN values. s<br>console: THREE.BufferGeometry.computeBoundingSphere(): Computed radius is NaN. The "position" attribute is likely to have NaN values. s |
-| ✅ | desktop-dark | `sample.zero.glb` | ready (expect ready|error) | 829 |  |
-| ✅ | desktop-dark | `sample.zero.obj` | ready (expect ready|error) | 854 | console: THREE.BufferGeometry.computeBoundingBox(): Computed min/max have NaN values. The "position" attribute is likely to have NaN values. s<br>console: THREE.BufferGeometry.computeBoundingSphere(): Computed radius is NaN. The "position" attribute is likely to have NaN values. s |
-| ✅ | desktop-dark | `sample.zero.off` | error (expect ready|error) | 769 |  |
-| ✅ | desktop-dark | `sample.zero.ply` | ready (expect ready|error) | 978 |  |
-| ✅ | desktop-dark | `sample.zero.stl` | ready (expect ready|error) | 883 |  |
+| ✅ | desktop-dark | `sample.trunc90.fbx` | error (expect ready|error) | 815 |  |
+| ✅ | desktop-dark | `sample.trunc90.glb` | error (expect ready|error) | 781 | console: THREE.GLTFLoader: Couldn't load texture blob:http://127.0.0.1:1033/c6cd3034-135a-4ac6-bc9d-457e79b4bd47 |
+| ✅ | desktop-dark | `sample.trunc90.igs` | ready (expect ready|error) | 998 |  |
+| ✅ | desktop-dark | `sample.trunc90.obj` | ready (expect ready|error) | 876 |  |
+| ✅ | desktop-dark | `sample.trunc90.off` | error (expect ready|error) | 771 |  |
+| ✅ | desktop-dark | `sample.trunc90.ply` | error (expect ready|error) | 884 |  |
+| ✅ | desktop-dark | `sample.trunc90.step` | error (expect ready|error) | 880 |  |
+| ✅ | desktop-dark | `sample.trunc90.stl` | error (expect ready|error) | 774 |  |
+| ✅ | desktop-dark | `sample.zero.3mf` | error (expect ready|error) | 897 |  |
+| ✅ | desktop-dark | `sample.zero.brep` | error (expect ready|error) | 766 |  |
+| ✅ | desktop-dark | `sample.zero.dae` | error (expect ready|error) | 786 | console: THREE.ColladaLoader: Failed to parse collada file.
+ error on line 16 at column 48631: Invalid character U+0000 |
+| ✅ | desktop-dark | `sample.zero.fbx` | ready (expect ready|error) | 857 | console: THREE.BufferGeometry.computeBoundingBox(): Computed min/max have NaN values. The "position" attribute is likely to have NaN values. s<br>console: THREE.BufferGeometry.computeBoundingSphere(): Computed radius is NaN. The "position" attribute is likely to have NaN values. s |
+| ✅ | desktop-dark | `sample.zero.glb` | ready (expect ready|error) | 817 |  |
+| ✅ | desktop-dark | `sample.zero.igs` | error (expect ready|error) | 872 |  |
+| ✅ | desktop-dark | `sample.zero.obj` | ready (expect ready|error) | 855 | console: THREE.BufferGeometry.computeBoundingBox(): Computed min/max have NaN values. The "position" attribute is likely to have NaN values. s<br>console: THREE.BufferGeometry.computeBoundingSphere(): Computed radius is NaN. The "position" attribute is likely to have NaN values. s |
+| ✅ | desktop-dark | `sample.zero.off` | error (expect ready|error) | 772 |  |
+| ✅ | desktop-dark | `sample.zero.ply` | ready (expect ready|error) | 872 |  |
+| ✅ | desktop-dark | `sample.zero.step` | ready (expect ready|error) | 1462 |  |
+| ✅ | desktop-dark | `sample.zero.stl` | ready (expect ready|error) | 866 |  |

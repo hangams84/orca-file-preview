@@ -82,12 +82,27 @@
   {
     "name": "DPR 1.25 without our stylesheet, sample.glb: centred, canvas box = pane, also after a resize",
     "ok": true,
-    "detail": "centre 50.0%/50.0% → after resize 50.0%/50.0%; canvas 1348×724 in pane 1348×724 (buffer 1685×905) → 900×584 in 900×584 (buffer 1125×730)"
+    "detail": "centre 50.0%/50.0% → after resize 50.0%/49.9%; canvas 1348×724 in pane 1348×724 (buffer 1685×905) → 900×562 in 900×562 (buffer 1125×702)"
   },
   {
     "name": "DPR 1.25 without our stylesheet, sample.stl: centred, canvas box = pane, also after a resize",
     "ok": true,
-    "detail": "centre 50.0%/50.0% → after resize 50.0%/50.0%; canvas 1348×724 in pane 1348×724 (buffer 1685×905) → 900×584 in 900×584 (buffer 1125×730)"
+    "detail": "centre 50.0%/50.0% → after resize 50.0%/49.9%; canvas 1348×724 in pane 1348×724 (buffer 1685×905) → 900×562 in 900×562 (buffer 1125×702)"
+  },
+  {
+    "name": "CAD quality: fine has more triangles, coarse fewer, toolbar not duplicated",
+    "ok": true,
+    "detail": "triangles normal 1868, fine 3984, coarse 996; buttons 8 → 8"
+  },
+  {
+    "name": "CAD parts list: lists the parts, hiding one changes the picture",
+    "ok": true,
+    "detail": "7 rows (All + 6 parts)"
+  },
+  {
+    "name": "CAD: no page errors",
+    "ok": true,
+    "detail": ""
   },
   {
     "name": "no WebGL: friendly 'webgl' message",
@@ -97,6 +112,11 @@
   {
     "name": "large mesh large-2M.stl: loads, main thread never blocked > 1 s",
     "ok": true,
-    "detail": "state=ready, 1685 ms to ready, longest main-thread stall 348 ms, orbit step 128 ms · STL (binary) · 2,000,000 triangles · 6,000,000 vertices · 131.3 × 137.1 × 63.99 (units as stored) · 95.4 MB"
+    "detail": "state=ready, 2090 ms to ready, longest main-thread stall 335 ms, orbit step 120 ms · STL (binary) · 2,000,000 triangles · 6,000,000 vertices · 131.3 × 137.1 × 63.99 (units as stored) · 95.4 MB"
+  },
+  {
+    "name": "large mesh large-assembly.step: loads, main thread never blocked > 1 s",
+    "ok": true,
+    "detail": "state=ready, 15386 ms to ready, longest main-thread stall 173 ms, orbit step 107 ms · STEP · 289,008 triangles · 226,800 vertices · 144 parts · 946 × 704 × 8 mm · 17.3 MB"
   }
 ]
