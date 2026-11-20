@@ -8,10 +8,12 @@ import { renderAsync } from '../../vendor/docx.js'
 import { applyTableLook, listIndentCss, markSectionTails, padTableCells, wrapTables } from './office/docx-fixes.ts'
 import { guardLinks, neutraliseLinks } from './office/links.ts'
 import { guardZip } from './office/zipguard.ts'
+import { fixImages } from './office/images.ts'
 import { installOfficeFonts, OFFICE_SANS, patchCssFonts, withFallback } from './office/fonts.ts'
 
 const SHADOW_STYLE = `
 :host { display: block; }
+.fp-docx-body img { image-orientation: none; }
 .fp-docx-zoom { width: max-content; min-width: 100%; }
 .fp-docx-body { display: block; font-family: ${OFFICE_SANS}; }
 .fp-docx-body .docx-wrapper { background: transparent !important; padding: 16px 12px 24px !important;
@@ -113,6 +115,13 @@ export async function render(ctx: PreviewContext): Promise<void> {
     return
   }
   // Links: unsafe targets neutralised, clicks handled here (bookmarks scroll, web links confirm).
+  // Pictures browsers cannot show (TIFF, EMF, WMF) are decoded by office/images.ts; PowerPoint and
+  // Word also ignore EXIF orientation, so the CSS below turns it off.
+  await fixImages(body, (u) => {
+    signal.addEventListener('abort', () => URL.revokeObjectURL(u), { once: true })
+    return u
+  })
+  if (signal.aborted) return
   neutraliseLinks(body)
   guardLinks({ target: shadow, root, tr, signal })
 
