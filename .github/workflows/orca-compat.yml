@@ -34,7 +34,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build Orca ${{ matrix.orca }} image (Ubuntu 24.04, Xvfb)
         run: |
-          docker build -q -t orca-fp --build-arg UBUNTU=24.04 --build-arg ORCA_VERSION=${{ matrix.orca }} \
+          docker build --progress=plain -t orca-fp --build-arg UBUNTU=24.04 --build-arg ORCA_VERSION=${{ matrix.orca }} \
             --build-arg MIRROR=http://azure.archive.ubuntu.com/ubuntu tools/platform-test
       - name: Test the plugin in Orca ${{ matrix.orca }}
         run: |

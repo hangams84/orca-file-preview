@@ -8,7 +8,8 @@ ENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 TZ=Asia/Seoul
 # Plain-HTTP package downloads were intermittently altered on the way (Hash Sum mismatch on several
 # mirrors), so bootstrap CA certificates over HTTP with retries, then use an HTTPS mirror.
 ARG MIRROR=https://mirror.kakao.com/ubuntu
-RUN echo 'Acquire::Retries "5";' > /etc/apt/apt.conf.d/80-retries \
+# A stalled mirror connection must fail and retry, not hang the build until the CI job times out.
+RUN printf 'Acquire::Retries "5";\nAcquire::http::Timeout "60";\nAcquire::https::Timeout "60";\n' > /etc/apt/apt.conf.d/80-retries \
  && for i in 1 2 3 4 5 6; do \
       (apt-get update && apt-get install -y --no-install-recommends ca-certificates) && break; \
       rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*.deb; sleep 5; \
@@ -25,7 +26,7 @@ RUN apt-get install -y --no-install-recommends \
  && rm -rf /var/lib/apt/lists/*
 
 # Orca's own .deb pulls in the Electron runtime libraries it declares.
-RUN curl -fsSL -o /tmp/orca.deb \
+RUN curl -fsSL --retry 5 --retry-all-errors --connect-timeout 30 --speed-limit 100000 --speed-time 60 -o /tmp/orca.deb \
       "https://github.com/stablyai/orca/releases/download/v${ORCA_VERSION}/orca-ide_${ORCA_VERSION}_amd64.deb" \
  && apt-get update \
  && apt-get install -y --no-install-recommends /tmp/orca.deb \
