@@ -7,3 +7,6 @@ plugin/.orca/
 samples/fuzz/
 samples/perf/
 dist/
+samples/pptx-images/inputs/
+samples/pptx-images/truth/
+samples/pptx-images/render/
