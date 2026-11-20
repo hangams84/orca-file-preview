@@ -10,6 +10,7 @@ import { renderPaper } from './legacy/paper.ts'
 import { isRtf, readRtf } from './legacy/rtf.ts'
 import { looksLikeHtml, looksLikeMime, readDocxText, readHtmlText, readPlainText } from './legacy/sniff.ts'
 import { readWord, WordError } from './legacy/word.ts'
+import { normalizePictures } from './office/images.ts'
 import { isZip } from './legacy/zip.ts'
 import { delegate } from './legacy/delegate.ts'
 
@@ -26,6 +27,8 @@ export async function render(ctx: PreviewContext): Promise<void | (() => void)> 
     oleGuards(cfb, ctx)
     try {
       const model = readWord(cfb)
+      // EMF/WMF/TIFF pictures → PNG/SVG the browser can draw (shared with the PPTX renderer).
+      await normalizePictures(model)
       return showWord(ctx, model)
     } catch (e) {
       if (e instanceof WordError && e.code === 'encrypted') throw encrypted(ctx)

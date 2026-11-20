@@ -1,0 +1,982 @@
+[
+ {
+  "deck": "pptx-img-formats",
+  "slide": 1,
+  "id": "png-rgb",
+  "label": "PNG RGB",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "PASS",
+   "diff": 0.0,
+   "contentTruth": 0.66,
+   "contentRender": 0.66
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.0,
+   "contentTruth": 0.66,
+   "contentRender": 0.66
+  }
+ },
+ {
+  "deck": "pptx-img-formats",
+  "slide": 2,
+  "id": "png-rgba",
+  "label": "PNG RGBA (transparent quadrant over magenta)",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "PASS",
+   "diff": 0.4,
+   "contentTruth": 0.669,
+   "contentRender": 0.669
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.4,
+   "contentTruth": 0.669,
+   "contentRender": 0.669
+  }
+ },
+ {
+  "deck": "pptx-img-formats",
+  "slide": 3,
+  "id": "png-16bit",
+  "label": "PNG 16-bit grayscale gradient",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "PASS",
+   "diff": 0.4,
+   "contentTruth": 0.661,
+   "contentRender": 0.655
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.4,
+   "contentTruth": 0.661,
+   "contentRender": 0.655
+  }
+ },
+ {
+  "deck": "pptx-img-formats",
+  "slide": 4,
+  "id": "png-palette",
+  "label": "PNG palette (16 colours)",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "PASS",
+   "diff": 0.1,
+   "contentTruth": 0.66,
+   "contentRender": 0.66
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.1,
+   "contentTruth": 0.66,
+   "contentRender": 0.66
+  }
+ },
+ {
+  "deck": "pptx-img-formats",
+  "slide": 5,
+  "id": "jpg-baseline",
+  "label": "JPEG baseline",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "PASS",
+   "diff": 0.2,
+   "contentTruth": 0.66,
+   "contentRender": 0.66
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.2,
+   "contentTruth": 0.66,
+   "contentRender": 0.66
+  }
+ },
+ {
+  "deck": "pptx-img-formats",
+  "slide": 6,
+  "id": "jpg-progressive",
+  "label": "JPEG progressive",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "PASS",
+   "diff": 0.4,
+   "contentTruth": 0.66,
+   "contentRender": 0.661
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.4,
+   "contentTruth": 0.66,
+   "contentRender": 0.661
+  }
+ },
+ {
+  "deck": "pptx-img-formats",
+  "slide": 7,
+  "id": "jpg-cmyk",
+  "label": "JPEG CMYK",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "CLOSE",
+   "diff": 18.6,
+   "contentTruth": 0.66,
+   "contentRender": 0.661
+  },
+  "after": {
+   "verdict": "CLOSE",
+   "diff": 18.6,
+   "contentTruth": 0.66,
+   "contentRender": 0.661
+  }
+ },
+ {
+  "deck": "pptx-img-formats",
+  "slide": 8,
+  "id": "jpg-gray",
+  "label": "JPEG grayscale",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "PASS",
+   "diff": 0.5,
+   "contentTruth": 0.66,
+   "contentRender": 0.66
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.5,
+   "contentTruth": 0.66,
+   "contentRender": 0.66
+  }
+ },
+ {
+  "deck": "pptx-img-formats",
+  "slide": 9,
+  "id": "jpg-exif6",
+  "label": "JPEG EXIF orientation 6 (arrow must point up)",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "DIFFERENT",
+   "diff": 37.4,
+   "contentTruth": 0.301,
+   "contentRender": 0.302
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.6,
+   "contentTruth": 0.301,
+   "contentRender": 0.301
+  }
+ },
+ {
+  "deck": "pptx-img-formats",
+  "slide": 10,
+  "id": "gif-static",
+  "label": "GIF static",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "PASS",
+   "diff": 0.1,
+   "contentTruth": 0.66,
+   "contentRender": 0.66
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.1,
+   "contentTruth": 0.66,
+   "contentRender": 0.66
+  }
+ },
+ {
+  "deck": "pptx-img-formats",
+  "slide": 11,
+  "id": "gif-animated",
+  "label": "GIF animated (3 frames)",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "PASS",
+   "diff": 0.3,
+   "contentTruth": 0.66,
+   "contentRender": 0.66
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.3,
+   "contentTruth": 0.66,
+   "contentRender": 0.66
+  }
+ },
+ {
+  "deck": "pptx-img-formats",
+  "slide": 12,
+  "id": "bmp-24",
+  "label": "BMP 24-bit",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "PASS",
+   "diff": 0.3,
+   "contentTruth": 0.66,
+   "contentRender": 0.66
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.3,
+   "contentTruth": 0.66,
+   "contentRender": 0.66
+  }
+ },
+ {
+  "deck": "pptx-img-formats",
+  "slide": 13,
+  "id": "bmp-32",
+  "label": "BMP 32-bit with alpha (over magenta)",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "PASS",
+   "diff": 0.4,
+   "contentTruth": 0.697,
+   "contentRender": 0.697
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.4,
+   "contentTruth": 0.697,
+   "contentRender": 0.697
+  }
+ },
+ {
+  "deck": "pptx-img-formats",
+  "slide": 14,
+  "id": "tif-lzw",
+  "label": "TIFF LZW",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "MISSING",
+   "diff": 90.8,
+   "contentTruth": 0.66,
+   "contentRender": 0.001
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.1,
+   "contentTruth": 0.66,
+   "contentRender": 0.66
+  }
+ },
+ {
+  "deck": "pptx-img-formats",
+  "slide": 15,
+  "id": "tif-multipage",
+  "label": "TIFF multipage (page 1)",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "MISSING",
+   "diff": 90.9,
+   "contentTruth": 0.66,
+   "contentRender": 0.001
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.3,
+   "contentTruth": 0.66,
+   "contentRender": 0.66
+  }
+ },
+ {
+  "deck": "pptx-img-formats",
+  "slide": 16,
+  "id": "ico",
+  "label": "ICO",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "PASS",
+   "diff": 3.8,
+   "contentTruth": 0.004,
+   "contentRender": 0.0
+  },
+  "after": {
+   "verdict": "DIFFERENT",
+   "diff": 58.7,
+   "contentTruth": 0.004,
+   "contentRender": 0.431
+  }
+ },
+ {
+  "deck": "pptx-img-formats",
+  "slide": 17,
+  "id": "webp",
+  "label": "WebP",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "PASS",
+   "diff": 0.3,
+   "contentTruth": 0.66,
+   "contentRender": 0.661
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.3,
+   "contentTruth": 0.66,
+   "contentRender": 0.661
+  }
+ },
+ {
+  "deck": "pptx-img-formats",
+  "slide": 18,
+  "id": "avif",
+  "label": "AVIF",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "PASS",
+   "diff": 0.3,
+   "contentTruth": 0.661,
+   "contentRender": 0.661
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.3,
+   "contentTruth": 0.661,
+   "contentRender": 0.661
+  }
+ },
+ {
+  "deck": "pptx-img-formats",
+  "slide": 19,
+  "id": "svg",
+  "label": "SVG (svgBlip + PNG fallback)",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "PASS",
+   "diff": 0.1,
+   "contentTruth": 0.66,
+   "contentRender": 0.66
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.1,
+   "contentTruth": 0.66,
+   "contentRender": 0.66
+  }
+ },
+ {
+  "deck": "pptx-img-formats",
+  "slide": 20,
+  "id": "emf-shapes",
+  "label": "EMF: shapes and text (pasted as enhanced metafile)",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "MISSING",
+   "diff": 74.7,
+   "contentTruth": 0.577,
+   "contentRender": 0.0
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.4,
+   "contentTruth": 0.577,
+   "contentRender": 0.577
+  }
+ },
+ {
+  "deck": "pptx-img-formats",
+  "slide": 21,
+  "id": "emf-bitmap",
+  "label": "EMF: bitmap inside a metafile",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "MISSING",
+   "diff": 85.8,
+   "contentTruth": 0.66,
+   "contentRender": 0.0
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.5,
+   "contentTruth": 0.66,
+   "contentRender": 0.66
+  }
+ },
+ {
+  "deck": "pptx-img-formats",
+  "slide": 22,
+  "id": "wmf-shapes",
+  "label": "WMF: rectangle, ellipse, polygon and text",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "MISSING",
+   "diff": 50.2,
+   "contentTruth": 0.36,
+   "contentRender": 0.0
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 4.6,
+   "contentTruth": 0.36,
+   "contentRender": 0.367
+  }
+ },
+ {
+  "deck": "pptx-img-formats",
+  "slide": 23,
+  "id": "wmf-bitmap",
+  "label": "WMF: bitmap (META_STRETCHDIB)",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "MISSING",
+   "diff": 84.7,
+   "contentTruth": 0.654,
+   "contentRender": 0.0
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 1.4,
+   "contentTruth": 0.654,
+   "contentRender": 0.655
+  }
+ },
+ {
+  "deck": "pptx-img-specs",
+  "slide": 1,
+  "id": "tiny-8x8",
+  "label": "Tiny 8x8 PNG scaled up",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "PASS",
+   "diff": 1.7,
+   "contentTruth": 0.469,
+   "contentRender": 0.469
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 1.7,
+   "contentTruth": 0.469,
+   "contentRender": 0.469
+  }
+ },
+ {
+  "deck": "pptx-img-specs",
+  "slide": 2,
+  "id": "aspect-wide",
+  "label": "Extreme aspect 50:1",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "PASS",
+   "diff": 0.2,
+   "contentTruth": 0.046,
+   "contentRender": 0.046
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.2,
+   "contentTruth": 0.046,
+   "contentRender": 0.046
+  }
+ },
+ {
+  "deck": "pptx-img-specs",
+  "slide": 3,
+  "id": "aspect-tall",
+  "label": "Extreme aspect 1:30",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "PASS",
+   "diff": 0.0,
+   "contentTruth": 0.024,
+   "contentRender": 0.024
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.0,
+   "contentTruth": 0.024,
+   "contentRender": 0.024
+  }
+ },
+ {
+  "deck": "pptx-img-specs",
+  "slide": 4,
+  "id": "crop-25",
+  "label": "Cropped 25% left and top (srcRect)",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "PASS",
+   "diff": 0.1,
+   "contentTruth": 0.628,
+   "contentRender": 0.628
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.1,
+   "contentTruth": 0.628,
+   "contentRender": 0.628
+  }
+ },
+ {
+  "deck": "pptx-img-specs",
+  "slide": 5,
+  "id": "crop-negative",
+  "label": "Negative crop (picture smaller than its frame)",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "PASS",
+   "diff": 0.5,
+   "contentTruth": 0.376,
+   "contentRender": 0.376
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.5,
+   "contentTruth": 0.376,
+   "contentRender": 0.376
+  }
+ },
+ {
+  "deck": "pptx-img-specs",
+  "slide": 6,
+  "id": "rotate-30",
+  "label": "Rotated 30 degrees",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "PASS",
+   "diff": 0.2,
+   "contentTruth": 0.572,
+   "contentRender": 0.572
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.2,
+   "contentTruth": 0.572,
+   "contentRender": 0.572
+  }
+ },
+ {
+  "deck": "pptx-img-specs",
+  "slide": 7,
+  "id": "flip-h",
+  "label": "Flipped horizontally",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "PASS",
+   "diff": 0.6,
+   "contentTruth": 0.66,
+   "contentRender": 0.66
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.6,
+   "contentTruth": 0.66,
+   "contentRender": 0.66
+  }
+ },
+ {
+  "deck": "pptx-img-specs",
+  "slide": 8,
+  "id": "flip-v",
+  "label": "Flipped vertically",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "PASS",
+   "diff": 0.4,
+   "contentTruth": 0.66,
+   "contentRender": 0.66
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.4,
+   "contentTruth": 0.66,
+   "contentRender": 0.66
+  }
+ },
+ {
+  "deck": "pptx-img-specs",
+  "slide": 9,
+  "id": "grayscale",
+  "label": "Recolour: grayscale",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "DIFFERENT",
+   "diff": 42.2,
+   "contentTruth": 0.66,
+   "contentRender": 0.66
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.5,
+   "contentTruth": 0.66,
+   "contentRender": 0.66
+  }
+ },
+ {
+  "deck": "pptx-img-specs",
+  "slide": 10,
+  "id": "black-white",
+  "label": "Recolour: black and white",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "DIFFERENT",
+   "diff": 74.8,
+   "contentTruth": 0.343,
+   "contentRender": 0.66
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.0,
+   "contentTruth": 0.343,
+   "contentRender": 0.343
+  }
+ },
+ {
+  "deck": "pptx-img-specs",
+  "slide": 11,
+  "id": "washout",
+  "label": "Recolour: washout",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "DIFFERENT",
+   "diff": 77.4,
+   "contentTruth": 0.633,
+   "contentRender": 0.66
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.1,
+   "contentTruth": 0.633,
+   "contentRender": 0.633
+  }
+ },
+ {
+  "deck": "pptx-img-specs",
+  "slide": 12,
+  "id": "bright-contrast",
+  "label": "Brightness 70% / contrast 30%",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "DIFFERENT",
+   "diff": 53.7,
+   "contentTruth": 0.658,
+   "contentRender": 0.66
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.1,
+   "contentTruth": 0.658,
+   "contentRender": 0.658
+  }
+ },
+ {
+  "deck": "pptx-img-specs",
+  "slide": 13,
+  "id": "transparent-color",
+  "label": "Set transparent colour (red quadrant)",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "PASS",
+   "diff": 11.1,
+   "contentTruth": 0.674,
+   "contentRender": 0.822
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.4,
+   "contentTruth": 0.674,
+   "contentRender": 0.674
+  }
+ },
+ {
+  "deck": "pptx-img-specs",
+  "slide": 14,
+  "id": "duotone",
+  "label": "Recolour: duotone (blue)",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "DIFFERENT",
+   "diff": 50.8,
+   "contentTruth": 0.698,
+   "contentRender": 0.66
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 4.1,
+   "contentTruth": 0.698,
+   "contentRender": 0.698
+  }
+ },
+ {
+  "deck": "pptx-img-specs",
+  "slide": 15,
+  "id": "alpha-50",
+  "label": "Picture transparency 50% (over magenta)",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "DIFFERENT",
+   "diff": 39.7,
+   "contentTruth": 0.822,
+   "contentRender": 0.822
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.3,
+   "contentTruth": 0.822,
+   "contentRender": 0.822
+  }
+ },
+ {
+  "deck": "pptx-img-placements",
+  "slide": 1,
+  "id": "placeholder",
+  "label": "Picture placeholder",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "PASS",
+   "diff": 0.0,
+   "contentTruth": 0.38,
+   "contentRender": 0.38
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.0,
+   "contentTruth": 0.38,
+   "contentRender": 0.38
+  }
+ },
+ {
+  "deck": "pptx-img-placements",
+  "slide": 2,
+  "id": "fill-stretch",
+  "label": "Shape picture fill (stretch)",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "DIFFERENT",
+   "diff": 55.7,
+   "contentTruth": 0.587,
+   "contentRender": 0.406
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.6,
+   "contentTruth": 0.587,
+   "contentRender": 0.587
+  }
+ },
+ {
+  "deck": "pptx-img-placements",
+  "slide": 3,
+  "id": "fill-tile",
+  "label": "Shape picture fill (tile)",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "DIFFERENT",
+   "diff": 75.2,
+   "contentTruth": 0.785,
+   "contentRender": 0.202
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.8,
+   "contentTruth": 0.785,
+   "contentRender": 0.794
+  }
+ },
+ {
+  "deck": "pptx-img-placements",
+  "slide": 4,
+  "id": "background",
+  "label": "Slide background picture",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "PASS",
+   "diff": 3.6,
+   "contentTruth": 0.746,
+   "contentRender": 0.75
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.4,
+   "contentTruth": 0.746,
+   "contentRender": 0.746
+  }
+ },
+ {
+  "deck": "pptx-img-placements",
+  "slide": 5,
+  "id": "table-cell",
+  "label": "Picture in a table cell",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "CLOSE",
+   "diff": 14.1,
+   "contentTruth": 0.718,
+   "contentRender": 0.716
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 5.6,
+   "contentTruth": 0.718,
+   "contentRender": 0.719
+  }
+ },
+ {
+  "deck": "pptx-img-placements",
+  "slide": 6,
+  "id": "group",
+  "label": "Pictures inside a group",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "PASS",
+   "diff": 0.4,
+   "contentTruth": 0.454,
+   "contentRender": 0.454
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.4,
+   "contentTruth": 0.454,
+   "contentRender": 0.454
+  }
+ },
+ {
+  "deck": "pptx-img-placements",
+  "slide": 7,
+  "id": "layout-picture",
+  "label": "Picture on the layout",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "PASS",
+   "diff": 0.1,
+   "contentTruth": 0.128,
+   "contentRender": 0.128
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.1,
+   "contentTruth": 0.128,
+   "contentRender": 0.128
+  }
+ },
+ {
+  "deck": "pptx-img-placements",
+  "slide": 8,
+  "id": "master-picture",
+  "label": "Picture on the master",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "PASS",
+   "diff": 0.1,
+   "contentTruth": 0.128,
+   "contentRender": 0.128
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.1,
+   "contentTruth": 0.128,
+   "contentRender": 0.128
+  }
+ },
+ {
+  "deck": "pptx-img-placements",
+  "slide": 9,
+  "id": "linked",
+  "label": "Linked (external) picture",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "CLOSE",
+   "diff": 16.0,
+   "contentTruth": 0.367,
+   "contentRender": 0.132
+  },
+  "after": {
+   "verdict": "CLOSE",
+   "diff": 16.3,
+   "contentTruth": 0.367,
+   "contentRender": 0.14
+  }
+ },
+ {
+  "deck": "pptx-img-large",
+  "slide": 1,
+  "id": "huge-jpg",
+  "label": "Very large JPEG 8000x6000 (48 MP)",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "PASS",
+   "diff": 0.1,
+   "contentTruth": 0.589,
+   "contentRender": 0.589
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.1,
+   "contentTruth": 0.589,
+   "contentRender": 0.589
+  }
+ },
+ {
+  "deck": "pptx-img-large",
+  "slide": 2,
+  "id": "huge-png",
+  "label": "Very large PNG 8000x6000 (48 MP)",
+  "powerpoint": "ok",
+  "note": "",
+  "before": {
+   "verdict": "PASS",
+   "diff": 0.3,
+   "contentTruth": 0.589,
+   "contentRender": 0.589
+  },
+  "after": {
+   "verdict": "PASS",
+   "diff": 0.3,
+   "contentTruth": 0.589,
+   "contentRender": 0.589
+  }
+ }
+]

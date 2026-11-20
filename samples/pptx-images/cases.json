@@ -1,0 +1,394 @@
+﻿[
+    {
+        "deck":  "pptx-img-formats",
+        "slide":  1,
+        "id":  "png-rgb",
+        "label":  "PNG RGB",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-formats",
+        "slide":  2,
+        "id":  "png-rgba",
+        "label":  "PNG RGBA (transparent quadrant over magenta)",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-formats",
+        "slide":  3,
+        "id":  "png-16bit",
+        "label":  "PNG 16-bit grayscale gradient",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-formats",
+        "slide":  4,
+        "id":  "png-palette",
+        "label":  "PNG palette (16 colours)",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-formats",
+        "slide":  5,
+        "id":  "jpg-baseline",
+        "label":  "JPEG baseline",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-formats",
+        "slide":  6,
+        "id":  "jpg-progressive",
+        "label":  "JPEG progressive",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-formats",
+        "slide":  7,
+        "id":  "jpg-cmyk",
+        "label":  "JPEG CMYK",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-formats",
+        "slide":  8,
+        "id":  "jpg-gray",
+        "label":  "JPEG grayscale",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-formats",
+        "slide":  9,
+        "id":  "jpg-exif6",
+        "label":  "JPEG EXIF orientation 6 (arrow must point up)",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-formats",
+        "slide":  10,
+        "id":  "gif-static",
+        "label":  "GIF static",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-formats",
+        "slide":  11,
+        "id":  "gif-animated",
+        "label":  "GIF animated (3 frames)",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-formats",
+        "slide":  12,
+        "id":  "bmp-24",
+        "label":  "BMP 24-bit",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-formats",
+        "slide":  13,
+        "id":  "bmp-32",
+        "label":  "BMP 32-bit with alpha (over magenta)",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-formats",
+        "slide":  14,
+        "id":  "tif-lzw",
+        "label":  "TIFF LZW",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-formats",
+        "slide":  15,
+        "id":  "tif-multipage",
+        "label":  "TIFF multipage (page 1)",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-formats",
+        "slide":  16,
+        "id":  "ico",
+        "label":  "ICO",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-formats",
+        "slide":  17,
+        "id":  "webp",
+        "label":  "WebP",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-formats",
+        "slide":  18,
+        "id":  "avif",
+        "label":  "AVIF",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-formats",
+        "slide":  19,
+        "id":  "svg",
+        "label":  "SVG (svgBlip + PNG fallback)",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-formats",
+        "slide":  20,
+        "id":  "emf-shapes",
+        "label":  "EMF: shapes and text (pasted as enhanced metafile)",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-formats",
+        "slide":  21,
+        "id":  "emf-bitmap",
+        "label":  "EMF: bitmap inside a metafile",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-formats",
+        "slide":  22,
+        "id":  "wmf-shapes",
+        "label":  "WMF: rectangle, ellipse, polygon and text",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-formats",
+        "slide":  23,
+        "id":  "wmf-bitmap",
+        "label":  "WMF: bitmap (META_STRETCHDIB)",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-specs",
+        "slide":  1,
+        "id":  "tiny-8x8",
+        "label":  "Tiny 8x8 PNG scaled up",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-specs",
+        "slide":  2,
+        "id":  "aspect-wide",
+        "label":  "Extreme aspect 50:1",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-specs",
+        "slide":  3,
+        "id":  "aspect-tall",
+        "label":  "Extreme aspect 1:30",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-specs",
+        "slide":  4,
+        "id":  "crop-25",
+        "label":  "Cropped 25% left and top (srcRect)",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-specs",
+        "slide":  5,
+        "id":  "crop-negative",
+        "label":  "Negative crop (picture smaller than its frame)",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-specs",
+        "slide":  6,
+        "id":  "rotate-30",
+        "label":  "Rotated 30 degrees",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-specs",
+        "slide":  7,
+        "id":  "flip-h",
+        "label":  "Flipped horizontally",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-specs",
+        "slide":  8,
+        "id":  "flip-v",
+        "label":  "Flipped vertically",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-specs",
+        "slide":  9,
+        "id":  "grayscale",
+        "label":  "Recolour: grayscale",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-specs",
+        "slide":  10,
+        "id":  "black-white",
+        "label":  "Recolour: black and white",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-specs",
+        "slide":  11,
+        "id":  "washout",
+        "label":  "Recolour: washout",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-specs",
+        "slide":  12,
+        "id":  "bright-contrast",
+        "label":  "Brightness 70% / contrast 30%",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-specs",
+        "slide":  13,
+        "id":  "transparent-color",
+        "label":  "Set transparent colour (red quadrant)",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-specs",
+        "slide":  14,
+        "id":  "duotone",
+        "label":  "Recolour: duotone (blue)",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-specs",
+        "slide":  15,
+        "id":  "alpha-50",
+        "label":  "Picture transparency 50% (over magenta)",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-placements",
+        "slide":  1,
+        "id":  "placeholder",
+        "label":  "Picture placeholder",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-placements",
+        "slide":  2,
+        "id":  "fill-stretch",
+        "label":  "Shape picture fill (stretch)",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-placements",
+        "slide":  3,
+        "id":  "fill-tile",
+        "label":  "Shape picture fill (tile)",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-placements",
+        "slide":  4,
+        "id":  "background",
+        "label":  "Slide background picture",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-placements",
+        "slide":  5,
+        "id":  "table-cell",
+        "label":  "Picture in a table cell",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-placements",
+        "slide":  6,
+        "id":  "group",
+        "label":  "Pictures inside a group",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-placements",
+        "slide":  7,
+        "id":  "layout-picture",
+        "label":  "Picture on the layout",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-placements",
+        "slide":  8,
+        "id":  "master-picture",
+        "label":  "Picture on the master",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-placements",
+        "slide":  9,
+        "id":  "linked",
+        "label":  "Linked (external) picture",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-large",
+        "slide":  1,
+        "id":  "huge-jpg",
+        "label":  "Very large JPEG 8000x6000 (48 MP)",
+        "status":  "ok",
+        "note":  ""
+    },
+    {
+        "deck":  "pptx-img-large",
+        "slide":  2,
+        "id":  "huge-png",
+        "label":  "Very large PNG 8000x6000 (48 MP)",
+        "status":  "ok",
+        "note":  ""
+    }
+]

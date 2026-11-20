@@ -6,7 +6,7 @@ import { bindZoomGestures, clampZoom, createZoom, h } from '../core/ui.ts'
 import { installOfficeFonts } from './office/fonts.ts'
 import { OoxmlPackage } from './office/package.ts'
 import { guardZip } from './office/zipguard.ts'
-import { notesText, readDeck, renderSlide, slideTitle } from './office/slides.ts'
+import { notesText, readDeck, renderSlide, setSlideTr, slideTitle } from './office/slides.ts'
 
 const STYLE = `
 .fp-deck { padding: 12px 12px 24px; display: flex; flex-direction: column; align-items: center; gap: 16px; }
@@ -14,7 +14,9 @@ const STYLE = `
 .fp-slide-frame { position: relative; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.25); background: #fff; }
 .fp-slide { position: absolute !important; left: 0; top: 0; margin: 0 !important; transform-origin: 0 0; overflow: hidden;
   font-family: system-ui, -apple-system, "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
-  box-shadow: none !important; }
+  box-shadow: none !important;
+  /* PowerPoint ignores EXIF orientation and rotates the shape instead (xfrm rot): do not rotate twice. */
+  image-orientation: none; }
 .fp-shape { position: absolute; box-sizing: border-box; }
 .fp-shape > .fp-geom { position: absolute; left: 0; top: 0; }
 .fp-pic img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; user-select: none; }
@@ -43,6 +45,7 @@ const STYLE = `
 export async function render(ctx: PreviewContext): Promise<() => void> {
   const { bytes, root, toolbar, tr, signal } = ctx
   guardZip(bytes, tr)
+  setSlideTr(tr)
   let pkg: OoxmlPackage
   try {
     pkg = OoxmlPackage.open(bytes, signal)

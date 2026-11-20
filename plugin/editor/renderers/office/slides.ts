@@ -5,10 +5,17 @@
 import { h } from '../../core/ui.ts'
 import { withFallback } from './fonts.ts'
 import { colorChild, fillCss, hexOf, parseClrMap, parseTheme, resolveColor, type ColorCtx, type Theme } from './drawing.ts'
+import type { PictureEffects } from './images.ts'
 import type { OoxmlPackage } from './package.ts'
 import { attr, bool, find, findAll, kid, kids, num, path, relAttr } from './xml.ts'
 
 export const EMU_PER_PX = 9525
+
+let tr = (_ko: string, en: string) => en
+/** Lets the renderer translate the picture placeholders' reasons. */
+export function setSlideTr(fn: (ko: string, en: string) => string): void {
+  tr = fn
+}
 const px = (emu: number) => emu / EMU_PER_PX
 const PT_PX = 96 / 72
 
@@ -109,13 +116,18 @@ function applyBackground(box: HTMLElement, env: SlideEnv): void {
     if (!bg) continue
     const pr = kid(bg, 'bgPr')
     if (pr) {
-      const blip = path(pr, 'blipFill', 'blip')
+      const blipFill = kid(pr, 'blipFill')
+      const blip = kid(blipFill, 'blip')
       if (blip) {
-        const url = mediaFor(env, l.part, blip)
-        if (url) {
-          box.style.background = `#fff url("${url}") center / cover no-repeat`
-          return
-        }
+        box.style.background = '#fff'
+        withPicture(env, l.part, blip, box, (pic) => {
+          const tile = kid(blipFill, 'tile')
+          if (tile) {
+            const t = tileOf(tile, pic)
+            box.style.background = `#fff url("${pic.url}") ${t.x}px ${t.y}px / ${t.w}px ${t.h}px repeat`
+          } else box.style.background = `#fff url("${pic.url}") 0 0 / 100% 100% no-repeat`
+        }, () => {})
+        return
       }
       const css = fillCss(pr, env.cc)
       if (css && css !== 'none') {
@@ -155,12 +167,116 @@ function schemeEl(val: string): Element {
   return el
 }
 
-function mediaFor(env: SlideEnv, part: string, blip: Element): string | null {
-  const id = relAttr(blip, 'embed') ?? relAttr(blip, 'link')
-  if (!id) return null
-  const rel = env.pkg.rels(part).get(id)
-  return rel && !rel.external ? env.pkg.mediaUrl(rel.target) : null
+// ---------------------------------------------------------------- picture loading
+
+/** What a blip points at: the embedded part, the SVG of an svgBlip extension, or a linked file. */
+function blipRef(env: SlideEnv, part: string, blip: Element): { part?: string; svg?: string; linked?: string } {
+  const rels = env.pkg.rels(part)
+  const out: { part?: string; svg?: string; linked?: string } = {}
+  const emb = rels.get(relAttr(blip, 'embed') ?? '')
+  const link = rels.get(relAttr(blip, 'link') ?? '')
+  if (emb && !emb.external) out.part = emb.target
+  else if (link || emb?.external) out.linked = (link ?? emb)!.target
+  const svgBlip = findAll(blip, 'svgBlip')[0]
+  const svg = svgBlip ? rels.get(relAttr(svgBlip, 'embed') ?? '') : undefined
+  if (svg && !svg.external) out.svg = svg.target
+  return out
 }
+
+function rgbOf(css: string | null): [number, number, number, number] | null {
+  if (!css) return null
+  if (css.startsWith('#')) return [parseInt(css.slice(1, 3), 16), parseInt(css.slice(3, 5), 16), parseInt(css.slice(5, 7), 16), 1]
+  const m = /rgba?\(([\d.]+),([\d.]+),([\d.]+)(?:,([\d.]+))?\)/.exec(css.replace(/\s/g, ''))
+  return m ? [+m[1], +m[2], +m[3], m[4] ? +m[4] : 1] : null
+}
+
+/** DrawingML blip effects → PictureEffects (applied on a canvas by office/images.ts). */
+function blipEffects(blip: Element, cc: ColorCtx): PictureEffects | undefined {
+  const fx: PictureEffects = {}
+  for (const e of kids(blip)) {
+    switch (e.localName) {
+      case 'grayscl':
+        fx.grayscale = true
+        break
+      case 'biLevel':
+        fx.biLevel = (num(e, 'thresh', 50000) ?? 50000) / 100000
+        break
+      case 'duotone': {
+        const cols = kids(e).map((c) => rgbOf(resolveColor(c, cc))).filter(Boolean) as [number, number, number, number][]
+        if (cols.length >= 2) fx.duotone = [[cols[0][0], cols[0][1], cols[0][2]], [cols[1][0], cols[1][1], cols[1][2]]]
+        break
+      }
+      case 'lum':
+        fx.bright = (num(e, 'bright', 0) ?? 0) / 100000 || undefined
+        fx.contrast = (num(e, 'contrast', 0) ?? 0) / 100000 || undefined
+        break
+      case 'alphaModFix':
+        fx.alpha = (num(e, 'amt', 100000) ?? 100000) / 100000
+        break
+      case 'clrChange': {
+        const from = rgbOf(resolveColor(colorChild(kid(e, 'clrFrom')), cc))
+        const to = rgbOf(resolveColor(colorChild(kid(e, 'clrTo')), cc))
+        if (from) {
+          fx.clrFrom = [from[0], from[1], from[2]]
+          fx.clrTo = to ?? [from[0], from[1], from[2], 0]
+        }
+        break
+      }
+    }
+  }
+  return Object.keys(fx).length ? fx : undefined
+}
+
+type LoadedPicture = { url: string; width: number; height: number }
+
+/** Loads a blip (async), marks `el` pending meanwhile, then calls `apply` or `fail(reason)`. */
+function withPicture(env: SlideEnv, part: string, blip: Element, el: Element, apply: (pic: LoadedPicture) => void, fail: (reason: string) => void): void {
+  const ref = blipRef(env, part, blip)
+  if (!ref.part && !ref.svg) {
+    fail(
+      ref.linked
+        ? `${tr('연결된 그림 (파일에 포함되지 않음)', 'Linked picture (not embedded in the file)')}: ${ref.linked}`
+        : tr('그림이 없습니다', 'Picture missing')
+    )
+    return
+  }
+  const fx = blipEffects(blip, env.cc)
+  el.setAttribute('data-pending', '1')
+  const load = async () => {
+    if (ref.svg) {
+      const r = await env.pkg.picture(ref.svg, fx)
+      if (!('error' in r)) return r
+    }
+    return ref.part ? env.pkg.picture(ref.part, fx) : { error: 'SVG could not be decoded' }
+  }
+  void load().then(
+    (r) => {
+      el.removeAttribute('data-pending')
+      if ('error' in r) fail(`${tr('이 그림 형식은 표시할 수 없습니다', 'This picture format cannot be shown')}: ${r.error}`)
+      else apply(r)
+    },
+    () => {
+      el.removeAttribute('data-pending')
+      fail(tr('그림을 불러오지 못했습니다', 'The picture could not be loaded'))
+    }
+  )
+}
+
+/** Tile placement of a picture fill (a:tile): offset and tile size in px. */
+function tileOf(tile: Element, pic: LoadedPicture): { x: number; y: number; w: number; h: number } {
+  const sx = (num(tile, 'sx', 100000) ?? 100000) / 100000
+  const sy = (num(tile, 'sy', 100000) ?? 100000) / 100000
+  return { x: px(num(tile, 'tx', 0)!), y: px(num(tile, 'ty', 0)!), w: Math.max(1, (pic.width || 64) * sx), h: Math.max(1, (pic.height || 64) * sy) }
+}
+
+/** Placeholder box with the reason a picture is not shown. */
+function missing(node: HTMLElement, reason: string, alt: string): void {
+  node.classList.add('fp-missing')
+  node.replaceChildren(h('span', undefined, `🖼 ${alt ? alt + ' — ' : ''}${reason}`))
+  node.title = reason
+}
+
+let patternSeq = 0
 
 interface Rect {
   x: number
@@ -321,10 +437,37 @@ function drawShape(box: HTMLElement, env: SlideEnv, l: Layer, el: Element, map: 
   const ln = kid(spPr, 'ln') ?? chain.map((s) => path(s, 'spPr', 'ln')).find(Boolean) ?? null
   const stroke = lineCss(env, ln, style ? kid(style, 'lnRef') : null)
   const geom = attr(path(spPr, 'prstGeom'), 'prst') ?? (kid(spPr, 'custGeom') ? 'rect' : 'rect')
+  // Picture fill (a:blipFill in spPr): an SVG pattern, so it follows the shape's geometry.
+  const picFill = kid(spPr, 'blipFill') ?? chain.map((c) => path(c, 'spPr', 'blipFill')).find(Boolean) ?? null
+  const patternId = picFill ? `fp-pf-${++patternSeq}` : ''
+  if (picFill) fill = `url(#${patternId})`
   if (el.localName === 'cxnSp' || geom.includes('line') || geom.includes('Connector')) {
     drawLine(node, rect, xfrm, stroke ?? { color: '#000', width: 1, dash: '' }, ln)
   } else if ((fill && fill !== 'none') || stroke) {
-    node.append(geometry(geom, rect, fill && fill !== 'none' ? fill : null, stroke, path(spPr, 'prstGeom', 'avLst')))
+    const g = geometry(geom, rect, fill && fill !== 'none' ? fill : null, stroke, path(spPr, 'prstGeom', 'avLst'))
+    node.append(g)
+    const blip = kid(picFill, 'blip')
+    if (picFill && blip && g instanceof SVGSVGElement) {
+      const pat = svgEl('pattern', { id: patternId, x: 0, y: 0, width: 1, height: 1, patternUnits: 'objectBoundingBox', patternContentUnits: 'objectBoundingBox' })
+      const image = svgEl('image', { x: 0, y: 0, width: 1, height: 1, preserveAspectRatio: 'none' })
+      pat.append(image)
+      const defs = svgEl('defs', {})
+      defs.append(pat)
+      g.prepend(defs)
+      const tile = kid(picFill, 'tile')
+      withPicture(env, l.part, blip, g, (pic) => {
+        if (tile) {
+          const t = tileOf(tile, pic)
+          for (const [k, v] of Object.entries({ patternUnits: 'userSpaceOnUse', patternContentUnits: 'userSpaceOnUse', x: t.x, y: t.y, width: t.w, height: t.h }))
+            pat.setAttribute(k, String(v))
+          image.setAttribute('width', String(t.w))
+          image.setAttribute('height', String(t.h))
+        }
+        image.setAttribute('href', pic.url)
+      }, () => {
+        for (const p of g.querySelectorAll('[fill^="url("]')) p.setAttribute('fill', '#ddd')
+      })
+    }
   }
   const txBody = kid(el, 'txBody')
   if (txBody && hasText(txBody)) {
@@ -576,14 +719,15 @@ function drawPicture(box: HTMLElement, env: SlideEnv, l: Layer, el: Element, map
   place(node, rect, xfrm)
   const blipFill = kid(el, 'blipFill')
   const blip = kid(blipFill, 'blip')
-  const url = blip ? mediaFor(env, l.part, blip) : null
-  if (url) {
+  const alt = attr(path(el, 'nvPicPr', 'cNvPr'), 'descr') ?? ''
+  if (!blip) missing(node, tr('그림이 없습니다', 'Picture missing'), alt)
+  else {
     const img = h('img')
-    img.alt = attr(path(el, 'nvPicPr', 'cNvPr'), 'descr') ?? ''
+    img.alt = alt
     img.decoding = 'async'
     img.draggable = false
-    img.src = url
-    // srcRect crops in 1/1000 %: scale the image up and shift it so the kept part fills the box.
+    // srcRect crops in 1/1000 % (negative = the picture is smaller than its frame): scale the image
+    // and shift it so the kept part fills the box.
     const src = kid(blipFill, 'srcRect')
     const cl = (num(src, 'l', 0) ?? 0) / 100000
     const ct = (num(src, 't', 0) ?? 0) / 100000
@@ -598,9 +742,7 @@ function drawPicture(box: HTMLElement, env: SlideEnv, l: Layer, el: Element, map
     const flips = [bool(xfrm, 'flipH') ? 'scaleX(-1)' : '', bool(xfrm, 'flipV') ? 'scaleY(-1)' : ''].join(' ').trim()
     if (flips) img.style.transform = flips
     node.append(img)
-  } else {
-    node.classList.add('fp-missing')
-    node.append(h('span', undefined, attr(path(el, 'nvPicPr', 'cNvPr'), 'descr') || '🖼'))
+    withPicture(env, l.part, blip, node, (pic) => (img.src = pic.url), (reason) => missing(node, reason, alt))
   }
   const ln = path(el, 'spPr', 'ln')
   const s = ln ? lineCss(env, ln, null) : null
@@ -631,13 +773,12 @@ function drawFrame(box: HTMLElement, env: SlideEnv, l: Layer, el: Element, map: 
   const fallbackPic = find(data, 'pic')
   if (fallbackPic) {
     const blip = find(fallbackPic, 'blip')
-    const url = blip ? mediaFor(env, l.part, blip) : null
-    if (url) {
+    if (blip) {
       const img = h('img')
-      img.src = url
       img.alt = ''
       node.append(img)
       box.append(node)
+      withPicture(env, l.part, blip, node, (pic) => (img.src = pic.url), () => img.remove())
       return
     }
   }
@@ -686,6 +827,14 @@ function table(env: SlideEnv, l: Layer, tbl: Element): HTMLElement {
         } else bg = bandRow && (ri - (firstRow ? 1 : 0)) % 2 === 0 ? tint(0.6) : tint(0.8)
       }
       if (bg && bg !== 'none') td.style.background = bg
+      const cellBlip = path(tcPr, 'blipFill', 'blip')
+      if (cellBlip) {
+        const tile = path(tcPr, 'blipFill', 'tile')
+        withPicture(env, l.part, cellBlip, td, (pic) => {
+          const t = tile ? tileOf(tile, pic) : null
+          td.style.background = t ? `url("${pic.url}") ${t.x}px ${t.y}px / ${t.w}px ${t.h}px repeat` : `url("${pic.url}") 0 0 / 100% 100% no-repeat`
+        }, () => {})
+      }
       td.style.padding = `${px(num(tcPr, 'marT', 45720)!)}px ${px(num(tcPr, 'marR', 91440)!)}px ${px(num(tcPr, 'marB', 45720)!)}px ${px(num(tcPr, 'marL', 91440)!)}px`
       const anchor = attr(tcPr, 'anchor')
       td.style.verticalAlign = anchor === 'ctr' ? 'middle' : anchor === 'b' ? 'bottom' : 'top'

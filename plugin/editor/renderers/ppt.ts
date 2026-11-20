@@ -7,6 +7,7 @@ import { bindZoomGestures, clampZoom, createZoom, h, objectUrl } from '../core/u
 import { delegate } from './legacy/delegate.ts'
 import { isCfb, readCfb, type Cfb } from './legacy/cfb.ts'
 import { listZip, readZipText, isZip } from './legacy/zip.ts'
+import { normalizePictures } from './office/images.ts'
 import { PptError, readPpt, type PptDoc, type PptShape, type PptSlide } from './legacy/pptbin.ts'
 
 /** Master units (576 per inch) to CSS px (96 per inch). */
@@ -74,6 +75,8 @@ export async function render(ctx: PreviewContext): Promise<void | (() => void)> 
     throw new PreviewError('ppt', tr('프레젠테이션 구조를 읽을 수 없습니다. 파일이 손상되었을 수 있습니다.', 'Could not read the presentation structure; the file may be damaged.'))
   }
   if (!doc.slides.length) throw new PreviewError('empty', tr('슬라이드가 없습니다.', 'This presentation has no slides.'))
+  // EMF/WMF/TIFF pictures → PNG/SVG the browser can draw (shared with the PPTX renderer).
+  await normalizePictures(doc.pictures)
   return drawDeck(ctx, doc)
 }
 

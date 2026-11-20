@@ -273,3 +273,24 @@ See [perf.md](perf.md) for inputs, method, the before/after table and chart. Sum
   forged sizes and cover the link classifier.
 - Verification: harness 26/26 normal and 26/26 `--no-raf` (adds `sample-links.docx`, `broken.bomb.docx`), fuzz
   70/70, `orca plugin test` 67/67, perf probe unchanged (100k xlsx 2.4 s, docx 0.37 s, pptx 0.33 s).
+
+## PPTX pictures by format, size and placement (report: pptx-images/report.md)
+
+User report: some PPTX pictures were not shown depending on format/size. Diagnosed against PowerPoint itself:
+a 49-case corpus built by PowerPoint (COM) with PowerPoint's own PNG export as truth
+(`tools/make-pptx-images.ps1`, `tools/pptx-images/*`), compared before/after on the picture area.
+
+- Before: 31 PASS, 3 CLOSE, 9 DIFFERENT, **6 MISSING** (TIFF ×2, EMF ×2, WMF ×2). After: **46 PASS**, 2 CLOSE
+  (CMYK colour profile, linked file), 1 DIFFERENT (ICO: PowerPoint itself cannot display it; the preview can).
+- New `office/images.ts` (format sniffing, TIFF via UTIF.js MIT, WMF via rtf.js WMFJS MIT, size-budgeted decode of
+  > 16 MP rasters, blip effects on canvas), `office/emf.ts` (in-tree EMF GDI player for Office's EMF+ dual files),
+  async picture loading with object-URL revocation in `office/package.ts`, and in `office/slides.ts`: picture
+  fills of shapes (SVG pattern, stretch/tile), table-cell pictures, stretched/tiled backgrounds, svgBlip with PNG
+  fallback, reasons in placeholders (linked, undecodable formats). EXIF orientation is ignored like Office does.
+- Same decoder reused for .docx (docx-preview images re-decoded: 9/14 → 14/14 shown), legacy .doc (9/12 → 12/12)
+  and .ppt (19/23 → 22/23): the legacy blip reader now returns EMF/WMF (inflated) and TIFF blips, converted before
+  drawing. Shared-file touches: `legacy/blip.ts`, `doc.ts`, `ppt.ts` (one `normalizePictures` call each),
+  `tools/vendor/zip.entry.js` (adds fflate `unzlibSync`/`inflateSync`), new vendor bundles `metafile.js` (59 KB),
+  `tiff.js` (84 KB); `package.json` devDependencies `rtf.js`, `utif`.
+- Unit tests: `office/images.test.ts` (sniffing, header sizes, PowerPoint-fitted effects). All 136 plugin tests pass.
+- Harness normal/--no-raf/--old-engine/--engine webkit 56/56 each; fuzz 161/161; corpus on WebKit: same 46/2/1.
