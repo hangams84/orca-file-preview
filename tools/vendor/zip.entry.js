@@ -1,3 +1,3 @@
-// fflate (MIT): synchronous unzip for the PPTX renderer; inflateSync for legacy/zip.ts when the
-// browser has no DecompressionStream('deflate-raw') (Safari before 16.4).
-export { unzipSync, strFromU8, inflateSync } from 'fflate'
+// fflate (MIT): synchronous unzip for the PPTX renderer, and zlib/deflate for compressed
+// metafile pictures in legacy .doc/.ppt files.
+export { unzipSync, strFromU8, unzlibSync, inflateSync } from 'fflate'

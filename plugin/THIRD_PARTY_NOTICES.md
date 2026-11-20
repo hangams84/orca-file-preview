@@ -12,6 +12,9 @@ its own license; the license texts are included in the bundles' trailing comment
 | `vendor/sheet.js` | [SheetJS Community Edition](https://sheetjs.com) (`xlsx`) | 0.20.3 | Apache-2.0 |
 | `vendor/purify.js` | [DOMPurify](https://github.com/cure53/DOMPurify) | 3.4.17 | Apache-2.0 (dual Apache-2.0 / MPL-2.0; used under Apache-2.0) |
 | `vendor/zip.js` | [fflate](https://github.com/101arrowz/fflate) | 0.8.3 | MIT |
+| `vendor/metafile.js` | [rtf.js](https://github.com/tbluemel/rtf.js) — WMFJS only (WMF → SVG) | 3.0.9 | MIT |
+| `vendor/tiff.js` | [UTIF.js](https://github.com/photopea/UTIF.js) (`utif`) | 3.1.0 | MIT |
+| `vendor/tiff.js` (bundled dependency) | [pako](https://github.com/nodeca/pako) | 1.0.x | MIT (dual MIT / Zlib) |
 | `vendor/three.js` | [three.js](https://github.com/mrdoob/three.js) (core subset, loaders STL/OBJ/PLY/GLTF/3MF/FBX/COLLADA/DRACO, OrbitControls, RoomEnvironment, BufferGeometryUtils) | 0.179.1 | MIT |
 | `vendor/three.js` (bundled dependency of the 3MF/FBX loaders) | [fflate](https://github.com/101arrowz/fflate) (copy shipped in three.js) | 0.8.x | MIT |
 | `vendor/meshopt.js` | [meshoptimizer](https://github.com/zeux/meshoptimizer) decoder (copy shipped in three.js) | three 0.179.1 | MIT |
