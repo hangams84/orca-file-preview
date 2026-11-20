@@ -3,7 +3,8 @@
 // vendor/<name>.js. Run `npm run vendor` after changing an entry or a dependency version; the
 // outputs are committed so the plugin itself needs no build step.
 import { build } from 'esbuild'
-import { copyFileSync, mkdirSync, readdirSync, statSync, writeFileSync } from 'node:fs'
+import { copyFileSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs'
+import { patchOcct } from './occt-patches.mjs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -52,6 +53,20 @@ for (const [from, to] of copies) {
   } catch {
     // dependency not installed yet: skip
   }
+}
+
+// occt-import-js under a CSP without 'unsafe-eval' and without blob: scripts (Orca): a patched copy
+// beside the unmodified file, with a modification notice (LGPL-2.1 section 2a).
+try {
+  const src = readFileSync(join(outDir, 'occt/occt-import-js.js'), 'utf8')
+  const note =
+    '/* Modified copy of occt-import-js 0.0.23 (LGPL-2.1), made by tools/build-vendor.mjs for File Preview:\n' +
+    ' * two embind `new Function` code-generation sites are replaced by equivalent closures so the library runs\n' +
+    ' * under a Content Security Policy without unsafe-eval. The unmodified file is occt-import-js.js. */\n'
+  writeFileSync(join(outDir, 'occt/occt-import-js.csp.js'), note + patchOcct(src))
+  report.push(['occt/occt-import-js.csp.js', statSync(join(outDir, 'occt/occt-import-js.csp.js')).size])
+} catch (err) {
+  if (err.code !== 'ENOENT') throw err
 }
 
 // pdf.js data files fetched at run time: cMaps (CJK CID fonts), standard fonts, image decoders.

@@ -32,7 +32,7 @@ const CSP = [
   "default-src 'self'",
   // Orca's plugin frames allow WebAssembly (verified in Orca 1.4.258: WebAssembly.instantiate works in an
   // editor frame and in its blob:, classic and module workers), so the harness allows it as well.
-  "script-src 'self' blob: 'wasm-unsafe-eval'",
+  "script-src 'self' 'wasm-unsafe-eval'", // Orca refuses blob: scripts (also importScripts in workers)
   "style-src 'self' 'unsafe-inline' blob: data:",
   "img-src 'self' blob: data:",
   "font-src 'self' blob: data:",
