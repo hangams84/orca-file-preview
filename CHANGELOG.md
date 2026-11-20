@@ -3,6 +3,30 @@
 All notable changes per release. Each release on GitHub carries its verification results
 (`docs/release-notes/<tag>.md`) and SHA-256 checksums for every file.
 
+## [0.2.3] — 2026-11-20
+
+### Fixed
+- **STEP / IGES / BREP did not open in Orca** (`preview refused: cad-engine`). The OpenCascade engine was started
+  from a `blob:` script, which Orca's plugin frames refuse, also inside workers. The vendor build now ships
+  `vendor/occt/occt-import-js.csp.js` (the library with its two `new Function` sites replaced, with an LGPL
+  modification notice, beside the unmodified file), and the worker loads it by URL. The browser harness now
+  refuses `blob:` scripts like Orca. Verified in Orca 1.4.258: a STEP assembly and an IGES part render.
+- **Pictures missing in PowerPoint slides**, depending on the picture's format and effects. Checked against
+  PowerPoint's own slide export on a 49-case corpus built with PowerPoint (formats, sizes, effects, placements):
+  31 → 46 match, 6 → 0 missing.
+  - Now shown: TIFF (LZW, multipage), EMF (shapes, text, embedded bitmaps; in-tree player), WMF (rtf.js WMFJS).
+  - EXIF-rotated JPEGs are no longer rotated twice (Office stores the rotation on the shape).
+  - Recolour (grayscale, black and white, washout, duotone), brightness/contrast, transparency and "set
+    transparent colour" are applied; shape picture fills (stretch, tile) and pictures in table cells are drawn.
+  - Very large pictures (above 16 MP) are decoded within a size budget.
+  - HEIC and JPEG XR show a named placeholder; linked (external) pictures show their path.
+- The same picture decoder fixes Word and legacy files: `.docx` 9/14 → 14/14, `.doc` 9/12 → 12/12, `.ppt` 19/23 → 22/23
+  pictures shown.
+
+### Added
+- `samples/pptx-images/` corpus, `tools/make-pptx-images.ps1` and `tools/pptx-images/` (PowerPoint COM ground truth
+  and comparison); report in `docs/evidence/office/pptx-images/report.md`; Orca captures in `docs/evidence/orca-cad/`.
+
 ## [0.2.2] — 2026-11-16
 
 ### Fixed

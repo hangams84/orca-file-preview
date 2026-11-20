@@ -145,3 +145,10 @@ pictures get `image-orientation: none` as well (checked: the EXIF picture is upr
 Harness (`--only docx,pptx,xls,ods,ppt,doc --profiles desktop-dark,mobile-light`): normal 56/56, `--no-raf` 56/56,
 `--old-engine` 56/56, `--engine webkit` 56/56; fuzz (`--dir samples/fuzz --fuzz`) 161/161; `orca plugin test`
 136/136 (new `office/images.test.ts`: format sniffing, header sizes, PowerPoint-fitted effects).
+
+## In Orca 1.4.258 (Windows 11)
+
+The cases that were missing or wrong before, each opened as a one-slide deck in real Orca after the fix
+(TIFF LZW · EMF shapes · EMF bitmap · WMF shapes · WMF bitmap · EXIF orientation 6 · duotone · tiled picture fill):
+
+![](orca-1.4.258-fixed-cases.png)
