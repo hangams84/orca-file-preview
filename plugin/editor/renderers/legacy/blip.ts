@@ -1,5 +1,6 @@
 /** OfficeArt BLIP records (pictures stored in .doc Data and .ppt Pictures streams). */
 import type { Picture } from './model.ts'
+import { inflateSync, unzlibSync } from '../../../vendor/zip.js'
 
 const BLIP_TYPES: Record<number, string> = {
   0xf01a: 'emf',
@@ -16,8 +17,8 @@ export function isBlipType(t: number): boolean {
   return t in BLIP_TYPES
 }
 
-/** Parses one blip record at `off` (its 8-byte header included). Returns null for metafiles and
- *  anything a browser cannot draw. */
+/** Parses one blip record at `off` (its 8-byte header included). Metafiles are inflated and TIFF is
+ *  kept as is (both converted later by office/images.ts); PICT returns null. */
 export function readBlip(b: Uint8Array, off: number): { picture: Picture | null; end: number } | null {
   if (off + 8 > b.length) return null
   const dv = new DataView(b.buffer, b.byteOffset, b.byteLength)
@@ -29,7 +30,30 @@ export function readBlip(b: Uint8Array, off: number): { picture: Picture | null;
   const end = off + 8 + len
   const inst = verInst >> 4
   const uids = 1 + (inst & 1)
-  if (kind === 'emf' || kind === 'wmf' || kind === 'pict' || kind === 'image/tiff') return { picture: null, end }
+  if (kind === 'pict') return { picture: null, end }
+  if (kind === 'emf' || kind === 'wmf') {
+    // OfficeArtMetafileHeader (34 bytes) after the UIDs: cbSize, rcBounds, ptSize, cbSave,
+    // compression (0 = deflate, 0xFE = none), filter. The renderer turns these into PNG/SVG
+    // (office/images.ts normalizePictures).
+    const h = off + 8 + 16 * uids
+    if (h + 34 > end) return { picture: null, end }
+    const cbSave = dv.getUint32(h + 28, true)
+    const compressed = b[h + 32] === 0
+    const data = b.subarray(h + 34, Math.min(end, h + 34 + cbSave))
+    let bytes: Uint8Array | null = data
+    if (compressed) {
+      try {
+        bytes = unzlibSync(data)
+      } catch {
+        try {
+          bytes = inflateSync(data)
+        } catch {
+          bytes = null
+        }
+      }
+    }
+    return { picture: bytes ? { bytes, mime: kind === 'emf' ? 'image/x-emf' : 'image/x-wmf' } : null, end }
+  }
   const dataStart = off + 8 + 16 * uids + 1
   if (dataStart >= end) return { picture: null, end }
   const data = b.subarray(dataStart, end)
