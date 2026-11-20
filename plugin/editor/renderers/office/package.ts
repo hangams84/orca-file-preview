@@ -1,6 +1,6 @@
 /** An unzipped OOXML package: parts by path, parsed XML (cached), relationships and media URLs. */
 import { strFromU8, unzipSync } from '../../../vendor/zip.js'
-import { objectUrl } from '../../core/ui.ts'
+import { effectsKey, loadPicture, type PictureEffects, type PictureResult } from './images.ts'
 import { attr, kids, parseXml } from './xml.ts'
 
 export interface Rel {
@@ -10,24 +10,13 @@ export interface Rel {
   external: boolean
 }
 
-const MIME: Record<string, string> = {
-  png: 'image/png',
-  jpg: 'image/jpeg',
-  jpeg: 'image/jpeg',
-  gif: 'image/gif',
-  bmp: 'image/bmp',
-  svg: 'image/svg+xml',
-  webp: 'image/webp',
-  tif: 'image/tiff',
-  tiff: 'image/tiff'
-}
 
 const SKIP = /^(?:[^/]+\/(?:embeddings|fonts|customXml)\/|docProps\/thumbnail|customXml\/)|printerSettings|vbaProject\.bin$/i
 
 export class OoxmlPackage {
   private xmlCache = new Map<string, Document | null>()
   private relCache = new Map<string, Map<string, Rel>>()
-  private urlCache = new Map<string, string | null>()
+  private pictureCache = new Map<string, Promise<PictureResult>>()
 
   private constructor(
     private files: Record<string, Uint8Array>,
@@ -86,15 +75,22 @@ export class OoxmlPackage {
     return undefined
   }
 
-  /** Blob URL for an image part, or null when it is missing or a format browsers cannot show (EMF/WMF). */
-  mediaUrl(path: string): string | null {
-    if (this.urlCache.has(path)) return this.urlCache.get(path)!
-    const raw = this.files[path]
-    const ext = path.slice(path.lastIndexOf('.') + 1).toLowerCase()
-    const type = MIME[ext]
-    const url = raw && type ? objectUrl(raw, type, this.signal) : null
-    this.urlCache.set(path, url)
-    return url
+  /** A picture part as a URL the browser can show (any format office/images.ts decodes, with
+   *  blip effects applied), cached per part and effect set; object URLs are revoked on abort. */
+  picture(path: string, effects?: PictureEffects): Promise<PictureResult> {
+    const key = `${path}|${effectsKey(effects)}`
+    let p = this.pictureCache.get(key)
+    if (!p) {
+      const raw = this.files[path]
+      p = raw
+        ? loadPicture({ bytes: raw, name: path }, effects, (url) => {
+            this.signal.addEventListener('abort', () => URL.revokeObjectURL(url), { once: true })
+            return url
+          })
+        : Promise.resolve({ error: 'picture part missing' })
+      this.pictureCache.set(key, p)
+    }
+    return p
   }
 }
 
