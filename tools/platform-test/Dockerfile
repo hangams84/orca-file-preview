@@ -3,7 +3,6 @@
 #   docker build -t orca-fp:24.04 --build-arg UBUNTU=24.04 tools/platform-test
 ARG UBUNTU=24.04
 FROM ubuntu:${UBUNTU}
-ARG ORCA_VERSION=1.4.258
 ENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 TZ=Asia/Seoul
 # Plain-HTTP package downloads were intermittently altered on the way (Hash Sum mismatch on several
 # mirrors), so bootstrap CA certificates over HTTP with retries, then use an HTTPS mirror.
@@ -25,6 +24,8 @@ RUN apt-get install -y --no-install-recommends \
       python3 \
  && rm -rf /var/lib/apt/lists/*
 
+# Declared here, after the shared layers, so every Orca version reuses the cached base layers.
+ARG ORCA_VERSION=1.4.258
 # Orca's own .deb pulls in the Electron runtime libraries it declares.
 RUN curl -fsSL --retry 5 --retry-all-errors --connect-timeout 30 --speed-limit 100000 --speed-time 60 -o /tmp/orca.deb \
       "https://github.com/stablyai/orca/releases/download/v${ORCA_VERSION}/orca-ide_${ORCA_VERSION}_amd64.deb" \

@@ -167,7 +167,7 @@ jobs:
         with:
           ref: ${{ needs.package.outputs.src }}
       - name: Orca image
-        run: docker build -q -t orca-fp --build-arg UBUNTU=24.04 --build-arg MIRROR=http://azure.archive.ubuntu.com/ubuntu tools/platform-test
+        run: docker build --progress=plain -t orca-fp --build-arg UBUNTU=24.04 --build-arg MIRROR=http://archive.ubuntu.com/ubuntu tools/platform-test
       - name: Install from the Git URL in a fresh Orca
         env:
           TAG: ${{ needs.package.outputs.tag }}
