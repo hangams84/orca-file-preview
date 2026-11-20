@@ -8,3 +8,5 @@ docs/evidence/** binary
 *.ps1 text eol=crlf
 *.command text eol=lf
 *.sh text eol=lf
+# third-party files shipped byte-for-byte as published (LGPL: unmodified, replaceable)
+plugin/vendor/occt/** -text
