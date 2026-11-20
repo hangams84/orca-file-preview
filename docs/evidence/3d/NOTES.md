@@ -12,7 +12,7 @@ the geometry parsers in `model3d/parse.js` and the parse worker `model3d/worker.
 | `.obj` | `v x y z [r g b]` vertex colours, lines, points | three `OBJLoader` | Web Worker | `.mtl` and texture files are separate files, so they are not loaded. A neutral material is used and a note says so. |
 | `.ply` | ASCII and binary (LE/BE), vertex colours, meshes and point clouds | three `PLYLoader` | Web Worker | A file with no faces is drawn as a point cloud. |
 | `.off` | `OFF` `COFF` `NOFF` `CNOFF` `STOFF`, polygons, vertex or face colours (0–1 or 0–255) | own parser (`parseOFF`) | Web Worker | Polygons become triangle fans. Z-up at first. |
-| `.glb` | glTF 2.0 binary with embedded buffers and textures | three `GLTFLoader` | main thread (after a yield) | **Draco** works through the pure-JS (asm.js) decoder in `vendor/draco/` (no WebAssembly, no eval) and runs in a blob worker. **meshopt** needs WebAssembly. Without `'wasm-unsafe-eval'` (the harness CSP), it shows a friendly `meshopt` message. Other required extensions that three does not support (such as `KHR_texture_basisu`) get a `gltf-extension` message. |
+| `.glb` | glTF 2.0 binary with embedded buffers and textures | three `GLTFLoader` | main thread (after a yield) | **Draco** works through the pure-JS (asm.js) decoder in `vendor/draco/` (no WebAssembly, no eval) and runs in a blob worker. **meshopt** works through the meshoptimizer decoder (WebAssembly, allowed in Orca's frames; fixture `sample-meshopt.glb`). If WebAssembly is ever unavailable, it shows a friendly `meshopt` message. Other required extensions that three does not support (such as `KHR_texture_basisu`) get a `gltf-extension` message. |
 | `.gltf` | JSON with `data:` URIs only | three `GLTFLoader` | main thread | When it points to an external `.bin` or image, it shows the friendly `gltf-external` message ("export a self-contained .glb"). Nothing is fetched. |
 | `.3mf` | core spec, base materials | three `ThreeMFLoader` (uses fflate and DOMParser) | main thread | Z-up at first. |
 | `.fbx` | binary and ASCII, version 7000 and later | three `FBXLoader` (no eval) | main thread | External textures are swapped for a white pixel and counted in a note. Missing normals are computed. |
@@ -95,14 +95,14 @@ URL is never requested: it becomes a 1×1 white PNG and is listed in the note.
 | --- | --- |
 | `tsc --noEmit` | ✅ |
 | `orca plugin validate` / `orca plugin check` | ✅ valid, no issues |
-| `orca plugin test` (from a copy on C:) | ✅ 88/88, including the new `model3d/format.test.ts` and `model3d/parse.test.ts` |
-| Harness: desktop-dark, desktop-light, mobile-light, tablet-dark (`harness/`) | ✅ 52/52, ready in 0.8–1.1 s |
-| Harness `--dpr 1.25,1.5,1.75`, desktop-dark and mobile-light (`harness-dpr/`) | ✅ 78/78 |
-| Harness `--no-raf` (`harness-no-raf/`) | ✅ 13/13: models are drawn without animation frames |
-| Harness `--engine webkit`, desktop-dark and mobile-light at DPR 1 and 1.25 (`harness-webkit/`) | ✅ 52/52: Playwright WebKit has WebGL 2, so every model renders (no `webgl` fallback was needed) |
-| Harness `--old-engine`, mobile-light (`harness-old-engine/`) | ✅ 13/13: the bundle and the worker do not depend on `structuredClone`, `findLast` or `Promise.withResolvers` |
-| Fuzz (`node tools/make-fuzz.mjs`; 92 damaged 3D files: truncated, bit-flipped, zeroed, random, empty) (`harness-fuzz/`) | ✅ 92/92 settle (23 still render, 69 show a friendly error), with no hangs or page errors |
-| Interaction (`node tools/harness/model3d-interact.mjs`) (`interact/`) | ✅ 20/20, see below |
+| `orca plugin test` (from a copy on C:) | ✅ 134/134 (all plugin tests), including `model3d/format.test.ts` with the CAD detection tests and `model3d/parse.test.ts` |
+| Harness: desktop-dark, desktop-light, mobile-light, tablet-dark (`harness/`), 20 3D/CAD fixtures with the centring check | ✅ 80/80, ready in 0.8–1.3 s |
+| Harness `--dpr 1.25,1.5,1.75`, desktop-dark and mobile-light (`harness-dpr/`) | ✅ 120/120 |
+| Harness `--no-raf` (`harness-no-raf/`) | ✅ 20/20: models are drawn without animation frames |
+| Harness `--engine webkit`, desktop-dark and mobile-light at DPR 1 and 1.25 (`harness-webkit/`) | ✅ 80/80: Playwright WebKit has WebGL 2, so every model renders (no `webgl` fallback was needed). The first run of the matrix had 2 flaky failures, an element-screenshot snapshot error and WebKit running out of WebGL contexts in its shared process; the re-run passed 80/80. |
+| Harness `--old-engine`, mobile-light (`harness-old-engine/`) | ✅ 20/20: the bundle and the workers, CAD included, do not depend on `structuredClone`, `findLast` or `Promise.withResolvers` |
+| Fuzz (`node tools/make-fuzz.mjs`; 139 damaged 3D and CAD files: truncated, bit-flipped, zeroed, random, empty) (`harness-fuzz/`) | ✅ 139/139 settle, with no hangs or page errors |
+| Interaction (`node tools/harness/model3d-interact.mjs`) (`interact/`) | ✅ 24/24, see below (CAD: quality switch, parts list, 17 MB STEP) |
 
 The interaction checks in `interact/results.json`:
 
@@ -172,3 +172,105 @@ A second, smaller problem showed up too. The fit centred the 3D bounding box rat
 - `model3d-interact.mjs` has the stylesheet-removal case above. The old renderer fails it; the new one passes: 50.0 %/50.0 % before and after the resize, and the canvas box equals the pane.
 
 The coordinator still needs to confirm the fix in the real Orca app. It is still unknown why the injected `<style>` loses in Orca's frame, and the inline sizes make the canvas independent of that. Other renderers that put a `<style>` inside the content area (for example `media/image-view.ts`) may be worth checking in Orca for the same reason.
+
+## CAD: STEP / IGES / BREP (OpenCascade)
+
+The user reported that STEP files would not open. The 3D Preview now also reads CAD boundary-representation (B-rep) files:
+`.step` and `.stp` (AP203, AP214 and AP242), `.iges` and `.igs`, and `.brep` (OpenCascade's own text format).
+
+### Library and licence
+
+- **occt-import-js 0.0.23** ([source](https://github.com/kovacsv/occt-import-js)): OpenCascade Technology (OCCT) compiled to WebAssembly. Pinned with `npm i -D -E`.
+  - It ships unmodified as separate, replaceable files in `plugin/vendor/occt/`: `occt-import-js.js` (95 KB) and `occt-import-js.wasm` (7.4 MB).
+  - Licences: **LGPL-2.1** for occt-import-js; LGPL-2.1 with the Open CASCADE exception for OCCT. The licence texts sit next to the files, and `vendor/occt/README.md` and `THIRD_PARTY_NOTICES.md` give the source links and the version.
+- **Run-time adaptation.** The library's Emscripten "embind" glue builds two kinds of wrapper functions with `new Function`. Orca's frames, like the harness, forbid evaluating strings as code, so the engine failed to start with "Evaluating a string as JavaScript violates … CSP".
+  - `occt-worker.js` fetches the script as text and swaps those two call sites for the closure-based code that Emscripten itself emits with `-sDYNAMIC_EXECUTION=0`.
+  - It then runs the result from a `blob:` URL, which `script-src blob:` allows.
+  - The `.wasm` is fetched from the plugin's own files and passed in as `wasmBinary`, so the server's MIME type does not matter.
+  - Nothing is downloaded from the network.
+
+### How it works
+
+- **Worker.** `renderers/model3d/occt-worker.js` is a classic worker. It loads the engine, reads the file, tessellates it, and converts the result to typed arrays, which it transfers to the page. Per-face colours become per-vertex colours.
+- **Model tree.** The page builds a three.js group tree from the result's node hierarchy (assemblies and parts), with the mesh colours, and reuses the whole viewer: fit, orbit, wireframe, grid and axes, backgrounds, centring.
+- **Progress and time limit.**
+  - While loading, the spinner text shows the phase (loading the engine, reading and triangulating, preparing the view) with elapsed seconds.
+  - The time limit is 20 s plus 5 s per MB, at most 5 minutes. After that the worker is terminated and the friendly `cad-timeout` message suggests the Coarse setting.
+- **Errors.** A STEP/IGES/BREP file OpenCascade cannot read gives `cad-read`; an engine that cannot start gives `cad-engine`.
+- **Toolbar.**
+  - A tessellation-quality picker: Coarse, Normal or Fine. Each is a deflection relative to the model's bounding box (linear deflection 0.004, 0.001 or 0.0003; angular deflection 0.8, 0.5 or 0.25 rad). Normal is the default and the choice is remembered. Changing it re-tessellates in place without duplicating toolbar buttons.
+  - A ☰ parts list with a visibility checkbox per part plus an "All" checkbox.
+  - A ? help panel.
+  - Info line: `STEP · triangles · vertices · N parts · X × Y × Z mm · size`. STEP and IGES are converted to **mm**; BREP shows "units as stored".
+- **Z-up** at first, as for STL and 3MF.
+
+### Orca opens STEP in its Source view first
+
+The coordinator checked this in Orca 1.4.258: STEP files are ASCII, so Orca sniffs them as text and opens them in its Source view. The preview is reached with the view toggle at the tab's top right, as for `.txt` and `.csv`. IGES and BREP are text too and will behave the same.
+
+The renderer does not depend on how it was opened: the toggle mounts the same editor with the same bytes. This is documented in `README.md`, `installer/README.md`, and the preview's own ? help panel.
+
+### Fixtures
+
+The fixtures are made from scratch by `tools/make-cad-samples.py`, using OpenCascade 8.0 through `cadquery-ocp` at generation time only. They carry this repository's licence; the sources and SHA-256 hashes are in `FIXTURES.md`.
+
+| File | Size | Content |
+| --- | --- | --- |
+| `sample.step` | 164 KB | AP214 assembly: plate, 4 bolt instances and a bracket, named and coloured |
+| `sample-ap203.stp` | 93 KB | AP203 single part, no colours |
+| `sample-ap242.step` | 39 KB | AP242 part with per-face colours |
+| `sample.igs` | 14 KB | IGES 5.3, coloured |
+| `sample.brep` | 4 KB | revolved shaft |
+| `broken.step` | 31 KB | cut off in its DATA section, giving `cad-read` |
+
+`--perf` writes `samples/perf/large-assembly.step` (git-ignored): **17.3 MB**, 144 distinct filleted parts, 289,008 triangles.
+
+### Results
+
+Per-file reading and tessellating in the worker (Chrome, Windows 11):
+
+| File | Read and tessellate |
+| --- | --- |
+| `sample.step` | 0.3 s |
+| `sample-ap203.stp` | 0.08 s |
+| `sample.igs` | 0.03 s |
+| Engine start (once per preview) | about 0.1 s |
+
+The **17.3 MB assembly** is ready in 13.8–16.5 s at Normal quality. The longest main-thread stall is 174–204 ms (the UI stays responsive), and one orbit step takes about 110 ms. Coarse/Normal/Fine on `sample.step` give 996 / 1,868 / 3,984 triangles.
+
+All harness runs include the centring check and cover the 3D and CAD fixtures. Results are in the main results table above, plus:
+
+| Check | Result |
+| --- | --- |
+| All 77 fixtures in `samples/` (every renderer) with the new harness CSP | ✅ 77/77 |
+
+The PNGs show every CAD sample visible, lit and centred:
+
+- The assembly's plate is blue, the bolts steel and the bracket orange.
+- The AP242 part shows red faces on grey.
+- The IGES flange is green.
+- The BREP shaft is neutral grey.
+
+### Harness CSP now allows WebAssembly
+
+The coordinator verified that Orca 1.4.258 allows `WebAssembly.instantiate` in plugin editor frames and in their workers: blob:, classic and module. The earlier "no wasm" finding came from the harness's own CSP. `tools/harness/run.mjs` and `lib.mjs` now use `script-src 'self' blob: 'wasm-unsafe-eval'`; everything else is unchanged.
+
+Consequences:
+
+- meshopt glTF now renders (`sample-meshopt.glb`).
+- pdf.js may use its WebAssembly image decoders.
+- All 77 fixtures still pass.
+
+`'unsafe-eval'` stays off, so `new Function` and eval remain forbidden, as in Orca.
+
+### Plugin size
+
+- The `plugin/` folder is **15.9 MB in 307 files** (excluding the generated `.orca/` types). The largest single file is the 7.4 MB `.wasm`.
+- Orca's limits are 50 MiB in total, 2,000 files, and 16 MiB per script.
+- `orca plugin validate plugin` ✅ valid.
+
+### Limits
+
+- STEP AP242 PMI, tolerances and textures are not shown; only the geometry and colours are.
+- Very large assemblies (hundreds of MB) can run out of WebAssembly memory. The 2 GB wasm32 limit gives a friendly `cad-engine` or `cad-timeout` message.
+- Binary BREP (BinTools) is not supported; only text BREP is.

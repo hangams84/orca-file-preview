@@ -36,6 +36,11 @@ export const RENDERERS: Record<string, Loader> = {
   off: () => import('./renderers/model3d.ts'),
   fbx: () => import('./renderers/model3d.ts'),
   dae: () => import('./renderers/model3d.ts'),
+  step: () => import('./renderers/model3d.ts'),
+  stp: () => import('./renderers/model3d.ts'),
+  iges: () => import('./renderers/model3d.ts'),
+  igs: () => import('./renderers/model3d.ts'),
+  brep: () => import('./renderers/model3d.ts'),
   hwp: () => import('./renderers/hwp.ts'),
   hwpx: () => import('./renderers/hwp.ts')
 }

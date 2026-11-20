@@ -1,13 +1,18 @@
-/** 3D models (.stl .obj .ply .glb .gltf .3mf .off .fbx .dae): three.js (MIT) loaders, WebGL, orbit
+/** 3D models (.stl .obj .ply .glb .gltf .3mf .off .fbx .dae, and CAD B-rep .step .stp .iges .igs
+ *  .brep read by OpenCascade/occt-import-js in a Web Worker): three.js (MIT) loaders, WebGL, orbit
  *  controls (mouse and touch). Geometry-only formats parse in a Web Worker; glTF/3MF/FBX/COLLADA
  *  parse on the main thread after a yield. Draws only when something changes, and once without
  *  requestAnimationFrame so a hidden window still shows the model. The frame has no network: only
  *  data:/blob: resources load; external textures, .mtl and .bin files are reported, not fetched. */
 import { formatBytes } from '../core/i18n.ts'
 import { PreviewError, type PreviewContext } from '../core/types.ts'
-import { h } from '../core/ui.ts'
+import { h, showLoading, showMessage } from '../core/ui.ts'
 import * as THREE from '../../vendor/three.js'
 import {
+  CAD_KINDS,
+  cadParams,
+  cadTimeLimitMs,
+  type CadQuality,
   defaultZUp,
   detectModel,
   estimateSize,
@@ -47,10 +52,14 @@ const PARSE_TIMEOUT_MS = 60_000
 interface Loaded {
   object: THREE.Object3D
   notes: string[]
+  /** Unit of the coordinates when the loader converted them (CAD: millimetres). */
+  units?: string
+  /** Named parts for the parts list (CAD assemblies). */
+  parts?: { name: string; object: THREE.Object3D }[]
 }
 
 export async function render(ctx: PreviewContext): Promise<() => void> {
-  const { bytes, tr, signal, toolbar } = ctx
+  const { bytes, tr } = ctx
   if (bytes.byteLength > MAX_FILE_BYTES) {
     throw new PreviewError(
       'too-large',
@@ -64,6 +73,13 @@ export async function render(ctx: PreviewContext): Promise<() => void> {
       tr(`.${ctx.fileType} 파일의 내용이 3D 모델이 아니거나 잘려 있거나 손상되었습니다.`, `This .${ctx.fileType} file is not a 3D model, or it is cut off or damaged.`)
     )
   }
+  if (CAD_KINDS.has(kind)) return renderCad(ctx, kind)
+  return mount(ctx, kind, null)
+}
+
+/** Loads the model and mounts the viewer; returns its cleanup (also run when ctx.signal aborts). */
+async function mount(ctx: PreviewContext, kind: ModelKind, quality: CadQuality | null): Promise<() => void> {
+  const { bytes, tr, signal } = ctx
   const limit = triangleLimit(ctx.compact)
   const tooMany = (n: number) =>
     new PreviewError(
@@ -99,7 +115,7 @@ export async function render(ctx: PreviewContext): Promise<() => void> {
   signal.addEventListener('abort', dispose, { once: true })
 
   try {
-    const loaded = await load(kind, ctx)
+    const loaded = await load(kind, ctx, quality ?? 'normal')
     if (signal.aborted) {
       disposeObject(loaded.object)
       return dispose
@@ -148,7 +164,8 @@ function createRenderer(tr: PreviewContext['tr']): THREE.WebGLRenderer {
 // ---------------------------------------------------------------------------------------------
 // Loading
 
-async function load(kind: ModelKind, ctx: PreviewContext): Promise<Loaded> {
+async function load(kind: ModelKind, ctx: PreviewContext, quality: CadQuality): Promise<Loaded> {
+  if (CAD_KINDS.has(kind)) return loadCad(kind, ctx, quality)
   if (WORKER_KINDS.has(kind)) {
     const { parts, notes } = await parseOffThread(kind, ctx)
     return { object: buildParts(parts, kind), notes: notes.map((n) => noteText(n, ctx.tr)) }
@@ -730,6 +747,20 @@ function mountViewer(
     spinning = on ? requestAnimationFrame(spin) : 0
   }, true)
   disposers.push(() => cancelAnimationFrame(spinning))
+  if (loaded.parts && loaded.parts.length > 1) {
+    const panel = partsPanel(loaded.parts, tr, () => draw())
+    stage.append(panel)
+    toggle('☰', tr('부품 목록 (표시/숨기기)', 'Parts list (show/hide parts)'), false, (on) => {
+      panel.style.display = on ? 'block' : 'none'
+    })
+  }
+  {
+    const help = helpPanel(kind, tr)
+    stage.append(help)
+    toggle('?', tr('도움말: 조작 방법', 'Help: controls'), false, (on) => {
+      help.style.display = on ? 'block' : 'none'
+    })
+  }
   const select = toolbar.select(
     tr('배경', 'Background'),
     [
@@ -760,7 +791,10 @@ function mountViewer(
     KIND_LABEL[kind],
     counts.triangles ? tr(`삼각형 ${formatCount(counts.triangles)}`, `${formatCount(counts.triangles)} triangles`) : tr('점·선만 있음', 'points/lines only'),
     tr(`정점 ${formatCount(counts.vertices)}`, `${formatCount(counts.vertices)} vertices`),
-    tr(`${formatBox(storedSize)} (저장된 단위)`, `${formatBox(storedSize)} (units as stored)`),
+    ...(loaded.parts && loaded.parts.length > 1 ? [tr(`부품 ${formatCount(loaded.parts.length)}`, `${formatCount(loaded.parts.length)} parts`)] : []),
+    loaded.units
+      ? `${formatBox(storedSize)} ${loaded.units}`
+      : tr(`${formatBox(storedSize)} (저장된 단위)`, `${formatBox(storedSize)} (units as stored)`),
     formatBytes(ctx.bytes.byteLength)
   ]
   toolbar.info(info.join(' · '))
@@ -828,4 +862,340 @@ function niceStep(x: number): number {
 /** Colours are stored linear: a relative luminance of 0.2 is about mid-grey on screen. */
 function isDark(c: THREE.Color): boolean {
   return 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b < 0.2
+}
+
+// ---------------------------------------------------------------------------------------------
+// CAD (STEP / IGES / BREP) through OpenCascade (occt-import-js) in a worker
+
+const QUALITY_KEY = 'file-preview.model3d.cad-quality'
+
+interface CadMesh {
+  name: string
+  position: Float32Array
+  normal?: Float32Array
+  index: Uint32Array
+  color: [number, number, number] | null
+  vcolor?: Float32Array
+}
+interface CadNode {
+  name: string
+  meshes: number[]
+  children: CadNode[]
+}
+
+/** CAD files get a tessellation-quality picker; changing it tessellates again in place. */
+async function renderCad(ctx: PreviewContext, kind: ModelKind): Promise<() => void> {
+  const { tr } = ctx
+  let quality: CadQuality = 'normal'
+  try {
+    const v = localStorage.getItem(QUALITY_KEY)
+    if (v === 'coarse' || v === 'normal' || v === 'fine') quality = v
+  } catch {
+    // storage unavailable
+  }
+  let current: (() => void) | null = null
+  let busy = false
+  const select = ctx.toolbar.select(
+    tr('테셀레이션 품질 (곡면을 삼각형으로 나누는 정밀도)', 'Tessellation quality (how finely curved faces are triangulated)'),
+    [
+      { value: 'coarse', label: tr('◇ 거칠게', '◇ Coarse') },
+      { value: 'normal', label: tr('◈ 보통', '◈ Normal') },
+      { value: 'fine', label: tr('◆ 정밀', '◆ Fine') }
+    ],
+    (v) => {
+      if (busy) {
+        select.value = quality
+        return
+      }
+      quality = v as CadQuality
+      try {
+        localStorage.setItem(QUALITY_KEY, quality)
+      } catch {
+        // ignore
+      }
+      busy = true
+      current?.()
+      current = null
+      showLoading(ctx.root, tr('다시 테셀레이션하는 중…', 'Tessellating again…'))
+      mountChild(quality)
+        .then((d) => {
+          current = d
+        })
+        .catch((err: Error) => {
+          if (ctx.signal.aborted) return
+          showMessage(
+            ctx.root,
+            tr('미리보기를 표시할 수 없습니다', 'Cannot preview this file'),
+            err instanceof PreviewError ? (err.hint ?? err.message) : String(err?.message ?? err)
+          )
+        })
+        .finally(() => {
+          busy = false
+        })
+    }
+  )
+  select.value = quality
+
+  /** One viewer with its own abort signal and toolbar buttons, removed again on re-tessellation. */
+  async function mountChild(q: CadQuality): Promise<() => void> {
+    const child = new AbortController()
+    const onParent = () => child.abort()
+    ctx.signal.addEventListener('abort', onParent, { once: true })
+    const created: HTMLElement[] = []
+    const toolbar: PreviewContext['toolbar'] = {
+      ...ctx.toolbar,
+      button: (spec) => {
+        const b = ctx.toolbar.button(spec)
+        created.push(b)
+        return b
+      },
+      select: (title, options, onChange) => {
+        const e = ctx.toolbar.select(title, options, onChange)
+        created.push(e)
+        return e
+      }
+    }
+    const c: PreviewContext = {
+      ...ctx,
+      toolbar,
+      signal: child.signal,
+      onTheme: (l) =>
+        ctx.onTheme((t) => {
+          if (!child.signal.aborted) l(t)
+        })
+    }
+    const cleanup = () => {
+      child.abort()
+      for (const e of created) e.remove()
+      ctx.signal.removeEventListener('abort', onParent)
+    }
+    try {
+      const dispose = await mount(c, kind, q)
+      return () => {
+        dispose()
+        cleanup()
+      }
+    } catch (err) {
+      cleanup()
+      throw err
+    }
+  }
+
+  current = await mountChild(quality)
+  return () => current?.()
+}
+
+function setProgress(root: HTMLElement, text: string): void {
+  const line = root.querySelector('.fp-state[role="status"] > div:last-child')
+  if (line) line.textContent = text
+}
+
+async function loadCad(kind: ModelKind, ctx: PreviewContext, quality: CadQuality): Promise<Loaded> {
+  const { tr, signal } = ctx
+  const buffer = copyBuffer(ctx.bytes)
+  const format = kind === 'step' ? 'step' : kind === 'iges' ? 'iges' : 'brep'
+  const base = new URL('../../vendor/occt/', import.meta.url).href
+  const limit = cadTimeLimitMs(ctx.bytes.byteLength)
+  const engineError = () =>
+    new PreviewError('cad-engine', tr('CAD 엔진(OpenCascade)을 시작할 수 없습니다.', 'The CAD engine (OpenCascade) could not be started.'))
+  let worker: Worker
+  try {
+    worker = new Worker(new URL('./model3d/occt-worker.js', import.meta.url))
+  } catch (err) {
+    console.warn('model3d: CAD worker unavailable', err)
+    throw engineError()
+  }
+  const started = Date.now()
+  let phase = tr('CAD 엔진(OpenCascade) 불러오는 중', 'Loading the CAD engine (OpenCascade)')
+  const show = () => setProgress(ctx.root, `${phase}… ${Math.round((Date.now() - started) / 1000)} s`)
+  show()
+  const ticker = setInterval(show, 1000)
+  const result = await new Promise<{ meshes: CadMesh[]; root: CadNode; stats: { engineMs: number; readMs: number } }>((resolve, reject) => {
+    let settled = false
+    const finish = (fn: () => void) => {
+      if (settled) return
+      settled = true
+      clearTimeout(timer)
+      clearInterval(ticker)
+      signal.removeEventListener('abort', onAbort)
+      worker.terminate()
+      fn()
+    }
+    const timer = setTimeout(
+      () =>
+        finish(() =>
+          reject(
+            new PreviewError(
+              'cad-timeout',
+              tr(
+                `이 CAD 파일은 ${Math.round(limit / 1000)}초 안에 읽지 못했습니다. 너무 복잡하거나 손상되었을 수 있습니다. 품질을 '거칠게'로 바꾸면 더 빨라질 수 있습니다.`,
+                `This CAD file could not be read within ${Math.round(limit / 1000)} s. It may be too complex or damaged; the Coarse quality setting is faster.`
+              )
+            )
+          )
+        ),
+      limit
+    )
+    const onAbort = () => finish(() => reject(new DOMException('aborted', 'AbortError')))
+    signal.addEventListener('abort', onAbort, { once: true })
+    worker.onmessage = (e: MessageEvent) => {
+      const d = e.data
+      if (d.progress) {
+        phase =
+          d.progress === 'reading'
+            ? tr('B-rep을 읽고 삼각형으로 나누는 중 (큰 파일은 시간이 걸립니다)', 'Reading the B-rep and triangulating it (large files take a while)')
+            : d.progress === 'converting'
+              ? tr('화면에 올리는 중', 'Preparing the view')
+              : phase
+        show()
+        return
+      }
+      finish(() => {
+        if (d.ok) resolve(d)
+        else {
+          console.warn('model3d: CAD', d.message)
+          reject(
+            /engine|wasm|WebAssembly|importScripts|fetch/i.test(String(d.message))
+              ? engineError()
+              : new PreviewError(
+                  'cad-read',
+                  tr(
+                    `${KIND_LABEL[kind]} 파일을 읽을 수 없습니다. 손상되었거나 지원하지 않는 변형입니다 (도형이 없는 파일일 수도 있습니다).`,
+                    `Cannot read this ${KIND_LABEL[kind]} file. It is damaged, uses an unsupported variant, or holds no shapes.`
+                  )
+                )
+          )
+        }
+      })
+    }
+    worker.onerror = (e) => {
+      e.preventDefault()
+      console.warn('model3d: CAD worker error', e.message)
+      // out of memory, or the engine failed to load
+      finish(() => reject(engineError()))
+    }
+    worker.postMessage({ format, buffer, params: cadParams(quality), base }, [buffer])
+  })
+  console.info(`model3d: ${KIND_LABEL[kind]} engine ${result.stats.engineMs} ms, read+tessellate ${result.stats.readMs} ms (${quality})`)
+  const built = buildCad(result.meshes, result.root, tr)
+  return { object: built.object, notes: [], units: kind === 'brep' ? undefined : 'mm', parts: built.parts }
+}
+
+function buildCad(
+  meshes: CadMesh[],
+  root: CadNode,
+  tr: PreviewContext['tr']
+): { object: THREE.Object3D; parts: { name: string; object: THREE.Object3D }[] } {
+  const made = meshes.map((m) => {
+    const g = new THREE.BufferGeometry()
+    g.setAttribute('position', new THREE.BufferAttribute(m.position, 3))
+    if (m.normal) g.setAttribute('normal', new THREE.BufferAttribute(m.normal, 3))
+    if (m.vcolor) g.setAttribute('color', new THREE.BufferAttribute(m.vcolor, 3))
+    g.setIndex(new THREE.BufferAttribute(m.index, 1))
+    if (!m.normal) g.computeVertexNormals()
+    const color = new THREE.Color(0xb4bac4)
+    if (m.vcolor) color.set(0xffffff)
+    else if (m.color) color.setRGB(m.color[0], m.color[1], m.color[2], THREE.SRGBColorSpace)
+    const mat = new THREE.MeshStandardMaterial({ color, vertexColors: !!m.vcolor, roughness: 0.5, metalness: 0.1, side: THREE.DoubleSide })
+    const mesh = new THREE.Mesh(g, mat)
+    mesh.name = m.name
+    return mesh
+  })
+  const used = new Set<number>()
+  const parts: { name: string; object: THREE.Object3D }[] = []
+  const partName = (n: string) => n || tr(`부품 ${parts.length + 1}`, `Part ${parts.length + 1}`)
+  const build = (n: CadNode, depth: number): THREE.Object3D => {
+    const group = new THREE.Group()
+    group.name = n.name
+    for (const i of n.meshes) {
+      const src = made[i]
+      if (!src) continue
+      // a mesh referenced twice gets a second object that shares its geometry and material
+      const obj = used.has(i) ? new THREE.Mesh(src.geometry, src.material) : src
+      used.add(i)
+      group.add(obj)
+    }
+    if (n.meshes.length) parts.push({ name: partName(n.name || made[n.meshes[0]]?.name || ''), object: group })
+    if (depth < 64) for (const c of n.children) group.add(build(c, depth + 1))
+    return group
+  }
+  const object = build(root, 0)
+  // meshes no node referenced still belong to the model
+  made.forEach((m, i) => {
+    if (!used.has(i)) {
+      object.add(m)
+      parts.push({ name: partName(m.name), object: m })
+    }
+  })
+  return { object, parts }
+}
+
+const PANEL_CSS =
+  'position:absolute;top:8px;right:8px;display:none;max-width:min(320px,calc(100% - 16px));max-height:calc(100% - 16px);overflow:auto;box-sizing:border-box;' +
+  'padding:6px 8px;border-radius:var(--orca-radius,6px);font-size:12px;line-height:1.5;z-index:2;' +
+  'background:var(--orca-popover,var(--orca-card,#fff));color:var(--orca-popover-foreground,var(--orca-foreground,#111));' +
+  'border:1px solid var(--orca-border,#ddd);box-shadow:0 2px 8px rgba(0,0,0,.25)'
+
+/** A list of the model's parts with a visibility checkbox each (and one for all). */
+function partsPanel(parts: { name: string; object: THREE.Object3D }[], tr: PreviewContext['tr'], redraw: () => void): HTMLElement {
+  const MAX = 500
+  const panel = h('div', 'fp-3d-parts')
+  panel.style.cssText = PANEL_CSS
+  panel.setAttribute('role', 'group')
+  panel.setAttribute('aria-label', tr('부품 목록', 'Parts'))
+  const row = (label: string, checked: boolean, onChange: (on: boolean) => void) => {
+    const l = h('label')
+    l.style.cssText = 'display:flex;gap:6px;align-items:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer'
+    const box = h('input')
+    box.type = 'checkbox'
+    box.checked = checked
+    box.addEventListener('change', () => onChange(box.checked))
+    l.append(box, h('span', undefined, label))
+    l.title = label
+    return { l, box }
+  }
+  const boxes: HTMLInputElement[] = []
+  const all = row(tr(`전체 (${parts.length})`, `All (${parts.length})`), true, (on) => {
+    for (const p of parts) p.object.visible = on
+    for (const b of boxes) b.checked = on
+    redraw()
+  })
+  all.l.style.fontWeight = '600'
+  panel.append(all.l)
+  for (const p of parts.slice(0, MAX)) {
+    const r = row(p.name, true, (on) => {
+      p.object.visible = on
+      redraw()
+    })
+    boxes.push(r.box)
+    panel.append(r.l)
+  }
+  if (parts.length > MAX) panel.append(h('div', undefined, tr(`… 외 ${parts.length - MAX}개`, `… and ${parts.length - MAX} more`)))
+  return panel
+}
+
+/** Controls and the Source-view note (Orca opens text-looking files in its Source view first). */
+function helpPanel(kind: ModelKind, tr: PreviewContext['tr']): HTMLElement {
+  const panel = h('div', 'fp-3d-help')
+  panel.style.cssText = PANEL_CSS
+  const lines = [
+    tr('왼쪽 드래그 / 한 손가락: 회전', 'Left drag / one finger: orbit'),
+    tr('오른쪽 드래그 · Shift+드래그 / 두 손가락: 이동', 'Right drag, Shift+drag / two fingers: pan'),
+    tr('휠 / 핀치: 확대·축소 (커서 쪽으로)', 'Wheel / pinch: zoom (towards the cursor)'),
+    tr('F: 화면에 맞추기 · 화살표 키: 회전', 'F: fit to view · arrow keys: orbit'),
+    CAD_KINDS.has(kind) && kind !== 'brep'
+      ? tr('크기는 mm로 변환해 표시합니다', 'Sizes are converted to millimetres')
+      : tr('크기는 파일에 저장된 단위 그대로입니다', 'Sizes are in the units stored in the file')
+  ]
+  const textLike = CAD_KINDS.has(kind) || ['obj', 'stl-ascii', 'off', 'gltf', 'dae', 'fbx-ascii'].includes(kind)
+  if (textLike) {
+    lines.push(
+      tr(
+        'Orca는 텍스트로 된 파일(STEP·IGES·BREP 등)을 먼저 소스 보기로 엽니다. 탭 오른쪽 위의 보기 전환 버튼으로 이 미리보기로 바꿀 수 있습니다.',
+        "Orca opens text-based files (STEP, IGES, BREP, …) in its Source view first: switch to this preview with the view toggle at the tab's top right."
+      )
+    )
+  }
+  for (const t of lines) panel.append(h('div', undefined, '• ' + t))
+  return panel
 }

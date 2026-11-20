@@ -11,6 +11,7 @@ import { runInNewContext } from 'node:vm'
 import { crc32, deflateSync } from 'node:zlib'
 import * as THREE from 'three'
 import { zipSync, strToU8 } from 'fflate'
+import { MeshoptEncoder } from 'meshoptimizer'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 const OUT = join(ROOT, 'samples')
@@ -217,9 +218,10 @@ const checker = () =>
 
 /**
  * glTF 2.0 document: a textured sphere on a metallic base. `mode` 'glb' packs everything into the
- * binary chunk; 'embedded' writes data: URIs; 'draco' compresses the geometry (KHR_draco_mesh_compression).
+ * binary chunk; 'embedded' writes data: URIs; 'draco' compresses the geometry (KHR_draco_mesh_compression);
+ * `meshopt` compresses every vertex and index buffer view (EXT_meshopt_compression, codec version 0).
  */
-function gltf(mode, draco) {
+function gltf(mode, draco, meshopt = false) {
   const meshes = [
     { geo: new THREE.SphereGeometry(1, 48, 24).translate(0, 1.2, 0), material: 0 },
     { geo: new THREE.CylinderGeometry(1.2, 1.4, 0.3, 48).translate(0, 0.15, 0), material: 1 }
@@ -234,16 +236,39 @@ function gltf(mode, draco) {
       chunks.push(Buffer.alloc(pad))
       offset += pad
     }
+    lastOffset = offset
     bufferViews.push({ buffer: 0, byteOffset: offset, byteLength: buf.length, ...(target ? { target } : {}) })
     chunks.push(buf)
     offset += buf.length
     return bufferViews.length - 1
   }
+  // meshopt: the real data lives compressed in buffer 0; buffer 1 is the spec's data-less fallback
+  let fallbackLength = 0
+  const meshoptView = (buf, type, target, count) => {
+    const stride = type === 'SCALAR' ? 4 : type === 'VEC2' ? 8 : 12
+    const modeName = target === 34963 ? 'TRIANGLES' : 'ATTRIBUTES'
+    const packed = Buffer.from(MeshoptEncoder.encodeGltfBuffer(new Uint8Array(buf), count, stride, modeName, 0))
+    const at = view(packed)
+    bufferViews.pop()
+    const bv = {
+      buffer: 1,
+      byteOffset: fallbackLength,
+      byteLength: buf.length,
+      ...(modeName === 'ATTRIBUTES' ? { byteStride: stride } : {}),
+      ...(target ? { target } : {}),
+      extensions: { EXT_meshopt_compression: { buffer: 0, byteOffset: bufferViewsOffset(at), byteLength: packed.length, byteStride: stride, mode: modeName, count } }
+    }
+    fallbackLength += buf.length + ((4 - (buf.length % 4)) % 4)
+    bufferViews.push(bv)
+    return bufferViews.length - 1
+  }
+  const bufferViewsOffset = () => lastOffset
+  let lastOffset = 0
   const accessor = (arr, type, target, minmax) => {
     const buf = Buffer.from(arr.buffer, arr.byteOffset, arr.byteLength)
     const comp = arr instanceof Float32Array ? 5126 : arr instanceof Uint32Array ? 5125 : 5123
     const size = { SCALAR: 1, VEC2: 2, VEC3: 3 }[type]
-    const acc = { bufferView: view(buf, target), componentType: comp, count: arr.length / size, type }
+    const acc = { bufferView: meshopt ? meshoptView(buf, type, target, arr.length / size) : view(buf, target), componentType: comp, count: arr.length / size, type }
     if (minmax) {
       const min = [Infinity, Infinity, Infinity], max = [-Infinity, -Infinity, -Infinity]
       for (let i = 0; i < arr.length; i += 3) for (let k = 0; k < 3; k++) (min[k] = Math.min(min[k], arr[i + k])), (max[k] = Math.max(max[k], arr[i + k]))
@@ -315,6 +340,10 @@ function gltf(mode, draco) {
     bufferViews,
     buffers: []
   }
+  if (meshopt) {
+    doc.extensionsUsed = ['EXT_meshopt_compression']
+    doc.extensionsRequired = ['EXT_meshopt_compression']
+  }
   if (draco) {
     doc.extensionsUsed = ['KHR_draco_mesh_compression']
     doc.extensionsRequired = ['KHR_draco_mesh_compression']
@@ -329,6 +358,7 @@ function gltf(mode, draco) {
   let bin = Buffer.concat(chunks)
   bin = Buffer.concat([bin, Buffer.alloc((4 - (bin.length % 4)) % 4)])
   doc.buffers.push({ byteLength: bin.length })
+  if (meshopt) doc.buffers.push({ byteLength: fallbackLength, extensions: { EXT_meshopt_compression: { fallback: true } } })
   let json = Buffer.from(JSON.stringify(doc))
   json = Buffer.concat([json, Buffer.alloc((4 - (json.length % 4)) % 4, 0x20)])
   const header = Buffer.alloc(12)
@@ -535,6 +565,8 @@ if (argv.includes('--perf')) {
   out('sample.glb', gltf('glb', false))
   out('sample-embedded.gltf', gltf('embedded', false))
   out('sample-draco.glb', gltf('glb', true))
+  await MeshoptEncoder.ready
+  out('sample-meshopt.glb', gltf('glb', false, true))
   out('sample.3mf', threeMF())
   out('sample.fbx', fbx())
   out('sample.dae', dae())

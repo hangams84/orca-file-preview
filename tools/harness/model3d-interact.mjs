@@ -223,6 +223,44 @@ const click = (page, title) => page.locator(`.fp-toolbar button[title^="${title}
   await context.close()
 }
 
+// ---------------------------------------------------------------- CAD: quality switch and parts list
+{
+  const context = await browser.newContext({ viewport: { width: 1100, height: 700 } })
+  const { page, errors } = await open(context, 'samples/sample.step')
+  const tris = async () => Number(((await page.locator('.fp-info').textContent()) ?? '').match(/([\d,]+) triangles/)?.[1].replace(/,/g, '') ?? 0)
+  const buttons = () => page.locator('.fp-toolbar button').count()
+  const t0 = await tris()
+  const b0 = await buttons()
+  const s0 = await shot(page, 'step-normal')
+  const quality = page.locator('.fp-toolbar select[title^="Tessellation"]')
+  await quality.selectOption('fine')
+  await page.waitForFunction(() => !!document.querySelector('.fp-3d-stage canvas') && /triangles/.test(document.querySelector('.fp-info')?.textContent ?? ''), null, { timeout: 60000, polling: 100 })
+  await page.waitForTimeout(400)
+  const t1 = await tris()
+  const b1 = await buttons()
+  await shot(page, 'step-fine')
+  await quality.selectOption('coarse')
+  await page.waitForTimeout(300)
+  await page.waitForFunction(() => !!document.querySelector('.fp-3d-stage canvas'), null, { timeout: 60000, polling: 100 })
+  await page.waitForTimeout(400)
+  const t2 = await tris()
+  record('CAD quality: fine has more triangles, coarse fewer, toolbar not duplicated', t1 > t0 && t2 < t0 && b1 === b0 && (await buttons()) === b0 && (await page.locator('.fp-3d-stage canvas').count()) === 1, `triangles normal ${t0}, fine ${t1}, coarse ${t2}; buttons ${b0} → ${b1}`)
+  await quality.selectOption('normal')
+  await page.waitForTimeout(300)
+  await page.waitForFunction(() => !!document.querySelector('.fp-3d-stage canvas'), null, { timeout: 60000, polling: 100 })
+  await page.waitForTimeout(400)
+  await click(page, 'Parts list')
+  await shot(page, 'step-parts-panel')
+  const rows = await page.locator('.fp-3d-parts label').count()
+  await page.locator('.fp-3d-parts label', { hasText: 'plate' }).locator('input').uncheck()
+  await page.waitForTimeout(300)
+  await click(page, 'Parts list')
+  const sh = await shot(page, 'step-plate-hidden')
+  record('CAD parts list: lists the parts, hiding one changes the picture', rows === 7 && differs(s0, sh), `${rows} rows (All + 6 parts)`)
+  record('CAD: no page errors', errors.length === 0, errors.join(' | '))
+  await context.close()
+}
+
 // ---------------------------------------------------------------- no WebGL (GPU disabled, old engine)
 {
   const context = await browser.newContext({ viewport: { width: 800, height: 600 } })
@@ -245,7 +283,7 @@ const click = (page, title) => page.locator(`.fp-toolbar button[title^="${title}
   const perfDir = join(ROOT, 'samples', 'perf')
   let files = []
   try {
-    files = readdirSync(perfDir).filter((f) => /\.(stl|ply|obj|off)$/i.test(f))
+    files = readdirSync(perfDir).filter((f) => /^large-.*\.(stl|ply|obj|off|step|stp)$/i.test(f))
   } catch {
     // no perf fixtures generated
   }
