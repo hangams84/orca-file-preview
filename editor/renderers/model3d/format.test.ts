@@ -174,5 +174,6 @@ test('CAD: Z-up, labels, tessellation presets and time limit', () => {
   assert.ok(CAD_QUALITY.normal.linearDeflection < CAD_QUALITY.coarse.linearDeflection)
   assert.equal(cadTimeLimitMs(100 * 1024), 25_000)
   assert.equal(cadTimeLimitMs(18 * 1024 * 1024), 110_000)
-  assert.equal(cadTimeLimitMs(500 * 1024 * 1024), 300_000)
+  assert.equal(cadTimeLimitMs(500 * 1024 * 1024), 1_800_000)
+  assert.equal(cadTimeLimitMs(100 * 1024 * 1024), 520_000)
 })

@@ -15,8 +15,8 @@ export interface ZipEntryInfo {
 
 /** Limits: total declared size, one entry, and a compression ratio that only bombs reach. */
 /** Spreadsheets parse in a time-limited worker and their sheet XML is legitimately large. */
-export const SHEET_ZIP_LIMITS = { totalBytes: 400 * 1024 * 1024, entryBytes: 400 * 1024 * 1024, ratio: 1000, ratioMinBytes: 20 * 1024 * 1024 }
-export const ZIP_LIMITS = { totalBytes: 200 * 1024 * 1024, entryBytes: 120 * 1024 * 1024, ratio: 1000, ratioMinBytes: 20 * 1024 * 1024 }
+export const SHEET_ZIP_LIMITS = { totalBytes: 1024 * 1024 * 1024, entryBytes: 1024 * 1024 * 1024, ratio: 1000, ratioMinBytes: 20 * 1024 * 1024 }
+export const ZIP_LIMITS = { totalBytes: 1024 * 1024 * 1024, entryBytes: 1024 * 1024 * 1024, ratio: 1000, ratioMinBytes: 20 * 1024 * 1024 }
 
 export function isZip(b: Uint8Array): boolean {
   return b.length > 4 && b[0] === 0x50 && b[1] === 0x4b && (b[2] === 3 || b[2] === 5 || b[2] === 7)

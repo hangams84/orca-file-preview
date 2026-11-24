@@ -23,6 +23,7 @@ import {
   glbJson,
   KIND_LABEL,
   MAX_FILE_BYTES,
+  isGzip,
   triangleLimit,
   WORKER_KINDS,
   type ModelKind
@@ -59,7 +60,11 @@ interface Loaded {
 }
 
 export async function render(ctx: PreviewContext): Promise<() => void> {
-  const { bytes, tr } = ctx
+  const { tr } = ctx
+  // .stpz (and any gzip-compressed model): unpack first. Orca hands a plugin at most 50 MB, and STEP
+  // text compresses well, so this is how large STEP files reach the preview.
+  if (isGzip(ctx.bytes)) ctx = { ...ctx, bytes: await gunzip(ctx.bytes, ctx) }
+  const { bytes } = ctx
   if (bytes.byteLength > MAX_FILE_BYTES) {
     throw new PreviewError(
       'too-large',
@@ -75,6 +80,46 @@ export async function render(ctx: PreviewContext): Promise<() => void> {
   }
   if (CAD_KINDS.has(kind)) return renderCad(ctx, kind)
   return mount(ctx, kind, null)
+}
+
+/** Inflates gzip with the browser's DecompressionStream, refusing output above MAX_FILE_BYTES (bombs). */
+async function gunzip(src: Uint8Array, ctx: PreviewContext): Promise<Uint8Array> {
+  const { tr } = ctx
+  const tooLarge = () =>
+    new PreviewError(
+      'too-large',
+      tr(`압축을 풀면 ${formatBytes(MAX_FILE_BYTES)}를 넘습니다.`, `This file expands to more than ${formatBytes(MAX_FILE_BYTES)}.`)
+    )
+  setProgress(ctx.root, tr('압축 푸는 중…', 'Decompressing…'))
+  const chunks: Uint8Array[] = []
+  let total = 0
+  try {
+    const reader = new Blob([src as BlobPart]).stream().pipeThrough(new DecompressionStream('gzip')).getReader()
+    for (;;) {
+      const { done, value } = await reader.read()
+      if (done) break
+      total += value.byteLength
+      if (total > MAX_FILE_BYTES) {
+        await reader.cancel()
+        throw tooLarge()
+      }
+      chunks.push(value)
+      if (ctx.signal.aborted) {
+        await reader.cancel()
+        throw new DOMException('aborted', 'AbortError')
+      }
+    }
+  } catch (err) {
+    if (err instanceof PreviewError || (err as Error)?.name === 'AbortError') throw err
+    throw new PreviewError('model-format', tr('압축 파일(gzip)이 손상되었습니다.', 'The gzip-compressed file is damaged.'))
+  }
+  const out = new Uint8Array(total)
+  let o = 0
+  for (const c of chunks) {
+    out.set(c, o)
+    o += c.byteLength
+  }
+  return out
 }
 
 /** Loads the model and mounts the viewer; returns its cleanup (also run when ctx.signal aborts). */
@@ -1054,8 +1099,21 @@ async function loadCad(kind: ModelKind, ctx: PreviewContext, quality: CadQuality
         if (d.ok) resolve(d)
         else {
           console.warn('model3d: CAD', d.message)
+          const msg = String(d.message)
           reject(
-            /engine|wasm|WebAssembly|importScripts|fetch/i.test(String(d.message))
+            // OpenCascade runs in 32-bit WebAssembly (at most 4 GB): very large STEP files run out of it.
+            // OpenCascade catches its own allocation failures and only reports that it could not read
+            // the file, so a read failure on a very large file is taken as memory exhaustion.
+            /out of memory|OOM|memory access out of bounds|allocation failed|Cannot enlarge memory|Aborted\(/i.test(msg) ||
+              (/could not read/i.test(msg) && ctx.bytes.byteLength > 150 * 1024 * 1024)
+              ? new PreviewError(
+                  'cad-memory',
+                  tr(
+                    `이 ${KIND_LABEL[kind]} 파일은 CAD 엔진(OpenCascade, WebAssembly 최대 4 GB)의 메모리에 다 올라가지 않습니다 (${formatBytes(ctx.bytes.byteLength)}). 대략 200 MB 이하의 STEP 파일까지 실용적으로 열 수 있습니다. 어셈블리를 나누거나 단순화해서 내보내 보세요.`,
+                    `This ${KIND_LABEL[kind]} file does not fit in the CAD engine's memory (OpenCascade, WebAssembly, 4 GB at most; ${formatBytes(ctx.bytes.byteLength)}). STEP files up to roughly 200 MB open; try exporting the assembly in parts or simplified.`
+                  )
+                )
+              : /engine|wasm|WebAssembly|importScripts|fetch/i.test(msg)
               ? engineError()
               : new PreviewError(
                   'cad-read',
