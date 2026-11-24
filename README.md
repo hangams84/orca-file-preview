@@ -18,10 +18,18 @@ Read-only previews for Office, PDF, text and image files inside Orca, on desktop
 | 표 | `.csv` `.tsv` | 자체 RFC 4180 파서 (인코딩·구분자 감지, 정렬, 필터) |
 | 텍스트 | `.txt` `.log` | 인코딩 감지 (UTF-8/16, EUC-KR 등), 줄 번호, 줄바꿈 |
 | 3D 모델 | `.stl` `.obj` `.ply` `.glb` `.gltf` `.3mf` `.off` `.fbx` `.dae` | three.js (WebGL, 회전·확대·이동, 터치, Draco·meshopt, Web Worker 파싱) |
-| CAD (B-rep) | `.step` `.stp` `.iges` `.igs` `.brep` | OpenCascade (occt-import-js, WebAssembly, Web Worker): 어셈블리·부품 목록·색, 테셀레이션 품질 선택 |
+| CAD (B-rep) | `.step` `.stp` `.stpz` `.iges` `.igs` `.brep` | OpenCascade (occt-import-js, WebAssembly, Web Worker): 어셈블리·부품 목록·색, 테셀레이션 품질 선택. `.stpz` = gzip 압축 STEP |
 
 공통: 다크/라이트 테마 실시간 반영, 한국어/영어 UI, Ctrl+휠 · 핀치 · 버튼 확대/축소, 휴대폰 화면에서 폭 맞춤,
 파일이 바뀌면 자동 갱신, 손상 파일은 친절한 오류 안내.
+
+**파일 크기 / File size** — 플러그인 자체 한도는 1 GB입니다. 하지만 Orca가 편집기에 파일을 넘겨줄 때
+**50 MB 한도**가 있습니다(Orca 1.4.263 기준, 이미지·PDF 제외 · 플러그인에서 바꿀 수 없음, [stablyai/orca#46775](https://github.com/stablyai/orca/issues/46775)).
+50 MB를 넘는 STEP 파일은 gzip으로 압축해 `.stpz`로 열면 됩니다(STEP은 보통 5–8배 줄어듭니다):
+`gzip -c model.step > model.stpz` 또는 7-Zip → 압축 형식 gzip 후 확장자를 `.stpz`로. CAD 엔진(WebAssembly, 최대 4 GB 메모리)
+실측(부품이 많은 합성 어셈블리, Chromium): STEP 61 MB 1.5분 · 189 MB 14분 · 343 MB 메모리는 되지만 30분 안에 끝나지 않음 · 412 MB 메모리 부족.
+실용적인 상한은 STEP 원본 약 200 MB입니다. / The plugin accepts up to 1 GB, but Orca hands an editor at most 50 MB
+(except images and PDFs); compress larger STEP files to `.stpz` (gzip).
 
 ## 설치 / Install
 
@@ -30,7 +38,7 @@ Read-only previews for Office, PDF, text and image files inside Orca, on desktop
 # Orca 설정 → 플러그인 → 설치 → Git URL 에 https://github.com/hangams84/orca-file-preview.git 을 붙여넣어도 됩니다.
 orca plugin install https://github.com/hangams84/orca-file-preview
 orca plugin install https://github.com/hangams84/orca-file-preview --approve <fingerprint>
-# 특정 버전: https://github.com/hangams84/orca-file-preview#v0.2.3
+# 특정 버전: https://github.com/hangams84/orca-file-preview#v0.2.4
 
 # 또는 로컬 폴더
 orca plugin install ./plugin

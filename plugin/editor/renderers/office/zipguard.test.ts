@@ -66,10 +66,12 @@ test('flags bombs, oversized entries and oversized totals', () => {
   assert.equal(checkZipManifest([{ name: 'x', size: 1000, originalSize: 1000 }]).ok, true)
   const bomb = checkZipManifest([{ name: 'x', size: 10_000, originalSize: 300 * MB }])
   assert.ok(!bomb.ok && bomb.reason === 'bomb')
-  const big = checkZipManifest([{ name: 'x', size: 60 * MB, originalSize: 130 * MB }])
+  // Limits are 1 GiB per entry and in total.
+  const big = checkZipManifest([{ name: 'x', size: 600 * MB, originalSize: 1100 * MB }])
   assert.ok(!big.ok && big.reason === 'too-large')
-  const total = checkZipManifest(Array.from({ length: 3 }, (_, i) => ({ name: `p${i}`, size: 30 * MB, originalSize: 70 * MB })))
+  const total = checkZipManifest(Array.from({ length: 3 }, (_, i) => ({ name: `p${i}`, size: 200 * MB, originalSize: 400 * MB })))
   assert.ok(!total.ok && total.reason === 'too-large')
+  assert.equal(checkZipManifest([{ name: 'x', size: 60 * MB, originalSize: 130 * MB }]).ok, true)
   // A real 28 MB spreadsheet (66 MB sheet XML, ratio 2.4) is fine.
   assert.equal(checkZipManifest([{ name: 'sheet1.xml', size: 28 * MB, originalSize: 66 * MB }]).ok, true)
 })

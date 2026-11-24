@@ -101,6 +101,7 @@ out.push(`Full reports, screenshots and charts: [docs/README.md](${repo}/blob/so
 out.push('## Known limitations', '')
 out.push("- Orca opens `.txt .csv .tsv .log .html .svg` (and text-like files) in its own Source view first: pick the preview with the view toggle at the tab's top right.")
 out.push('- Office rendering is a preview, not Office: charts/SmartArt in PPTX and cell styles in sheets are simplified; spreadsheets show the first 20,000 rows; .hwp equations/charts/OLE objects show as labelled boxes; 3D glTF with external .bin/textures and meshopt compression is not supported (no network).')
+out.push('- File size: Orca hands a plugin editor at most 50 MB (images and PDFs excepted; stablyai/orca#46775). The plugin itself accepts up to 1 GB; compress large STEP files to `.stpz` (gzip). The CAD engine (32-bit WebAssembly, 4 GB) is practical up to roughly 200 MB of STEP (measured: 189 MB in 14 min; 343 MB exceeds the time limit; 412 MB runs out of memory).')
 out.push('- Tested on real Orca for Windows 11, Ubuntu 22.04/24.04 and macOS 15; mobile clients were tested through the browser harness (phone profiles, WebKit, older-engine mode), not on physical devices.')
 const file = opt('out') ?? join(ROOT, 'dist', 'RELEASE_NOTES.md')
 writeFileSync(file, out.join('\n') + '\n')

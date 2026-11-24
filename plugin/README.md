@@ -26,7 +26,7 @@ Read-only previews for Office, PDF, text and image files inside Orca, on desktop
 # Orca 설정 → 플러그인 → 설치 → Git URL 에 https://github.com/hangams84/orca-file-preview.git 을 붙여넣어도 됩니다.
 orca plugin install https://github.com/hangams84/orca-file-preview
 orca plugin install https://github.com/hangams84/orca-file-preview --approve <fingerprint>
-# 특정 버전: https://github.com/hangams84/orca-file-preview#v0.2.3
+# 특정 버전: https://github.com/hangams84/orca-file-preview#v0.2.4
 
 # 또는 로컬 폴더
 orca plugin install ./plugin

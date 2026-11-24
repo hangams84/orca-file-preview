@@ -42,7 +42,7 @@ export const KIND_LABEL: Record<ModelKind, string> = {
 export const CAD_KINDS: ReadonlySet<ModelKind> = new Set(['step', 'iges', 'brep'])
 
 /** Suffixes registered for the 3D preview (keep in step with orca-plugin.json and main.ts). */
-export const MODEL_EXTENSIONS = ['stl', 'obj', 'ply', 'glb', 'gltf', '3mf', 'off', 'fbx', 'dae', 'step', 'stp', 'iges', 'igs', 'brep'] as const
+export const MODEL_EXTENSIONS = ['stl', 'obj', 'ply', 'glb', 'gltf', '3mf', 'off', 'fbx', 'dae', 'step', 'stp', 'stpz', 'iges', 'igs', 'brep'] as const
 
 /** CAD and 3D-printing formats store Z as up; the preview turns them so Z points up on screen. */
 export function defaultZUp(kind: ModelKind): boolean {
@@ -128,9 +128,14 @@ export function cadParams(q: CadQuality): Record<string, string | number> {
   return { linearUnit: 'millimeter', linearDeflectionType: 'bounding_box_ratio', ...CAD_QUALITY[q] }
 }
 
-/** Time allowed to read and tessellate a CAD file: 20 s plus 5 s per MB, at most 5 minutes. */
+/** Time allowed to read and tessellate a CAD file: 20 s plus 5 s per MB, at most 30 minutes (progress is shown). */
 export function cadTimeLimitMs(bytes: number): number {
-  return Math.min(300_000, 20_000 + Math.ceil(bytes / (1024 * 1024)) * 5_000)
+  return Math.min(1_800_000, 20_000 + Math.ceil(bytes / (1024 * 1024)) * 5_000)
+}
+
+/** gzip (RFC 1952) magic: .stpz files and gzip-compressed models. */
+export function isGzip(b: Uint8Array): boolean {
+  return b.length >= 18 && b[0] === 0x1f && b[1] === 0x8b && b[2] === 0x08
 }
 
 export interface SizeEstimate {
@@ -202,8 +207,9 @@ export function formatCount(n: number): string {
 export function triangleLimit(compact: boolean): number {
   return compact ? 4_000_000 : 12_000_000
 }
-/** Files above this are refused before parsing (Orca has already read them into memory). */
-export const MAX_FILE_BYTES = 768 * 1024 * 1024
+/** Files above this are refused before parsing (also the most a gzip-compressed model may expand to).
+ *  Orca itself delivers at most 50 MB to a plugin editor (1.4.263); compress larger STEP files (.stpz). */
+export const MAX_FILE_BYTES = 1024 * 1024 * 1024
 
 /** glTF JSON facts needed before parsing: required extensions and whether all resources are embedded. */
 export interface GltfFacts {

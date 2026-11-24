@@ -3,6 +3,24 @@
 All notable changes per release. Each release on GitHub carries its verification results
 (`docs/release-notes/<tag>.md`) and SHA-256 checksums for every file.
 
+## [0.2.4] — 2026-11-24
+
+### Changed
+- **Size limits raised to 1 GB** inside the plugin: 3D/CAD files (was 768 MB), Office/HWPX ZIP contents (was 120–400 MB),
+  and the most a compressed model may expand to. CAD reading may take up to 30 minutes (was 5), with progress shown.
+- **Orca's own 50 MB limit still applies.** "File too large: … exceeds 50MB limit" is Orca's load error: Orca 1.4.263
+  (and its current source) reads at most 50 MB before it hands a file to any plugin editor (images and PDFs excepted), and
+  offers plugins no other way to read a file (stablyai/orca#46775). A plugin cannot raise it.
+
+### Added
+- **`.stpz` (gzip-compressed STEP)**, and gzip-compressed content in any 3D/CAD file: unpacked in the frame
+  (DecompressionStream, refused above 1 GB). STEP usually shrinks 5–8×, so large STEP files fit under Orca's 50 MB:
+  verified in Orca 1.4.263 — a 58.6 MB `.step` is refused by Orca, the same model as a 10 MB `.stpz` opens (1,332 parts).
+- A clear message when a CAD file does not fit in the engine's memory (OpenCascade, 32-bit WebAssembly, 4 GB) instead
+  of "damaged". Measured on synthetic STEP assemblies: 61 MB in 1.5 min, 189 MB in 14 min, 343 MB exceeds the time
+  limit, 412 MB runs out of memory.
+- Harness `--warnings` prints console warnings.
+
 ## [0.2.3] — 2026-11-20
 
 ### Fixed

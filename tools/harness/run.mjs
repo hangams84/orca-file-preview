@@ -417,6 +417,7 @@ async function run() {
       page.on('pageerror', (e) => errors.push(`pageerror: ${e.message}`))
       page.on('console', (m) => {
         if (m.type() === 'error') errors.push(`console: ${m.text()}`)
+        else if (m.type() === 'warning' && args.warnings) console.log(`  warn ${f}: ${m.text()}`)
       })
       const started = Date.now()
       const url = `${base}/harness?file=${SAMPLE_DIR}/${encodeURIComponent(f)}&theme=${profile.theme}&locale=${profile.locale}`
