@@ -146,8 +146,8 @@ for (const file of cases) {
   const mc = { links: 0, joints: 0, numbers: 0, sameNumbers: 0 }
   let ra, rb
   try {
-    ra = parseRobot(refRoot)
-    rb = parseRobot(mine.root)
+    ra = parseRobot(refRoot, true)
+    rb = parseRobot(mine.root, true)
     modelDiff(ra, rb, model, mc)
   } catch (e) {
     model.push(`model: ${e.message}`)

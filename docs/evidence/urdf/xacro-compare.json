@@ -15,11 +15,9 @@
       "joints": 0,
       "numbers": 0,
       "sameNumbers": 0,
-      "modelDiffs": [
-        "model: the robot has no links"
-      ],
+      "modelDiffs": [],
       "notes": [],
-      "ms": 2.1
+      "ms": 2.3
     },
     {
       "name": "sample-robot.urdf.xacro",
@@ -33,7 +31,7 @@
       "sameNumbers": 384,
       "modelDiffs": [],
       "notes": [],
-      "ms": 6.7
+      "ms": 6.4
     },
     {
       "name": "expressions.xacro",
@@ -61,7 +59,7 @@
       "sameNumbers": 33,
       "modelDiffs": [],
       "notes": [],
-      "ms": 1
+      "ms": 0.8
     }
   ]
 }
