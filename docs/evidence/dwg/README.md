@@ -74,3 +74,9 @@ data) and `broken.dwg` (friendly error) — all pass in 4 profiles.
   drops TEXT alignment points and gradient colours; the samples avoid or tolerate these (mirroring by -Z extrusion;
   the renderer uses the insertion point when an alignment point is unset and ignores a box narrower than two characters).
 - Files written by LibreDWG carry two `*Model_Space` records; all are treated as model space.
+
+## Installed from the Git URL (Orca 1.4.263, Windows 11)
+
+`orca plugin install https://github.com/hangams84/orca-file-preview-dwg`, which installs v0.1.0. A DWG (R2018), a DWT (R2000) and a preview-only DWG were opened, with no log errors:
+
+![](orca-git-install-0.1.0.png)
