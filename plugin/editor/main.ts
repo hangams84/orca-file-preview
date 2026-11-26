@@ -67,6 +67,11 @@ export const RENDERERS: Record<string, Loader> = {
   zw1: () => import('./renderers/eplan.ts'),
   zx1: () => import('./renderers/eplan.ts'),
   edz: () => import('./renderers/eplan.ts')
+  kicad_sch: () => import('./renderers/kicad.ts'),
+  kicad_pcb: () => import('./renderers/kicad.ts'),
+  kicad_mod: () => import('./renderers/kicad.ts'),
+  kicad_sym: () => import('./renderers/kicad.ts'),
+  kicad_pro: () => import('./renderers/kicad.ts')
 }
 
 installStyles()

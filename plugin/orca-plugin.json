@@ -5,6 +5,7 @@
   "version": "0.2.4",
   "description": "Read-only previews for Word (doc, docx), Hangul (hwp, hwpx), PowerPoint (ppt, pptx), Excel (xls, xlsx, xlsm, ods), PDF, text, CSV/TSV, HTML, SVG, GIF and BMP files, and 3D models (STL, OBJ, PLY, glTF/GLB, 3MF, OFF, FBX, COLLADA, and CAD STEP, IGES, BREP) on desktop, browser and mobile clients, plus SolidWorks (preview pictures, display mesh and properties) and EPLAN Electric P8 (projects, backups and EDZ part data) files.",
   "description": "Read-only previews for Word (doc, docx), Hangul (hwp, hwpx), PowerPoint (ppt, pptx), Excel (xls, xlsx, xlsm, ods), PDF, diagrams (draw.io, Visio), text, CSV/TSV, HTML, SVG, GIF and BMP files, and 3D models (STL, OBJ, PLY, glTF/GLB, 3MF, OFF, FBX, COLLADA, and CAD STEP, IGES, BREP) on desktop, browser and mobile clients.",
+  "description": "Read-only previews for Word (doc, docx), Hangul (hwp, hwpx), PowerPoint (ppt, pptx), Excel (xls, xlsx, xlsm, ods), PDF, text, CSV/TSV, HTML, SVG, GIF and BMP files, and 3D models (STL, OBJ, PLY, glTF/GLB, 3MF, OFF, FBX, COLLADA, and CAD STEP, IGES, BREP) and KiCad schematics, boards, footprints, symbol libraries and projects on desktop, browser and mobile clients.",
   "engines": {
     "orca": ">=1.4.248"
   },
@@ -183,6 +184,14 @@
           ".zw1",
           ".zx1",
           ".edz"
+        "id": "kicad",
+        "title": "KiCad Preview",
+        "extensions": [
+          ".kicad_sch",
+          ".kicad_pcb",
+          ".kicad_mod",
+          ".kicad_sym",
+          ".kicad_pro"
         ],
         "entry": "editor/main.ts",
         "contentKind": "bytes",

@@ -31,3 +31,13 @@ container and display-mesh layouts follow the facts documented at
 [blussyya/sldprt-format-research](https://github.com/blussyya/sldprt-format-research) (CC BY-SA 4.0 notes;
 no text or code copied). EDZ and EPLAN project structure were read from public files (see
 `docs/evidence/prop/README.md`).
+## Data embedded in source files
+
+| File | Content | Source | License |
+| --- | --- | --- | --- |
+| `editor/renderers/kicad/newstroke.ts` | Subset of the **newstroke** stroke font (KiCad's default font): Latin, Latin Extended, Greek, Cyrillic, arrows, math and technical symbols (1,788 glyphs). The CJK glyphs (derived from Source Han Sans, OFL-1.1) are **not** included. | Glyph data by Vladimir Uryvaev and KiCad contributors, as converted to JavaScript by [KiCanvas](https://github.com/theacodes/kicanvas) (`src/kicad/text/newstroke-glyphs.ts`, MIT, © 2023 Alethea Katherine Flowers); extracted by `tools/kicad/extract-newstroke.mjs` | Newstroke: CC0 1.0 (per the font's own README); KiCanvas conversion: MIT |
+
+The KiCad preview's stroke-font layout (`editor/renderers/kicad/font.ts`) follows KiCanvas's port of KiCad's
+`STROKE_FONT` (MIT). No KiCad (GPL) source code is included; KiCad file formats are read from their public
+documentation and from files written by KiCad.
+
