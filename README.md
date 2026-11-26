@@ -25,6 +25,7 @@ Read-only previews for Office, PDF, text and image files inside Orca, on desktop
 | (읽을 수 없는 경우) | 위 형식 전체 | 일반 검사기: 형식 식별, 크기, 엔트로피, 16진수 덤프, 문자열 |
 | 다이어그램 | `.drawio` `.dio` `.vsdx` `.vsdm` `.vstx` `.vssx` | 자체 SVG 렌더러: draw.io(압축·여러 페이지, 기본 도형·연결선·스타일, HTML 레이블 DOMPurify 정제), Visio(마스터·스타일 시트 상속, Geometry 행 전체, 그룹·연결선·텍스트 서식·채우기 패턴·그라데이션·테마·EMF/WMF 그림·배경 페이지). 페이지 선택, 이동/확대/맞춤, 어두운 캔버스, 링크 |
 | KiCad | `.kicad_sch` `.kicad_pcb` `.kicad_mod` `.kicad_sym` `.kicad_pro` | 자체 S-expression 파서 + SVG 렌더러 (KiCad 6–10, KiCad 스트로크 글꼴 newstroke): 회로도(심볼·유닛·De Morgan, 핀, 배선·버스, 레이블, 전원, 계층 시트, 표제란), PCB(레이어 표시/숨김, 패드·드릴, 트랙·호, 비아, 채움 영역, 앞/뒷면 뒤집기), 풋프린트, 심볼 라이브러리(목록+선택), 프로젝트 요약(넷 클래스·규칙·텍스트 변수·시트). 이동·확대·맞춤, 패드/핀/넷 정보 툴팁. 정확도: `docs/evidence/kicad/` |
+| CAD 2D 도면 | `.dxf` `.dwf` `.dwfx` | 자체 Canvas 2D 렌더러: DXF(ASCII·바이너리, R12–2018+, 블록·치수·해치·MTEXT·한글), DWF(W2D 스트림, 시트, 썸네일 대체), DWFx(XPS 페이지, 내장 글꼴) · 레이어 목록, 모형/배치(뷰포트)/시트 선택, 밝은/어두운 배경, 정보 표시줄 ([근거](docs/evidence/cad2d/README.md)) |
 
 공통: 다크/라이트 테마 실시간 반영, 한국어/영어 UI, Ctrl+휠 · 핀치 · 버튼 확대/축소, 휴대폰 화면에서 폭 맞춤,
 파일이 바뀌면 자동 갱신, 손상 파일은 친절한 오류 안내.
@@ -60,6 +61,9 @@ orca plugin install ./plugin
 > BREP files are text and open in Source first** (checked in Orca 1.4.258); text-based 3D formats may do the same.
 > **KiCad 파일(`.kicad_*`)도 텍스트라 Source로 먼저 열립니다** (Orca 1.4.263 확인). / KiCad files are text and open
 > in Source first too.
+
+> **ASCII DXF(`.dxf`)도 텍스트라 Source로 먼저 열립니다** (바이너리 DXF·DWF·DWFx는 바로 미리보기). / ASCII DXF opens in
+> Source first too; binary DXF, DWF and DWFx open straight in the preview.
 
 ## 저장소 구조 / Layout
 

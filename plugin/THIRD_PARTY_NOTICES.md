@@ -41,3 +41,11 @@ The KiCad preview's stroke-font layout (`editor/renderers/kicad/font.ts`) follow
 `STROKE_FONT` (MIT). No KiCad (GPL) source code is included; KiCad file formats are read from their public
 documentation and from files written by KiCad.
 
+## 2D CAD preview (`editor/renderers/cad2d/`)
+
+No third-party code. The DXF, W2D/DWF and XPS/DWFx readers are written for this plugin from the published format
+descriptions (Autodesk DXF reference; the WHIP!/DWF stream layout as documented with Autodesk's DWF Toolkit — no
+Toolkit code is used; Ecma-388/XPS). The AutoCAD colour index and the DWF default colour map are generated from
+their published construction rules. Text uses the device's own fonts. ezdxf (MIT) and fontTools (MIT) are used only
+by `tools/` to generate test drawings and reference renders; they are not shipped.
+

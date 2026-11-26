@@ -75,6 +75,19 @@ All notable changes per release. Each release on GitHub carries its verification
 - Fidelity check against `kicad-cli` SVG exports (`tools/kicad/fidelity.mjs`), hand-written KiCad 8 corpus
   (`tools/kicad/make-kicad-samples.mjs`), results in `docs/evidence/kicad/`.
 
+- **CAD Drawing Preview** for 2D drawings: `.dxf` (ASCII and binary, R12–2018+, code pages incl. ANSI_949),
+  `.dwf` (DWF 6 packages with W2D sheets, legacy single-stream DWF) and `.dwfx` (XPS FixedPages). Own Canvas 2D
+  renderer on a format-neutral scene model (`renderers/cad2d/scene.ts`, reusable by other CAD readers): blocks
+  (nested, arrays, attributes), dimensions, hatches (solid, pattern lines, islands), MTEXT formatting, leaders and
+  multileaders, wipeouts, linetypes, ACI/true colours, lineweights, OCS; paper-space layouts with viewports; DWF
+  polylines/contours/circles/ellipses/text/fonts/colour maps/images/zlib sections, the package thumbnail with a clear
+  notice when a sheet uses opcodes it cannot draw; DWFx paths, glyphs, obfuscated embedded fonts, image brushes.
+  Viewer: wheel/pinch/button zoom around the pointer, drag pan, fit, layer list with toggles, model/layout/sheet
+  selector, dark/light background, line-weight toggle, info bar with version, units, extents, entity counts and
+  cursor position. Hangul uses the system fonts (no font bundled). Evidence: `docs/evidence/cad2d/`.
+- Samples and tools: `tools/make-cad2d-samples.py` (DXF via ezdxf, DWF/W2D and DWFx written byte by byte),
+  `tools/cad2d/` (view screenshots, interaction checks, fidelity against ezdxf's renderer).
+
 ## [0.2.4] — 2026-11-24
 
 ### Changed

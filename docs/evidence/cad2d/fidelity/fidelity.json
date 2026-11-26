@@ -1,0 +1,102 @@
+[
+  {
+    "file": "samples/cad2d/blocks-inserts.dxf",
+    "precision": 1,
+    "recall": 1,
+    "f1": 1,
+    "colour": 0.8818705035971223,
+    "aspectRef": 5.015544041450777,
+    "aspectOurs": 4.98404255319149,
+    "shot": "blocks-inserts.dxf.compare.png"
+  },
+  {
+    "file": "samples/cad2d/dimensions.dxf",
+    "precision": 0.9948778565799843,
+    "recall": 1,
+    "f1": 0.9974323523602607,
+    "colour": 0.749274895262649,
+    "aspectRef": 3.4571428571428573,
+    "aspectOurs": 3.477777777777778,
+    "shot": "dimensions.dxf.compare.png"
+  },
+  {
+    "file": "samples/cad2d/hatches.dxf",
+    "precision": 1,
+    "recall": 1,
+    "f1": 1,
+    "colour": 0.7251396648044692,
+    "aspectRef": 9.68,
+    "aspectOurs": 9.571428571428571,
+    "shot": "hatches.dxf.compare.png"
+  },
+  {
+    "file": "samples/cad2d/lines-curves.dxf",
+    "precision": 1,
+    "recall": 1,
+    "f1": 1,
+    "colour": 0.9697051663510955,
+    "aspectRef": 6.9640287769784175,
+    "aspectOurs": 6.854014598540146,
+    "shot": "lines-curves.dxf.compare.png"
+  },
+  {
+    "file": "samples/cad2d/polylines-splines.dxf",
+    "precision": 0.999777183600713,
+    "recall": 0.9990802483329501,
+    "f1": 0.9994285944677291,
+    "colour": 0.9588588588588589,
+    "aspectRef": 4.544600938967136,
+    "aspectOurs": 4.558252427184466,
+    "shot": "polylines-splines.dxf.compare.png"
+  },
+  {
+    "file": "samples/cad2d/solid-point-leader.dxf",
+    "precision": 0.9938992042440318,
+    "recall": 0.9951156443039794,
+    "f1": 0.9945070522993016,
+    "colour": 0.9123262563005957,
+    "aspectRef": 15.365079365079366,
+    "aspectOurs": 15.40983606557377,
+    "shot": "solid-point-leader.dxf.compare.png"
+  },
+  {
+    "file": "samples/cad2d/text-mtext.dxf",
+    "precision": 0.8282277960526315,
+    "recall": 0.8494864291042635,
+    "f1": 0.838722426506038,
+    "colour": 0.9580678052510834,
+    "aspectRef": 1.875968992248062,
+    "aspectOurs": 2.0294117647058822,
+    "shot": "text-mtext.dxf.compare.png"
+  },
+  {
+    "file": "samples/sample-r12.dxf",
+    "precision": 0.7204623287671232,
+    "recall": 0.7471472150039543,
+    "f1": 0.7335621722252631,
+    "colour": 0.7786195286195287,
+    "aspectRef": 2.293838862559242,
+    "aspectOurs": 2.2596153846153846,
+    "shot": "sample-r12.dxf.compare.png"
+  },
+  {
+    "file": "samples/sample-binary.dxf",
+    "precision": 0.9558433429704033,
+    "recall": 0.987715347041446,
+    "f1": 0.9715180139103614,
+    "colour": 0.9656817143920302,
+    "aspectRef": 0.8774373259052924,
+    "aspectOurs": 0.8761755485893417,
+    "shot": "sample-binary.dxf.compare.png"
+  },
+  {
+    "file": "samples/sample.dxf",
+    "precision": 0.27597593395830416,
+    "recall": 0.09940223679136136,
+    "f1": 0.14615993828972484,
+    "colour": 0.13274336283185842,
+    "aspectRef": 0.702928870292887,
+    "aspectOurs": 1.1196172248803828,
+    "shot": "sample.dxf.compare.png"
+  }
+]
