@@ -116,8 +116,9 @@ the demos ship with KiCad without a separate licence of their own, so neither fi
 
 ## 4. Browser harness
 
-`node tools/harness/run.mjs --profiles desktop-dark,desktop-light,mobile-light,tablet-dark` (all samples) — see the
-results in the worker report; KiCad shots for each profile are in [`harness/`](harness/). The five `broken.kicad_*`
+`node tools/harness/run.mjs --profiles desktop-dark,desktop-light,mobile-light,tablet-dark` (all samples):
+**356/356 passed** (89 samples × 4 profiles, 44 of them the 11 KiCad samples). KiCad shots for each profile, with
+`results.md`, are in [`harness/`](harness/) (`--only kicad`, 44/44). The five `broken.kicad_*`
 files end in a friendly error (`kicad-parse`, `kicad-kind`, `kicad-pro`, `kicad-empty`).
 
 ## 5. Real Orca (1.4.263, Windows 11)
