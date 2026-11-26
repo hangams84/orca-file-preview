@@ -2,8 +2,8 @@
   "manifestVersion": 2,
   "id": "file-preview",
   "name": "File Preview",
-  "version": "0.2.4",
-  "description": "Read-only previews for Word (doc, docx), Hangul (hwp, hwpx), PowerPoint (ppt, pptx), Excel (xls, xlsx, xlsm, ods), PDF, text, CSV/TSV, HTML, SVG, GIF and BMP files, and 3D models (STL, OBJ, PLY, glTF/GLB, 3MF, OFF, FBX, COLLADA, and CAD STEP, IGES, BREP) on desktop, browser and mobile clients.",
+  "version": "0.3.0",
+  "description": "Read-only previews for Word (doc, docx), Hangul (hwp, hwpx), PowerPoint (ppt, pptx), Excel (xls, xlsx, xlsm, ods), PDF, text, CSV/TSV, HTML, SVG, GIF/BMP, 3D models and CAD (STL, OBJ, PLY, glTF, 3MF, OFF, FBX, DAE, STEP, IGES, BREP), 2D CAD drawings (DXF, DWF, DWFx), diagrams (draw.io, Visio), KiCad (schematic, board, footprint, symbol, project), SolidWorks (previews, properties, part meshes), EPLAN (part data, project archives) and ROS robot descriptions (URDF, xacro) inside Orca, on desktop and mobile.",
   "engines": {
     "orca": ">=1.4.248"
   },
@@ -114,6 +114,21 @@
         "frame": "any"
       },
       {
+        "id": "diagram",
+        "title": "Diagram Preview",
+        "extensions": [
+          ".drawio",
+          ".dio",
+          ".vsdx",
+          ".vsdm",
+          ".vstx",
+          ".vssx"
+        ],
+        "entry": "editor/main.ts",
+        "contentKind": "bytes",
+        "frame": "any"
+      },
+      {
         "id": "model3d",
         "title": "3D Preview",
         "extensions": [
@@ -132,6 +147,78 @@
           ".iges",
           ".igs",
           ".brep"
+        ],
+        "entry": "editor/main.ts",
+        "contentKind": "bytes",
+        "frame": "any"
+      },
+      {
+        "id": "solidworks",
+        "title": "SolidWorks Preview",
+        "extensions": [
+          ".sldprt",
+          ".sldasm",
+          ".slddrw",
+          ".slddrt",
+          ".prtdot",
+          ".asmdot",
+          ".drwdot"
+        ],
+        "entry": "editor/main.ts",
+        "contentKind": "bytes",
+        "frame": "any"
+      },
+      {
+        "id": "eplan",
+        "title": "EPLAN Preview",
+        "extensions": [
+          ".elk",
+          ".ell",
+          ".elr",
+          ".els",
+          ".elp",
+          ".elx",
+          ".ela",
+          ".zw1",
+          ".zx1",
+          ".edz"
+        ],
+        "entry": "editor/main.ts",
+        "contentKind": "bytes",
+        "frame": "any"
+      },
+      {
+        "id": "kicad",
+        "title": "KiCad Preview",
+        "extensions": [
+          ".kicad_sch",
+          ".kicad_pcb",
+          ".kicad_mod",
+          ".kicad_sym",
+          ".kicad_pro"
+        ],
+        "entry": "editor/main.ts",
+        "contentKind": "bytes",
+        "frame": "any"
+      },
+      {
+        "id": "cad2d",
+        "title": "CAD Drawing Preview",
+        "extensions": [
+          ".dxf",
+          ".dwf",
+          ".dwfx"
+        ],
+        "entry": "editor/main.ts",
+        "contentKind": "bytes",
+        "frame": "any"
+      },
+      {
+        "id": "robot",
+        "title": "Robot Preview",
+        "extensions": [
+          ".urdf",
+          ".xacro"
         ],
         "entry": "editor/main.ts",
         "contentKind": "bytes",

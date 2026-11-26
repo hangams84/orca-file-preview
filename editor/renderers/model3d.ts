@@ -40,9 +40,9 @@ const STYLE = `
   border: 1px solid var(--orca-border, #ddd); }
 `
 
-type Backdrop = 'theme' | 'light' | 'dark'
+export type Backdrop = 'theme' | 'light' | 'dark'
 const BACKDROP_KEY = 'file-preview.backdrop.model3d'
-const BACKDROP_COLOR: Record<Exclude<Backdrop, 'theme'>, string> = { light: '#eef0f3', dark: '#1d1f23' }
+export const BACKDROP_COLOR: Record<Exclude<Backdrop, 'theme'>, string> = { light: '#eef0f3', dark: '#1d1f23' }
 /** 1×1 white PNG used in place of an external texture (the material keeps its colour). */
 const WHITE_PIXEL =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII='
@@ -57,6 +57,9 @@ interface Loaded {
   units?: string
   /** Named parts for the parts list (CAD assemblies). */
   parts?: { name: string; object: THREE.Object3D }[]
+  /** Format label and up axis when the model does not come from a file of `kind` (SolidWorks meshes). */
+  label?: string
+  zUp?: boolean
 }
 
 export async function render(ctx: PreviewContext): Promise<() => void> {
@@ -80,6 +83,54 @@ export async function render(ctx: PreviewContext): Promise<() => void> {
   }
   if (CAD_KINDS.has(kind)) return renderCad(ctx, kind)
   return mount(ctx, kind, null)
+}
+
+/** Shows meshes decoded by another renderer (SolidWorks display meshes) in this viewer. Positions
+ *  are in `units`; `label` names the source in the toolbar. */
+export async function renderMeshes(
+  ctx: PreviewContext,
+  parts: Part[],
+  opts: { label: string; units?: string; zUp?: boolean; notes?: string[] }
+): Promise<() => void> {
+  const { tr, signal } = ctx
+  const renderer = createRenderer(tr)
+  const disposers: (() => void)[] = [
+    () => {
+      renderer.dispose()
+      renderer.forceContextLoss()
+    }
+  ]
+  let disposed = false
+  const dispose = () => {
+    if (disposed) return
+    disposed = true
+    for (const d of disposers.reverse()) {
+      try {
+        d()
+      } catch {
+        // keep releasing the rest
+      }
+    }
+  }
+  signal.addEventListener('abort', dispose, { once: true })
+  try {
+    const object = buildParts(parts, 'obj')
+    disposers.push(() => disposeObject(object))
+    const counts = countModel(object)
+    const limit = triangleLimit(ctx.compact)
+    if (counts.triangles > limit) {
+      throw new PreviewError(
+        'too-many-triangles',
+        tr(`삼각형이 너무 많습니다 (${formatCount(counts.triangles)}개).`, `This model has too many triangles (${formatCount(counts.triangles)}).`)
+      )
+    }
+    const named = parts.length > 1 ? object.children.map((o) => ({ name: o.name, object: o })) : undefined
+    mountViewer(ctx, renderer, 'obj', { object, notes: opts.notes ?? [], units: opts.units, parts: named, label: opts.label, zUp: opts.zUp ?? false }, counts, disposers)
+    return dispose
+  } catch (err) {
+    dispose()
+    throw err
+  }
 }
 
 /** Inflates gzip with the browser's DecompressionStream, refusing output above MAX_FILE_BYTES (bombs). */
@@ -184,7 +235,7 @@ async function mount(ctx: PreviewContext, kind: ModelKind, quality: CadQuality |
   }
 }
 
-function createRenderer(tr: PreviewContext['tr']): THREE.WebGLRenderer {
+export function createRenderer(tr: PreviewContext['tr']): THREE.WebGLRenderer {
   const fail = () =>
     new PreviewError(
       'webgl',
@@ -471,7 +522,7 @@ function mountViewer(
   stage.append(h('style', undefined, STYLE), canvas)
   renderer.domElement.tabIndex = 0
   renderer.domElement.setAttribute('role', 'img')
-  renderer.domElement.setAttribute('aria-label', tr(`3D 모델 미리보기 (${KIND_LABEL[kind]})`, `3D model preview (${KIND_LABEL[kind]})`))
+  renderer.domElement.setAttribute('aria-label', tr(`3D 모델 미리보기 (${loaded.label ?? KIND_LABEL[kind]})`, `3D model preview (${loaded.label ?? KIND_LABEL[kind]})`))
   root.append(stage)
   if (loaded.notes.length) stage.append(h('div', 'fp-3d-note', loaded.notes.join(' ')))
 
@@ -506,7 +557,7 @@ function mountViewer(
   const storedBox = new THREE.Box3().setFromObject(model)
   const storedSize = storedBox.getSize(new THREE.Vector3())
 
-  let zUp = defaultZUp(kind)
+  let zUp = loaded.zUp ?? defaultZUp(kind)
   let radius = 1
   let floorY = 0
   const helpers = new THREE.Group()
@@ -618,57 +669,7 @@ function mountViewer(
   /** Frames the model: the camera looks from a fixed three-quarter direction, and the model's own
    *  projected outline (sampled vertices, not its bounding sphere) is centred in the view and fills
    *  about three quarters of the shorter side. A few iterations settle the perspective. */
-  const fit = () => {
-    const tanV = Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2)
-    const tanH = tanV * camera.aspect
-    const dir = new THREE.Vector3(0.9, 0.62, 1.25).normalize()
-    const target = new THREE.Vector3()
-    let dist = radius / Math.min(tanV, tanH) / Math.cos(Math.atan(Math.min(tanV, tanH)))
-    camera.near = radius / 500
-    const p = new THREE.Vector3()
-    const right = new THREE.Vector3()
-    const up = new THREE.Vector3()
-    for (let it = 0; it < 6 && samples.length; it++) {
-      camera.position.copy(target).addScaledVector(dir, dist)
-      camera.lookAt(target)
-      camera.updateMatrixWorld(true)
-      const inv = camera.matrixWorldInverse
-      let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity
-      let behind = false
-      for (let i = 0; i < samples.length; i += 3) {
-        p.set(samples[i], samples[i + 1], samples[i + 2]).applyMatrix4(inv)
-        const z = -p.z
-        if (z <= camera.near) {
-          behind = true
-          break
-        }
-        const x = p.x / z / tanH
-        const y = p.y / z / tanV
-        if (x < x0) x0 = x
-        if (x > x1) x1 = x
-        if (y < y0) y0 = y
-        if (y > y1) y1 = y
-      }
-      if (behind) {
-        dist *= 1.5
-        continue
-      }
-      const cx = (x0 + x1) / 2
-      const cy = (y0 + y1) / 2
-      const extent = Math.max((x1 - x0) / 2, (y1 - y0) / 2)
-      right.setFromMatrixColumn(camera.matrixWorld, 0)
-      up.setFromMatrixColumn(camera.matrixWorld, 1)
-      target.addScaledVector(right, cx * tanH * dist).addScaledVector(up, cy * tanV * dist)
-      if (extent > 0) dist *= Math.min(4, Math.max(0.25, extent / 0.75))
-    }
-    camera.position.copy(target).addScaledVector(dir, dist)
-    camera.far = dist * 25 + radius * 4
-    camera.updateProjectionMatrix()
-    controls.target.copy(target)
-    controls.minDistance = radius * 0.02
-    controls.maxDistance = dist * 20
-    controls.update()
-  }
+  const fit = () => frameCamera(camera, controls, samples, radius, new THREE.Vector3(0.9, 0.62, 1.25))
 
   // Background
   let picked: Backdrop = 'theme'
@@ -833,7 +834,7 @@ function mountViewer(
   })
 
   const info = [
-    KIND_LABEL[kind],
+    loaded.label ?? KIND_LABEL[kind],
     counts.triangles ? tr(`삼각형 ${formatCount(counts.triangles)}`, `${formatCount(counts.triangles)} triangles`) : tr('점·선만 있음', 'points/lines only'),
     tr(`정점 ${formatCount(counts.vertices)}`, `${formatCount(counts.vertices)} vertices`),
     ...(loaded.parts && loaded.parts.length > 1 ? [tr(`부품 ${formatCount(loaded.parts.length)}`, `${formatCount(loaded.parts.length)} parts`)] : []),
@@ -873,8 +874,69 @@ function mountViewer(
   draw()
 }
 
+/** Frames points in a perspective view: the camera looks from `direction`, and the points' projected
+ *  outline (sampled vertices, not a bounding sphere) is centred and fills about three quarters of
+ *  the shorter side. A few iterations settle the perspective. `radius` is the model's half-diagonal. */
+export function frameCamera(
+  camera: THREE.PerspectiveCamera,
+  controls: InstanceType<typeof THREE.OrbitControls>,
+  samples: Float32Array,
+  radius: number,
+  direction: THREE.Vector3
+): void {
+  const tanV = Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2)
+  const tanH = tanV * camera.aspect
+  const dir = direction.clone().normalize()
+  const target = new THREE.Vector3()
+  let dist = radius / Math.min(tanV, tanH) / Math.cos(Math.atan(Math.min(tanV, tanH)))
+  camera.near = radius / 500
+  const p = new THREE.Vector3()
+  const right = new THREE.Vector3()
+  const up = new THREE.Vector3()
+  for (let it = 0; it < 6 && samples.length; it++) {
+    camera.position.copy(target).addScaledVector(dir, dist)
+    camera.lookAt(target)
+    camera.updateMatrixWorld(true)
+    const inv = camera.matrixWorldInverse
+    let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity
+    let behind = false
+    for (let i = 0; i < samples.length; i += 3) {
+      p.set(samples[i], samples[i + 1], samples[i + 2]).applyMatrix4(inv)
+      const z = -p.z
+      if (z <= camera.near) {
+        behind = true
+        break
+      }
+      const x = p.x / z / tanH
+      const y = p.y / z / tanV
+      if (x < x0) x0 = x
+      if (x > x1) x1 = x
+      if (y < y0) y0 = y
+      if (y > y1) y1 = y
+    }
+    if (behind) {
+      dist *= 1.5
+      continue
+    }
+    const cx = (x0 + x1) / 2
+    const cy = (y0 + y1) / 2
+    const extent = Math.max((x1 - x0) / 2, (y1 - y0) / 2)
+    right.setFromMatrixColumn(camera.matrixWorld, 0)
+    up.setFromMatrixColumn(camera.matrixWorld, 1)
+    target.addScaledVector(right, cx * tanH * dist).addScaledVector(up, cy * tanV * dist)
+    if (extent > 0) dist *= Math.min(4, Math.max(0.25, extent / 0.75))
+  }
+  camera.position.copy(target).addScaledVector(dir, dist)
+  camera.far = dist * 25 + radius * 4
+  camera.updateProjectionMatrix()
+  controls.target.copy(target)
+  controls.minDistance = radius * 0.02
+  controls.maxDistance = dist * 20
+  controls.update()
+  }
+
 /** Up to `max` vertex positions of the model in world space, evenly strided, for framing. */
-function samplePoints(root: THREE.Object3D, max: number): Float32Array {
+export function samplePoints(root: THREE.Object3D, max: number): Float32Array {
   const objs: THREE.Object3D[] = []
   let total = 0
   root.traverse((o) => {
@@ -897,7 +959,7 @@ function samplePoints(root: THREE.Object3D, max: number): Float32Array {
   return Float32Array.from(out)
 }
 
-function niceStep(x: number): number {
+export function niceStep(x: number): number {
   if (!(x > 0) || !Number.isFinite(x)) return 1
   const p = Math.pow(10, Math.floor(Math.log10(x)))
   const m = x / p
@@ -905,7 +967,7 @@ function niceStep(x: number): number {
 }
 
 /** Colours are stored linear: a relative luminance of 0.2 is about mid-grey on screen. */
-function isDark(c: THREE.Color): boolean {
+export function isDark(c: THREE.Color): boolean {
   return 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b < 0.2
 }
 
