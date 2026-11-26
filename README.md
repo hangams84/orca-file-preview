@@ -19,6 +19,7 @@ Read-only previews for Office, PDF, text and image files inside Orca, on desktop
 | 텍스트 | `.txt` `.log` | 인코딩 감지 (UTF-8/16, EUC-KR 등), 줄 번호, 줄바꿈 |
 | 3D 모델 | `.stl` `.obj` `.ply` `.glb` `.gltf` `.3mf` `.off` `.fbx` `.dae` | three.js (WebGL, 회전·확대·이동, 터치, Draco·meshopt, Web Worker 파싱) |
 | CAD (B-rep) | `.step` `.stp` `.stpz` `.iges` `.igs` `.brep` | OpenCascade (occt-import-js, WebAssembly, Web Worker): 어셈블리·부품 목록·색, 테셀레이션 품질 선택. `.stpz` = gzip 압축 STEP |
+| AutoCAD 도면 (별도 플러그인) | `.dwg` `.dwt` | **File Preview DWG** (`dwg-plugin/`, GPL-3.0-or-later): LibreDWG (WebAssembly, Web Worker) + Canvas — 모형/배치, 레이어, 블록, 한글 문자, 치수, 해치. 이 MIT 플러그인과 따로 설치 ([dwg-plugin/README.md](dwg-plugin/README.md)) |
 
 공통: 다크/라이트 테마 실시간 반영, 한국어/영어 UI, Ctrl+휠 · 핀치 · 버튼 확대/축소, 휴대폰 화면에서 폭 맞춤,
 파일이 바뀌면 자동 갱신, 손상 파일은 친절한 오류 안내.

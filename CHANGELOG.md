@@ -3,6 +3,21 @@
 All notable changes per release. Each release on GitHub carries its verification results
 (`docs/release-notes/<tag>.md`) and SHA-256 checksums for every file.
 
+## [Unreleased]
+
+### Added
+- **File Preview DWG** — a separate plugin in `dwg-plugin/` (id `file-preview-dwg`, **GPL-3.0-or-later**, installs on
+  its own; the main plugin stays MIT and unchanged) for AutoCAD `.dwg` drawings and `.dwt` templates. GNU LibreDWG
+  (`@mlightcad/libredwg-web` 0.9.4, WebAssembly) reads the file in a module worker; the embind glue's two `new Function`
+  sites are patched to closures (`tools/libredwg-patches.mjs`, verified under `node --disallow-code-generation-from-strings`).
+  Canvas viewer: model space and paper-space layouts with viewports, layer toggles, blocks (rotated/scaled/mirrored/
+  arrayed/nested), attributes, TEXT/MTEXT with Korean, dimensions, leaders, solid/pattern/gradient hatches with holes,
+  polylines with bulges and widths, arcs, circles, ellipses, splines, line types, colours, line weights; pan/zoom/fit,
+  dark/light background, info bar (version, units, extents). Unreadable or 3D-only files show the preview image stored
+  in the DWG. R13–AutoCAD 2018 open (142 DWG files of LibreDWG's test data, R2.6–2018, all settle, 131 drawn, 7 show the stored preview image); evidence in `docs/evidence/dwg/`.
+- `tools/harness/run.mjs --plugin dwg-plugin` (default unchanged), `tools/harness/dwg-interact.mjs`,
+  `tools/check-dwg-plugin.mjs`, `tools/build-dwg-vendor.mjs`, `tools/make-dwg-samples.py`, `samples/dwg/`.
+
 ## [0.2.4] — 2026-11-24
 
 ### Changed
