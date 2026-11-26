@@ -1,0 +1,8 @@
+{
+  "viewerBytes": 3592569,
+  "evalSites": 7,
+  "svgGroupsDrawn": 8,
+  "errors": [
+    "Loading the script 'https://viewer.diagrams.net/math/es5/startup.js' violates the following Content Security Policy directive: \"script-src 'self' 'wasm-unsafe-eval'\". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+  ]
+}

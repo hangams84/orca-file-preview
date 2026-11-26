@@ -55,7 +55,7 @@ export interface ImageView {
 
 export function createImageView(
   ctx: PreviewContext,
-  img: HTMLImageElement,
+  img: HTMLImageElement | HTMLElement,
   natural: { width: number; height: number },
   opts: {
     pixelate: boolean
@@ -65,6 +65,8 @@ export function createImageView(
     backdropKey: string
     /** Backdrop until the person picks one; omitted = checkerboard following the theme. */
     defaultBackdrop?: Backdrop
+    /** false: no backdrop picker (the caller paints the box itself, e.g. diagram paper). */
+    backdropPicker?: boolean
   }
 ): ImageView {
   const { root, signal, tr, toolbar } = ctx
@@ -72,45 +74,47 @@ export function createImageView(
   stage.style.cssText = STAGE_CSS
   const box = h('div', 'fp-img-box')
   box.style.cssText = BOX_CSS
-  img.alt = ''
+  if (img instanceof HTMLImageElement) img.alt = ''
   img.draggable = false
   styleLayer(img, false)
   box.append(img)
   stage.append(box)
 
   // Backdrop behind transparent pixels: light/dark checkerboard, white or black.
-  const themed = (): Backdrop => opts.defaultBackdrop ?? (ctx.theme() === 'light' ? 'checker-light' : 'checker-dark')
-  let picked = storedBackdrop(opts.backdropKey)
-  const setBackdrop = (b: Backdrop) => {
-    for (const x of BACKDROPS) box.classList.toggle(`bg-${x}`, x === b)
-    // background longhands only, so the inline size/position of the box stay as they are
-    box.style.background = ''
-    for (const decl of BACKDROP_CSS[b].split(';')) {
-      const k = decl.slice(0, decl.indexOf(':'))
-      box.style.setProperty(k, decl.slice(k.length + 1))
+  if (opts.backdropPicker !== false) {
+    const themed = (): Backdrop => opts.defaultBackdrop ?? (ctx.theme() === 'light' ? 'checker-light' : 'checker-dark')
+    let picked = storedBackdrop(opts.backdropKey)
+    const setBackdrop = (b: Backdrop) => {
+      for (const x of BACKDROPS) box.classList.toggle(`bg-${x}`, x === b)
+      // background longhands only, so the inline size/position of the box stay as they are
+      box.style.background = ''
+      for (const decl of BACKDROP_CSS[b].split(';')) {
+        const k = decl.slice(0, decl.indexOf(':'))
+        box.style.setProperty(k, decl.slice(k.length + 1))
+      }
     }
+    const select = toolbar.select(
+      tr('배경', 'Background'),
+      [
+        { value: 'checker-light', label: tr('▦ 밝은 체크', '▦ Light checker') },
+        { value: 'checker-dark', label: tr('▦ 어두운 체크', '▦ Dark checker') },
+        { value: 'white', label: tr('□ 흰색', '□ White') },
+        { value: 'black', label: tr('■ 검정', '■ Black') }
+      ],
+      (v) => {
+        picked = v as Backdrop
+        storeBackdrop(opts.backdropKey, picked)
+        setBackdrop(picked)
+      }
+    )
+    select.value = picked ?? themed()
+    setBackdrop(picked ?? themed())
+    ctx.onTheme(() => {
+      if (picked) return
+      select.value = themed()
+      setBackdrop(themed())
+    })
   }
-  const select = toolbar.select(
-    tr('배경', 'Background'),
-    [
-      { value: 'checker-light', label: tr('▦ 밝은 체크', '▦ Light checker') },
-      { value: 'checker-dark', label: tr('▦ 어두운 체크', '▦ Dark checker') },
-      { value: 'white', label: tr('□ 흰색', '□ White') },
-      { value: 'black', label: tr('■ 검정', '■ Black') }
-    ],
-    (v) => {
-      picked = v as Backdrop
-      storeBackdrop(opts.backdropKey, picked)
-      setBackdrop(picked)
-    }
-  )
-  select.value = picked ?? themed()
-  setBackdrop(picked ?? themed())
-  ctx.onTheme(() => {
-    if (picked) return
-    select.value = themed()
-    setBackdrop(themed())
-  })
 
   const W = Math.max(1, natural.width)
   const H = Math.max(1, natural.height)
@@ -227,6 +231,8 @@ export function createImageView(
     'pointerdown',
     (e) => {
       if (e.pointerType !== 'mouse' || e.button !== 0) return
+      // Links inside the picture (diagrams) keep their clicks.
+      if ((e.target as Element | null)?.closest?.('a')) return
       if (root.scrollWidth <= root.clientWidth && root.scrollHeight <= root.clientHeight) return
       drag = { x: e.clientX, y: e.clientY, l: root.scrollLeft, t: root.scrollTop }
       stage.setPointerCapture(e.pointerId)
