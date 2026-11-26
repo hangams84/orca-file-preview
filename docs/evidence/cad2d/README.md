@@ -114,7 +114,7 @@ ASCII `sample.dxf` opens in Orca's Source view first (expected for text files; t
 ## Harness and tests
 
 - `node tools/harness/run.mjs --only .dxf,.dwf --profiles desktop-dark,desktop-light,mobile-light,tablet-dark`:
-  40/40 (8 samples ready, 3 `broken.*` end in the friendly error, 4 profiles).
+  40/40 (8 samples ready, 3 `broken.*` end in the friendly error, 4 profiles). Whole sample set, 4 profiles: 352/352.
 - Unit tests: `renderers/cad2d/dxf/dxf.test.ts` (17) and `renderers/cad2d/formats.test.ts` (10); whole plugin 166/166 (`orca plugin test`), `npm run typecheck` clean, `orca plugin check` valid.
 
 ## Performance
