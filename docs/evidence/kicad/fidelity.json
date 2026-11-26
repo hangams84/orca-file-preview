@@ -1,0 +1,251 @@
+{
+  "kicad": "10.0.5",
+  "results": [
+    {
+      "case": "sch-sample",
+      "kind": "schematic",
+      "file": "sample.kicad_sch",
+      "precision": 0.9580905193438246,
+      "recall": 0.9511198456542319,
+      "f1": 0.9545924572664982,
+      "truthInk": 83449,
+      "mineInk": 77906
+    },
+    {
+      "case": "sch-sample-power",
+      "kind": "schematic",
+      "file": "sample-power.kicad_sch",
+      "precision": 0.9921328671328671,
+      "recall": 0.9935908539754027,
+      "f1": 0.9928613253020224,
+      "truthInk": 5773,
+      "mineInk": 5720
+    },
+    {
+      "case": "pcb-sample F.Cu",
+      "kind": "board",
+      "file": "sample.kicad_pcb",
+      "precision": 0.9952034790765099,
+      "recall": 0.8552888564388063,
+      "f1": 0.9199567371417784,
+      "truthInk": 54785,
+      "mineInk": 46909
+    },
+    {
+      "case": "pcb-sample In1.Cu",
+      "kind": "board",
+      "file": "sample.kicad_pcb",
+      "precision": 1,
+      "recall": 0.9144787280141332,
+      "f1": 0.9553292127332347,
+      "truthInk": 90001,
+      "mineInk": 82188
+    },
+    {
+      "case": "pcb-sample In2.Cu",
+      "kind": "board",
+      "file": "sample.kicad_pcb",
+      "precision": 1,
+      "recall": 0.653225422518448,
+      "f1": 0.7902436214939814,
+      "truthInk": 21005,
+      "mineInk": 13600
+    },
+    {
+      "case": "pcb-sample B.Cu",
+      "kind": "board",
+      "file": "sample.kicad_pcb",
+      "precision": 1,
+      "recall": 0.9682186473290836,
+      "f1": 0.9838527326656292,
+      "truthInk": 229191,
+      "mineInk": 221760
+    },
+    {
+      "case": "pcb-sample F.SilkS",
+      "kind": "board",
+      "file": "sample.kicad_pcb",
+      "precision": 0.9384757060164883,
+      "recall": 0.9303948337884107,
+      "f1": 0.9344177993247461,
+      "truthInk": 23073,
+      "mineInk": 22804
+    },
+    {
+      "case": "pcb-sample B.SilkS",
+      "kind": "board",
+      "file": "sample.kicad_pcb",
+      "precision": 0.9173989455184535,
+      "recall": 0.8868006993006993,
+      "f1": 0.9018403575897348,
+      "truthInk": 4576,
+      "mineInk": 4552
+    },
+    {
+      "case": "pcb-sample F.Fab",
+      "kind": "board",
+      "file": "sample.kicad_pcb",
+      "precision": 0.9657986234300716,
+      "recall": 0.9591088355358749,
+      "f1": 0.9624421047002178,
+      "truthInk": 14453,
+      "mineInk": 14093
+    },
+    {
+      "case": "pcb-sample F.CrtYd",
+      "kind": "board",
+      "file": "sample.kicad_pcb",
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "truthInk": 5003,
+      "mineInk": 4999
+    },
+    {
+      "case": "pcb-sample Edge.Cuts",
+      "kind": "board",
+      "file": "sample.kicad_pcb",
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "truthInk": 20779,
+      "mineInk": 20753
+    },
+    {
+      "case": "fp-sample F.Cu",
+      "kind": "board",
+      "file": "fp-board.kicad_pcb",
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "truthInk": 7376,
+      "mineInk": 7519
+    },
+    {
+      "case": "fp-sample F.SilkS",
+      "kind": "board",
+      "file": "fp-board.kicad_pcb",
+      "precision": 0.9620253164556962,
+      "recall": 0.9538773441459706,
+      "f1": 0.9579340044068501,
+      "truthInk": 1973,
+      "mineInk": 1975
+    },
+    {
+      "case": "fp-sample F.Fab",
+      "kind": "board",
+      "file": "fp-board.kicad_pcb",
+      "precision": 0.9476738267331772,
+      "recall": 0.9413885455294603,
+      "f1": 0.9445207299493552,
+      "truthInk": 9708,
+      "mineInk": 9823
+    },
+    {
+      "case": "fp-sample F.Paste",
+      "kind": "board",
+      "file": "fp-board.kicad_pcb",
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "truthInk": 5973,
+      "mineInk": 6061
+    },
+    {
+      "case": "sym-+5V_unit1",
+      "kind": "symbol",
+      "file": "sample.kicad_sym",
+      "precision": 0.7781192602156795,
+      "recall": 0.7782354334870327,
+      "f1": 0.7781773425155099
+    },
+    {
+      "case": "sym-CONN4_unit1",
+      "kind": "symbol",
+      "file": "sample.kicad_sym",
+      "precision": 0.8875538426660621,
+      "recall": 0.8670872940102112,
+      "f1": 0.8772012050093263
+    },
+    {
+      "case": "sym-C_Polarized_unit1",
+      "kind": "symbol",
+      "file": "sample.kicad_sym",
+      "precision": 1,
+      "recall": 1,
+      "f1": 1
+    },
+    {
+      "case": "sym-GND_unit1",
+      "kind": "symbol",
+      "file": "sample.kicad_sym",
+      "precision": 0.8705249914217088,
+      "recall": 0.8685591817353473,
+      "f1": 0.8695409755317534
+    },
+    {
+      "case": "sym-MCU_unit1",
+      "kind": "symbol",
+      "file": "sample.kicad_sym",
+      "precision": 0.8750992092654105,
+      "recall": 0.8694195766882078,
+      "f1": 0.872250147382416
+    },
+    {
+      "case": "sym-NAND_unit1",
+      "kind": "symbol",
+      "file": "sample.kicad_sym",
+      "precision": 0.9340546362479193,
+      "recall": 0.934610766459876,
+      "f1": 0.9343326185994323
+    },
+    {
+      "case": "sym-NAND_unit1_demorgan",
+      "kind": "symbol",
+      "file": "sample.kicad_sym",
+      "precision": 0.9372055050151621,
+      "recall": 0.937832118504585,
+      "f1": 0.9375187070567838
+    },
+    {
+      "case": "sym-OPAMP_unit1",
+      "kind": "symbol",
+      "file": "sample.kicad_sym",
+      "precision": 0.9616724738675958,
+      "recall": 0.9640734151950362,
+      "f1": 0.9628714478335194
+    },
+    {
+      "case": "sym-OPAMP_unit2",
+      "kind": "symbol",
+      "file": "sample.kicad_sym",
+      "precision": 0.9574115748800476,
+      "recall": 0.9617938064847732,
+      "f1": 0.9595976875821628
+    },
+    {
+      "case": "sym-OPAMP_unit3",
+      "kind": "symbol",
+      "file": "sample.kicad_sym",
+      "precision": 0.7922386255719589,
+      "recall": 0.8056320511681621,
+      "f1": 0.7988792062149955
+    },
+    {
+      "case": "sym-R_Small_unit1",
+      "kind": "symbol",
+      "file": "sample.kicad_sym",
+      "precision": 0.8149195883637012,
+      "recall": 0.8103636100890406,
+      "f1": 0.8126352135890681
+    },
+    {
+      "case": "sym-R_unit1",
+      "kind": "symbol",
+      "file": "sample.kicad_sym",
+      "precision": 0.8870679536159937,
+      "recall": 0.8860459198946297,
+      "f1": 0.8865566422020561
+    }
+  ]
+}

@@ -3,6 +3,27 @@
 All notable changes per release. Each release on GitHub carries its verification results
 (`docs/release-notes/<tag>.md`) and SHA-256 checksums for every file.
 
+## Unreleased
+
+### Added
+- **KiCad Preview** for `.kicad_sch`, `.kicad_pcb`, `.kicad_mod`, `.kicad_sym` and `.kicad_pro` (KiCad 6–10), drawn
+  as SVG by an own S-expression reader with KiCad's stroke font (newstroke subset, CC0, via KiCanvas/MIT):
+  - Schematic: library symbols with units and De Morgan body styles, pins with names/numbers and pin shapes, wires,
+    buses and bus entries, junctions, no-connects, local/global/hierarchical labels and net class flags, power
+    symbols, hierarchical sheets with pins (a toolbar list jumps to each sheet and names its file), text, text boxes
+    (word-wrapped), graphics, fields, embedded PNG images, DNP marks, title block and paper size.
+  - Board: per-layer toggles (copper incl. inner, silkscreen, mask, paste, Edge.Cuts, fab, courtyard, user, drawing
+    sheet) with Front/Back/Copper presets, footprints with rect/roundrect/chamfered/circle/oval/trapezoid/custom pads
+    and round/oval drills, tracks, arcs, through/blind/micro vias, filled zones, graphics, text, dimensions; back-side
+    flip (mirrored view).
+  - Footprint and symbol library files standalone (library list with filter, unit and De Morgan selection).
+  - Project: a summary of sheets, text variables, net classes and patterns, board rules and presets, schematic
+    settings, check severities and pinned libraries, plus the raw JSON.
+  - Pan (drag), zoom at the pointer (wheel, pinch, keys), fit, dark/light themes; hover shows pin (with net name),
+    symbol, label, pad, track, via, zone and footprint details.
+- Fidelity check against `kicad-cli` SVG exports (`tools/kicad/fidelity.mjs`), hand-written KiCad 8 corpus
+  (`tools/kicad/make-kicad-samples.mjs`), results in `docs/evidence/kicad/`.
+
 ## [0.2.4] — 2026-11-24
 
 ### Changed

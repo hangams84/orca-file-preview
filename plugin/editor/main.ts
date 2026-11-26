@@ -43,7 +43,12 @@ export const RENDERERS: Record<string, Loader> = {
   igs: () => import('./renderers/model3d.ts'),
   brep: () => import('./renderers/model3d.ts'),
   hwp: () => import('./renderers/hwp.ts'),
-  hwpx: () => import('./renderers/hwp.ts')
+  hwpx: () => import('./renderers/hwp.ts'),
+  kicad_sch: () => import('./renderers/kicad.ts'),
+  kicad_pcb: () => import('./renderers/kicad.ts'),
+  kicad_mod: () => import('./renderers/kicad.ts'),
+  kicad_sym: () => import('./renderers/kicad.ts'),
+  kicad_pro: () => import('./renderers/kicad.ts')
 }
 
 installStyles()

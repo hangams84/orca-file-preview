@@ -19,6 +19,7 @@ Read-only previews for Office, PDF, text and image files inside Orca, on desktop
 | 텍스트 | `.txt` `.log` | 인코딩 감지 (UTF-8/16, EUC-KR 등), 줄 번호, 줄바꿈 |
 | 3D 모델 | `.stl` `.obj` `.ply` `.glb` `.gltf` `.3mf` `.off` `.fbx` `.dae` | three.js (WebGL, 회전·확대·이동, 터치, Draco·meshopt, Web Worker 파싱) |
 | CAD (B-rep) | `.step` `.stp` `.stpz` `.iges` `.igs` `.brep` | OpenCascade (occt-import-js, WebAssembly, Web Worker): 어셈블리·부품 목록·색, 테셀레이션 품질 선택. `.stpz` = gzip 압축 STEP |
+| KiCad | `.kicad_sch` `.kicad_pcb` `.kicad_mod` `.kicad_sym` `.kicad_pro` | 자체 S-expression 파서 + SVG 렌더러 (KiCad 6–10, KiCad 스트로크 글꼴 newstroke): 회로도(심볼·유닛·De Morgan, 핀, 배선·버스, 레이블, 전원, 계층 시트, 표제란), PCB(레이어 표시/숨김, 패드·드릴, 트랙·호, 비아, 채움 영역, 앞/뒷면 뒤집기), 풋프린트, 심볼 라이브러리(목록+선택), 프로젝트 요약(넷 클래스·규칙·텍스트 변수·시트). 이동·확대·맞춤, 패드/핀/넷 정보 툴팁. 정확도: `docs/evidence/kicad/` |
 
 공통: 다크/라이트 테마 실시간 반영, 한국어/영어 UI, Ctrl+휠 · 핀치 · 버튼 확대/축소, 휴대폰 화면에서 폭 맞춤,
 파일이 바뀌면 자동 갱신, 손상 파일은 친절한 오류 안내.
@@ -52,6 +53,8 @@ orca plugin install ./plugin
 > (`.obj`, ASCII `.stl`/`.ply`, `.off`, `.gltf`, `.dae`, ASCII `.fbx`)도 마찬가지일 수 있습니다.
 > Files Orca opens itself open in Source first; switch with the view toggle at the tab's top right. **STEP, IGES and
 > BREP files are text and open in Source first** (checked in Orca 1.4.258); text-based 3D formats may do the same.
+> **KiCad 파일(`.kicad_*`)도 텍스트라 Source로 먼저 열립니다** (Orca 1.4.263 확인). / KiCad files are text and open
+> in Source first too.
 
 ## 저장소 구조 / Layout
 
