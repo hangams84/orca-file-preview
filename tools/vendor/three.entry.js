@@ -1,16 +1,22 @@
 // three.js (MIT) for the 3D model preview (editor/renderers/model3d.ts) and its parse worker
-// (editor/renderers/media/model3d-worker.js): only the core classes, loaders and controls the
+// (editor/renderers/media/model3d-worker.js) and the robot preview (editor/renderers/urdf.ts): only the core classes, loaders and controls the
 // preview uses, so esbuild tree-shakes the rest. Draco's pure-JS decoder (no WebAssembly, no eval)
 // is copied next to this bundle as vendor/draco/draco_decoder.js by tools/build-vendor.mjs.
 export {
   AmbientLight,
   AxesHelper,
   Box3,
+  BoxGeometry,
   BufferAttribute,
   BufferGeometry,
+  CapsuleGeometry,
   Color,
+  ConeGeometry,
+  CylinderGeometry,
   DirectionalLight,
   DoubleSide,
+  EdgesGeometry,
+  Euler,
   Float32BufferAttribute,
   GridHelper,
   Group,
@@ -19,18 +25,24 @@ export {
   LineSegments,
   LoadingManager,
   MathUtils,
+  Matrix4,
   Mesh,
+  MeshBasicMaterial,
   MeshStandardMaterial,
   Object3D,
-  PerspectiveCamera,
   PMREMGenerator,
+  PerspectiveCamera,
   Points,
   PointsMaterial,
+  Quaternion,
   REVISION,
+  Raycaster,
+  SRGBColorSpace,
   Scene,
   Sphere,
-  SRGBColorSpace,
+  SphereGeometry,
   Uint32BufferAttribute,
+  Vector2,
   Vector3,
   WebGLRenderer
 } from 'three'

@@ -40,9 +40,9 @@ const STYLE = `
   border: 1px solid var(--orca-border, #ddd); }
 `
 
-type Backdrop = 'theme' | 'light' | 'dark'
+export type Backdrop = 'theme' | 'light' | 'dark'
 const BACKDROP_KEY = 'file-preview.backdrop.model3d'
-const BACKDROP_COLOR: Record<Exclude<Backdrop, 'theme'>, string> = { light: '#eef0f3', dark: '#1d1f23' }
+export const BACKDROP_COLOR: Record<Exclude<Backdrop, 'theme'>, string> = { light: '#eef0f3', dark: '#1d1f23' }
 /** 1×1 white PNG used in place of an external texture (the material keeps its colour). */
 const WHITE_PIXEL =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII='
@@ -235,7 +235,7 @@ async function mount(ctx: PreviewContext, kind: ModelKind, quality: CadQuality |
   }
 }
 
-function createRenderer(tr: PreviewContext['tr']): THREE.WebGLRenderer {
+export function createRenderer(tr: PreviewContext['tr']): THREE.WebGLRenderer {
   const fail = () =>
     new PreviewError(
       'webgl',
@@ -669,57 +669,7 @@ function mountViewer(
   /** Frames the model: the camera looks from a fixed three-quarter direction, and the model's own
    *  projected outline (sampled vertices, not its bounding sphere) is centred in the view and fills
    *  about three quarters of the shorter side. A few iterations settle the perspective. */
-  const fit = () => {
-    const tanV = Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2)
-    const tanH = tanV * camera.aspect
-    const dir = new THREE.Vector3(0.9, 0.62, 1.25).normalize()
-    const target = new THREE.Vector3()
-    let dist = radius / Math.min(tanV, tanH) / Math.cos(Math.atan(Math.min(tanV, tanH)))
-    camera.near = radius / 500
-    const p = new THREE.Vector3()
-    const right = new THREE.Vector3()
-    const up = new THREE.Vector3()
-    for (let it = 0; it < 6 && samples.length; it++) {
-      camera.position.copy(target).addScaledVector(dir, dist)
-      camera.lookAt(target)
-      camera.updateMatrixWorld(true)
-      const inv = camera.matrixWorldInverse
-      let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity
-      let behind = false
-      for (let i = 0; i < samples.length; i += 3) {
-        p.set(samples[i], samples[i + 1], samples[i + 2]).applyMatrix4(inv)
-        const z = -p.z
-        if (z <= camera.near) {
-          behind = true
-          break
-        }
-        const x = p.x / z / tanH
-        const y = p.y / z / tanV
-        if (x < x0) x0 = x
-        if (x > x1) x1 = x
-        if (y < y0) y0 = y
-        if (y > y1) y1 = y
-      }
-      if (behind) {
-        dist *= 1.5
-        continue
-      }
-      const cx = (x0 + x1) / 2
-      const cy = (y0 + y1) / 2
-      const extent = Math.max((x1 - x0) / 2, (y1 - y0) / 2)
-      right.setFromMatrixColumn(camera.matrixWorld, 0)
-      up.setFromMatrixColumn(camera.matrixWorld, 1)
-      target.addScaledVector(right, cx * tanH * dist).addScaledVector(up, cy * tanV * dist)
-      if (extent > 0) dist *= Math.min(4, Math.max(0.25, extent / 0.75))
-    }
-    camera.position.copy(target).addScaledVector(dir, dist)
-    camera.far = dist * 25 + radius * 4
-    camera.updateProjectionMatrix()
-    controls.target.copy(target)
-    controls.minDistance = radius * 0.02
-    controls.maxDistance = dist * 20
-    controls.update()
-  }
+  const fit = () => frameCamera(camera, controls, samples, radius, new THREE.Vector3(0.9, 0.62, 1.25))
 
   // Background
   let picked: Backdrop = 'theme'
@@ -924,8 +874,69 @@ function mountViewer(
   draw()
 }
 
+/** Frames points in a perspective view: the camera looks from `direction`, and the points' projected
+ *  outline (sampled vertices, not a bounding sphere) is centred and fills about three quarters of
+ *  the shorter side. A few iterations settle the perspective. `radius` is the model's half-diagonal. */
+export function frameCamera(
+  camera: THREE.PerspectiveCamera,
+  controls: InstanceType<typeof THREE.OrbitControls>,
+  samples: Float32Array,
+  radius: number,
+  direction: THREE.Vector3
+): void {
+  const tanV = Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2)
+  const tanH = tanV * camera.aspect
+  const dir = direction.clone().normalize()
+  const target = new THREE.Vector3()
+  let dist = radius / Math.min(tanV, tanH) / Math.cos(Math.atan(Math.min(tanV, tanH)))
+  camera.near = radius / 500
+  const p = new THREE.Vector3()
+  const right = new THREE.Vector3()
+  const up = new THREE.Vector3()
+  for (let it = 0; it < 6 && samples.length; it++) {
+    camera.position.copy(target).addScaledVector(dir, dist)
+    camera.lookAt(target)
+    camera.updateMatrixWorld(true)
+    const inv = camera.matrixWorldInverse
+    let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity
+    let behind = false
+    for (let i = 0; i < samples.length; i += 3) {
+      p.set(samples[i], samples[i + 1], samples[i + 2]).applyMatrix4(inv)
+      const z = -p.z
+      if (z <= camera.near) {
+        behind = true
+        break
+      }
+      const x = p.x / z / tanH
+      const y = p.y / z / tanV
+      if (x < x0) x0 = x
+      if (x > x1) x1 = x
+      if (y < y0) y0 = y
+      if (y > y1) y1 = y
+    }
+    if (behind) {
+      dist *= 1.5
+      continue
+    }
+    const cx = (x0 + x1) / 2
+    const cy = (y0 + y1) / 2
+    const extent = Math.max((x1 - x0) / 2, (y1 - y0) / 2)
+    right.setFromMatrixColumn(camera.matrixWorld, 0)
+    up.setFromMatrixColumn(camera.matrixWorld, 1)
+    target.addScaledVector(right, cx * tanH * dist).addScaledVector(up, cy * tanV * dist)
+    if (extent > 0) dist *= Math.min(4, Math.max(0.25, extent / 0.75))
+  }
+  camera.position.copy(target).addScaledVector(dir, dist)
+  camera.far = dist * 25 + radius * 4
+  camera.updateProjectionMatrix()
+  controls.target.copy(target)
+  controls.minDistance = radius * 0.02
+  controls.maxDistance = dist * 20
+  controls.update()
+  }
+
 /** Up to `max` vertex positions of the model in world space, evenly strided, for framing. */
-function samplePoints(root: THREE.Object3D, max: number): Float32Array {
+export function samplePoints(root: THREE.Object3D, max: number): Float32Array {
   const objs: THREE.Object3D[] = []
   let total = 0
   root.traverse((o) => {
@@ -948,7 +959,7 @@ function samplePoints(root: THREE.Object3D, max: number): Float32Array {
   return Float32Array.from(out)
 }
 
-function niceStep(x: number): number {
+export function niceStep(x: number): number {
   if (!(x > 0) || !Number.isFinite(x)) return 1
   const p = Math.pow(10, Math.floor(Math.log10(x)))
   const m = x / p
@@ -956,7 +967,7 @@ function niceStep(x: number): number {
 }
 
 /** Colours are stored linear: a relative luminance of 0.2 is about mid-grey on screen. */
-function isDark(c: THREE.Color): boolean {
+export function isDark(c: THREE.Color): boolean {
   return 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b < 0.2
 }
 

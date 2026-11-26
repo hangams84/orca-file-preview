@@ -74,7 +74,9 @@ export const RENDERERS: Record<string, Loader> = {
   kicad_pcb: () => import('./renderers/kicad.ts'),
   kicad_mod: () => import('./renderers/kicad.ts'),
   kicad_sym: () => import('./renderers/kicad.ts'),
-  kicad_pro: () => import('./renderers/kicad.ts')
+  kicad_pro: () => import('./renderers/kicad.ts'),
+  urdf: () => import('./renderers/urdf.ts'),
+  xacro: () => import('./renderers/urdf.ts')
 }
 
 installStyles()

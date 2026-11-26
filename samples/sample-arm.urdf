@@ -1,0 +1,150 @@
+<?xml version="1.0"?>
+<!-- A six-axis arm drawn with primitives only (box, cylinder, sphere). Written for File Preview's
+     samples (MIT). Dimensions are made up; they do not describe a real product. -->
+<robot name="six_axis_arm">
+  <material name="base_grey"><color rgba="0.35 0.37 0.40 1"/></material>
+  <material name="arm_orange"><color rgba="0.95 0.45 0.10 1"/></material>
+  <material name="joint_black"><color rgba="0.08 0.08 0.09 1"/></material>
+
+  <link name="world"/>
+  <joint name="world_to_base" type="fixed">
+    <parent link="world"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0.06"/>
+      <geometry><cylinder radius="0.14" length="0.12"/></geometry>
+      <material name="base_grey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.06"/>
+      <geometry><cylinder radius="0.15" length="0.12"/></geometry>
+    </collision>
+    <inertial><mass value="8.0"/><inertia ixx="0.05" ixy="0" ixz="0" iyy="0.05" iyz="0" izz="0.08"/></inertial>
+  </link>
+
+  <joint name="joint_1" type="revolute">
+    <parent link="base_link"/>
+    <child link="shoulder_link"/>
+    <origin xyz="0 0 0.12" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-2.967" upper="2.967" effort="150" velocity="2.0"/>
+  </joint>
+  <link name="shoulder_link">
+    <visual>
+      <origin xyz="0 0 0.1"/>
+      <geometry><cylinder radius="0.11" length="0.2"/></geometry>
+      <material name="arm_orange"/>
+    </visual>
+    <visual>
+      <origin xyz="0 0 0.2" rpy="1.5708 0 0"/>
+      <geometry><cylinder radius="0.09" length="0.24"/></geometry>
+      <material name="joint_black"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.12"/>
+      <geometry><box size="0.24 0.24 0.26"/></geometry>
+    </collision>
+  </link>
+
+  <joint name="joint_2" type="revolute">
+    <parent link="shoulder_link"/>
+    <child link="upper_arm_link"/>
+    <origin xyz="0 0 0.2" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-1.745" upper="2.356" effort="150" velocity="2.0"/>
+  </joint>
+  <link name="upper_arm_link">
+    <visual>
+      <origin xyz="0 0 0.22"/>
+      <geometry><box size="0.1 0.12 0.44"/></geometry>
+      <material name="arm_orange"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.22"/>
+      <geometry><box size="0.12 0.14 0.48"/></geometry>
+    </collision>
+  </link>
+
+  <joint name="joint_3" type="revolute">
+    <parent link="upper_arm_link"/>
+    <child link="forearm_link"/>
+    <origin xyz="0 0 0.44" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-2.53" upper="2.53" effort="100" velocity="2.5"/>
+  </joint>
+  <link name="forearm_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry><cylinder radius="0.075" length="0.18"/></geometry>
+      <material name="joint_black"/>
+    </visual>
+    <visual>
+      <origin xyz="0.17 0 0" rpy="0 1.5708 0"/>
+      <geometry><cylinder radius="0.05" length="0.34"/></geometry>
+      <material name="arm_orange"/>
+    </visual>
+    <collision>
+      <origin xyz="0.17 0 0" rpy="0 1.5708 0"/>
+      <geometry><cylinder radius="0.06" length="0.38"/></geometry>
+    </collision>
+  </link>
+
+  <joint name="joint_4" type="revolute">
+    <parent link="forearm_link"/>
+    <child link="wrist_1_link"/>
+    <origin xyz="0.36 0 0" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-3.316" upper="3.316" effort="40" velocity="3.0"/>
+  </joint>
+  <link name="wrist_1_link">
+    <visual>
+      <origin xyz="0.04 0 0" rpy="0 1.5708 0"/>
+      <geometry><cylinder radius="0.045" length="0.08"/></geometry>
+      <material name="joint_black"/>
+    </visual>
+  </link>
+
+  <joint name="joint_5" type="revolute">
+    <parent link="wrist_1_link"/>
+    <child link="wrist_2_link"/>
+    <origin xyz="0.09 0 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-2.094" upper="2.094" effort="40" velocity="3.0"/>
+  </joint>
+  <link name="wrist_2_link">
+    <visual>
+      <geometry><sphere radius="0.05"/></geometry>
+      <material name="arm_orange"/>
+    </visual>
+    <collision>
+      <geometry><sphere radius="0.055"/></geometry>
+    </collision>
+  </link>
+
+  <joint name="joint_6" type="revolute">
+    <parent link="wrist_2_link"/>
+    <child link="flange"/>
+    <origin xyz="0.07 0 0" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-6.283" upper="6.283" effort="20" velocity="4.0"/>
+  </joint>
+  <link name="flange">
+    <visual>
+      <origin xyz="0.01 0 0" rpy="0 1.5708 0"/>
+      <geometry><cylinder radius="0.04" length="0.02"/></geometry>
+      <!-- inline colour without a name -->
+      <material><color rgba="0.75 0.77 0.80 1"/></material>
+    </visual>
+  </link>
+
+  <joint name="tool0_joint" type="fixed">
+    <parent link="flange"/>
+    <child link="tool0"/>
+    <origin xyz="0.02 0 0" rpy="0 1.5708 0"/>
+  </joint>
+  <link name="tool0"/>
+</robot>

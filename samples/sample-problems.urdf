@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<!-- A URDF with mistakes the preview reports as notes while still drawing what it can: a joint to a
+     missing link, a link with two parents, a kinematic loop, a bad number, an unknown geometry,
+     an undefined material, a mimic of a missing joint and unknown tags. Written for File Preview's
+     samples (MIT). -->
+<robot name="needs_fixing">
+  <link name="base">
+    <visual>
+      <origin xyz="0 0 0.05"/>
+      <geometry><box size="0.3 0.3 0.1"/></geometry>
+      <material name="not_defined_anywhere"/>
+    </visual>
+  </link>
+  <link name="column">
+    <visual>
+      <origin xyz="0 0 0.2"/>
+      <geometry><cylinder radius="0.03" length="0.4"/></geometry>
+      <material name="c"><color rgba="0.2 0.6 0.3 1"/></material>
+    </visual>
+  </link>
+  <joint name="base_to_column" type="revolute">
+    <parent link="base"/>
+    <child link="column"/>
+    <origin xyz="0 0 0.1"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1" upper="1" effort="1" velocity="1"/>
+  </joint>
+  <link name="arm">
+    <visual>
+      <origin xyz="0.15 0 0" rpy="0 1.5708 0"/>
+      <geometry><cylinder radius="0.02" length="abc"/></geometry>
+      <material name="c"/>
+    </visual>
+    <visual>
+      <geometry><cone radius="0.05" length="0.1"/></geometry>
+    </visual>
+  </link>
+  <joint name="column_to_arm" type="revolute">
+    <parent link="column"/>
+    <child link="arm"/>
+    <origin xyz="0 0 0.4"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-1" upper="1" effort="1" velocity="1"/>
+  </joint>
+  <!-- second parent for "arm" -->
+  <joint name="base_to_arm" type="fixed">
+    <parent link="base"/>
+    <child link="arm"/>
+  </joint>
+  <!-- joint to a link that does not exist -->
+  <joint name="arm_to_tool" type="fixed">
+    <parent link="arm"/>
+    <child link="tool"/>
+  </joint>
+  <!-- two links that only point at each other -->
+  <link name="loop_a">
+    <visual><origin xyz="0.4 0 0.05"/><geometry><sphere radius="0.05"/></geometry></visual>
+  </link>
+  <link name="loop_b">
+    <visual><origin xyz="0.4 0.15 0.05"/><geometry><sphere radius="0.04"/></geometry></visual>
+  </link>
+  <joint name="a_to_b" type="fixed"><parent link="loop_a"/><child link="loop_b"/></joint>
+  <joint name="b_to_a" type="fixed"><parent link="loop_b"/><child link="loop_a"/></joint>
+  <joint name="ghost_mimic" type="continuous">
+    <parent link="arm"/>
+    <child link="loop_x"/>
+    <mimic joint="no_such_joint"/>
+  </joint>
+  <sensor name="cam" update_rate="30"/>
+  <wobble/>
+</robot>
