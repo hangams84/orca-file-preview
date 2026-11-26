@@ -189,7 +189,8 @@ jobs:
   report:
     name: report → README
     needs: [linux, ubuntu2604, macos, windows, windows7]
-    if: always()
+    # Not on a cancelled run (a newer push superseded it): its jobs did not fail, they were stopped.
+    if: ${{ !cancelled() }}
     runs-on: ubuntu-24.04
     permissions:
       contents: write
