@@ -42,6 +42,9 @@ export const RENDERERS: Record<string, Loader> = {
   iges: () => import('./renderers/model3d.ts'),
   igs: () => import('./renderers/model3d.ts'),
   brep: () => import('./renderers/model3d.ts'),
+  dxf: () => import('./renderers/cad2d.ts'),
+  dwf: () => import('./renderers/cad2d.ts'),
+  dwfx: () => import('./renderers/cad2d.ts'),
   hwp: () => import('./renderers/hwp.ts'),
   hwpx: () => import('./renderers/hwp.ts')
 }
