@@ -3,7 +3,10 @@
 All notable changes per release. Each release on GitHub carries its verification results
 (`docs/release-notes/<tag>.md`) and SHA-256 checksums for every file.
 
-## [Unreleased]
+## [0.3.0] — 2026-11-26
+
+New viewers for CAD drawings, diagrams, electronics, robot descriptions (URDF/xacro) and engineering files, plus an Ubuntu 26.04 column in the Orca
+compatibility CI. Checked in real Orca 1.4.263: `docs/evidence/v0.3.0/`.
 
 ### Added
 - **Robot Preview** (`.urdf`, `.xacro`, `.urdf.xacro`): ROS robot descriptions in 3D with three.js. Own XML reader and
@@ -19,13 +22,6 @@ All notable changes per release. Each release on GitHub carries its verification
   macro-only xacro shows its macro list. Problems (missing links, two parents, loops, bad numbers) become notes.
   Evidence: `docs/evidence/urdf/`.
 - three.js vendor bundle: geometry classes, `Raycaster`, `EdgesGeometry` added (+7 KB).
-
-## [0.3.0] — 2026-11-26
-
-New viewers for CAD drawings, diagrams, electronics and engineering files, plus an Ubuntu 26.04 column in the Orca
-compatibility CI. Checked in real Orca 1.4.263: `docs/evidence/v0.3.0/`.
-
-### Added
 - **Orca compatibility CI on Ubuntu 26.04** (Docker; Orca 1.4.248, 1.4.253, 1.4.258 and 1.4.277), and Orca 1.4.277 on
   every OS. Local check: Ubuntu 26.04.1 LTS with Orca 1.4.277, 9/9 (`docs/evidence/platforms/ubuntu-26.04`).
 - **File Preview DWG** — a separate plugin, published as [hangams84/orca-file-preview-dwg](https://github.com/hangams84/orca-file-preview-dwg) v0.1.0 (source in `dwg-plugin/`) (id `file-preview-dwg`, **GPL-3.0-or-later**, installs on

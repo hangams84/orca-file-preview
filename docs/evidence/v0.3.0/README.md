@@ -17,3 +17,11 @@ The plugin log had no warnings or errors.
 ASCII DXF, draw.io and KiCad files are text, so Orca opens them in its Source view first. Their checks in Orca are
 in `docs/evidence/cad2d/orca`, `docs/evidence/diagram` and `docs/evidence/kicad/orca`. The DWG/DWT plugin is in
 `docs/evidence/dwg`.
+
+## Robot Preview (URDF / xacro)
+
+UTF-16 copies of the samples, so Orca opens them in the plugin and not in its Source view: a 6-axis arm with joint
+sliders, a mobile base with wheels and a caster, and a `.urdf.xacro` robot expanded from macros. No log warnings or
+errors. More checks: `docs/evidence/urdf/`.
+
+![](orca-urdf-xacro.png)
