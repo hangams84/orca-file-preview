@@ -19,7 +19,7 @@ Read-only previews for Office, PDF, text and image files inside Orca, on desktop
 | 텍스트 | `.txt` `.log` | 인코딩 감지 (UTF-8/16, EUC-KR 등), 줄 번호, 줄바꿈 |
 | 3D 모델 | `.stl` `.obj` `.ply` `.glb` `.gltf` `.3mf` `.off` `.fbx` `.dae` | three.js (WebGL, 회전·확대·이동, 터치, Draco·meshopt, Web Worker 파싱) |
 | CAD (B-rep) | `.step` `.stp` `.stpz` `.iges` `.igs` `.brep` | OpenCascade (occt-import-js, WebAssembly, Web Worker): 어셈블리·부품 목록·색, 테셀레이션 품질 선택. `.stpz` = gzip 압축 STEP |
-| AutoCAD 도면 (별도 플러그인) | `.dwg` `.dwt` | **File Preview DWG** (`dwg-plugin/`, GPL-3.0-or-later): LibreDWG (WebAssembly, Web Worker) + Canvas — 모형/배치, 레이어, 블록, 한글 문자, 치수, 해치. 이 MIT 플러그인과 따로 설치 ([dwg-plugin/README.md](dwg-plugin/README.md)) |
+| AutoCAD 도면 (별도 플러그인) | `.dwg` `.dwt` | **File Preview DWG** ([별도 저장소](https://github.com/hangams84/orca-file-preview-dwg), Git URL `https://github.com/hangams84/orca-file-preview-dwg.git`; 소스 `dwg-plugin/`, GPL-3.0-or-later): LibreDWG (WebAssembly, Web Worker) + Canvas — 모형/배치, 레이어, 블록, 한글 문자, 치수, 해치. 이 MIT 플러그인과 따로 설치 ([dwg-plugin/README.md](dwg-plugin/README.md)) |
 | SolidWorks | `.sldprt` `.sldasm` `.slddrw` `.slddrt` `.prtdot` `.asmdot` `.drwdot` | 자체 컨테이너 리더 (2014 이전 OLE/CFB, 2015 이후 형식): 저장된 미리보기 그림, 파트의 표시 메시(three.js 3D), 속성·구성·참조 파일·피처 이름·저장 기록. 정확한 B-rep 형상과 도면 뷰는 다시 그리지 않음 |
 | EPLAN Electric P8 | `.edz` `.zw1` `.elk` `.ell` `.elr` `.els` `.ela` `.elp` `.elx` `.zx1` | 자체 7z(LZMA/LZMA2)·ZIP 리더: EDZ 부품 데이터·그림·PDF 문서·매크로 목록, 프로젝트 백업의 속성·페이지 설명·그림·내용 트리, 링크 파일 정보. 회로도 페이지와 매크로 그래픽은 그리지 않음 |
 | (읽을 수 없는 경우) | 위 형식 전체 | 일반 검사기: 형식 식별, 크기, 엔트로피, 16진수 덤프, 문자열 |
@@ -45,7 +45,7 @@ Read-only previews for Office, PDF, text and image files inside Orca, on desktop
 # Orca 설정 → 플러그인 → 설치 → Git URL 에 https://github.com/hangams84/orca-file-preview.git 을 붙여넣어도 됩니다.
 orca plugin install https://github.com/hangams84/orca-file-preview
 orca plugin install https://github.com/hangams84/orca-file-preview --approve <fingerprint>
-# 특정 버전: https://github.com/hangams84/orca-file-preview#v0.2.4
+# 특정 버전: https://github.com/hangams84/orca-file-preview#v0.3.0
 
 # 또는 로컬 폴더
 orca plugin install ./plugin

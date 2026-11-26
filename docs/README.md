@@ -250,6 +250,7 @@ Orca 데스크톱(Windows · macOS · Linux)과 브라우저/모바일 클라이
 | macOS 15.8.2 (24H232, arm64) | GitHub Actions macOS runner | 1.4.258 | 12/12 | [contact sheet](evidence/platforms/macos-15-arm64/contact-sheet.png) · [summary](evidence/platforms/macos-15-arm64/summary.md) |
 | Ubuntu 22.04.5 LTS | Docker on WSL2 (Xvfb) | 1.4.258 | 9/9 | [contact sheet](evidence/platforms/ubuntu-22.04/contact-sheet.png) · [summary](evidence/platforms/ubuntu-22.04/summary.md) |
 | Ubuntu 24.04.5 LTS | Docker on WSL2 (Xvfb) | 1.4.258 | 9/9 | [contact sheet](evidence/platforms/ubuntu-24.04/contact-sheet.png) · [summary](evidence/platforms/ubuntu-24.04/summary.md) |
+| Ubuntu 26.04.1 LTS | Docker on WSL2 (Xvfb) | 1.4.277 | 9/9 | [contact sheet](evidence/platforms/ubuntu-26.04/contact-sheet.png) · [summary](evidence/platforms/ubuntu-26.04/summary.md) |
 
 설치/제거 스크립트(`installer/`) 테스트: [macos-15-arm64](evidence/platforms/macos-15-arm64/installer/installer.md) · [ubuntu-22.04](evidence/platforms/ubuntu-22.04/installer.md) · [ubuntu-24.04](evidence/platforms/ubuntu-24.04/installer.md) · [windows-11](evidence/platforms/windows-11/installer.md)
 

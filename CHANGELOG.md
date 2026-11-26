@@ -3,10 +3,15 @@
 All notable changes per release. Each release on GitHub carries its verification results
 (`docs/release-notes/<tag>.md`) and SHA-256 checksums for every file.
 
-## [Unreleased]
+## [0.3.0] — 2026-11-26
+
+New viewers for CAD drawings, diagrams, electronics and engineering files, plus an Ubuntu 26.04 column in the Orca
+compatibility CI. Checked in real Orca 1.4.263: `docs/evidence/v0.3.0/`.
 
 ### Added
-- **File Preview DWG** — a separate plugin in `dwg-plugin/` (id `file-preview-dwg`, **GPL-3.0-or-later**, installs on
+- **Orca compatibility CI on Ubuntu 26.04** (Docker; Orca 1.4.248, 1.4.253, 1.4.258 and 1.4.277), and Orca 1.4.277 on
+  every OS. Local check: Ubuntu 26.04.1 LTS with Orca 1.4.277, 9/9 (`docs/evidence/platforms/ubuntu-26.04`).
+- **File Preview DWG** — a separate plugin, published as [hangams84/orca-file-preview-dwg](https://github.com/hangams84/orca-file-preview-dwg) v0.1.0 (source in `dwg-plugin/`) (id `file-preview-dwg`, **GPL-3.0-or-later**, installs on
   its own; the main plugin stays MIT and unchanged) for AutoCAD `.dwg` drawings and `.dwt` templates. GNU LibreDWG
   (`@mlightcad/libredwg-web` 0.9.4, WebAssembly) reads the file in a module worker; the embind glue's two `new Function`
   sites are patched to closures (`tools/libredwg-patches.mjs`, verified under `node --disallow-code-generation-from-strings`).
@@ -54,9 +59,6 @@ All notable changes per release. Each release on GitHub carries its verification
     clear message.
   - Fidelity on a generated corpus (`tools/make-diagram-samples.py`): draw.io against the official draw.io viewer,
     Visio against LibreOffice (Visio is not installed): `docs/evidence/diagram/`.
-## Unreleased
-
-### Added
 - **KiCad Preview** for `.kicad_sch`, `.kicad_pcb`, `.kicad_mod`, `.kicad_sym` and `.kicad_pro` (KiCad 6–10), drawn
   as SVG by an own S-expression reader with KiCad's stroke font (newstroke subset, CC0, via KiCanvas/MIT):
   - Schematic: library symbols with units and De Morgan body styles, pins with names/numbers and pin shapes, wires,
