@@ -1,0 +1,782 @@
+[
+  {
+    "file": "samples/damaged.edz",
+    "state": "ready",
+    "ms": 222,
+    "info": "7z archive · 400 B",
+    "tabs": [
+      {
+        "label": "File info",
+        "text": "This file could not be read as EPLAN Data Portal part package, so only general information is shown. Reason: 7z: header beyond the end of the file (truncated archive)Format7z archive (format 0.4)Suffix.edzSize400 B (400 bytes)Entropy7.31 bits/byteStart of the file (hex)00000000 37 7a bc af 27 1c 00 04 5f 17 ad 6c 74 07 00 00 7z..'..._..lt... 00000010 00 00 00 00 0b 02 00 00 00 00 00 00 17 9f 3a 46",
+        "ok": true,
+        "detail": "",
+        "warnings": [
+          "This file could not be read as EPLAN Data Portal part package, so only general information is shown. Reason: 7z: header beyond the end of the file (truncated archive)"
+        ]
+      }
+    ],
+    "warnings": [
+      "This file could not be read as EPLAN Data Portal part package, so only general information is shown. Reason: 7z: header beyond the end of the file (truncated archive)"
+    ],
+    "errors": [],
+    "shots": [
+      "damaged.edz.0-first.png",
+      "damaged.edz.1-File_info.png"
+    ],
+    "pass": true
+  },
+  {
+    "file": "samples/damaged.sldprt",
+    "state": "ready",
+    "ms": 196,
+    "info": "OLE compound file (CFB) · 750 B",
+    "tabs": [
+      {
+        "label": "File info",
+        "text": "This file could not be read as SolidWorks, so only general information is shown. Reason: bad sector sizeFormatOLE compound file (CFB) (version 0)Suffix.sldprtSize750 B (750 bytes)Entropy3.43 bits/byteThe compound file structure could not be read: bad sector sizeStart of the file (hex)00000000 d0 cf 11 e0 a1 b1 1a e1 00 00 00 00 00 00 00 00 ................ 00000010 00 00 00 00 00 00 00 00 00 00 00",
+        "ok": true,
+        "detail": "",
+        "warnings": [
+          "This file could not be read as SolidWorks, so only general information is shown. Reason: bad sector size",
+          "The compound file structure could not be read: bad sector size"
+        ]
+      }
+    ],
+    "warnings": [
+      "This file could not be read as SolidWorks, so only general information is shown. Reason: bad sector size",
+      "The compound file structure could not be read: bad sector size"
+    ],
+    "errors": [],
+    "shots": [
+      "damaged.sldprt.0-first.png",
+      "damaged.sldprt.1-File_info.png"
+    ],
+    "pass": true
+  },
+  {
+    "file": "samples/damaged.zx1",
+    "state": "ready",
+    "ms": 193,
+    "info": "Unknown binary data · 848 B",
+    "tabs": [
+      {
+        "label": "File info",
+        "text": "The contents of this EPLAN backup (assumed) file cannot be interpreted, so only general information is shown.FormatUnknown binary dataSuffix.zx1Size848 B (848 bytes)Entropy7.91 bits/byte (looks compressed or encrypted)Start of the file (hex)00000000 5a 58 31 3f 00 01 02 03 04 05 06 07 08 09 0a 0b ZX1?............ 00000010 0c 0d 0e 0f 10 11 12 13 14 15 16 17 18 19 1a 1b ................ 00000020 1c",
+        "ok": true,
+        "detail": "",
+        "warnings": [
+          "The contents of this EPLAN backup (assumed) file cannot be interpreted, so only general information is shown."
+        ]
+      }
+    ],
+    "warnings": [
+      "The contents of this EPLAN backup (assumed) file cannot be interpreted, so only general information is shown."
+    ],
+    "errors": [],
+    "shots": [
+      "damaged.zx1.0-first.png",
+      "damaged.zx1.1-File_info.png"
+    ],
+    "pass": true
+  },
+  {
+    "file": "samples/sample-2014.sldprt",
+    "state": "ready",
+    "ms": 174,
+    "info": "SolidWorks Part · SolidWorks 2014 · 6.5 KB",
+    "tabs": [
+      {
+        "label": "Overview",
+        "text": "SolidWorks geometry (a Parasolid B-rep) cannot be rebuilt without SolidWorks. This preview shows the pictures, properties and structure stored in the file. The 3D tab draws the display mesh (triangles) SolidWorks saved: not exact surfaces, and bodies saved without display data are missing.Saved preview picturesPreview (PNG) · 1.1 KBView the 3D display meshDocumentTypePartLast saved withSolidWorks ",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "3D display mesh",
+        "text": "The display mesh SolidWorks saved (12 faces). Curved surfaces are approximated by triangles; colours and materials are not applied.3D display mesh · SolidWorks display mesh · 24 triangles · 48 vertices · 60 × 50 × 40 mm · 6.5 KB⤢▦◆#Z↑⟳?◐ Theme□ Light■ Dark .fp-3d-stage { position: absolute; inset: 0; overflow: hidden; } .fp-3d-stage > canvas { display: block; width: 100%; height: 100%; touch-actio",
+        "ok": true,
+        "detail": "3D display mesh · SolidWorks display mesh · 24 triangles · 48 vertices · 60 × 50 × 40 mm · 6.5 KB",
+        "warnings": []
+      },
+      {
+        "label": "Properties",
+        "text": "SummaryTitleOrca bracket (2014)AuthorFile PreviewLast saved byFile PreviewCreated2014-06-10 09:00:00 UTCLast saved2014-06-12 09:00:00 UTCApplicationSolidWorksCustom propertiesPartNoFP-1001MaterialAISI 304Save historySolidWorks 2014build 2014/161 · created with this release",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "Configurations & features",
+        "text": "Configurations (1)DefaultFeatures (6)Feature names and types only, not in tree order; feature definitions are not interpreted.Front PlaneRefPlaneTop PlaneRefPlaneRight PlaneRefPlaneBase-ExtrudeExtrusionUprightExtrusionFillet1Fillet",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "File structure",
+        "text": "An OLE compound file; streams named …__ZLB are zlib-framed.Streams (9)📁 _DL_VERSION_7000 (1 · 6 B)DLUpdateStamp6 B📁 _MO_VERSION_7000 (1 · 101 B)History101 B📁 Contents (2 · 562 B)Config-078 BDisplayLists484 B · zlib📁 swXmlContents (1 · 263 B)KeyWords263 B · zlibDocumentSummaryInformation212 BHeader248 BPreviewPNG1.1 KBSummaryInformation240 B",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      }
+    ],
+    "warnings": [],
+    "errors": [],
+    "shots": [
+      "sample-2014.sldprt.0-first.png",
+      "sample-2014.sldprt.1-Overview.png",
+      "sample-2014.sldprt.2-3D_display_mesh.png",
+      "sample-2014.sldprt.3-Properties.png",
+      "sample-2014.sldprt.4-Configurations_features.png",
+      "sample-2014.sldprt.5-File_structure.png"
+    ],
+    "pass": true
+  },
+  {
+    "file": "samples/sample-zip.edz",
+    "state": "ready",
+    "ms": 173,
+    "info": "EPLAN Data Portal part package · 1 parts · 2.6 KB",
+    "tabs": [
+      {
+        "label": "Overview",
+        "text": "Part data, pictures and PDF documents are shown as stored. Macros (.ema) are EPLAN PXF graphics that cannot be drawn here; only their names and variants are listed.KindEPLAN Data Portal part packageManifest version2.0Packagespart 1Files in the archive6File size2.6 KBManufacturerclass12shortnameORCAname1Orca Sample Parts (synthetic)cityNowhere",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "Parts (1)",
+        "text": "ORCA.TB-100document, macro, pictureORCA.TB-100TB-100.png · 660 BPart dataPart numberORCA.TB-100Type numberTB-100Order number100-0001ManufacturerORCASupplierORCADescription 1Feed-through terminal 2.5 mm²NoteSynthetic sample made for the File Preview pluginProduct group15Width5.2 mmHeight48 mmDepth42 mmWeight0.007 kgGraphic macro$(MD_MACROS)\\Orca\\TB-100.emaGroup symbol macro$(MD_MACROS)\\Orca\\TB-100.",
+        "ok": true,
+        "detail": " · opened document: items/document/Orca/TB-100_en.pdf · 758 B",
+        "warnings": []
+      },
+      {
+        "label": "Contents",
+        "text": "ArchiveZIP · ZIPFiles6 · 3.9 KB (unpacked)Contents📁 items (5 · 3.3 KB)📁 document (1 · 758 B)📁 macro (1 · 389 B)📁 partxml (2 · 1.5 KB)📁 picture (1 · 660 B)manifest.xml648 BOpen",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      }
+    ],
+    "warnings": [],
+    "errors": [],
+    "shots": [
+      "sample-zip.edz.0-first.png",
+      "sample-zip.edz.1-Overview.png",
+      "sample-zip.edz.2-Parts_1_.png",
+      "sample-zip.edz.2b-document.png",
+      "sample-zip.edz.3-Contents.png"
+    ],
+    "pass": true
+  },
+  {
+    "file": "samples/sample.edz",
+    "state": "ready",
+    "ms": 180,
+    "info": "EPLAN Data Portal part package · 1 parts · 2.4 KB",
+    "tabs": [
+      {
+        "label": "Overview",
+        "text": "Part data, pictures and PDF documents are shown as stored. Macros (.ema) are EPLAN PXF graphics that cannot be drawn here; only their names and variants are listed.KindEPLAN Data Portal part packageManifest version2.0Packagespart 1Files in the archive6File size2.4 KBManufacturerclass12shortnameORCAname1Orca Sample Parts (synthetic)cityNowhere",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "Parts (1)",
+        "text": "ORCA.TB-100document, macro, pictureORCA.TB-100TB-100.png · 660 BPart dataPart numberORCA.TB-100Type numberTB-100Order number100-0001ManufacturerORCASupplierORCADescription 1Feed-through terminal 2.5 mm²NoteSynthetic sample made for the File Preview pluginProduct group15Width5.2 mmHeight48 mmDepth42 mmWeight0.007 kgGraphic macro$(MD_MACROS)\\Orca\\TB-100.emaGroup symbol macro$(MD_MACROS)\\Orca\\TB-100.",
+        "ok": true,
+        "detail": " · opened document: items/document/Orca/TB-100_en.pdf · 758 B",
+        "warnings": []
+      },
+      {
+        "label": "Contents",
+        "text": "Archive7z · LZMAFiles6 · 3.9 KB (unpacked)Contents📁 items (5 · 3.3 KB)📁 document (1 · 758 B)📁 macro (1 · 389 B)📁 partxml (2 · 1.5 KB)📁 picture (1 · 660 B)manifest.xml648 BOpen",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      }
+    ],
+    "warnings": [],
+    "errors": [],
+    "shots": [
+      "sample.edz.0-first.png",
+      "sample.edz.1-Overview.png",
+      "sample.edz.2-Parts_1_.png",
+      "sample.edz.2b-document.png",
+      "sample.edz.3-Contents.png"
+    ],
+    "pass": true
+  },
+  {
+    "file": "samples/sample.elk",
+    "state": "ready",
+    "ms": 199,
+    "info": "EPLAN project · database 18.0 · 44 B",
+    "tabs": [
+      {
+        "label": "EPLAN project",
+        "text": "This .elk file is a link to a project. The project data (pages, devices, parts) lives in the \"Orca_Sample.edb\" directory next to it, which this preview cannot see. Open a backup (.zw1) of the project to see its contents.KindEPLAN projectData directoryOrca_Sample.edbDatabase version18.0EncodingUTF-16LEFile size44 B",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      }
+    ],
+    "warnings": [],
+    "errors": [],
+    "shots": [
+      "sample.elk.0-first.png",
+      "sample.elk.1-EPLAN_project.png"
+    ],
+    "pass": true
+  },
+  {
+    "file": "samples/sample.sldasm",
+    "state": "ready",
+    "ms": 191,
+    "info": "SolidWorks Assembly · SolidWorks 2025 · 3.9 KB",
+    "tabs": [
+      {
+        "label": "Overview",
+        "text": "SolidWorks geometry (a Parasolid B-rep) cannot be rebuilt without SolidWorks. This preview shows the pictures, properties and structure stored in the file. There is no 3D view for assemblies: the component meshes stored in the file carry no placement.Saved preview picturesPreview (PNG) · 1.1 KBDocumentTypeAssemblyLast saved withSolidWorks 2025Created withSolidWorks 2025ContainerSolidWorks 2015+ fo",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "Properties",
+        "text": "SummaryTitleOrca frameAuthorFile PreviewLast saved byFile PreviewCreated2026-11-20 09:00:00 UTCLast saved2026-11-26 09:30:00 UTCApplicationSOLIDWORKSApplication version24.0000Custom propertiesProjectPreview samplesSolidWorks document information (3)SW-File NameOrca frameSW-AuthorFile PreviewSW_UnitsLinear0Save historySolidWorks 2025build 2025/261 · created with this release",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "References & configurations",
+        "text": "Configurations (1)Defaultlast activeFiles the assembly references (2)Paths are as they were on the computer that saved the file.C:\\Samples\\Orca-Bracket.SLDPRTPARTC:\\Samples\\Orca-Rail.SLDPRTPARTComponent instances (3)Orca-Bracket-1Orca-Bracket-2Orca-Rail-1Features (1)Feature names and types only, not in tree order; feature definitions are not interpreted.MatesMateGroup",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "File structure",
+        "text": "SolidWorks 2015+ format: a ZIP-like container with disguised names; each stream is deflate-compressed.Streams (11)📁 _MO_VERSION_18000 (1 · 101 B)History101 B · deflate📁 Contents (2 · 576 B)Config-0-MatesList64 B · deflateDisplayLists512 B · deflate📁 docProps (4 · 1.5 KB)app.xml233 B · deflatecore.xml496 B · deflatecustom.xml386 B · deflateISolidWorksInformation.xml453 B · deflate📁 FaceTessella",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      }
+    ],
+    "warnings": [],
+    "errors": [],
+    "shots": [
+      "sample.sldasm.0-first.png",
+      "sample.sldasm.1-Overview.png",
+      "sample.sldasm.2-Properties.png",
+      "sample.sldasm.3-References_configurations.png",
+      "sample.sldasm.4-File_structure.png"
+    ],
+    "pass": true
+  },
+  {
+    "file": "samples/sample.slddrw",
+    "state": "ready",
+    "ms": 177,
+    "info": "SolidWorks Drawing · SolidWorks 2024 · 3.5 KB",
+    "tabs": [
+      {
+        "label": "Overview",
+        "text": "SolidWorks geometry (a Parasolid B-rep) cannot be rebuilt without SolidWorks. This preview shows the pictures, properties and structure stored in the file. Drawing sheets are shown only as the sheet pictures SolidWorks saved; views, dimensions and notes are not redrawn.Saved preview picturesPreview (PNG) · 913 BSheet_0 · 1.3 KBDocumentTypeDrawingLast saved withSolidWorks 2024Created withSolidWorks",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "Properties",
+        "text": "SummaryTitleOrca bracket drawingAuthorFile PreviewLast saved byFile PreviewCreated2026-11-20 09:00:00 UTCLast saved2026-11-26 09:30:00 UTCApplicationSOLIDWORKSApplication version24.0000Custom propertiesDrawnByFPScale1:1SolidWorks document information (3)SW-File NameOrca bracket drawingSW-AuthorFile PreviewSW_UnitsLinear0Save historySolidWorks 2024build 2024/078 · created with this release",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "References & configurations",
+        "text": "Models the drawing views reference (1)Paths are as they were on the computer that saved the file.C:\\Samples\\Orca-Bracket.SLDPRTPART",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "File structure",
+        "text": "SolidWorks 2015+ format: a ZIP-like container with disguised names; each stream is deflate-compressed.Streams (9)📁 _MO_VERSION_17000 (1 · 101 B)History101 B · deflate📁 docProps (4 · 1.6 KB)app.xml233 B · deflatecore.xml506 B · deflatecustom.xml439 B · deflateISolidWorksInformation.xml463 B · deflate📁 Images (1 · 1.3 KB)Sheet_01.3 KB · deflate📁 SheetPreviews (1 · 22 B)SheetNames22 B · deflate📁",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      }
+    ],
+    "warnings": [],
+    "errors": [],
+    "shots": [
+      "sample.slddrw.0-first.png",
+      "sample.slddrw.1-Overview.png",
+      "sample.slddrw.2-Properties.png",
+      "sample.slddrw.3-References_configurations.png",
+      "sample.slddrw.4-File_structure.png"
+    ],
+    "pass": true
+  },
+  {
+    "file": "samples/sample.sldprt",
+    "state": "ready",
+    "ms": 178,
+    "info": "SolidWorks Part · SolidWorks 2024 · 4.2 KB",
+    "tabs": [
+      {
+        "label": "Overview",
+        "text": "SolidWorks geometry (a Parasolid B-rep) cannot be rebuilt without SolidWorks. This preview shows the pictures, properties and structure stored in the file. The 3D tab draws the display mesh (triangles) SolidWorks saved: not exact surfaces, and bodies saved without display data are missing.Saved preview picturesPreview (PNG) · 1.1 KBView the 3D display meshDocumentTypePartLast saved withSolidWorks ",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "3D display mesh",
+        "text": "The display mesh SolidWorks saved (12 faces). Curved surfaces are approximated by triangles; colours and materials are not applied.3D display mesh · SolidWorks display mesh · 24 triangles · 48 vertices · 60 × 50 × 40 mm · 4.2 KB⤢▦◆#Z↑⟳?◐ Theme□ Light■ Dark .fp-3d-stage { position: absolute; inset: 0; overflow: hidden; } .fp-3d-stage > canvas { display: block; width: 100%; height: 100%; touch-actio",
+        "ok": true,
+        "detail": "3D display mesh · SolidWorks display mesh · 24 triangles · 48 vertices · 60 × 50 × 40 mm · 4.2 KB",
+        "warnings": []
+      },
+      {
+        "label": "Properties",
+        "text": "SummaryTitleOrca bracketAuthorFile PreviewLast saved byFile PreviewCreated2026-11-20 09:00:00 UTCLast saved2026-11-26 09:30:00 UTCApplicationSOLIDWORKSApplication version24.0000Custom propertiesMaterialAISI 304PartNoFP-1001RevisionBSolidWorks document information (3)SW-File NameOrca bracketSW-AuthorFile PreviewSW_UnitsLinear0Save historySolidWorks 2022build 2022/009 · created with this releaseSoli",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "Configurations & features",
+        "text": "Configurations (2)DefaultLongFeatures (6)Feature names and types only, not in tree order; feature definitions are not interpreted.Front PlaneRefPlaneTop PlaneRefPlaneRight PlaneRefPlaneBase-ExtrudeExtrusionUprightExtrusionFillet1Fillet",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "File structure",
+        "text": "SolidWorks 2015+ format: a ZIP-like container with disguised names; each stream is deflate-compressed.Streams (12)📁 _DL_VERSION_17000 (1 · 6 B)DLUpdateStamp6 B · deflate📁 _MO_VERSION_17000 (1 · 129 B)History129 B · deflate📁 Contents (2 · 4.3 KB)CusProps16 B · deflateDisplayLists4.3 KB · deflate📁 docProps (4 · 1.7 KB)app.xml233 B · deflatecore.xml498 B · deflatecustom.xml518 B · deflateISolidWo",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      }
+    ],
+    "warnings": [],
+    "errors": [],
+    "shots": [
+      "sample.sldprt.0-first.png",
+      "sample.sldprt.1-Overview.png",
+      "sample.sldprt.2-3D_display_mesh.png",
+      "sample.sldprt.3-Properties.png",
+      "sample.sldprt.4-Configurations_features.png",
+      "sample.sldprt.5-File_structure.png"
+    ],
+    "pass": true
+  },
+  {
+    "file": "samples/sample.zw1",
+    "state": "ready",
+    "ms": 180,
+    "info": "EPLAN project backup · EPLAN 2026.0.3 · 1.0 KB",
+    "tabs": [
+      {
+        "label": "Overview",
+        "text": "Schematic pages are stored in EPLAN’s own binary databases and cannot be drawn. The project properties, page descriptions, pictures and the archive contents are shown.KindEPLAN project backupProject descriptionTest benchProject numberFP-0001CompanyOrca File Preview (synthetic)Created byFPCreated2025-11-26 09:00:00 UTCModified2025-11-26 10:00:00 UTCLast saved with EPLAN2026.0.3EPLAN build25581Backu",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "Pages",
+        "text": "Page descriptions found in Page.eod, in stored order. Page numbers and the schematic content are not decoded, and pages without a description do not appear.Title pageTable of contents400 V feed-in24 V control voltageTerminal diagram",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "Pictures & documents (1)",
+        "text": "Images/orca-logo.png · 336 B",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "Project properties (8)",
+        "text": "Every value in ProjectInfo.xml. Property names are in the language of the EPLAN that saved the project.Project description [10011]Test benchProject number [10013]FP-0001Company name [10015]Orca File Preview (synthetic)Creator [10020]FPCreation date [10021]1764147600Modification date [10023]1764151200Last EPLAN version [10043]2026.0.3Last EPLAN build [10044]25581",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "Contents",
+        "text": "Archive7z · LZMA, LZMA2 · solidFiles6 · 2.0 KB (unpacked)Contents📁 Images (1 · 336 B)orca-logo.png336 BOpen_COMMENT.TXT60 BOpen_elkfile.elk44 BA_BAKINFO.XML178 BOpenPage.eod664 BProjectInfo.xml792 BOpen",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      }
+    ],
+    "warnings": [],
+    "errors": [],
+    "shots": [
+      "sample.zw1.0-first.png",
+      "sample.zw1.1-Overview.png",
+      "sample.zw1.2-Pages.png",
+      "sample.zw1.3-Pictures_documents_1_.png",
+      "sample.zw1.4-Project_properties_8_.png",
+      "sample.zw1.5-Contents.png"
+    ],
+    "pass": true
+  },
+  {
+    "file": ".orca/corpus/sw/smart-servo.SLDPRT",
+    "state": "ready",
+    "ms": 276,
+    "info": "SolidWorks Part · SolidWorks 2024 · 148.0 KB",
+    "tabs": [
+      {
+        "label": "Overview",
+        "text": "SolidWorks geometry (a Parasolid B-rep) cannot be rebuilt without SolidWorks. This preview shows the pictures, properties and structure stored in the file. The 3D tab draws the display mesh (triangles) SolidWorks saved: not exact surfaces, and bodies saved without display data are missing.Saved preview picturesPreview (PNG) · 28.6 KBView the 3D display meshDocumentTypePartLast saved withSolidWorks",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "3D display mesh",
+        "text": "The display mesh SolidWorks saved (32 faces). Curved surfaces are approximated by triangles; colours and materials are not applied.3D display mesh · SolidWorks display mesh · 1,406 triangles · 1,828 vertices · 20.3 × 10 × 30.33 mm · 148.0 KB⤢▦◆#Z↑⟳?◐ Theme□ Light■ Dark .fp-3d-stage { position: absolute; inset: 0; overflow: hidden; } .fp-3d-stage > canvas { display: block; width: 100%; height: 100%",
+        "ok": true,
+        "detail": "3D display mesh · SolidWorks display mesh · 1,406 triangles · 1,828 vertices · 20.3 × 10 × 30.33 mm · 148.0 KB",
+        "warnings": []
+      },
+      {
+        "label": "Properties",
+        "text": "SummaryLast saved byzyz98Created2026-07-30 14:25:48 UTCLast saved2026-07-30 17:51:51 UTCTotal editing time (min)1526ApplicationSOLIDWORKSCompanyDassault Systèmes SolidWorks CorporationApplication version23.0000Custom propertiesNoneSolidWorks document information (46)SW-File Name3SW-BOM Part Number3SW-Folder NameC:\\MY\\Prj\\Class\\Mechanichal\\SW-Short Date2026/7/31SW-Long Date2026年7月31日SW-Configuratio",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "Configurations & features",
+        "text": "Configurations (1)默认last activeFeatures (23)Feature names and types only, not in tree order; feature definitions are not interpreted.注解注解曲面实体曲面实体材质 <未指定>SOLIDWORKS 材料环境光源环境光源线光源1线光源圆角2圆角注释注释注释1注释线光源2线光源标注标注传感器传感器收藏收藏历史记录历史记录选择集选择集线光源3线光源方程式方程式前视基准面基准面上视基准面基准面右视基准面基准面光源与相机光源与相机设计活页夹设计活页夹评论评论实体实体",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "File structure",
+        "text": "SolidWorks 2015+ format: a ZIP-like container with disguised names; each stream is deflate-compressed.Streams (43)📁 _DL_VERSION_17000 (1 · 6 B)DLUpdateStamp6 B · deflate📁 _MO_VERSION_17000 (2 · 1.8 KB)Biography1.7 KB · deflateHistory101 B · deflate📁 _rels (1 · 597 B).rels597 B · deflate📁 Contents (17 · 313.4 KB)3DExperienceExchange_ConfigHeader12.0 KB · deflate3DExperienceExchange212.0 KB · de",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      }
+    ],
+    "warnings": [],
+    "errors": [],
+    "shots": [
+      "smart-servo.SLDPRT.0-first.png",
+      "smart-servo.SLDPRT.1-Overview.png",
+      "smart-servo.SLDPRT.2-3D_display_mesh.png",
+      "smart-servo.SLDPRT.3-Properties.png",
+      "smart-servo.SLDPRT.4-Configurations_features.png",
+      "smart-servo.SLDPRT.5-File_structure.png"
+    ],
+    "pass": true
+  },
+  {
+    "file": ".orca/corpus/sw/arig-oled.SLDPRT",
+    "state": "ready",
+    "ms": 201,
+    "info": "SolidWorks Part · SolidWorks 2018 · 1.8 MB",
+    "tabs": [
+      {
+        "label": "Overview",
+        "text": "SolidWorks geometry (a Parasolid B-rep) cannot be rebuilt without SolidWorks. This preview shows the pictures, properties and structure stored in the file. The 3D tab draws the display mesh (triangles) SolidWorks saved: not exact surfaces, and bodies saved without display data are missing.Saved preview picturesPreview (PNG) · 38.0 KBView the 3D display meshDocumentTypePartLast saved withSolidWorks",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "3D display mesh",
+        "text": "The display mesh SolidWorks saved (2,512 faces). Curved surfaces are approximated by triangles; colours and materials are not applied.3D display mesh · SolidWorks display mesh · 22,008 triangles · 33,614 vertices · 34.48 × 20.57 × 3.3 mm · 1.8 MB⤢▦◆#Z↑⟳?◐ Theme□ Light■ Dark .fp-3d-stage { position: absolute; inset: 0; overflow: hidden; } .fp-3d-stage > canvas { display: block; width: 100%; height:",
+        "ok": true,
+        "detail": "3D display mesh · SolidWorks display mesh · 22,008 triangles · 33,614 vertices · 34.48 × 20.57 × 3.3 mm · 1.8 MB",
+        "warnings": []
+      },
+      {
+        "label": "Properties",
+        "text": "SummaryLast saved byGuilleCreated2019-01-28 23:19:22 UTCLast saved2019-10-12 00:16:50 UTCTotal editing time (min)1526ApplicationSOLIDWORKSCompanyDassault Systèmes SolidWorks CorporationApplication version23.0000Custom propertiesNoneSolidWorks document information (16)SW-File NameEcran_128x32oledSW-Folder NameE:\\Doc Utilisateur\\Guillaume\\Documents\\robot\\Composants du commerce\\SW-Date courte12/10/20",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "Configurations & features",
+        "text": "Configurations (1)Défautlast activeFeatures (135)Feature names and types only, not in tree order; feature definitions are not interpreted.AnnotationsAnnotationsCorps surfaciquesCorps surfaciquesImportée79ImportéeImportée80ImportéeImportée81ImportéeImportée82ImportéeImportée83ImportéeImportée84ImportéeImportée85ImportéeImportée86ImportéeImportée87ImportéeImportée88ImportéeMatériau <non spécifié>Mat",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "File structure",
+        "text": "SolidWorks 2015+ format: a ZIP-like container with disguised names; each stream is deflate-compressed.Streams (43)📁 _DL_VERSION_11000 (1 · 6 B)DLUpdateStamp6 B · deflate📁 _MO_VERSION_11000 (3 · 2.9 KB)AssyVisualData4 B · deflateBiography2.8 KB · deflateHistory129 B · deflate📁 _rels (1 · 597 B).rels597 B · deflate📁 Config-0-FeatureBodies (1 · 1.1 MB)LocalBodies1.1 MB · deflate📁 Contents (16 · ",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      }
+    ],
+    "warnings": [],
+    "errors": [],
+    "shots": [
+      "arig-oled.SLDPRT.0-first.png",
+      "arig-oled.SLDPRT.1-Overview.png",
+      "arig-oled.SLDPRT.2-3D_display_mesh.png",
+      "arig-oled.SLDPRT.3-Properties.png",
+      "arig-oled.SLDPRT.4-Configurations_features.png",
+      "arig-oled.SLDPRT.5-File_structure.png"
+    ],
+    "pass": true
+  },
+  {
+    "file": ".orca/corpus/sw/arig-0049.SLDPRT",
+    "state": "ready",
+    "ms": 195,
+    "info": "SolidWorks Part · SolidWorks 2014 · 212.0 KB",
+    "tabs": [
+      {
+        "label": "Overview",
+        "text": "SolidWorks geometry (a Parasolid B-rep) cannot be rebuilt without SolidWorks. This preview shows the pictures, properties and structure stored in the file. The 3D tab draws the display mesh (triangles) SolidWorks saved: not exact surfaces, and bodies saved without display data are missing.Saved preview picturesPreview (PNG) · 17.1 KBView the 3D display meshDocumentTypePartLast saved withSolidWorks",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "3D display mesh",
+        "text": "The display mesh SolidWorks saved (26 faces). Curved surfaces are approximated by triangles; colours and materials are not applied.3D display mesh · SolidWorks display mesh · 668 triangles · 864 vertices · 178.1 × 32 × 17 mm · 212.0 KB⤢▦◆#Z↑⟳?◐ Theme□ Light■ Dark .fp-3d-stage { position: absolute; inset: 0; overflow: hidden; } .fp-3d-stage > canvas { display: block; width: 100%; height: 100%; touc",
+        "ok": true,
+        "detail": "3D display mesh · SolidWorks display mesh · 668 triangles · 864 vertices · 178.1 × 32 × 17 mm · 212.0 KB",
+        "warnings": []
+      },
+      {
+        "label": "Properties",
+        "text": "SummaryLast savedjeudi 14 mars 2019 00:01:01Last saved byGuilleCustom propertiesNoneSolidWorks document information (15)SW-Nom de fichier(File Name)20190309-0049SW-Nom du dossier(Folder Name)E:\\Doc Utilisateur\\Guillaume\\Documents\\robot\\2019\\CAO\\SW-Short Date14/03/2019SW-Long Datejeudi 14 mars 2019SW-Nom de la configuration(Configuration Name)DéfautSW-Date de création(Created Date)samedi 9 mars 201",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "Configurations & features",
+        "text": "Configurations (1)Défautlast activeFeatures (20)Feature names and types only, not in tree order; feature definitions are not interpreted.AnnotationsAnnotationsCorps surfaciquesCorps surfaciquesABSMatériaux SolidWorksAmbianteAmbianteDirectionnelle1DirectionnelleDirectionnelle2DirectionnelleDirectionnelle3DirectionnelleEquationsEquationsCapteursCapteursPlan de facePlanFavorisFavorisHistoriqueHistori",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "File structure",
+        "text": "An OLE compound file; streams named …__ZLB are zlib-framed.Streams (36)📁 _DL_VERSION_7000 (1 · 6 B)DLUpdateStamp6 B📁 _MO_VERSION_7000 (3 · 2.8 KB)AssyVisualData4 BBiography2.7 KBHistory101 B📁 3DCCXmlContents (0 · 0 B)📁 Contents (14 · 120.5 KB)CMgr2.4 KBCMgrHdr2117 BCnfgObjs8 BConfig-023.8 KBConfig-0-GhostPartition669 BConfig-0-LWDATA1.4 KBConfig-0-Partition22.7 KBConfig-0-ResolvedFeatures49.0 ",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      }
+    ],
+    "warnings": [],
+    "errors": [],
+    "shots": [
+      "arig-0049.SLDPRT.0-first.png",
+      "arig-0049.SLDPRT.1-Overview.png",
+      "arig-0049.SLDPRT.2-3D_display_mesh.png",
+      "arig-0049.SLDPRT.3-Properties.png",
+      "arig-0049.SLDPRT.4-Configurations_features.png",
+      "arig-0049.SLDPRT.5-File_structure.png"
+    ],
+    "pass": true
+  },
+  {
+    "file": ".orca/corpus/sw/ergos-tether.SLDASM",
+    "state": "ready",
+    "ms": 194,
+    "info": "SolidWorks Assembly · SolidWorks 2025 · 330.8 KB",
+    "tabs": [
+      {
+        "label": "Overview",
+        "text": "SolidWorks geometry (a Parasolid B-rep) cannot be rebuilt without SolidWorks. This preview shows the pictures, properties and structure stored in the file. There is no 3D view for assemblies: the component meshes stored in the file carry no placement.Saved preview picturesPreview (PNG) · 31.1 KBDocumentTypeAssemblyLast saved withSolidWorks 2025Created withSolidWorks 2025ContainerSolidWorks 2015+ f",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "Properties",
+        "text": "SummaryLast saved byBryan HeddleCreated2026-05-07 23:00:12 UTCLast saved2026-05-08 02:22:28 UTCTotal editing time (min)1526ApplicationSOLIDWORKSCompanyDassault Systèmes SolidWorks CorporationApplication version23.0000Custom propertiesNoneSolidWorks document information (48)SW-File NameTether_AssemblySW-BOM Part NumberTether_AssemblySW-Folder NameC:\\Users\\Bryan Heddle\\OneDrive\\Desktop\\Ergos-Dynamic",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "References & configurations",
+        "text": "Configurations (1)Defaultlast activeFiles the assembly references (10)Paths are as they were on the computer that saved the file.C:\\Users\\Bryan Heddle\\OneDrive\\Desktop\\Ergos-Dynamic-Humanoid-Platform\\mechanical\\ERGOS_Tether_V1\\Tubing-connector.SLDPRTPARTC:\\Users\\Bryan Heddle\\OneDrive\\Desktop\\Ergos-Dynamic-Humanoid-Platform\\mechanical\\ERGOS_Tether_V1\\caster-2inch.SLDASMASSEMBLYC:\\Users\\Bryan Heddle",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "File structure",
+        "text": "SolidWorks 2015+ format: a ZIP-like container with disguised names; each stream is deflate-compressed.Streams (44)📁 _DL_VERSION_18000 (1 · 6 B)DLUpdateStamp6 B · deflate📁 _MO_VERSION_18000 (2 · 2.0 KB)Biography1.9 KB · deflateHistory101 B · deflate📁 _rels (1 · 597 B).rels597 B · deflate📁 Contents (18 · 577.8 KB)3DExperienceExchange_ConfigHeader12.0 KB · deflate3DExperienceExchange236.0 KB · de",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      }
+    ],
+    "warnings": [],
+    "errors": [],
+    "shots": [
+      "ergos-tether.SLDASM.0-first.png",
+      "ergos-tether.SLDASM.1-Overview.png",
+      "ergos-tether.SLDASM.2-Properties.png",
+      "ergos-tether.SLDASM.3-References_configurations.png",
+      "ergos-tether.SLDASM.4-File_structure.png"
+    ],
+    "pass": true
+  },
+  {
+    "file": ".orca/corpus/sw/ergos-jetson.SLDDRW",
+    "state": "ready",
+    "ms": 206,
+    "info": "SolidWorks Drawing · SolidWorks 2024 · 7.4 MB",
+    "tabs": [
+      {
+        "label": "Overview",
+        "text": "SolidWorks geometry (a Parasolid B-rep) cannot be rebuilt without SolidWorks. This preview shows the pictures, properties and structure stored in the file. Drawing sheets are shown only as the sheet pictures SolidWorks saved; views, dimensions and notes are not redrawn.Saved preview picturesPreview (PNG) · 15.1 KBSheet_0 · 16.6 KBDocumentTypeDrawingLast saved withSolidWorks 2024Created withSolidWo",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "Properties",
+        "text": "SummaryLast saved byBryan HeddleCreated2025-04-10 20:10:14 UTCLast saved2025-04-10 20:53:13 UTCTotal editing time (min)1526ApplicationSOLIDWORKSCompanyDassault Systèmes SolidWorks CorporationApplication version23.0000Custom propertiesSWFormatSize297mm*420mmSolidWorks document information (58)SW-File NameJetson_nano_4GB_DrawingSW-BOM Part NumberJetson_nano_4GB_DrawingSW-Folder NameC:\\Users\\Bryan He",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "References & configurations",
+        "text": "Configurations (1)Defaultlast activeModels the drawing views reference (74)Paths are as they were on the computer that saved the file.C:\\Users\\Bryan Heddle\\AppData\\Local\\Temp\\swx26512\\IC~~\\Jetson nano 4GB.step.SLDASMASSEMBLY · imported from C:\\Users\\Bryan Heddle\\OneDrive\\Desktop\\Robot_Project\\Mark2\\Jetson nano 4GB.stepC:\\Users\\Bryan Heddle\\AppData\\Local\\Temp\\swx26512\\IC~~\\142-13449-1000-A02_ASM.st",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "File structure",
+        "text": "SolidWorks 2015+ format: a ZIP-like container with disguised names; each stream is deflate-compressed.Streams (31)📁 _DL_VERSION_17000 (1 · 6 B)DLUpdateStamp6 B · deflate📁 _MO_VERSION_17000 (2 · 2.4 KB)Biography2.3 KB · deflateHistory101 B · deflate📁 _rels (1 · 597 B).rels597 B · deflate📁 Contents (8 · 51.2 MB)3DExperienceExchange212.0 KB · deflateCusProps320 B · deflateDefinition15.6 MB · defl",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      }
+    ],
+    "warnings": [],
+    "errors": [],
+    "shots": [
+      "ergos-jetson.SLDDRW.0-first.png",
+      "ergos-jetson.SLDDRW.1-Overview.png",
+      "ergos-jetson.SLDDRW.2-Properties.png",
+      "ergos-jetson.SLDDRW.3-References_configurations.png",
+      "ergos-jetson.SLDDRW.4-File_structure.png"
+    ],
+    "pass": true
+  },
+  {
+    "file": ".orca/corpus/sw/poi-TestSolidWorks.sldprt",
+    "state": "ready",
+    "ms": 187,
+    "info": "SolidWorks Part · SolidWorks 2003 · 165.0 KB",
+    "tabs": [
+      {
+        "label": "Overview",
+        "text": "SolidWorks geometry (a Parasolid B-rep) cannot be rebuilt without SolidWorks. This preview shows the pictures, properties and structure stored in the file. This file (SolidWorks 2001 or older) stores its display mesh with the old PKWARE implode compression, so there is no 3D view.Saved preview picturesPreview (bitmap) · 18.9 KBDocumentTypePartLast saved withSolidWorks 2003ContainerOLE compound fil",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "Properties",
+        "text": "Custom propertiesNoneSolidWorks document information (30)Save historySolidWorks 98+build 1998/293SolidWorks 98+build 1999/207SolidWorks 2000build 2000/104SolidWorks 2001build 2001/232SolidWorks 2001 Plusbuild 2002/127SolidWorks 2003build 2003/064",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "File structure",
+        "text": "An OLE compound file; streams named …__ZLB are zlib-framed.Streams (18)📁 _DL_VERSION_1950 (1 · 6 B)DLUpdateStamp6 B📁 _MO_VERSION_2200 (2 · 7.0 KB)Biography6.7 KBHistory249 B📁 Contents (8 · 59.3 KB)CMgr431 BCMgrHdr2109 BConfig-035.8 KBConfig-0-Body8.2 KBDefinition2.8 KBDisplayLists11.8 KB · implode (not read)OleItems4 BPrinting248 B📁 ThirdPty (1 · 0 B)CimSwBrowserPart0 B📁 ThirdPtyStore (0 · 0 ",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      }
+    ],
+    "warnings": [],
+    "errors": [],
+    "shots": [
+      "poi-TestSolidWorks.sldprt.0-first.png",
+      "poi-TestSolidWorks.sldprt.1-Overview.png",
+      "poi-TestSolidWorks.sldprt.2-Properties.png",
+      "poi-TestSolidWorks.sldprt.3-File_structure.png"
+    ],
+    "pass": true
+  },
+  {
+    "file": ".orca/corpus/eplan/ia-cdp_place_only.zw1",
+    "state": "ready",
+    "ms": 2675,
+    "info": "EPLAN project backup · EPLAN 2026.0.3 · 17.2 MB",
+    "tabs": [
+      {
+        "label": "Overview",
+        "text": "Schematic pages are stored in EPLAN’s own binary databases and cannot be drawn. The project properties, page descriptions, pictures and the archive contents are shown.KindEPLAN project backupProject descriptionGrinding machineProject numberIEC_bas001Project typeGrinding machine, Type 1CompanyEPLAN GmbH & Co. KGInstallation siteHall 17 / Section BYear of construction2016/2017Created byEPLCreated202",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "Pages",
+        "text": "Page descriptions found in Page.eod, in stored order. Page numbers and the schematic content are not decoded, and pages without a description do not appear.400 / 230 V feed-in24 V device power supplyControlEmergency-stop switchEmergency-stop switchEnclosure lightEnclosure lightPower supply PCPower supply I/O moduleBus couplerI/O moduleI/O moduleI/O module24 V supply PLC signalsPower supply I/O mod",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "Pictures & documents (6)",
+        "text": "Images/bc146770/EPLAN.jpg · 98.2 KBImages/bc146770/Warning electric voltage.jpg · 7.7 KBImages/grinding plant top view_new.png · 16.2 KBImages/grinding plant.png · 62.5 KBImages/Sew_logo_rot.png · 38.4 KBImages/Warning electric voltage.jpg · 7.7 KB",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "Project properties (201)",
+        "text": "Every value in ProjectInfo.xml. Property names are in the language of the EPLAN that saved the project.对象标识 [2000]39/14/1/0项目结构: 高层代号 [10002]<1100><1101><1102><1103><1104><1105><1106><1107><1108><1109>项目结构: 位置代号 [10004]<1200><1201><1202><1203><1204><1205><1206><1207><1208><1209>项目结构: 文档类型 [10006]<1500>显示设备标识符结构的选项卡 [10008]0项目名称 (完整) [10009]C:\\Users\\Sloan\\Documents\\Eplan_2026_IA_MCP_scripts\\artifac",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      },
+      {
+        "label": "Contents",
+        "text": "Archive7z · LZMA, LZMA2 · solidFiles207 · 87.4 MB (unpacked)Contents📁 FctDefLib.fdb (22 · 2.4 MB)Blob.eod1.2 MBBlob.eox68.0 KBBlock.eod1 BBlock.eox16.0 KBFctDef.eod779.2 KBFctDef.eox48.0 KBFctDefCatNms.eod40.0 KBFctDefCatNms.eox16.0 KBFctDefCraftNms.eod1.2 KBFctDefCraftNms.eox20.0 KBFctDefGrpInf.eod149.1 KBFctDefGrpInf.eox24.0 KBFctDefLib.eod142 BFctDefLib.eox12.0 KBFctDefRegionNms.eod14.4 KBFctD",
+        "ok": true,
+        "detail": "",
+        "warnings": []
+      }
+    ],
+    "warnings": [],
+    "errors": [],
+    "shots": [
+      "ia-cdp_place_only.zw1.0-first.png",
+      "ia-cdp_place_only.zw1.1-Overview.png",
+      "ia-cdp_place_only.zw1.2-Pages.png",
+      "ia-cdp_place_only.zw1.3-Pictures_documents_6_.png",
+      "ia-cdp_place_only.zw1.4-Project_properties_201_.png",
+      "ia-cdp_place_only.zw1.5-Contents.png"
+    ],
+    "pass": true
+  }
+]
