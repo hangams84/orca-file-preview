@@ -108,7 +108,7 @@ Each cell: a fresh Orca install of that version → plugin install with approval
 
 | 환경 | 실행 | 결과 |
 | --- | --- | --- |
-| Ubuntu 22.04 / 24.04 | `bash tools/platform-test/run-docker.sh 22.04 24.04` (WSL2 또는 Linux의 Docker, Xvfb) | 9/9 · 9/9 |
+| Ubuntu 22.04 / 24.04 / 26.04 | `bash tools/platform-test/run-docker.sh 22.04 24.04 26.04` (WSL2 또는 Linux의 Docker, Xvfb) | 9/9 · 9/9 · 9/9 (26.04.1, Orca 1.4.277) |
 | macOS 15 (arm64) | GitHub Actions `platform-macos` 워크플로 (`gh workflow run platform-macos --ref ci/macos-orca`) | 12/12 |
 | Windows 11 | `node tools/verify.mjs --round <n>` (설치된 Orca 앱) | 10/10 |
 

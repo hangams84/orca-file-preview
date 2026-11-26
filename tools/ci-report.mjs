@@ -19,6 +19,7 @@ if (!dir || !existsSync(dir)) {
 
 const OS = [
   ['linux', 'Ubuntu 24.04 (Docker)'],
+  ['ubuntu2604', 'Ubuntu 26.04 (Docker)'],
   ['macos', 'macOS 15 arm64'],
   ['windows-2022', 'Windows 10 kernel (Server 2022)'],
   ['windows-2025', 'Windows 11 kernel (Server 2025)'],
@@ -36,7 +37,7 @@ for (const name of readdirSync(dir)) {
     if (!guard.checks?.[0]?.ok) failures.push('- Windows 7 guard: the installer did not refuse clearly')
     continue
   }
-  const m = name.match(/^result-(linux|macos|windows(?:-\d{4})?)-(\d+\.\d+\.\d+)$/)
+  const m = name.match(/^result-(linux|ubuntu2604|macos|windows(?:-\d{4})?)-(\d+\.\d+\.\d+)$/)
   if (!m) continue
   const [, os, version] = m
   const file = join(dir, name, 'results.json')

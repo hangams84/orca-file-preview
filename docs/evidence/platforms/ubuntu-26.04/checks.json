@@ -1,0 +1,47 @@
+[
+  {
+    "name": "Orca 1.4.277 desktop starts (Xvfb)",
+    "ok": true,
+    "detail": "{\"running\":true,\"pid\":41,\"desktopWindowStatus\":\"available\"}"
+  },
+  {
+    "name": "plugin install (folder, approval ap1-234798bc9747005bbe2c8b706e236784)",
+    "ok": true,
+    "detail": "\"idle\""
+  },
+  {
+    "name": "plugin listed and enabled",
+    "ok": true,
+    "detail": "status=idle editors=10"
+  },
+  {
+    "name": "plugin validate",
+    "ok": true,
+    "detail": "[]"
+  },
+  {
+    "name": "plugin test (unit, Node on ubuntu-26.04)",
+    "ok": true,
+    "detail": "ℹ pass 139 ℹ fail 0 "
+  },
+  {
+    "name": "plugin check (static)",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "editors mount in Orca without errors",
+    "ok": true,
+    "detail": "42 / 42 mounted; 36 open in Orca's own view first"
+  },
+  {
+    "name": "finished renders captured from open tabs",
+    "ok": true,
+    "detail": "8 / 8 window captures"
+  },
+  {
+    "name": "no error lines in the plugin log",
+    "ok": true,
+    "detail": "0 error lines"
+  }
+]
