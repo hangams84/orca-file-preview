@@ -1,0 +1,97 @@
+[
+  {
+    "name": "arm: idle draws nothing",
+    "ok": true,
+    "detail": "0 animation frames in 0.8 s"
+  },
+  {
+    "name": "arm: sliders move the robot",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "arm: slider value shown in degrees",
+    "ok": true,
+    "detail": "51.6°"
+  },
+  {
+    "name": "arm: reset pose restores the picture",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "arm: collision toggle changes the picture",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "arm: frames toggle changes the picture",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "arm: axes toggle changes the picture",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "arm: visual toggle hides the robot",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "arm: clicking a link in 3D selects it in the tree",
+    "ok": true,
+    "detail": "shoulder_link"
+  },
+  {
+    "name": "arm: clicking a tree row selects the link and shows its joint",
+    "ok": true,
+    "detail": "Link forearm_linkGeometry 2 visual · 1 collisionParent joint joint_3 (revolute) ← upper_arm_linkxyz / rpy 0 0 0.44 / 0 0"
+  },
+  {
+    "name": "arm: no page errors",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "gripper: driving finger_joint moves the mimic joints",
+    "ok": true,
+    "detail": "right_knuckle -40.1°, right_finger 40.1°"
+  },
+  {
+    "name": "gripper: meshes listed as not loaded",
+    "ok": true,
+    "detail": "Not loaded (external file) 4"
+  },
+  {
+    "name": "gripper: placeholders are labelled with file names",
+    "ok": true,
+    "detail": "4 labels"
+  },
+  {
+    "name": "gripper: no page errors",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "large: 141 links ready",
+    "ok": true,
+    "detail": "400 ms to ready, 132 sliders"
+  },
+  {
+    "name": "large: slider drag stays responsive",
+    "ok": true,
+    "detail": "median 33.3 ms per slider step (two frames)"
+  },
+  {
+    "name": "large: no page errors",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "phone: panel hidden by default and opens from the toolbar",
+    "ok": true,
+    "detail": ""
+  }
+]

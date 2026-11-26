@@ -79,8 +79,10 @@ keyword arguments in calls are not supported.
   move the arm, value shown in degrees, reset pose restores the exact picture; collision/frames/axes/visual toggles;
   clicking the robot in 3D selects a link in the tree; tree click shows the parent joint; gripper `finger_joint`
   drives three mimic joints (±40.1°); 4 mesh placeholders labelled and listed; `sample-large.urdf` (141 links,
-  132 sliders) ready in about 0.3 s with a median slider step of about 33 ms (two animation frames); phone panel.
+  132 sliders) ready in 0.3–0.4 s with a median slider step of about 33 ms (two animation frames); phone panel.
   Shots and [results.json](interact/results.json) in [`interact/`](interact/).
+- Whole harness (all formats): `node tools/harness/run.mjs --profiles desktop-dark,desktop-light,mobile-light,tablet-dark`
+  **508/508** (127 samples × 4 profiles).
 - Unit tests `plugin/editor/renderers/urdf/urdf.test.ts`: 12 tests (XML, expressions, xacro, URDF model, notes,
   failures, 2,000-link chain).
 
