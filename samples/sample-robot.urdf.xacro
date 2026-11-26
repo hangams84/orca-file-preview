@@ -1,0 +1,207 @@
+<?xml version="1.0"?>
+<!-- A xacro test robot: a four-wheel base with a pan-tilt head and a segmented arm built by a
+     recursive macro. It exercises args, properties (lazy, block, default), math, macros with
+     defaults, ^ and ^| forwarding, *block and **block parameters, insert_block, if/unless,
+     xacro:element, xacro:attribute, xacro:call and $(find). Written for File Preview's samples (MIT). -->
+<robot name="xacro_rover" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:arg name="prefix" default=""/>
+  <xacro:arg name="with_arm" default="true"/>
+  <xacro:arg name="segments" default="3"/>
+  <xacro:arg name="wheel_diameter" default="0.16"/>
+
+  <xacro:property name="prefix" value="$(arg prefix)"/>
+  <xacro:property name="M_PI" value="3.14159265358979"/>
+  <!-- lazy: uses a property defined further down -->
+  <xacro:property name="body_height" value="${body_width * 0.4}"/>
+  <xacro:property name="body_length" value="0.6"/>
+  <xacro:property name="body_width" value="0.4"/>
+  <xacro:property name="wheel_radius" value="${$(arg wheel_diameter) / 2}"/>
+  <xacro:property name="wheel_width" value="${max(0.04, wheel_radius * 0.4)}"/>
+  <xacro:property name="wheel_base" value="${body_length - 2 * wheel_radius + 0.02}"/>
+  <xacro:property name="track" value="${body_width + wheel_width + 0.01}"/>
+  <xacro:property name="segment_length" value="${0.5 / int('$(arg segments)')}"/>
+  <xacro:property name="head_tilt" value="${radians(-15)}"/>
+  <xacro:property name="default_color" value="0.3 0.3 0.3 1"/>
+  <xacro:property name="body_color" default="0.9 0.6 0.1 1"/>
+  <xacro:property name="body_color" default="0 0 1 1"/>  <!-- ignored: already defined -->
+  <xacro:property name="mesh_root" value="$(find rover_description)/meshes"/>
+  <xacro:property name="zero_origin">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:property>
+
+  <material name="body"><color rgba="${body_color}"/></material>
+  <material name="tyre"><color rgba="${default_color}"/></material>
+
+  <xacro:macro name="box_inertial" params="mass x y z">
+    <inertial>
+      <mass value="${mass}"/>
+      <inertia ixx="${mass * (y*y + z*z) / 12}" ixy="0" ixz="0"
+               iyy="${mass * (x*x + z*z) / 12}" iyz="0"
+               izz="${mass * (x*x + y*y) / 12}"/>
+    </inertial>
+  </xacro:macro>
+
+  <link name="${prefix}base_link">
+    <visual>
+      <xacro:insert_block name="zero_origin"/>
+      <geometry><box size="${body_length} ${body_width} ${body_height}"/></geometry>
+      <material name="body"/>
+    </visual>
+    <collision>
+      <geometry><box size="${body_length} ${body_width} ${body_height}"/></geometry>
+    </collision>
+    <xacro:box_inertial mass="${10 + 2.5}" x="${body_length}" y="${body_width}" z="${body_height}"/>
+  </link>
+
+  <!-- wheel macro: *joint_origin is a block, color forwards an outer property or falls back -->
+  <xacro:macro name="wheel" params="name x y reflect:=1 color:=^|${default_color} *joint_origin">
+    <link name="${prefix}${name}_wheel">
+      <visual>
+        <origin xyz="0 0 0" rpy="${M_PI/2} 0 0"/>
+        <geometry><cylinder radius="${wheel_radius}" length="${wheel_width}"/></geometry>
+        <material name="${name}_tyre"><color rgba="${color}"/></material>
+      </visual>
+      <xacro:unless value="${reflect > 0}">
+        <visual>
+          <origin xyz="0 ${-wheel_width/2 - 0.002} 0" rpy="${M_PI/2} 0 0"/>
+          <geometry><cylinder radius="${wheel_radius * 0.5}" length="0.004"/></geometry>
+          <material name="body"/>
+        </visual>
+      </xacro:unless>
+      <xacro:if value="${reflect > 0}">
+        <visual>
+          <origin xyz="0 ${wheel_width/2 + 0.002} 0" rpy="${M_PI/2} 0 0"/>
+          <geometry><cylinder radius="${wheel_radius * 0.5}" length="0.004"/></geometry>
+          <material name="body"/>
+        </visual>
+      </xacro:if>
+      <collision>
+        <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+        <geometry><cylinder radius="${wheel_radius}" length="${wheel_width}"/></geometry>
+      </collision>
+    </link>
+    <joint name="${prefix}${name}_wheel_joint" type="continuous">
+      <parent link="${prefix}base_link"/>
+      <child link="${prefix}${name}_wheel"/>
+      <xacro:insert_block name="joint_origin"/>
+      <axis xyz="0 1 0"/>
+    </joint>
+  </xacro:macro>
+
+  <xacro:wheel name="front_left" x="${wheel_base/2}" y="${track/2}">
+    <origin xyz="${wheel_base/2} ${track/2} ${-body_height/2}" rpy="0 0 0"/>
+  </xacro:wheel>
+  <xacro:wheel name="front_right" x="${wheel_base/2}" y="${-track/2}" reflect="-1">
+    <origin xyz="${wheel_base/2} ${-track/2} ${-body_height/2}" rpy="0 0 0"/>
+  </xacro:wheel>
+  <xacro:property name="color" value="0.1 0.5 0.1 1"/>
+  <xacro:wheel name="rear_left" x="${-wheel_base/2}" y="${track/2}">
+    <origin xyz="${-wheel_base/2} ${track/2} ${-body_height/2}" rpy="0 0 0"/>
+  </xacro:wheel>
+  <xacro:call macro="wheel" name="rear_right" x="${-wheel_base/2}" y="${-track/2}" reflect="${-1}">
+    <origin xyz="${-wheel_base/2} ${-track/2} ${-body_height/2}" rpy="0 0 0"/>
+  </xacro:call>
+
+  <!-- pan-tilt head: **content block inserted inside the tilt link -->
+  <xacro:macro name="pan_tilt" params="parent *mount **sensors">
+    <joint name="${prefix}pan_joint" type="revolute">
+      <parent link="${parent}"/>
+      <child link="${prefix}pan_link"/>
+      <xacro:insert_block name="mount"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="${-M_PI}" upper="${M_PI}" effort="5" velocity="${2*pi/3}"/>
+    </joint>
+    <link name="${prefix}pan_link">
+      <visual>
+        <origin xyz="0 0 0.03"/>
+        <geometry><cylinder radius="0.04" length="0.06"/></geometry>
+        <material name="tyre"/>
+      </visual>
+    </link>
+    <joint name="${prefix}tilt_joint" type="revolute">
+      <parent link="${prefix}pan_link"/>
+      <child link="${prefix}tilt_link"/>
+      <origin xyz="0 0 0.08" rpy="0 ${head_tilt} 0"/>
+      <axis xyz="0 1 0"/>
+      <limit lower="${radians(-45)}" upper="${radians(60)}" effort="5" velocity="1.0"/>
+    </joint>
+    <link name="${prefix}tilt_link">
+      <xacro:insert_block name="sensors"/>
+    </link>
+  </xacro:macro>
+
+  <xacro:pan_tilt parent="${prefix}base_link">
+    <origin xyz="${body_length/2 - 0.08} 0 ${body_height/2}" rpy="0 0 0"/>
+    <sensors>
+      <visual>
+        <geometry><box size="0.05 0.14 0.05"/></geometry>
+        <material name="body"/>
+      </visual>
+      <visual>
+        <origin xyz="0.03 ${-0.045} 0" rpy="0 ${pi/2} 0"/>
+        <geometry><cylinder radius="0.015" length="0.01"/></geometry>
+        <material name="tyre"/>
+      </visual>
+      <visual>
+        <origin xyz="0.03 0.045 0" rpy="0 ${pi/2} 0"/>
+        <geometry><cylinder radius="0.015" length="0.01"/></geometry>
+        <material name="tyre"/>
+      </visual>
+    </sensors>
+  </xacro:pan_tilt>
+
+  <!-- recursive macro: n segments of a planar arm, each shorter than the last -->
+  <xacro:macro name="segment" params="n parent index:=1 length:=${segment_length}">
+    <xacro:if value="${n > 0}">
+      <joint name="${prefix}arm_joint_${index}" type="revolute">
+        <parent link="${parent}"/>
+        <child link="${prefix}arm_link_${index}"/>
+        <origin xyz="${0 if index == 1 else length / 0.8} 0 ${0.02 if index == 1 else 0}" rpy="0 ${-pi/4 if index == 1 else pi/8} 0"/>
+        <axis xyz="0 1 0"/>
+        <limit lower="${-pi/2}" upper="${pi/2}" effort="10" velocity="1"/>
+      </joint>
+      <link name="${prefix}arm_link_${index}">
+        <visual>
+          <origin xyz="${length/2} 0 0" rpy="0 ${pi/2} 0"/>
+          <geometry><capsule radius="${0.03 * pow(0.8, index - 1)}" length="${length}"/></geometry>
+          <material name="arm_${index % 2}"><color rgba="${'0.2 0.4 0.9 1' if index % 2 else '0.9 0.9 0.9 1'}"/></material>
+        </visual>
+      </link>
+      <xacro:segment n="${n - 1}" parent="${prefix}arm_link_${index}" index="${index + 1}" length="${length * 0.8}"/>
+    </xacro:if>
+  </xacro:macro>
+
+  <xacro:if value="$(arg with_arm)">
+    <xacro:segment n="$(arg segments)" parent="${prefix}base_link"/>
+  </xacro:if>
+
+  <!-- xacro:element / xacro:attribute -->
+  <xacro:property name="sensor_tag" value="link"/>
+  <xacro:element xacro:name="${sensor_tag}" name="${prefix}imu_link">
+    <visual>
+      <geometry><box size="0.03 0.03 0.01"/></geometry>
+      <material name="imu"><color><xacro:attribute name="rgba" value="0.8 ${0.1 + 0.1} 0.2 1"/></color></material>
+    </visual>
+  </xacro:element>
+  <joint name="${prefix}imu_joint" type="fixed">
+    <parent link="${prefix}base_link"/>
+    <child link="${prefix}imu_link"/>
+    <origin xyz="${-body_length/4} 0 ${body_height/2 + 0.005}" rpy="0 0 ${atan2(1, 1)}"/>
+  </joint>
+
+  <!-- a mesh referenced through $(find): not loadable in the preview -->
+  <link name="${prefix}antenna_link">
+    <visual>
+      <geometry><mesh filename="${mesh_root}/antenna.stl" scale="0.001 0.001 0.001"/></geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.06"/>
+      <geometry><cylinder radius="0.006" length="0.12"/></geometry>
+    </collision>
+  </link>
+  <joint name="${prefix}antenna_joint" type="fixed">
+    <parent link="${prefix}base_link"/>
+    <child link="${prefix}antenna_link"/>
+    <origin xyz="${-body_length/2 + 0.04} ${body_width/2 - 0.04} ${body_height/2}"/>
+  </joint>
+</robot>

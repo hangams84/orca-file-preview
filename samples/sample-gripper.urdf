@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<!-- A two-finger gripper whose fingers follow one driven joint through <mimic>, with visual meshes
+     the preview cannot read (package://, file:// and relative paths). Most mesh links also have a
+     primitive collision shape. Written for File Preview's samples (MIT); the mesh files do not exist. -->
+<robot name="mimic_gripper">
+  <material name="dark"><color rgba="0.2 0.2 0.22 1"/></material>
+  <material name="pad"><color rgba="0.85 0.75 0.2 1"/></material>
+
+  <link name="gripper_base">
+    <visual>
+      <geometry><mesh filename="package://demo_gripper/meshes/visual/base.dae"/></geometry>
+      <material name="dark"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.04"/>
+      <geometry><box size="0.12 0.06 0.08"/></geometry>
+    </collision>
+  </link>
+
+  <!-- The driven joint -->
+  <joint name="finger_joint" type="revolute">
+    <parent link="gripper_base"/>
+    <child link="left_knuckle"/>
+    <origin xyz="0.03 0 0.08"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="0" upper="0.8" effort="10" velocity="1.5"/>
+  </joint>
+  <link name="left_knuckle">
+    <visual>
+      <origin xyz="0.01 0 0.025"/>
+      <geometry><box size="0.012 0.03 0.05"/></geometry>
+      <material name="dark"/>
+    </visual>
+  </link>
+  <joint name="left_finger_joint" type="revolute">
+    <parent link="left_knuckle"/>
+    <child link="left_finger"/>
+    <origin xyz="0.01 0 0.05"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-0.8" upper="0" effort="10" velocity="1.5"/>
+    <mimic joint="finger_joint" multiplier="-1" offset="0"/>
+  </joint>
+  <link name="left_finger">
+    <visual>
+      <origin xyz="0 0 0.03"/>
+      <geometry><mesh filename="file:///opt/robot/meshes/finger.stl" scale="0.001 0.001 0.001"/></geometry>
+      <material name="pad"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.03"/>
+      <geometry><box size="0.014 0.028 0.06"/></geometry>
+    </collision>
+  </link>
+
+  <joint name="right_knuckle_joint" type="revolute">
+    <parent link="gripper_base"/>
+    <child link="right_knuckle"/>
+    <origin xyz="-0.03 0 0.08"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-0.8" upper="0" effort="10" velocity="1.5"/>
+    <mimic joint="finger_joint" multiplier="-1"/>
+  </joint>
+  <link name="right_knuckle">
+    <visual>
+      <origin xyz="-0.01 0 0.025"/>
+      <geometry><box size="0.012 0.03 0.05"/></geometry>
+      <material name="dark"/>
+    </visual>
+  </link>
+  <!-- a mimic of a mimic -->
+  <joint name="right_finger_joint" type="revolute">
+    <parent link="right_knuckle"/>
+    <child link="right_finger"/>
+    <origin xyz="-0.01 0 0.05"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="0" upper="0.8" effort="10" velocity="1.5"/>
+    <mimic joint="right_knuckle_joint" multiplier="-1"/>
+  </joint>
+  <link name="right_finger">
+    <visual>
+      <origin xyz="0 0 0.03"/>
+      <geometry><mesh filename="meshes/finger.stl" scale="0.001 0.001 0.001"/></geometry>
+      <material name="pad"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.03"/>
+      <geometry><box size="0.014 0.028 0.06"/></geometry>
+    </collision>
+  </link>
+
+  <!-- a camera with only a mesh and no collision shape: drawn as a small marker -->
+  <joint name="camera_joint" type="fixed">
+    <parent link="gripper_base"/>
+    <child link="camera_link"/>
+    <origin xyz="0 0.045 0.03" rpy="0 0 1.5708"/>
+  </joint>
+  <link name="camera_link">
+    <visual>
+      <geometry><mesh filename="package://demo_gripper/meshes/camera.glb"/></geometry>
+    </visual>
+  </link>
+</robot>

@@ -3,6 +3,23 @@
 All notable changes per release. Each release on GitHub carries its verification results
 (`docs/release-notes/<tag>.md`) and SHA-256 checksums for every file.
 
+## [Unreleased]
+
+### Added
+- **Robot Preview** (`.urdf`, `.xacro`, `.urdf.xacro`): ROS robot descriptions in 3D with three.js. Own XML reader and
+  xacro processor following ROS 2 xacro 2.x (properties: lazy, block, `default`, `remove`, `scope`; args; macros with
+  `:=`, `^`, `^|` defaults, `*`/`**` blocks, `insert_block`, recursion, `xacro:call`; `if`/`unless`; `element`/
+  `attribute`; `$(arg)`, `$(find)` → `package://`, `$(optenv)`, `$(eval)`) with a safe Python-expression evaluator
+  (no `eval`/`new Function`). Output matches the PyPI `xacro` 2.1.1 package exactly on every comparable sample and on
+  the ROS `urdf_tutorial` files (`tools/urdf/xacro-compare.mjs`). URDF: box, cylinder, sphere, capsule, origins,
+  named/inline materials, fixed/revolute/continuous/prismatic/floating/planar joints, limits, mimic chains. UI: link/
+  joint tree, joint sliders (continuous ±π), reset pose, visual/collision/frames/joint-axes toggles, click-to-select in
+  3D, info bar (name, links, joints, DOF, extents). Meshes and `xacro:include` files cannot be read (the editor gets one
+  file): meshes become labelled translucent placeholders and are listed, includes and their macros become notes; a
+  macro-only xacro shows its macro list. Problems (missing links, two parents, loops, bad numbers) become notes.
+  Evidence: `docs/evidence/urdf/`.
+- three.js vendor bundle: geometry classes, `Raycaster`, `EdgesGeometry` added (+7 KB).
+
 ## [0.3.0] — 2026-11-26
 
 New viewers for CAD drawings, diagrams, electronics and engineering files, plus an Ubuntu 26.04 column in the Orca

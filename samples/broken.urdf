@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- Broken on purpose: the second link is never closed. -->
+<robot name="cut_off">
+  <link name="base_link">
+    <visual><geometry><box size="0.1 0.1 0.1"/></geometry></visual>
+  </link>
+  <link name="arm">
+    <visual><geometry><cylinder radius="0.02" length="0.3"/></geometry></visual>
+  <joint name="j" type="revolute">
+    <parent link="base_link"/>
+    <child link="arm"/>
+  </joint>
+</robot>

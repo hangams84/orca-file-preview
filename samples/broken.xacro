@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!-- Broken on purpose: the macro calls itself without a condition, so the expansion never ends.
+     The preview must stop with a friendly error, not hang. -->
+<robot name="runaway" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="chain" params="i">
+    <link name="link_${i}"/>
+    <xacro:chain i="${i + 1}"/>
+  </xacro:macro>
+  <link name="base_link"/>
+  <xacro:chain i="0"/>
+</robot>

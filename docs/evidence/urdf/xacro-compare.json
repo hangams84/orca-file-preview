@@ -1,0 +1,65 @@
+{
+  "reference": "xacro 2.1.1 (PyPI)",
+  "results": [
+    {
+      "name": "sample-include.xacro",
+      "skipped": "includes other files"
+    },
+    {
+      "name": "sample-macros.xacro",
+      "elements": 1,
+      "attrs": 0,
+      "sameAttrs": 0,
+      "textDiffs": [],
+      "links": 0,
+      "joints": 0,
+      "numbers": 0,
+      "sameNumbers": 0,
+      "modelDiffs": [],
+      "notes": [],
+      "ms": 2.3
+    },
+    {
+      "name": "sample-robot.urdf.xacro",
+      "elements": 195,
+      "attrs": 225,
+      "sameAttrs": 225,
+      "textDiffs": [],
+      "links": 12,
+      "joints": 11,
+      "numbers": 384,
+      "sameNumbers": 384,
+      "modelDiffs": [],
+      "notes": [],
+      "ms": 6.4
+    },
+    {
+      "name": "expressions.xacro",
+      "elements": 11,
+      "attrs": 74,
+      "sameAttrs": 74,
+      "textDiffs": [],
+      "links": 1,
+      "joints": 0,
+      "numbers": 0,
+      "sameNumbers": 0,
+      "modelDiffs": [],
+      "notes": [],
+      "ms": 2.1
+    },
+    {
+      "name": "scopes.xacro",
+      "elements": 29,
+      "attrs": 38,
+      "sameAttrs": 38,
+      "textDiffs": [],
+      "links": 7,
+      "joints": 1,
+      "numbers": 33,
+      "sameNumbers": 33,
+      "modelDiffs": [],
+      "notes": [],
+      "ms": 0.8
+    }
+  ]
+}

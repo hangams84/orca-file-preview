@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<!-- Scopes and macros: lazy properties, default, remove, scope="global"/"parent", lazy_eval,
+     dynamic scoping of macro bodies, local macros, ^ forwarding, block and multi-block params,
+     block properties, nested insert_block, xacro:call, element/attribute, if/unless forms. -->
+<robot name="scopes" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:arg name="flag" default="1"/>
+  <xacro:arg name="side" default="left"/>
+  <xacro:property name="a" value="${b + 1}"/>
+  <xacro:property name="b" value="10"/>
+  <xacro:property name="c" value="${a * 2}" lazy_eval="false"/>
+  <xacro:property name="gone" value="1"/>
+  <xacro:property name="gone" remove="true"/>
+  <xacro:property name="d" default="5"/>
+  <xacro:property name="d" default="6"/>
+  <xacro:property name="blk">
+    <origin xyz="1 2 3"/>
+    <axis xyz="0 0 1"/>
+  </xacro:property>
+
+  <xacro:macro name="setter" params="v">
+    <xacro:property name="from_macro" value="${v * 3}" scope="global"/>
+    <xacro:property name="to_parent" value="${v + 100}" scope="parent"/>
+    <xacro:property name="local_only" value="${v}"/>
+  </xacro:macro>
+  <xacro:setter v="2"/>
+
+  <xacro:macro name="outer" params="name size:=^|0.5 count:=^ *first **rest">
+    <xacro:macro name="inner" params="k">
+      <item k="${k}" seen="${name}_${size}_${count}"/>
+    </xacro:macro>
+    <link name="${name}">
+      <xacro:insert_block name="first"/>
+      <xacro:insert_block name="rest"/>
+      <xacro:inner k="1"/>
+      <xacro:inner k="${count}"/>
+      <xacro:insert_block name="blk"/>
+    </link>
+  </xacro:macro>
+
+  <xacro:property name="count" value="4"/>
+  <xacro:outer name="first_link">
+    <visual><geometry><box size="1 1 1"/></geometry></visual>
+    <bundle><collision><geometry><sphere radius="${b / 4}"/></geometry></collision><extra/></bundle>
+  </xacro:outer>
+  <xacro:property name="size" value="0.75"/>
+  <xacro:call macro="outer" name="second_link">
+    <visual><geometry><cylinder radius="0.1" length="${size}"/></geometry></visual>
+    <bundle/>
+  </xacro:call>
+
+  <link name="values" a="${a}" b="${b}" c="${c}" d="${d}" g="${from_macro}" p="${to_parent}"
+        has_gone="${'gone' in dir() if False else 0}" flag="$(arg flag)" side="$(arg side)_wheel"/>
+  <xacro:if value="$(arg flag)"><link name="if_int"/></xacro:if>
+  <xacro:if value="${'$(arg side)' == 'left'}"><link name="if_expr"/></xacro:if>
+  <xacro:unless value="false"><link name="unless_false"/></xacro:unless>
+  <xacro:if value="False"><link name="never"/></xacro:if>
+  <xacro:if value="${0.0}"><link name="never_float"/></xacro:if>
+  <xacro:element xacro:name="link" name="${'el' + str(b)}">
+    <xacro:attribute name="extra" value="${str(b * 2)}"/>
+  </xacro:element>
+  <joint name="j1" type="fixed"><parent link="values"/><child link="first_link"/></joint>
+</robot>
