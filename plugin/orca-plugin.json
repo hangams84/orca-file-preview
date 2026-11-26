@@ -184,6 +184,12 @@
           ".zw1",
           ".zx1",
           ".edz"
+        ],
+        "entry": "editor/main.ts",
+        "contentKind": "bytes",
+        "frame": "any"
+      },
+      {
         "id": "kicad",
         "title": "KiCad Preview",
         "extensions": [
