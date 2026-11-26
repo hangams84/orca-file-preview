@@ -29,8 +29,11 @@ ARG ORCA_VERSION=1.4.258
 # Orca's own .deb pulls in the Electron runtime libraries it declares.
 RUN curl -fsSL --retry 5 --retry-all-errors --connect-timeout 30 --speed-limit 100000 --speed-time 60 -o /tmp/orca.deb \
       "https://github.com/stablyai/orca/releases/download/v${ORCA_VERSION}/orca-ide_${ORCA_VERSION}_amd64.deb" \
- && apt-get update \
- && apt-get install -y --no-install-recommends /tmp/orca.deb \
+ && ok=; for i in 1 2 3 4; do \
+      # A mirror mid-sync can 404 a package the index still lists: refresh the index and try again.
+      (apt-get update && apt-get install -y --no-install-recommends /tmp/orca.deb) && { ok=1; break; }; \
+      rm -rf /var/lib/apt/lists/*; sleep 20; \
+    done; [ -n "$ok" ] \
  && rm -f /tmp/orca.deb && rm -rf /var/lib/apt/lists/*
 
 # Orca refuses to run its desktop app as root without a sandbox; use a normal user.
