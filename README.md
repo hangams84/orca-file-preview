@@ -70,22 +70,23 @@ docs/              개발·검증 문서 (README.md, index.html, evidence/)
 플러그인·설치 스크립트·테스트 도구가 바뀌어 `main` 에 푸시되면 자동 실행되고, 아래 표가 자동으로 갱신됩니다.
 
 <!-- ci-matrix:start -->
-**Orca compatibility CI** — ✅ all passing · 2026-11-24 04:06 UTC · [run](https://github.com/hangams84/orca-file-preview/actions/runs/45321196056)
+**Orca compatibility CI** — ✅ all passing · 2026-11-26 04:14 UTC · [run](https://github.com/hangams84/orca-file-preview/actions/runs/45751124918)
 
-| Orca | Ubuntu 24.04 (Docker) | macOS 15 arm64 | Windows 10 kernel (Server 2022) | Windows 11 kernel (Server 2025) |
-| --- | --- | --- | --- | --- |
-| 1.4.258 | ✅ 9/9 | ✅ 12/12 | ✅ 10/10 | ✅ 10/10 |
-| 1.4.257 | ✅ 9/9 | — | — | — |
-| 1.4.256 | ✅ 9/9 | — | — | — |
-| 1.4.255 | ✅ 9/9 | — | — | — |
-| 1.4.254 | ✅ 9/9 | — | — | — |
-| 1.4.253 | ✅ 9/9 | ✅ 12/12 | ✅ 10/10 | ✅ 10/10 |
-| 1.4.252 | ✅ 9/9 | — | — | — |
-| 1.4.251 | ✅ 9/9 | — | — | — |
-| 1.4.250 | ✅ 9/9 | — | — | — |
-| 1.4.249 | ✅ 9/9 | — | — | — |
-| 1.4.248 | ✅ 9/9 | ✅ 12/12 | ✅ 10/10 | ✅ 10/10 |
-| 1.4.247 (below min, informational) | ✅ 9/9 | — | — | — |
+| Orca | Ubuntu 24.04 (Docker) | Ubuntu 26.04 (Docker) | macOS 15 arm64 | Windows 10 kernel (Server 2022) | Windows 11 kernel (Server 2025) |
+| --- | --- | --- | --- | --- | --- |
+| 1.4.277 | ✅ 9/9 | ✅ 9/9 | ✅ 12/12 | ✅ 10/10 | ✅ 10/10 |
+| 1.4.258 | ✅ 9/9 | ✅ 9/9 | ✅ 12/12 | ✅ 10/10 | ✅ 10/10 |
+| 1.4.257 | ✅ 9/9 | — | — | — | — |
+| 1.4.256 | ✅ 9/9 | — | — | — | — |
+| 1.4.255 | ✅ 9/9 | — | — | — | — |
+| 1.4.254 | ✅ 9/9 | — | — | — | — |
+| 1.4.253 | ✅ 9/9 | ✅ 9/9 | ✅ 12/12 | ✅ 10/10 | ✅ 10/10 |
+| 1.4.252 | ✅ 9/9 | — | — | — | — |
+| 1.4.251 | ✅ 9/9 | — | — | — | — |
+| 1.4.250 | ✅ 9/9 | — | — | — | — |
+| 1.4.249 | ✅ 9/9 | — | — | — | — |
+| 1.4.248 | ✅ 9/9 | ✅ 9/9 | ✅ 12/12 | ✅ 10/10 | ✅ 10/10 |
+| 1.4.247 (below min, informational) | ✅ 9/9 | — | — | — | — |
 
 Windows 7: ✅ the installer refuses with a clear message — Orca (Electron 23+) needs Windows 10 or later, and no Windows 7 CI runners exist. Windows 10/11 columns run on GitHub's Windows Server images, which share the Windows 10 (build 20348) and Windows 11 24H2 (build 26100) kernels; Windows 11 Pro 26200 was also tested on a real PC.
 
