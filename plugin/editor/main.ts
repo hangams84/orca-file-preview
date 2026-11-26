@@ -43,7 +43,24 @@ export const RENDERERS: Record<string, Loader> = {
   igs: () => import('./renderers/model3d.ts'),
   brep: () => import('./renderers/model3d.ts'),
   hwp: () => import('./renderers/hwp.ts'),
-  hwpx: () => import('./renderers/hwp.ts')
+  hwpx: () => import('./renderers/hwp.ts'),
+  sldprt: () => import('./renderers/solidworks.ts'),
+  sldasm: () => import('./renderers/solidworks.ts'),
+  slddrw: () => import('./renderers/solidworks.ts'),
+  slddrt: () => import('./renderers/solidworks.ts'),
+  prtdot: () => import('./renderers/solidworks.ts'),
+  asmdot: () => import('./renderers/solidworks.ts'),
+  drwdot: () => import('./renderers/solidworks.ts'),
+  elk: () => import('./renderers/eplan.ts'),
+  ell: () => import('./renderers/eplan.ts'),
+  elr: () => import('./renderers/eplan.ts'),
+  els: () => import('./renderers/eplan.ts'),
+  elp: () => import('./renderers/eplan.ts'),
+  elx: () => import('./renderers/eplan.ts'),
+  ela: () => import('./renderers/eplan.ts'),
+  zw1: () => import('./renderers/eplan.ts'),
+  zx1: () => import('./renderers/eplan.ts'),
+  edz: () => import('./renderers/eplan.ts')
 }
 
 installStyles()

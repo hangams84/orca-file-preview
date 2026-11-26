@@ -24,3 +24,10 @@ its own license; the license texts are included in the bundles' trailing comment
 `vendor/pdf-assets/cmaps/` and `vendor/pdf-assets/standard_fonts/` come from `pdfjs-dist` and carry
 their own notices (Adobe CMap resources under the BSD-3-Clause license; Foxit/Liberation fonts under
 their respective licenses), included in those folders where provided by the package.
+
+The SolidWorks and EPLAN readers (`editor/renderers/prop/`) bundle no third-party code. The LZMA / LZMA2
+decoder is written from the LZMA specification in the public-domain LZMA SDK (Igor Pavlov). The SolidWorks
+container and display-mesh layouts follow the facts documented at
+[blussyya/sldprt-format-research](https://github.com/blussyya/sldprt-format-research) (CC BY-SA 4.0 notes;
+no text or code copied). EDZ and EPLAN project structure were read from public files (see
+`docs/evidence/prop/README.md`).

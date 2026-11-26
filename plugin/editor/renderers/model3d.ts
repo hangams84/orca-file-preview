@@ -57,6 +57,9 @@ interface Loaded {
   units?: string
   /** Named parts for the parts list (CAD assemblies). */
   parts?: { name: string; object: THREE.Object3D }[]
+  /** Format label and up axis when the model does not come from a file of `kind` (SolidWorks meshes). */
+  label?: string
+  zUp?: boolean
 }
 
 export async function render(ctx: PreviewContext): Promise<() => void> {
@@ -80,6 +83,54 @@ export async function render(ctx: PreviewContext): Promise<() => void> {
   }
   if (CAD_KINDS.has(kind)) return renderCad(ctx, kind)
   return mount(ctx, kind, null)
+}
+
+/** Shows meshes decoded by another renderer (SolidWorks display meshes) in this viewer. Positions
+ *  are in `units`; `label` names the source in the toolbar. */
+export async function renderMeshes(
+  ctx: PreviewContext,
+  parts: Part[],
+  opts: { label: string; units?: string; zUp?: boolean; notes?: string[] }
+): Promise<() => void> {
+  const { tr, signal } = ctx
+  const renderer = createRenderer(tr)
+  const disposers: (() => void)[] = [
+    () => {
+      renderer.dispose()
+      renderer.forceContextLoss()
+    }
+  ]
+  let disposed = false
+  const dispose = () => {
+    if (disposed) return
+    disposed = true
+    for (const d of disposers.reverse()) {
+      try {
+        d()
+      } catch {
+        // keep releasing the rest
+      }
+    }
+  }
+  signal.addEventListener('abort', dispose, { once: true })
+  try {
+    const object = buildParts(parts, 'obj')
+    disposers.push(() => disposeObject(object))
+    const counts = countModel(object)
+    const limit = triangleLimit(ctx.compact)
+    if (counts.triangles > limit) {
+      throw new PreviewError(
+        'too-many-triangles',
+        tr(`삼각형이 너무 많습니다 (${formatCount(counts.triangles)}개).`, `This model has too many triangles (${formatCount(counts.triangles)}).`)
+      )
+    }
+    const named = parts.length > 1 ? object.children.map((o) => ({ name: o.name, object: o })) : undefined
+    mountViewer(ctx, renderer, 'obj', { object, notes: opts.notes ?? [], units: opts.units, parts: named, label: opts.label, zUp: opts.zUp ?? false }, counts, disposers)
+    return dispose
+  } catch (err) {
+    dispose()
+    throw err
+  }
 }
 
 /** Inflates gzip with the browser's DecompressionStream, refusing output above MAX_FILE_BYTES (bombs). */
@@ -471,7 +522,7 @@ function mountViewer(
   stage.append(h('style', undefined, STYLE), canvas)
   renderer.domElement.tabIndex = 0
   renderer.domElement.setAttribute('role', 'img')
-  renderer.domElement.setAttribute('aria-label', tr(`3D 모델 미리보기 (${KIND_LABEL[kind]})`, `3D model preview (${KIND_LABEL[kind]})`))
+  renderer.domElement.setAttribute('aria-label', tr(`3D 모델 미리보기 (${loaded.label ?? KIND_LABEL[kind]})`, `3D model preview (${loaded.label ?? KIND_LABEL[kind]})`))
   root.append(stage)
   if (loaded.notes.length) stage.append(h('div', 'fp-3d-note', loaded.notes.join(' ')))
 
@@ -506,7 +557,7 @@ function mountViewer(
   const storedBox = new THREE.Box3().setFromObject(model)
   const storedSize = storedBox.getSize(new THREE.Vector3())
 
-  let zUp = defaultZUp(kind)
+  let zUp = loaded.zUp ?? defaultZUp(kind)
   let radius = 1
   let floorY = 0
   const helpers = new THREE.Group()
@@ -833,7 +884,7 @@ function mountViewer(
   })
 
   const info = [
-    KIND_LABEL[kind],
+    loaded.label ?? KIND_LABEL[kind],
     counts.triangles ? tr(`삼각형 ${formatCount(counts.triangles)}`, `${formatCount(counts.triangles)} triangles`) : tr('점·선만 있음', 'points/lines only'),
     tr(`정점 ${formatCount(counts.vertices)}`, `${formatCount(counts.vertices)} vertices`),
     ...(loaded.parts && loaded.parts.length > 1 ? [tr(`부품 ${formatCount(loaded.parts.length)}`, `${formatCount(loaded.parts.length)} parts`)] : []),
