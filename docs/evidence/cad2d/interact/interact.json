@@ -1,0 +1,52 @@
+[
+  {
+    "name": "layer list opens with every layer",
+    "ok": true,
+    "detail": "13 rows"
+  },
+  {
+    "name": "turning layer HATCH off removes its ink",
+    "ok": true,
+    "detail": "6961 → 4030 sampled ink pixels"
+  },
+  {
+    "name": "wheel zooms in around the pointer",
+    "ok": true,
+    "detail": "zoom 1336 %, point under cursor moved 0.224 units"
+  },
+  {
+    "name": "dragging pans: the grabbed point follows the pointer",
+    "ok": true,
+    "detail": "moved 0.000 units"
+  },
+  {
+    "name": "fit returns to 100 %",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "layout selector switches to the paper-space layout",
+    "ok": true,
+    "detail": "DXF · 도면-A3"
+  },
+  {
+    "name": "background toggle switches to light",
+    "ok": true,
+    "detail": "corner pixel 217,219,224"
+  },
+  {
+    "name": "no page errors (desktop)",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "two-finger pinch zooms in on a phone",
+    "ok": true,
+    "detail": "100 % → 313 %"
+  },
+  {
+    "name": "phone layer list is an overlay inside the screen",
+    "ok": true,
+    "detail": "{\"x\":116,\"y\":97,\"width\":274,\"height\":707.5}"
+  }
+]

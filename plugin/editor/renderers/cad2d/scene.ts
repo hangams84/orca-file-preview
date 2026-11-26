@@ -487,35 +487,35 @@ export function viewBox(scene: Scene, v: SceneView): Box {
   return v.box
 }
 
-/** Joins runs of stroke-only paths with identical style into one path (fewer draw calls). */
+/** Joins stroke-only paths of identical style into shared paths (far fewer draw calls). Strokes
+ *  can move past other strokes, text and references, which never hide anything; a fill, hatch,
+ *  image or wipeout closes all open groups so the draw order around opaque items is kept. Groups
+ *  stay small enough for culling to help when zoomed in. */
 export function mergePaths(items: Item[]): Item[] {
   const out: Item[] = []
-  let last: PathItem | null = null
+  const open = new Map<string, PathItem>()
+  const dashIds = new Map<number[], number>()
+  const dashId = (d: number[] | undefined) => {
+    if (!d) return 0
+    let v = dashIds.get(d)
+    if (v === undefined) dashIds.set(d, (v = dashIds.size + 1))
+    return v
+  }
   for (const it of items) {
-    if (
-      it.k === 'path' &&
-      !it.fill &&
-      it.stroke &&
-      !it.noExtents &&
-      last &&
-      last.layer === it.layer &&
-      last.color === it.color &&
-      last.lw === it.lw &&
-      last.dash === it.dash &&
-      last.width === it.width &&
-      last.alpha === it.alpha &&
-      last.d.length + it.d.length < 60000
-    ) {
-      for (const v of it.d) last.d.push(v)
+    if (it.k === 'path' && !it.fill && it.stroke && !it.noExtents) {
+      const key = `${it.layer}|${it.color}|${it.lw}|${dashId(it.dash)}|${it.width ?? ''}|${it.alpha ?? ''}|${it.cap ?? ''}|${it.join ?? ''}`
+      const g = open.get(key)
+      if (g && g.d.length + it.d.length < 20000) {
+        for (const v of it.d) g.d.push(v)
+        continue
+      }
+      const copy: PathItem = { ...it, d: it.d.slice() }
+      open.set(key, copy)
+      out.push(copy)
       continue
     }
-    if (it.k === 'path' && !it.fill && it.stroke && !it.noExtents) {
-      last = { ...it, d: it.d.slice() }
-      out.push(last)
-    } else {
-      last = null
-      out.push(it)
-    }
+    if (it.k === 'path' || it.k === 'hatch' || it.k === 'image' || it.k === 'viewport') open.clear()
+    out.push(it)
   }
   return out
 }

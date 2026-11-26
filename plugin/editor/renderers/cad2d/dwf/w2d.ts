@@ -770,6 +770,7 @@ class Reader {
         this.ellipse(x, y, ma, mi, s, e, t)
         return this.skipParen()
       }
+      case 'Contour':
       case 'ContourSet': {
         const n = this.aint()
         const counts: number[] = []

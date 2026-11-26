@@ -1,0 +1,116 @@
+[
+  {
+    "file": "samples/sample.dxf",
+    "view": "Model",
+    "state": "ready",
+    "loadMs": 1003,
+    "paintMs": 1,
+    "shot": "sample.dxf.0.png",
+    "errors": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ]
+  },
+  {
+    "file": "samples/sample.dxf",
+    "view": "Layout1",
+    "state": "ready",
+    "loadMs": 1003,
+    "paintMs": 1,
+    "shot": "sample.dxf.1.png",
+    "errors": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ]
+  },
+  {
+    "file": "samples/sample.dxf",
+    "view": "도면-A3",
+    "state": "ready",
+    "loadMs": 1003,
+    "paintMs": 2,
+    "shot": "sample.dxf.2.png",
+    "errors": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ]
+  },
+  {
+    "file": "samples/sample-r12.dxf",
+    "view": "Model",
+    "state": "ready",
+    "loadMs": 112,
+    "paintMs": 0,
+    "shot": "sample-r12.dxf.0.png",
+    "errors": []
+  },
+  {
+    "file": "samples/sample-r12.dxf",
+    "view": "Paper space",
+    "state": "ready",
+    "loadMs": 112,
+    "paintMs": 1,
+    "shot": "sample-r12.dxf.1.png",
+    "errors": []
+  },
+  {
+    "file": "samples/sample-binary.dxf",
+    "view": "Model",
+    "state": "ready",
+    "loadMs": 140,
+    "paintMs": 0,
+    "shot": "sample-binary.dxf.png",
+    "errors": []
+  },
+  {
+    "file": "samples/sample.dwf",
+    "view": "Ground floor 1층",
+    "state": "ready",
+    "loadMs": 138,
+    "paintMs": 0,
+    "shot": "sample.dwf.0.png",
+    "errors": []
+  },
+  {
+    "file": "samples/sample.dwf",
+    "view": "Second floor",
+    "state": "ready",
+    "loadMs": 138,
+    "paintMs": 1,
+    "shot": "sample.dwf.1.png",
+    "errors": []
+  },
+  {
+    "file": "samples/sample-legacy.dwf",
+    "view": "Sheet",
+    "state": "ready",
+    "loadMs": 114,
+    "paintMs": 0,
+    "shot": "sample-legacy.dwf.png",
+    "errors": []
+  },
+  {
+    "file": "samples/sample-thumbonly.dwf",
+    "view": "Unsupported",
+    "state": "ready",
+    "loadMs": 111,
+    "paintMs": 0,
+    "shot": "sample-thumbonly.dwf.png",
+    "errors": []
+  },
+  {
+    "file": "samples/sample.dwfx",
+    "view": "시트 1",
+    "state": "ready",
+    "loadMs": 142,
+    "paintMs": 0,
+    "shot": "sample.dwfx.0.png",
+    "errors": []
+  },
+  {
+    "file": "samples/sample.dwfx",
+    "view": "시트 2",
+    "state": "ready",
+    "loadMs": 142,
+    "paintMs": 1,
+    "shot": "sample.dwfx.1.png",
+    "errors": []
+  }
+]

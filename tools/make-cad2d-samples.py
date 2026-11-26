@@ -16,6 +16,7 @@ Outputs:
     samples/sample-legacy.dwf     single-stream DWF V00.55 (W2D opcodes, zlib-compressed part)
     samples/sample-thumbonly.dwf  DWF 6 sheet whose stream uses an unsupported opcode → thumbnail
     samples/broken.dwf / broken.dwfx
+    samples/perf/large.dxf        (--perf, git-ignored) 300k lines, 30k texts, 20k inserts
     samples/sample.dwfx           DWFx: two FixedPages (paths, fills, glyphs, an image, an
                                   obfuscated embedded font)
 """
@@ -182,7 +183,6 @@ def misc(msp, ox=0.0, oy=0.0):
     msp.add_line((ox + 145, oy + 8), (ox + 175, oy + 8), dxfattribs={'color': 3})  # drawn before: hidden under the wipeout
     msp.add_wipeout([(ox + 150, oy - 2), (ox + 170, oy - 2), (ox + 170, oy + 12), (ox + 150, oy + 12)])
     msp.add_line((ox + 145, oy + 2), (ox + 175, oy + 2), dxfattribs={'color': 1})  # drawn after: on top
-    msp.add_xline((ox + 185, oy), (1, 1), dxfattribs={'layer': 'CENTER'})
 
 
 def layouts(doc, msp):
@@ -211,6 +211,7 @@ def showcase():
     dims(doc, msp, 0, -120)
     hatches(msp, 0, -160)
     misc(msp, 0, -190)
+    msp.add_xline((185, -190), (1, 1), dxfattribs={'layer': 'CENTER'})  # infinite construction line
     msp.add_line((0, 95), (40, 95), dxfattribs={'layer': 'FROZEN'})
     layouts(doc, msp)
     doc.saveas(os.path.join(OUT, 'sample.dxf'))
@@ -663,5 +664,30 @@ def main():
     print('ok')
 
 
-if __name__ == '__main__':
+if __name__ == '__main__' and '--perf' not in sys.argv:
     main()
+
+
+def perf(path, n_lines=300000, n_text=30000, n_ins=20000):
+    """A large ASCII DXF for timing (git-ignored samples/perf/): grids of lines, text and inserts."""
+    import random
+    random.seed(7)
+    out = ['0\nSECTION\n2\nHEADER\n9\n$ACADVER\n1\nAC1015\n9\n$DWGCODEPAGE\n3\nANSI_949\n0\nENDSEC\n',
+           '0\nSECTION\n2\nBLOCKS\n0\nBLOCK\n2\nP\n70\n0\n10\n0\n20\n0\n0\nCIRCLE\n8\n0\n10\n0\n20\n0\n40\n2\n0\nLINE\n8\n0\n10\n-2\n20\n0\n11\n2\n21\n0\n0\nENDBLK\n0\nENDSEC\n',
+           '0\nSECTION\n2\nENTITIES\n']
+    for i in range(n_lines):
+        x = random.uniform(0, 5000)
+        y = random.uniform(0, 3000)
+        out.append(f'0\nLINE\n8\nL{i % 40}\n62\n{i % 7 + 1}\n10\n{x:.3f}\n20\n{y:.3f}\n11\n{x + random.uniform(-20, 20):.3f}\n21\n{y + random.uniform(-20, 20):.3f}\n')
+    for i in range(n_text):
+        out.append(f'0\nTEXT\n8\nTEXT\n10\n{random.uniform(0, 5000):.2f}\n20\n{random.uniform(0, 3000):.2f}\n40\n2.5\n1\nROOM {i}\n')
+    for i in range(n_ins):
+        out.append(f'0\nINSERT\n8\nBLK\n2\nP\n10\n{random.uniform(0, 5000):.2f}\n20\n{random.uniform(0, 3000):.2f}\n')
+    out.append('0\nENDSEC\n0\nEOF\n')
+    with open(path, 'w', encoding='ascii') as f:
+        f.write(''.join(out))
+
+
+if __name__ == '__main__' and '--perf' in sys.argv:
+    os.makedirs(os.path.join(OUT, 'perf'), exist_ok=True)
+    perf(os.path.join(OUT, 'perf', 'large.dxf'))

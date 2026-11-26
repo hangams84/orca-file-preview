@@ -19,6 +19,7 @@ Read-only previews for Office, PDF, text and image files inside Orca, on desktop
 | 텍스트 | `.txt` `.log` | 인코딩 감지 (UTF-8/16, EUC-KR 등), 줄 번호, 줄바꿈 |
 | 3D 모델 | `.stl` `.obj` `.ply` `.glb` `.gltf` `.3mf` `.off` `.fbx` `.dae` | three.js (WebGL, 회전·확대·이동, 터치, Draco·meshopt, Web Worker 파싱) |
 | CAD (B-rep) | `.step` `.stp` `.stpz` `.iges` `.igs` `.brep` | OpenCascade (occt-import-js, WebAssembly, Web Worker): 어셈블리·부품 목록·색, 테셀레이션 품질 선택. `.stpz` = gzip 압축 STEP |
+| CAD 2D 도면 | `.dxf` `.dwf` `.dwfx` | 자체 Canvas 2D 렌더러: DXF(ASCII·바이너리, R12–2018+, 블록·치수·해치·MTEXT·한글), DWF(W2D 스트림, 시트, 썸네일 대체), DWFx(XPS 페이지, 내장 글꼴) · 레이어 목록, 모형/배치(뷰포트)/시트 선택, 밝은/어두운 배경, 정보 표시줄 ([근거](docs/evidence/cad2d/README.md)) |
 
 공통: 다크/라이트 테마 실시간 반영, 한국어/영어 UI, Ctrl+휠 · 핀치 · 버튼 확대/축소, 휴대폰 화면에서 폭 맞춤,
 파일이 바뀌면 자동 갱신, 손상 파일은 친절한 오류 안내.
@@ -52,6 +53,8 @@ orca plugin install ./plugin
 > (`.obj`, ASCII `.stl`/`.ply`, `.off`, `.gltf`, `.dae`, ASCII `.fbx`)도 마찬가지일 수 있습니다.
 > Files Orca opens itself open in Source first; switch with the view toggle at the tab's top right. **STEP, IGES and
 > BREP files are text and open in Source first** (checked in Orca 1.4.258); text-based 3D formats may do the same.
+> **ASCII DXF(`.dxf`)도 텍스트라 Source로 먼저 열립니다** (바이너리 DXF·DWF·DWFx는 바로 미리보기). / ASCII DXF opens in
+> Source first too; binary DXF, DWF and DWFx open straight in the preview.
 
 ## 저장소 구조 / Layout
 

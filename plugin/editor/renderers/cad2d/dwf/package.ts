@@ -55,7 +55,10 @@ export function openZip(bytes: Uint8Array): Record<string, Uint8Array> {
   let last: unknown
   for (const b of attempts) {
     try {
-      const files = unzipSync(b)
+      const raw = unzipSync(b)
+      // Some writers store Windows separators in part names and hrefs.
+      const files: Record<string, Uint8Array> = {}
+      for (const [k, v] of Object.entries(raw)) files[k.replace(/\\/g, '/')] = v
       if (Object.keys(files).length) return files
     } catch (e) {
       last = e
@@ -86,7 +89,10 @@ export async function readDwf(bytes: Uint8Array, tr: Tr): Promise<Scene> {
   scene.version = `DWF ${m[1]}.${m[2]} package`
   const layers = layerTable(scene)
   const names = Object.keys(files)
-  const find = (href: string) => files[href] ?? files[href.replace(/^\//, '')] ?? files[names.find((n) => n.toLowerCase() === href.toLowerCase().replace(/^\//, '')) ?? '']
+  const find = (h: string) => {
+    const href = h.replace(/\\/g, '/')
+    return files[href] ?? files[href.replace(/^\//, '')] ?? files[names.find((n) => n.toLowerCase() === href.toLowerCase().replace(/^\//, '')) ?? '']
+  }
 
   type Sec = { type: string; title: string; descriptor?: string; prefix: string }
   const sections: Sec[] = []
@@ -105,6 +111,8 @@ export async function readDwf(bytes: Uint8Array, tr: Tr): Promise<Scene> {
     for (const n of names.filter((n) => /\.w2d$/i.test(n)).sort()) sections.push({ type: 'com.autodesk.dwf.ePlot', title: n.replace(/^.*\//, '').replace(/\.w2d$/i, ''), prefix: n })
   }
   for (const sec of sections) {
+    // Sheets (ePlot) and 3D models (eModel); data, global and signature sections draw nothing.
+    if (sec.type && !/ePlot$|eModel$/i.test(sec.type)) continue
     const view: SceneView = { name: sec.title || `Sheet ${scene.views.length + 1}`, kind: 'sheet', items: [], background: 'light' }
     const desc = sec.descriptor ? find(sec.descriptor) : undefined
     const graphics: { href: string; transform: Mat | null }[] = []
@@ -123,9 +131,10 @@ export async function readDwf(bytes: Uint8Array, tr: Tr): Promise<Scene> {
         if (!href) continue
         if (/x-w2d/i.test(t.attrs.mime ?? '') || /\.w2d$/i.test(href)) {
           if (/2d streaming graphics|2d vector overlay|2d vector markup|graphics/.test(role) || !role) graphics.push({ href, transform: matrix4(t.attrs.transform) })
-        } else if (/^image\//i.test(t.attrs.mime ?? '') && /thumbnail|preview/.test(role)) {
+        } else if (/^image\//i.test(t.attrs.mime ?? '') && /thumbnail|preview|icon/.test(role)) {
           const ext = (t.attrs.extents ?? '').split(/\s+/).map(Number)
-          thumbs.push({ href, size: ext.length === 4 ? Math.abs((ext[2] - ext[0]) * (ext[3] - ext[1])) : 0, role })
+          const area = ext.length === 4 ? Math.abs((ext[2] - ext[0]) * (ext[3] - ext[1])) : 0
+          thumbs.push({ href, size: area + (role === 'preview' ? 1e9 : role === 'thumbnail' ? 1e8 : 0), role })
         }
       }
     } else if (/\.w2d$/i.test(sec.prefix)) graphics.push({ href: sec.prefix, transform: null })
