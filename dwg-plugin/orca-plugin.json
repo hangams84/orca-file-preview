@@ -1,0 +1,28 @@
+{
+  "manifestVersion": 2,
+  "id": "file-preview-dwg",
+  "name": "File Preview DWG",
+  "version": "0.1.0",
+  "description": "Read-only previews of AutoCAD drawings (.dwg) and drawing templates (.dwt), R13 to AutoCAD 2018 and later, with LibreDWG (GPL-3.0) in WebAssembly: model space and paper-space layouts, layers, blocks, text, dimensions and hatches, with pan and zoom.",
+  "license": "GPL-3.0-or-later",
+  "engines": {
+    "orca": ">=1.4.248"
+  },
+  "execution": "sandboxed-ui",
+  "pluginApi": 1,
+  "contributes": {
+    "customEditors": [
+      {
+        "id": "dwg",
+        "title": "DWG Preview",
+        "extensions": [
+          ".dwg",
+          ".dwt"
+        ],
+        "entry": "editor/main.ts",
+        "contentKind": "bytes",
+        "frame": "any"
+      }
+    ]
+  }
+}

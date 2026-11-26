@@ -1,0 +1,82 @@
+[
+  {
+    "name": "info bar: version, units, extents",
+    "ok": true,
+    "detail": "AutoCAD 2018 (AC1032) · mm · 297.0 × 210.0 · 140 객체 · 324.7 KB"
+  },
+  {
+    "name": "wheel zooms about the cursor",
+    "ok": true,
+    "detail": "zoom 867%"
+  },
+  {
+    "name": "drag pans",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "fit button restores the whole drawing",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "layer panel lists the layers",
+    "ok": true,
+    "detail": "0, 문자, 블록, 숨김, 외곽선, 중심선, 치수, 해치, Defpoints, TrueColour"
+  },
+  {
+    "name": "layer that is off in the file starts hidden",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "toggling layers changes the picture",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "background toggle repaints",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "line weight toggle changes the picture",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "layout shows the sheet with its viewport",
+    "ok": true,
+    "detail": "AutoCAD 2018 (AC1032) · 용지 · 297.0 × 210.0 · 140 객체 · 324.7 KB"
+  },
+  {
+    "name": "Orca theme switch repaints the drawing",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "no page errors (desktop)",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "phone width: no horizontal overflow",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": ".dwt opens like .dwg",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "unreadable drawing shows the stored preview image",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "damaged file ends in a friendly error",
+    "ok": true,
+    "detail": ""
+  }
+]

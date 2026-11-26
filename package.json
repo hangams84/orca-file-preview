@@ -17,6 +17,7 @@
     "dev": "orca plugin dev watch plugin"
   },
   "devDependencies": {
+    "@mlightcad/libredwg-web": "0.9.4",
     "@types/three": "0.179.0",
     "cfb": "^1.2.2",
     "docx-preview": "^0.4.1",

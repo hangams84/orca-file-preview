@@ -14,6 +14,8 @@
 //   node tools/harness/run.mjs --dpr 1.25,1.5,1.75 ...  # run each profile at these device pixel ratios
 //   node tools/harness/run.mjs --strip-styles ...      # remove renderer <style> elements after load (as seen in Orca)
 //                                                      (Windows display scaling 125 % / 150 % / 175 %)
+//   node tools/harness/run.mjs --plugin dwg-plugin ... # serve another plugin folder in place of plugin/; samples
+//                                                      default to samples/dwg, filtered by that manifest's extensions
 import { transform } from 'esbuild'
 import { createServer } from 'node:http'
 import { mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
@@ -27,6 +29,11 @@ const args = Object.fromEntries(
     return acc
   }, [])
 )
+
+// The plugin folder under test (default plugin/). Another top-level folder, such as the separately
+// licensed dwg-plugin/, is served in its place: the harness page then loads <folder>/editor/main.ts.
+const PLUGIN = typeof args.plugin === 'string' ? args.plugin.replace(/\\/g, '/').replace(/^\.\/|\/$/g, '') : 'plugin'
+if (!/^[\w.-]+$/.test(PLUGIN)) throw new Error(`--plugin: expected a top-level folder name, got ${PLUGIN}`)
 
 const CSP = [
   "default-src 'self'",
@@ -62,6 +69,9 @@ function serve() {
       const file = normalize(join(ROOT, path))
       if (relative(ROOT, file).startsWith('..')) throw Object.assign(new Error('outside'), { status: 403 })
       let body = readFileSync(file)
+      if (PLUGIN !== 'plugin' && path === '/tools/harness/index.html') {
+        body = Buffer.from(body.toString('utf8').replace('/plugin/editor/main.ts', `/${PLUGIN}/editor/main.ts`))
+      }
       let type = TYPES[extname(file)] ?? 'application/octet-stream'
       if (/\.(ts|tsx|mts)$/.test(file)) {
         const out = await transform(body.toString('utf8'), {
@@ -194,8 +204,21 @@ function checkFor(name) {
   if (name.startsWith('xss-')) return XSS_CHECK
   if (CHECKS[name]) return CHECKS[name]
   if (name.endsWith('.pdf') && !name.startsWith('broken.') && !name.includes('password')) return PDF_PAINTED
+  if (/\.dw[gt]$/i.test(name) && !name.startsWith('broken.')) return DWG_PAINTED
   return null
 }
+
+/** DWG plugin: the drawing canvas has lines on it (or, for preview-only files, the stored image shows). */
+const DWG_PAINTED = `(() => {
+  if (document.querySelector('.dwg-thumb img')) return document.querySelector('.dwg-thumb img').naturalWidth > 0 ? null : 'preview image did not load'
+  const c = document.querySelector('.dwg-stage canvas')
+  if (!c) return 'no drawing canvas'
+  const d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data
+  const bg = [d[0], d[1], d[2]]
+  let ink = 0
+  for (let i = 0; i < d.length; i += 4 * 5) if (Math.abs(d[i] - bg[0]) + Math.abs(d[i + 1] - bg[1]) + Math.abs(d[i + 2] - bg[2]) > 60) ink++
+  return ink > 200 ? null : 'drawing canvas is blank (' + ink + ' ink pixels)'
+})()`
 
 /** --no-raf: simulate a hidden/occluded window (Orca's window captures, background splits), where
  *  requestAnimationFrame and IntersectionObserver callbacks never run. */
@@ -359,13 +382,27 @@ function expectedState(name) {
   if (args.fuzz) return 'ready|error' // fuzzed input: any settled state, never a hang or a crash
   return name.startsWith('broken.') ? 'error' : 'ready'
 }
-const SAMPLE_DIR = typeof args.dir === 'string' ? args.dir.replace(/\\/g, '/').replace(/\/$/, '') : 'samples'
+const SAMPLE_DIR =
+  typeof args.dir === 'string'
+    ? args.dir.replace(/\\/g, '/').replace(/\/$/, '')
+    : PLUGIN === 'plugin'
+      ? 'samples'
+      : `samples/${PLUGIN.replace(/-plugin$/, '')}`
+/** With --plugin: only the files that plugin's manifest registers (the default run takes every file). */
+const EXTENSIONS =
+  PLUGIN === 'plugin'
+    ? null
+    : new Set(
+        JSON.parse(readFileSync(join(ROOT, PLUGIN, 'orca-plugin.json'), 'utf8'))
+          .contributes.customEditors.flatMap((e) => e.extensions)
+          .map((x) => x.toLowerCase())
+      )
 
 async function run() {
   const server = await serve()
   const base = `http://127.0.0.1:${server.address().port}`
   if (args.serve) {
-    console.log(`serving ${ROOT} at ${base}/harness?file=samples/sample.docx&theme=dark&locale=ko`)
+    console.log(`serving ${ROOT} (${PLUGIN}/) at ${base}/harness?file=${PLUGIN === 'plugin' ? 'samples/sample.docx' : `${SAMPLE_DIR}/<file>`}&theme=dark&locale=ko`)
     return
   }
   const { chromium, webkit } = await import('playwright-core')
@@ -393,6 +430,7 @@ async function run() {
   const files = readdirSync(join(ROOT, SAMPLE_DIR))
     .filter((f) => !f.startsWith('.') && statSync(join(ROOT, SAMPLE_DIR, f)).isFile())
     .filter((f) => !only || only.some((o) => f.includes(o)))
+    .filter((f) => !EXTENSIONS || EXTENSIONS.has(extname(f).toLowerCase()))
     .sort()
   let profiles = (typeof args.profiles === 'string' ? args.profiles.split(',') : ['desktop-dark', 'mobile-light']).map(
     (p) => [p, PROFILES[p]]

@@ -10,3 +10,4 @@ dist/
 samples/pptx-images/inputs/
 samples/pptx-images/truth/
 samples/pptx-images/render/
+dwg-plugin/.orca/

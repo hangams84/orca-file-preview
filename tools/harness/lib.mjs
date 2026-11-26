@@ -41,7 +41,8 @@ const TYPES = {
   '.wasm': 'application/wasm'
 }
 
-export function serve() {
+/** `plugin`: serve another plugin folder (e.g. 'dwg-plugin') in place of plugin/ on the harness page. */
+export function serve({ plugin = 'plugin' } = {}) {
   const server = createServer(async (req, res) => {
     try {
       const url = new URL(req.url ?? '/', 'http://x')
@@ -50,6 +51,9 @@ export function serve() {
       const file = normalize(join(ROOT, path))
       if (relative(ROOT, file).startsWith('..')) throw Object.assign(new Error('outside'), { status: 403 })
       let body = readFileSync(file)
+      if (plugin !== 'plugin' && path === '/tools/harness/index.html') {
+        body = Buffer.from(body.toString('utf8').replace('/plugin/editor/main.ts', `/${plugin}/editor/main.ts`))
+      }
       let type = TYPES[extname(file)] ?? 'application/octet-stream'
       if (/\.(ts|tsx|mts)$/.test(file)) {
         const out = await transform(body.toString('utf8'), { loader: 'ts', format: 'esm', target: 'es2022', sourcefile: path })
