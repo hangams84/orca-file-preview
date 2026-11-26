@@ -81,27 +81,46 @@ docs/              개발·검증 문서 (README.md, index.html, evidence/)
 플러그인·설치 스크립트·테스트 도구가 바뀌어 `main` 에 푸시되면 자동 실행되고, 아래 표가 자동으로 갱신됩니다.
 
 <!-- ci-matrix:start -->
-**Orca compatibility CI** — ✅ all passing · 2026-11-26 04:14 UTC · [run](https://github.com/hangams84/orca-file-preview/actions/runs/45751124918)
+**Orca compatibility CI** — ❌ 20 failing check(s) · 2026-11-26 08:26 UTC · [run](https://github.com/hangams84/orca-file-preview/actions/runs/45782278510)
 
 | Orca | Ubuntu 24.04 (Docker) | Ubuntu 26.04 (Docker) | macOS 15 arm64 | Windows 10 kernel (Server 2022) | Windows 11 kernel (Server 2025) |
 | --- | --- | --- | --- | --- | --- |
-| 1.4.277 | ✅ 9/9 | ✅ 9/9 | ✅ 12/12 | ✅ 10/10 | ✅ 10/10 |
-| 1.4.258 | ✅ 9/9 | ✅ 9/9 | ✅ 12/12 | ✅ 10/10 | ✅ 10/10 |
-| 1.4.257 | ✅ 9/9 | — | — | — | — |
-| 1.4.256 | ✅ 9/9 | — | — | — | — |
-| 1.4.255 | ✅ 9/9 | — | — | — | — |
-| 1.4.254 | ✅ 9/9 | — | — | — | — |
-| 1.4.253 | ✅ 9/9 | ✅ 9/9 | ✅ 12/12 | ✅ 10/10 | ✅ 10/10 |
-| 1.4.252 | ✅ 9/9 | — | — | — | — |
-| 1.4.251 | ✅ 9/9 | — | — | — | — |
-| 1.4.250 | ✅ 9/9 | — | — | — | — |
-| 1.4.249 | ✅ 9/9 | — | — | — | — |
-| 1.4.248 | ✅ 9/9 | ✅ 9/9 | ✅ 12/12 | ✅ 10/10 | ✅ 10/10 |
-| 1.4.247 (below min, informational) | ✅ 9/9 | — | — | — | — |
+| 1.4.277 | ❌ no result | ❌ no result | ❌ no result | ❌ no result | — |
+| 1.4.258 | ❌ no result | ❌ no result | ❌ no result | — | ❌ no result |
+| 1.4.257 | ❌ no result | — | — | — | — |
+| 1.4.254 | ❌ no result | — | — | — | — |
+| 1.4.253 | — | ❌ no result | ❌ no result | ❌ no result | ❌ no result |
+| 1.4.250 | ❌ no result | — | — | — | — |
+| 1.4.248 | ❌ no result | ❌ no result | ❌ no result | ❌ no result | ❌ no result |
 
 Windows 7: ✅ the installer refuses with a clear message — Orca (Electron 23+) needs Windows 10 or later, and no Windows 7 CI runners exist. Windows 10/11 columns run on GitHub's Windows Server images, which share the Windows 10 (build 20348) and Windows 11 24H2 (build 26100) kernels; Windows 11 Pro 26200 was also tested on a real PC.
 
 Each cell: a fresh Orca install of that version → plugin install with approval → validate · unit tests · static check → every fixture opened in the plugin editor → finished renders captured → plugin log free of errors (Windows also installs and removes through `installer/windows`). 1.4.247 is below the declared minimum (`engines.orca` >=1.4.248): Orca does not enforce that for folder installs, so its row is informational.
+
+<details><summary>Failing checks</summary>
+
+- linux · Orca 1.4.248: no results.json (job failed before writing results)
+- linux · Orca 1.4.250: no results.json (job failed before writing results)
+- linux · Orca 1.4.254: no results.json (job failed before writing results)
+- linux · Orca 1.4.257: no results.json (job failed before writing results)
+- linux · Orca 1.4.258: no results.json (job failed before writing results)
+- linux · Orca 1.4.277: no results.json (job failed before writing results)
+- macos · Orca 1.4.248: no results.json (job failed before writing results)
+- macos · Orca 1.4.253: no results.json (job failed before writing results)
+- macos · Orca 1.4.258: no results.json (job failed before writing results)
+- macos · Orca 1.4.277: no results.json (job failed before writing results)
+- ubuntu2604 · Orca 1.4.248: no results.json (job failed before writing results)
+- ubuntu2604 · Orca 1.4.253: no results.json (job failed before writing results)
+- ubuntu2604 · Orca 1.4.258: no results.json (job failed before writing results)
+- ubuntu2604 · Orca 1.4.277: no results.json (job failed before writing results)
+- windows-2022 · Orca 1.4.248: no results.json (job failed before writing results)
+- windows-2022 · Orca 1.4.253: no results.json (job failed before writing results)
+- windows-2022 · Orca 1.4.277: no results.json (job failed before writing results)
+- windows-2025 · Orca 1.4.248: no results.json (job failed before writing results)
+- windows-2025 · Orca 1.4.253: no results.json (job failed before writing results)
+- windows-2025 · Orca 1.4.258: no results.json (job failed before writing results)
+
+</details>
 <!-- ci-matrix:end -->
 
 ## 설치 스크립트 / Installers
