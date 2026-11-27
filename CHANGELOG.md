@@ -3,6 +3,14 @@
 All notable changes per release. Each release on GitHub carries its verification results
 (`docs/release-notes/<tag>.md`) and SHA-256 checksums for every file.
 
+## Unreleased
+
+### Added
+- **Screenshot install guide** in 11 languages (`docs/install-guide/<lang>.md`, index `docs/install-guide/README.md`):
+  Settings → Plugins → Add plugin → From a Git URL → Install → trust prompt → Enable → preview, plus the optional DWG
+  companion and troubleshooting. Captured from a real Orca 1.4.279 in Docker over CDP, one fresh profile per UI
+  language, labels read from the DOM; re-run with `bash tools/install-guide/run.sh` (see `tools/install-guide/README.md`).
+
 ## [0.4.0] — 2026-11-27
 
 Text formats open in the preview, and files the user hands over (a folder, files, a drop) lift the "only the
