@@ -4,7 +4,7 @@
  *  renderers' own limits apply (up to 1 GB) and any file on the machine can be shown. Files opened
  *  together (a folder, several files) are companions of the shown file (meshes, includes, xrefs …).
  *  Nothing is written and nothing leaves the frame. */
-import { createPreview, RENDERERS } from '../editor/app.ts'
+import { createPreview, RANGED_TYPES, RENDERERS } from '../editor/app.ts'
 import { addCompanions, type CompanionFile } from '../editor/core/companions.ts'
 import { formatBytes, makeTr } from '../editor/core/i18n.ts'
 import { createShell, h, installStyles, showMessage } from '../editor/core/ui.ts'
@@ -77,8 +77,8 @@ function welcome(): void {
       'div',
       undefined,
       tr(
-        '"파일 열기…"를 누르거나 파일·폴더를 여기에 끌어다 놓으세요. 워크스페이스 밖의 파일과 50 MB가 넘는 파일(최대 1 GB)도 볼 수 있습니다.',
-        'Click "Open file…" or drop files or a folder here. Files outside a workspace and files over 50 MB (up to 1 GB) work too.'
+        '"파일 열기…"를 누르거나 파일·폴더를 여기에 끌어다 놓으세요. 워크스페이스 밖의 파일과 50 MB가 넘는 파일(최대 1 GB, AI 모델은 크기 제한 없음)도 볼 수 있습니다.',
+        'Click "Open file…" or drop files or a folder here. Files outside a workspace and files over 50 MB (up to 1 GB; AI models of any size) work too.'
       )
     ),
     h('div', undefined, tr('파일을 함께 열면(폴더 등) 메시·include·xref 같은 참조 파일로 쓰입니다.', 'Files opened together (a folder) serve as references: meshes, includes, xrefs.'))
@@ -98,6 +98,19 @@ async function open(c: CompanionFile): Promise<void> {
     shell.setBadge(type || '?')
     showMessage(shell.root, tr('지원하지 않는 형식입니다', 'Unsupported format'), c.path)
     document.body.dataset.state = 'error'
+    return
+  }
+  if (RANGED_TYPES.has(type)) {
+    // AI models: read by range (zip directory, headers, the tensors being viewed), so any size opens.
+    const file = c.file
+    await show(new Uint8Array(0), type, {
+      size: file.size,
+      name: c.path,
+      read: async (offset, length) => {
+        const end = Math.min(file.size, offset + Math.max(0, length))
+        return end <= offset ? new Uint8Array(0) : new Uint8Array(await file.slice(offset, end).arrayBuffer())
+      }
+    })
     return
   }
   if (c.file.size > PANEL_MAX_BYTES) {

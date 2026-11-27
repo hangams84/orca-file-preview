@@ -1,5 +1,18 @@
 # File Preview for Orca
 
+전체 안내(지원 형식 · 설치 · 제한 사항)는 GitHub의 언어별 README를 보세요. / Full documentation (formats, install, limitations) in 11 languages on GitHub:
+[한국어](https://github.com/hangams84/orca-file-preview/blob/main/README.md) ·
+[English](https://github.com/hangams84/orca-file-preview/blob/main/README.en.md) ·
+[简体中文](https://github.com/hangams84/orca-file-preview/blob/main/README.zh-CN.md) ·
+[繁體中文](https://github.com/hangams84/orca-file-preview/blob/main/README.zh-TW.md) ·
+[日本語](https://github.com/hangams84/orca-file-preview/blob/main/README.ja.md) ·
+[Deutsch](https://github.com/hangams84/orca-file-preview/blob/main/README.de.md) ·
+[Français](https://github.com/hangams84/orca-file-preview/blob/main/README.fr.md) ·
+[Español](https://github.com/hangams84/orca-file-preview/blob/main/README.es.md) ·
+[Português (Brasil)](https://github.com/hangams84/orca-file-preview/blob/main/README.pt-BR.md) ·
+[Русский](https://github.com/hangams84/orca-file-preview/blob/main/README.ru.md) ·
+[Türkçe](https://github.com/hangams84/orca-file-preview/blob/main/README.tr.md)
+
 Orca 데스크톱(Windows · macOS · Linux)과 브라우저/모바일 클라이언트에서 Office · PDF · 텍스트 · 이미지 파일을
 **읽기 전용으로 미리보기** 하는 [Orca](https://github.com/stablyai/orca) 플러그인입니다.
 
@@ -16,6 +29,7 @@ Read-only previews for Office, PDF, text and image files inside Orca, on desktop
 | 표 | `.csv` `.tsv` | 자체 RFC 4180 파서 (인코딩·구분자 감지, 정렬, 필터) |
 | 텍스트 | `.txt` `.log` | 인코딩 감지 (UTF-8/16, EUC-KR 등), 줄 번호, 줄바꿈 |
 | 다이어그램 | `.drawio` `.dio` `.vsdx` `.vsdm` `.vstx` `.vssx` | 자체 SVG 렌더러: draw.io(압축·여러 페이지, 기본 도형·연결선·스타일, HTML 레이블 DOMPurify 정제), Visio(마스터·스타일 시트 상속, Geometry 행 전체, 그룹·연결선·텍스트 서식·채우기 패턴·그라데이션·테마·EMF/WMF 그림·배경 페이지). 페이지 선택, 이동/확대/맞춤, 어두운 캔버스, 링크 |
+| AI 모델 | `.pt` `.pth` `.ckpt` `.chkpt` `.pt2` `.ptl` `.safetensors` `.onnx` `.tflite` `.gguf` `.keras` `.h5` `.hdf5` `.npy` `.npz` | 코드를 실행하지 않는 자체 리더(pickle VM 포함): 연산 그래프 · 모듈 트리 · 레이어 표 · 파라미터 맵 · 아키텍처 도식 · 텐서 검사기 · 체크포인트 정보, SVG/PNG/JSON/Markdown 내보내기. 패널은 범위 읽기로 GB 단위 파일도 엶 |
 
 공통: 다크/라이트 테마 실시간 반영, 한국어/영어 UI, Ctrl+휠 · 핀치 · 버튼 확대/축소, 휴대폰 화면에서 폭 맞춤,
 파일이 바뀌면 자동 갱신, 손상 파일은 친절한 오류 안내.
@@ -32,10 +46,10 @@ limit, up to 1 GB; files outside a workspace too).
 
 ```sh
 # GitHub에서 최신 버전 설치 (Orca 1.4.252+; Orca가 요청 권한과 승인 지문을 출력합니다)
-# Orca 설정 → 플러그인 → 설치 → Git URL 에 https://github.com/hangams84/orca-file-preview.git 을 붙여넣어도 됩니다.
+# Orca 설정 → 플러그인 → 플러그인 추가 → Git URL에서… 에 https://github.com/hangams84/orca-file-preview.git 을 붙여넣어도 됩니다.
 orca plugin install https://github.com/hangams84/orca-file-preview
 orca plugin install https://github.com/hangams84/orca-file-preview --approve <fingerprint>
-# 특정 버전: https://github.com/hangams84/orca-file-preview#v0.4.0
+# 특정 버전: https://github.com/hangams84/orca-file-preview#v0.5.0
 
 # 또는 로컬 폴더
 orca plugin install ./plugin
