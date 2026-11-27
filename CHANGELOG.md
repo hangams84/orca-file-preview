@@ -14,6 +14,11 @@ All notable changes per release. Each release on GitHub carries its verification
 - `tools/check-readmes.mjs`: checks the language bar, relative links and anchors, the CI markers, and that every
   language's format table has the same rows and extensions and covers every extension in both manifests.
 - `plugin/README.md` links the language READMEs on GitHub.
+### Added
+- **Screenshot install guide** in 11 languages (`docs/install-guide/<lang>.md`, index `docs/install-guide/README.md`):
+  Settings → Plugins → Add plugin → From a Git URL → Install → trust prompt → Enable → preview, plus the optional DWG
+  companion and troubleshooting. Captured from a real Orca 1.4.279 in Docker over CDP, one fresh profile per UI
+  language, labels read from the DOM; re-run with `bash tools/install-guide/run.sh` (see `tools/install-guide/README.md`).
 
 ## [0.4.0] — 2026-11-27
 

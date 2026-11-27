@@ -1,0 +1,292 @@
+{
+ "lang": "tr",
+ "orcaVersion": "1.4.279",
+ "missingKeys": [],
+ "steps": [
+  {
+   "n": 1,
+   "slug": "settings-button",
+   "file": "01-settings-button.png",
+   "boxes": [
+    {
+     "x": 5.5,
+     "y": 843,
+     "width": 28,
+     "height": 28,
+     "primary": true
+    }
+   ],
+   "labels": {
+    "settingsButton": "Ayarlar"
+   }
+  },
+  {
+   "n": 2,
+   "slug": "settings-menu",
+   "file": "02-settings-menu.png",
+   "boxes": [
+    {
+     "x": 49,
+     "y": 536,
+     "width": 194,
+     "height": 26,
+     "primary": true
+    }
+   ],
+   "labels": {
+    "settingsMenu": "Ayarlar"
+   }
+  },
+  {
+   "n": 3,
+   "slug": "plugins",
+   "file": "03-plugins.png",
+   "boxes": [
+    {
+     "x": 52,
+     "y": 751,
+     "width": 245,
+     "height": 31.5,
+     "primary": true
+    }
+   ],
+   "labels": {
+    "plugins": "Eklentiler"
+   }
+  },
+  {
+   "n": 4,
+   "slug": "add-plugin",
+   "file": "04-add-plugin.png",
+   "boxes": [
+    {
+     "x": 1214.859375,
+     "y": 108,
+     "width": 144.140625,
+     "height": 32,
+     "primary": true
+    }
+   ],
+   "labels": {
+    "addPlugin": "Eklenti ekle"
+   }
+  },
+  {
+   "n": 5,
+   "slug": "from-git-url",
+   "file": "05-from-git-url.png",
+   "boxes": [
+    {
+     "x": 1142,
+     "y": 177,
+     "width": 210,
+     "height": 26,
+     "primary": true
+    }
+   ],
+   "labels": {
+    "fromGit": "Bir Git URL’sinden…"
+   }
+  },
+  {
+   "n": 6,
+   "slug": "repository-url",
+   "file": "06-repository-url.png",
+   "boxes": [
+    {
+     "x": 456.5,
+     "y": 464.875,
+     "width": 526,
+     "height": 36,
+     "primary": true
+    },
+    {
+     "x": 456.5,
+     "y": 442.875,
+     "width": 526,
+     "height": 14,
+     "primary": false
+    }
+   ],
+   "labels": {
+    "urlLabel": "#ref içeren repository URL'si",
+    "dialogTitle": "Eklenti yükle",
+    "gitTab": "Git URL'si"
+   }
+  },
+  {
+   "n": 7,
+   "slug": "continue",
+   "file": "07-continue.png",
+   "boxes": [
+    {
+     "x": 858.5,
+     "y": 564.875,
+     "width": 124,
+     "height": 32,
+     "primary": true
+    }
+   ],
+   "labels": {
+    "continue": "Devam"
+   }
+  },
+  {
+   "n": 8,
+   "slug": "install",
+   "file": "08-install.png",
+   "boxes": [
+    {
+     "x": 858.5,
+     "y": 571.875,
+     "width": 124,
+     "height": 32,
+     "primary": true
+    },
+    {
+     "x": 467.5,
+     "y": 510.875,
+     "width": 504,
+     "height": 16,
+     "primary": false
+    }
+   ],
+   "labels": {
+    "install": "Yükle",
+    "resolved": "En son sürüm olan v0.4.0, e6fe45d commit'inde yüklenir."
+   }
+  },
+  {
+   "n": 9,
+   "slug": "trust",
+   "file": "09-trust.png",
+   "boxes": [
+    {
+     "x": 882.3125,
+     "y": 524.875,
+     "width": 68.1875,
+     "height": 36,
+     "primary": true
+    }
+   ],
+   "labels": {
+    "trustInstall": "Yükle",
+    "trustTitle": "hangams84 kaynağına güvendiğinizden emin olun"
+   }
+  },
+  {
+   "n": 10,
+   "slug": "enable",
+   "file": "10-enable.png",
+   "boxes": [
+    {
+     "x": 1221,
+     "y": 151,
+     "width": 144,
+     "height": 32,
+     "primary": true
+    },
+    {
+     "x": 352,
+     "y": 465,
+     "width": 1045,
+     "height": 272,
+     "primary": false
+    }
+   ],
+   "labels": {
+    "enable": "Eklentiyi etkinleştir",
+    "keepOff": "Kapalı tut",
+    "canAccess": "Erişebildikleri"
+   }
+  },
+  {
+   "n": 11,
+   "slug": "enabled",
+   "file": "11-enabled.png",
+   "boxes": [
+    {
+     "x": 52,
+     "y": 43.5,
+     "width": 255,
+     "height": 32,
+     "primary": true
+    },
+    {
+     "x": 537.46875,
+     "y": 217,
+     "width": 24.640625,
+     "height": 16,
+     "primary": false
+    },
+    {
+     "x": 1329,
+     "y": 157,
+     "width": 36,
+     "height": 20,
+     "primary": false
+    }
+   ],
+   "labels": {
+    "backToApp": "Uygulamaya dön",
+    "on": "Açık"
+   }
+  },
+  {
+   "n": 12,
+   "slug": "open-sample",
+   "file": "12-open-sample.png",
+   "boxes": [
+    {
+     "x": 1130,
+     "y": 349,
+     "width": 71.015625,
+     "height": 16,
+     "primary": true
+    }
+   ],
+   "labels": {
+    "sample": "sample.docx"
+   }
+  },
+  {
+   "n": 13,
+   "slug": "preview",
+   "file": "13-preview.png",
+   "boxes": [
+    {
+     "x": 321,
+     "y": 68,
+     "width": 1118,
+     "height": 807,
+     "primary": true
+    }
+   ],
+   "labels": {}
+  },
+  {
+   "n": 14,
+   "slug": "optional-dwg",
+   "file": "14-optional-dwg.png",
+   "boxes": [
+    {
+     "x": 858.5,
+     "y": 571.875,
+     "width": 124,
+     "height": 32,
+     "primary": true
+    },
+    {
+     "x": 456.5,
+     "y": 457.875,
+     "width": 526,
+     "height": 36,
+     "primary": false
+    }
+   ],
+   "labels": {
+    "install": "Yükle"
+   }
+  }
+ ]
+}
