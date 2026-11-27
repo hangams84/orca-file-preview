@@ -27,7 +27,24 @@ All notable changes per release. Each release on GitHub carries its verification
   DXF with xrefs and an image), `tools/harness/companions.mjs` (folder picker, synthetic drop, panel, 150 MB STL),
   `tools/vendor-one.mjs`; three.js bundle adds `MTLLoader` and `TextureLoader` (+4 KB). Evidence:
   `docs/evidence/companions/`.
-
+- **Companion files for KiCad, SolidWorks and EPLAN** (📁 / drop, same `core/companions.ts`). Evidence:
+  `docs/evidence/companions-eng/`.
+  - KiCad: with the project folder, a root schematic lists its sheet tree (pages, nested sheets, missing or recursive
+    sheets in a note with a hint) and opens sub-sheets (select, double-click, ↑) with their instance references and
+    units (KiCad 7+ symbol `instances`, KiCad 6 `symbol_instances`); `.kicad_pro` opens the root schematic and board;
+    the project's custom drawing sheet (`.kicad_wks`: lines, rects, texts, polygons, repeats, page-1 options, text
+    variables) is drawn for schematics and boards; a `.kicad_wks` opened on its own shows as a template. Matches `kicad-cli` 10.0.5 on the generated sample project.
+  - SolidWorks: **3D assembly** tab. Component placements come from `COMPINSTANCETREE` (column-major 4×4 per instance,
+    nested sub-assemblies, suppressed/hidden, display states; verified on 5 public assemblies against their stored
+    bounding boxes); meshes from the assembly's own `FaceTessellations` (2015+, no parts needed) or from given part files
+    (2014 OLE files), recursing into given sub-assemblies; placement table in References. Drawings: referenced
+    models open when given.
+  - EPLAN: macros (`.ema`, `.emp`, and **Draw** for macros in `.edz`) drawn from PXF (lines, arcs, curves, texts,
+    rectangles, device black boxes; per variant). Link files read the project folder (`.edb`): ProjectInfo.xml, page
+    descriptions and a **Parts** tab from `Article.eod` (also in `.zw1` backups). The `.edb` store is EPLAN's own
+    `.eod`/`.eox` format (not SQLite/SQL CE/XML); schematic pages stay undrawn.
+  - New text editor family `eplan` (`.ema` `.emp`): 16 editors in total. Samples: `tools/make-kicad-project.mjs`,
+    `tools/make-sw-assembly.py`, `tools/make-eplan-project.py`; harness `tools/harness/companions-eng.mjs`.
 ### Fixed
 - 3D Preview: a model with a missing external texture drew black. The stand-in 1×1 PNG was corrupt; it is now a
   valid white pixel, and the view draws again once side textures have loaded.

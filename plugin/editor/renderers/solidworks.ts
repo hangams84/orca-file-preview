@@ -8,7 +8,10 @@ import type { PreviewContext } from '../core/types.ts'
 import { h } from '../core/ui.ts'
 import { renderInspector } from './prop/inspect.ts'
 import { readMeshes, readSwDocument, releaseName, type SwDocument } from './prop/sw.ts'
-import { collapsible, createPage, embed, gallery, heading, kvTable, list, note, tree, type PropPage, type Tab } from './prop/view.ts'
+import { baseName, flattenComponents } from './prop/swasm.ts'
+import { assembly3d, readTree } from './prop/swasm-view.ts'
+import { button, collapsible, createPage, embed, gallery, heading, kvTable, list, note, tree, type PropPage, type Tab } from './prop/view.ts'
+import { companionControls, findCompanion } from '../core/companions.ts'
 
 const TYPE_LABEL: Record<SwDocument['docType'], [string, string]> = {
   part: ['파트', 'Part'],
@@ -40,16 +43,52 @@ export async function render(ctx: PreviewContext): Promise<void | (() => void)> 
   const show3d = doc.docType === 'part' && display.some((s) => s.encoding !== 'implode')
   const imploded = doc.docType === 'part' && !show3d && display.some((s) => s.encoding === 'implode')
 
+  const isAsm = doc.docType === 'assembly'
+  const usesFiles = isAsm || doc.docType === 'drawing'
+  // Companion files (📁 / drop): parts of an assembly, models a drawing references. Panels that use them
+  // register a refresh here.
+  const refresh = new Set<() => void>()
+  const cleanups: (() => void)[] = []
+
   const tabs: Tab[] = [
     { id: 'overview', label: tr('개요', 'Overview'), build: (panel, page) => overview(panel, page.ctx, doc, typeText, release, show3d, imploded, (id) => page.select(id), (b) => gallery(page, b)) }
   ]
   if (show3d) tabs.push({ id: '3d', label: tr('3D 표시 메시', '3D display mesh'), build: (panel, page) => mesh3d(panel, page, doc) })
+  if (isAsm)
+    tabs.push({
+      id: '3d',
+      label: tr('3D 어셈블리', '3D assembly'),
+      build: async (panel, page) => {
+        const view = await assembly3d(panel, page, doc.container, doc.xml.files.slice(1))
+        refresh.add(() => void view.rebuild())
+        cleanups.push(view.close)
+      }
+    })
   tabs.push({ id: 'props', label: tr('속성', 'Properties'), build: (panel) => properties(panel, ctx, doc) })
   if (doc.xml.files.length || doc.xml.features.length || doc.xml.components.length || doc.xml.configurations.length) {
-    tabs.push({ id: 'refs', label: doc.docType === 'part' ? tr('구성·피처', 'Configurations & features') : tr('참조·구성', 'References & configurations'), build: (panel) => references(panel, ctx, doc) })
+    tabs.push({
+      id: 'refs',
+      label: doc.docType === 'part' ? tr('구성·피처', 'Configurations & features') : tr('참조·구성', 'References & configurations'),
+      build: (panel, page) => {
+        const draw = () => {
+          panel.replaceChildren()
+          references(panel, page, doc)
+        }
+        draw()
+        if (usesFiles) refresh.add(draw)
+      }
+    })
   }
   tabs.push({ id: 'contents', label: tr('파일 구조', 'File structure'), build: (panel) => contents(panel, ctx, doc) })
   createPage(ctx, tabs)
+  if (usesFiles)
+    cleanups.push(
+      companionControls(ctx, () => refresh.forEach((f) => f()), {
+        accept: '.sldprt,.sldasm',
+        what: isAsm ? { ko: '파트 파일', en: 'part files' } : { ko: '참조 모델 파일', en: 'referenced model files' }
+      })
+    )
+  return () => cleanups.forEach((f) => f())
 }
 
 function overview(
@@ -72,8 +111,20 @@ function overview(
   ]
   if (show3d) parts.push(tr('3D 탭은 SolidWorks가 저장한 표시용 메시(삼각형)를 그립니다. 정확한 곡면이 아니며, 표시 데이터 없이 저장된 바디는 빠질 수 있습니다.', 'The 3D tab draws the display mesh (triangles) SolidWorks saved: not exact surfaces, and bodies saved without display data are missing.'))
   else if (imploded) parts.push(tr('이 파일(SolidWorks 2001 이전 형식)의 표시 메시는 오래된 PKWARE implode 압축으로 저장되어 있어 3D 보기를 제공하지 않습니다.', 'This file (SolidWorks 2001 or older) stores its display mesh with the old PKWARE implode compression, so there is no 3D view.'))
-  else if (doc.docType === 'assembly') parts.push(tr('어셈블리의 3D 보기는 제공하지 않습니다: 파일에 저장된 부품 메시에는 배치 정보가 없습니다.', 'There is no 3D view for assemblies: the component meshes stored in the file carry no placement.'))
-  else if (doc.docType === 'drawing' || doc.docType === 'sheet-format') parts.push(tr('도면 시트는 SolidWorks가 저장한 시트 그림으로만 보여 줄 수 있습니다. 치수와 주석은 다시 그리지 않습니다.', 'Drawing sheets are shown only as the sheet pictures SolidWorks saved; views, dimensions and notes are not redrawn.'))
+  else if (doc.docType === 'assembly')
+    parts.push(
+      tr(
+        '3D 어셈블리 탭은 각 구성 요소를 저장된 위치(COMPINSTANCETREE)에 놓습니다. 메시는 어셈블리에 저장된 표시 메시를 쓰고, 없으면 주어진 파트 파일(📁 또는 끌어다 놓기)에서 가져옵니다.',
+        'The 3D assembly tab places each component at its stored position (COMPINSTANCETREE). Meshes are the display meshes stored in the assembly or, where there are none, those of the part files you give (📁 or drop).'
+      )
+    )
+  else if (doc.docType === 'drawing' || doc.docType === 'sheet-format')
+    parts.push(
+      tr(
+        '도면 시트는 SolidWorks가 저장한 시트 그림으로만 보여 줄 수 있습니다. 치수와 주석은 다시 그리지 않습니다. 참조 모델 파일을 주면(📁) "참조·구성" 탭에서 열 수 있습니다.',
+        'Drawing sheets are shown only as the sheet pictures SolidWorks saved; views, dimensions and notes are not redrawn. Give the referenced model files (📁) to open them from the References tab.'
+      )
+    )
   panel.append(note(parts.join(' ')))
 
   const images = doc.images.map((im) => ({
@@ -183,7 +234,8 @@ function properties(panel: HTMLElement, ctx: PreviewContext, doc: SwDocument): v
   }
 }
 
-function references(panel: HTMLElement, ctx: PreviewContext, doc: SwDocument): void {
+function references(panel: HTMLElement, page: PropPage, doc: SwDocument): void {
+  const { ctx } = page
   const { tr } = ctx
   const x = doc.xml
   if (x.configurations.length) {
@@ -198,8 +250,34 @@ function references(panel: HTMLElement, ctx: PreviewContext, doc: SwDocument): v
     panel.append(
       heading(`${label} (${others.length})`),
       note(tr('경로는 파일을 저장한 컴퓨터 기준입니다.', 'Paths are as they were on the computer that saved the file.')),
-      list(others.map((f) => [f.path, [f.type, f.imported ? tr(`가져옴: ${f.imported}`, `imported from ${f.imported}`) : ''].filter(Boolean).join(' · ')] as [string, string]))
+      modelList(page, others)
     )
+  }
+  if (doc.docType === 'assembly') {
+    const t = readTree(doc.container)
+    if (t) {
+      const all = flattenComponents(t.components)
+      const mm = (v: number) => (Math.abs(v * 1000) < 5e-4 ? '0' : String(+(v * 1000).toFixed(3)))
+      panel.append(
+        heading(tr(`구성 요소 배치 (${all.length}, 구성 ${t.config})`, `Component placement (${all.length}, configuration ${t.config})`)),
+        note(tr('위치는 최상위 어셈블리 원점 기준 mm입니다.', 'Positions are in mm from the top assembly origin.')),
+        list(
+          all.map((c) => [
+            `${'\u2003'.repeat(c.depth)}${c.name}-${c.number}`,
+            [
+              baseName(c.file),
+              c.config,
+              `(${mm(c.world[12])}, ${mm(c.world[13])}, ${mm(c.world[14])})`,
+              c.suppressed ? tr('억제됨', 'suppressed') : '',
+              c.hidden ? tr('숨김', 'hidden') : '',
+              c.virtual ? tr('가상', 'virtual') : ''
+            ]
+              .filter(Boolean)
+              .join(' · ')
+          ] as [string, string])
+        )
+      )
+    }
   }
   if (x.components.length) {
     panel.append(heading(tr(`구성 요소 인스턴스 (${x.components.length})`, `Component instances (${x.components.length})`)), list(x.components.slice().sort()))
@@ -231,4 +309,30 @@ function contents(panel: HTMLElement, ctx: PreviewContext, doc: SwDocument): voi
     heading(tr(`스트림 (${rows.filter((r) => !r.dir).length})`, `Streams (${rows.filter((r) => !r.dir).length})`)),
     tree(rows, tr, 1)
   )
+}
+
+/** Referenced models; the ones among the given companion files get an Open button. */
+function modelList(page: PropPage, files: { path: string; type: string; imported?: string }[]): HTMLElement {
+  const { ctx } = page
+  const { tr } = ctx
+  const ul = h('ul', 'fp-prop-list')
+  for (const f of files.slice(0, 2000)) {
+    const li = h('li')
+    li.style.cssText = 'display:flex;gap:8px;align-items:center;justify-content:space-between'
+    const text = h('span', undefined, f.path)
+    text.append(h('small', undefined, [f.type, f.imported ? tr(`가져옴: ${f.imported}`, `imported from ${f.imported}`) : ''].filter(Boolean).join(' · ')))
+    li.append(text)
+    const c = findCompanion(baseName(f.path))
+    if (c && baseName(c.path).toLowerCase() === baseName(f.path).toLowerCase()) {
+      li.append(
+        button(tr('열기', 'Open'), tr(`${c.path} 열기`, `Open ${c.path}`), () => {
+          void c.file.arrayBuffer().then((buf) =>
+            page.open({ title: c.path, bytes: new Uint8Array(buf), ext: (c.path.split('.').pop() ?? 'sldprt').toLowerCase(), render: (sub) => render(sub) })
+          )
+        })
+      )
+    } else li.append(h('small', undefined, ctx.tr('파일 없음', 'not given')))
+    ul.append(li)
+  }
+  return ul
 }

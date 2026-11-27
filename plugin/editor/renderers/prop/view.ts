@@ -102,7 +102,14 @@ const LOADERS: Record<string, () => Promise<{ render: (c: PreviewContext) => Pro
   svg: () => import('../svg.ts'),
   txt: () => import('../text.ts'),
   xml: () => import('../text.ts'),
-  edz: () => import('../eplan.ts')
+  edz: () => import('../eplan.ts'),
+  ema: () => import('../eplan.ts'),
+  emp: () => import('../eplan.ts')
+}
+
+/** Adopts the page stylesheet (for `embed` used outside `createPage`). */
+export function adoptPropStyles(): void {
+  adoptStyle('prop', CSS)
 }
 
 export function canEmbed(ext: string): boolean {

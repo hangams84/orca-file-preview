@@ -70,11 +70,14 @@ export const RENDERERS: Record<string, Loader> = {
   zw1: () => import('./renderers/eplan.ts'),
   zx1: () => import('./renderers/eplan.ts'),
   edz: () => import('./renderers/eplan.ts'),
+  ema: () => import('./renderers/eplan.ts'),
+  emp: () => import('./renderers/eplan.ts'),
   kicad_sch: () => import('./renderers/kicad.ts'),
   kicad_pcb: () => import('./renderers/kicad.ts'),
   kicad_mod: () => import('./renderers/kicad.ts'),
   kicad_sym: () => import('./renderers/kicad.ts'),
   kicad_pro: () => import('./renderers/kicad.ts'),
+  kicad_wks: () => import('./renderers/kicad.ts'),
   urdf: () => import('./renderers/urdf.ts'),
   xacro: () => import('./renderers/urdf.ts')
 }
@@ -220,6 +223,9 @@ export function textType(family: string, bytes: Uint8Array): string {
       return 'drawio'
     case 'dxf':
       return 'dxf'
+    case 'eplan':
+      // Window macros (Type="WindowMacro") and page macros share the PXF format.
+      return /<EplanPxfRoot\b[^>]*\bType="PageMacro"/.test(head) ? 'emp' : 'ema'
     case 'office':
       // .doc saved as RTF/HTML by other word processors, .xls saved as SpreadsheetML or HTML by Excel.
       return /<\?mso-application\s+progid="Excel|<Workbook[\s>]|urn:schemas-microsoft-com:office:excel/i.test(head) ? 'xls' : 'doc'
@@ -230,6 +236,7 @@ export function textType(family: string, bytes: Uint8Array): string {
       if (/^\(\s*kicad_sch\b/.test(start)) return 'kicad_sch'
       if (/^\(\s*kicad_pcb\b/.test(start)) return 'kicad_pcb'
       if (/^\(\s*kicad_symbol_lib\b/.test(start)) return 'kicad_sym'
+      if (/^\(\s*(kicad_wks|page_layout)\b/.test(start)) return 'kicad_wks'
       return 'kicad_mod' // (footprint …) or the older (module …)
     case 'model3d':
       if (/^ISO-10303-21\s*;/.test(start)) return 'step'

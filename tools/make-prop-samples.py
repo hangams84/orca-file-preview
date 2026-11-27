@@ -588,7 +588,14 @@ def make_eplan():
     macro = (
         '<?xml version="1.0" encoding="utf-8" ?>\n<EplanPxfRoot Name="TB-100" Type="WindowMacro" Version="2.9.0" PxfVersion="1.23" Description="Synthetic macro">\n'
         ' <EplPxfDir><EplPxfDirEntry MacroFuncType="1" VariantId="0"/><EplPxfDirEntry MacroFuncType="4" VariantId="0"/></EplPxfDir>\n'
-        ' <MacroVariant MacroFuncType="1" VariantId="0"/>\n <MacroVariant MacroFuncType="4" VariantId="0"/>\n</EplanPxfRoot>\n'
+        ' <MacroVariant MacroFuncType="1" VariantId="0">\n'
+        '  <O31 A1="31/1" A414="0.35" A531="0/0" A532="10/0"/><O31 A1="31/2" A414="0.35" A531="10/0" A532="10/-30"/>\n'
+        '  <O31 A1="31/3" A414="0.35" A531="10/-30" A532="0/-30"/><O31 A1="31/4" A414="0.35" A531="0/-30" A532="0/0"/>\n'
+        '  <O32 A1="32/5" A414="0.25" A553="0" A554="6.283185307179586" A555="5/-8" A556="2/0"/>\n'
+        '  <O32 A1="32/6" A414="0.25" A553="0" A554="6.283185307179586" A555="5/-22" A556="2/0"/>\n'
+        '  <O30 A1="30/7" A501="1/2" A511="??_??@-X1;"><S54x505 A961="2.5"/></O30>\n'
+        ' </MacroVariant>\n <MacroVariant MacroFuncType="4" VariantId="0">\n'
+        '  <O89 A1="89/8" A1651="0/0" A1652="5.2/48"/>\n </MacroVariant>\n</EplanPxfRoot>\n'
     ).encode("utf-8")
     manifest = (
         '<?xml version="1.0" encoding="utf-8" ?>\n<manifest version="2.0">\n <packages>\n'

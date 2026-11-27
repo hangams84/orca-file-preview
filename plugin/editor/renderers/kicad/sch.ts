@@ -5,6 +5,7 @@ import { plainText, textExtent, wrapText, type Pt } from './font.ts'
 import { Box, circleD, fmt, Scene, type Layer } from './scene.ts'
 import { child, children, flag, head, isList, num, nums, points, str, val, type SList } from './sexpr.ts'
 import { drawSheet, paperOf, titleBlockOf } from './sheet.ts'
+import { drawWorksheet } from './wks.ts'
 import { bezier, drawSymbol, layersFor, parseLibSymbol, type LibSymbol, type PinHit } from './symbol.ts'
 import type { Hit } from './view.ts'
 
@@ -81,7 +82,22 @@ class Nets {
   }
 }
 
-export function buildSchematic(root: SList, tr: (ko: string, en: string) => string): SchModel {
+/** Optional context for a sheet inside a hierarchy (all additive; a lone file needs none). */
+export interface SchOptions {
+  /** A custom drawing sheet (.kicad_wks) to draw instead of the built-in default. */
+  wks?: SList
+  /** Values for the drawing sheet's text variables. */
+  sheetName?: string
+  sheetPath?: string
+  file?: string
+  page?: string
+  pages?: string
+  projectVars?: Record<string, string>
+  /** Instance-specific reference designator (and unit) of a placed symbol, when the hierarchy defines one. */
+  refFor?: (symbol: SList) => { ref: string; unit?: number } | null
+}
+
+export function buildSchematic(root: SList, tr: (ko: string, en: string) => string, opts: SchOptions = {}): SchModel {
   const scene = new Scene()
   const L = layersFor(scene)
   const items: Item[] = []
@@ -93,7 +109,9 @@ export function buildSchematic(root: SList, tr: (ko: string, en: string) => stri
 
   const paper = paperOf(root)
   const tb = titleBlockOf(root)
-  drawSheet(scene.layer('border'), paper, tb)
+  if (opts.wks) {
+    drawWorksheet(scene.layer('border'), opts.wks, { paper, tb, sheetName: opts.sheetName, sheetPath: opts.sheetPath, file: opts.file, page: opts.page, pages: opts.pages, project: opts.projectVars }, (opts.page ?? '1') === '1')
+  } else drawSheet(scene.layer('border'), paper, tb, { sheet: opts.sheetPath, file: opts.file })
 
   // Connectivity (for hover): wire segments, and named points.
   const nets = new Nets()
@@ -239,11 +257,13 @@ export function buildSchematic(root: SList, tr: (ko: string, en: string) => stri
     const at = nums(it, 'at', 3) ?? [0, 0, 0]
     const mirror = val(it, 'mirror')
     const xf = symbolXf(at[0], at[1], at[2], mirror)
-    const unit = num(child(it, 'unit')?.[1], 1) || 1
+    const inst = opts.refFor?.(it) ?? null
+    const unit = inst?.unit ?? (num(child(it, 'unit')?.[1], 1) || 1)
     const style = num(child(it, 'body_style')?.[1] ?? child(it, 'convert')?.[1], 1) || 1
     const dnp = flag(it, 'dnp')
     const props = new Map<string, string>()
     for (const p of children(it, 'property')) props.set(str(p[1]), str(p[2]))
+    if (inst) props.set('Reference', inst.ref)
     const ref = props.get('Reference') ?? ''
     const value = props.get('Value') ?? ''
     const box = new Box()
@@ -272,7 +292,7 @@ export function buildSchematic(root: SList, tr: (ko: string, en: string) => stri
     const isPower = !!lib?.power || ref.startsWith('#')
     for (const p of children(it, 'property')) {
       const name = str(p[1])
-      let text = str(p[2])
+      let text = name === 'Reference' && inst ? inst.ref : str(p[2])
       const e = effects(child(p, 'effects'))
       if (e.hide || flag(p, 'hide') || !text || text === '~') continue
       const pa = nums(p, 'at', 3) ?? [at[0], at[1], 0]

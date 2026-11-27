@@ -112,6 +112,7 @@
           ".kicad_mod",
           ".kicad_sym",
           ".kicad_pro",
+          ".kicad_wks",
           ".sldprt",
           ".sldasm",
           ".slddrw",
@@ -128,7 +129,9 @@
           ".ela",
           ".zw1",
           ".zx1",
-          ".edz"
+          ".edz",
+          ".ema",
+          ".emp"
         ],
         "entry": "editor/main.ts",
         "contentKind": "bytes",
@@ -208,7 +211,8 @@
           ".kicad_pcb",
           ".kicad_mod",
           ".kicad_sym",
-          ".kicad_pro"
+          ".kicad_pro",
+          ".kicad_wks"
         ],
         "entry": "editor/text/kicad.ts",
         "contentKind": "text",
@@ -243,6 +247,17 @@
           ".xls"
         ],
         "entry": "editor/text/office.ts",
+        "contentKind": "text",
+        "frame": "any"
+      },
+      {
+        "id": "eplan-text",
+        "title": "EPLAN Macro Preview",
+        "extensions": [
+          ".ema",
+          ".emp"
+        ],
+        "entry": "editor/text/eplan.ts",
         "contentKind": "text",
         "frame": "any"
       }

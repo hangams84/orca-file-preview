@@ -3,6 +3,8 @@
  *  (.edz). Schematic pages and macros are EPLAN's own binary and PXF graphics, which cannot be
  *  drawn here: the viewer shows the project properties, page descriptions, pictures, part data and
  *  the archive contents, opens embedded pictures and PDF documents, and says what it cannot show. */
+import { companionControls, companionFiles } from '../core/companions.ts'
+import { decodeText } from '../core/encoding.ts'
 import { formatBytes } from '../core/i18n.ts'
 import type { PreviewContext } from '../core/types.ts'
 import { h } from '../core/ui.ts'
@@ -28,7 +30,9 @@ import {
   type ArchiveEntry,
   type EdzPackage
 } from './prop/eplan.ts'
+import { edbArchive, findEdb, scanArticles } from './prop/edb.ts'
 import { renderInspector } from './prop/inspect.ts'
+import { isPxf } from './prop/pxf.ts'
 import { is7z, SevenZipError } from './prop/sevenzip.ts'
 import { button, canEmbed, collapsible, createPage, gallery, heading, imageMime, kvTable, list, note, tree, type PropPage, type Tab, type TreeEntry } from './prop/view.ts'
 
@@ -44,13 +48,20 @@ const KIND_TEXT: Record<string, [string, string]> = {
   elx: ['압축된 분리 EPLAN 프로젝트', 'Packed filed-off EPLAN project'],
   zw1: ['EPLAN 프로젝트 백업', 'EPLAN project backup'],
   zx1: ['EPLAN 백업 (추정)', 'EPLAN backup (assumed)'],
-  edz: ['EPLAN Data Portal 부품 패키지', 'EPLAN Data Portal part package']
+  edz: ['EPLAN Data Portal 부품 패키지', 'EPLAN Data Portal part package'],
+  ema: ['EPLAN 창 매크로', 'EPLAN window macro'],
+  emp: ['EPLAN 페이지 매크로', 'EPLAN page macro']
 }
 
 export async function render(ctx: PreviewContext): Promise<void | (() => void)> {
   const { bytes, tr, fileType } = ctx
   const [ko, en] = KIND_TEXT[fileType] ?? ['EPLAN 파일', 'EPLAN file']
   const kindText = tr(ko, en)
+  // Macros (PXF XML): drawn.
+  if (fileType === 'ema' || fileType === 'emp' || isPxf(new TextDecoder().decode(bytes.subarray(0, 4096)))) {
+    const { renderPxf } = await import('./prop/pxf-view.ts')
+    return renderPxf(ctx, decodeText(bytes).text)
+  }
   // Archives first: a packed or archived project can carry any of these suffixes.
   if (is7z(bytes) || isZipBytes(bytes)) {
     let archive: Archive
@@ -78,7 +89,29 @@ export async function render(ctx: PreviewContext): Promise<void | (() => void)> 
 // ---------------------------------------------------------------------------------------------
 // Link files
 
-function renderLink(ctx: PreviewContext, link: NonNullable<ReturnType<typeof parseLinkFile>>, kindText: string): void {
+function renderLink(ctx: PreviewContext, link: NonNullable<ReturnType<typeof parseLinkFile>>, kindText: string): () => void {
+  const { tr } = ctx
+  let generation = 0
+  const show = () => {
+    const gen = ++generation
+    const files = companionFiles()
+    const edb = findEdb(files, link.dataDir)
+    if (edb.prefix) {
+      void renderProjectArchive(ctx, edbArchive(files, edb.prefix), tr(`${kindText} · 폴더 ${edb.prefix.replace(/\/$/, '')}`, `${kindText} · folder ${edb.prefix.replace(/\/$/, '')}`), {
+        folder: edb.prefix.replace(/\/$/, ''),
+        link
+      }).catch((err) => {
+        if (gen === generation) console.warn('eplan folder:', err)
+      })
+      return
+    }
+    linkPage(ctx, link, kindText, files.length ? edb.candidates : null)
+  }
+  show()
+  return companionControls(ctx, show, { what: { ko: 'EPLAN 프로젝트 폴더(.edb)', en: 'EPLAN project folder (.edb)' } })
+}
+
+function linkPage(ctx: PreviewContext, link: NonNullable<ReturnType<typeof parseLinkFile>>, kindText: string, candidates: string[] | null): void {
   const { tr, fileType } = ctx
   ctx.toolbar.info([kindText, link.dbVersion ? tr(`DB ${link.dbVersion}`, `database ${link.dbVersion}`) : '', formatBytes(ctx.bytes.byteLength)].filter(Boolean).join(' · '))
   createPage(ctx, [
@@ -92,6 +125,17 @@ function renderLink(ctx: PreviewContext, link: NonNullable<ReturnType<typeof par
               `이 .${fileType} 파일은 프로젝트를 가리키는 링크 파일입니다. 프로젝트 데이터(페이지, 장치, 부품)는 같은 폴더의 "${link.dataDir}" 디렉터리에 있어 이 미리보기에서 볼 수 없습니다. 프로젝트 내용을 보려면 백업(.zw1)을 열어 보세요.`,
               `This .${fileType} file is a link to a project. The project data (pages, devices, parts) lives in the "${link.dataDir}" directory next to it, which this preview cannot see. Open a backup (.zw1) of the project to see its contents.`
             )
+          ),
+          note(
+            candidates === null
+              ? tr(
+                  `프로젝트 폴더(.edb)를 고르거나(📁) 여기에 끌어다 놓으면 프로젝트 속성, 페이지 목록과 부품 목록을 읽습니다.`,
+                  `Pick the project folder (.edb, or the folder that holds it) with 📁 or drop it here to read the project properties, the page list and the parts list.`
+                )
+              : candidates.length
+                ? tr(`주어진 파일에 .edb 폴더가 여럿 있습니다: ${candidates.join(', ')}. "${link.dataDir}" 폴더 하나만 주세요.`, `The given files hold several .edb folders: ${candidates.join(', ')}. Give only the "${link.dataDir}" folder.`)
+                : tr(`주어진 파일에 .edb 폴더(ProjectInfo.xml)가 없습니다.`, `The given files contain no .edb folder (with a ProjectInfo.xml).`),
+            candidates === null ? 'info' : 'warn'
           ),
           kvTable([
             [tr('종류', 'Kind'), kindText],
@@ -126,7 +170,7 @@ function contentsTab(archive: Archive, page: PropPage, panel: HTMLElement): void
   const total = files.reduce((a, e) => a + e.size, 0)
   panel.append(
     kvTable([
-      [tr('압축 형식', 'Archive'), `${archive.format === '7z' ? '7z' : 'ZIP'} · ${archive.methods.join(', ')}${archive.solid ? tr(' · 솔리드', ' · solid') : ''}`],
+      [tr('압축 형식', 'Archive'), archive.methods.length ? `${archive.format === '7z' ? '7z' : 'ZIP'} · ${archive.methods.join(', ')}${archive.solid ? tr(' · 솔리드', ' · solid') : ''}` : tr('폴더 (주어진 파일)', 'Folder (given files)')],
       [tr('파일', 'Files'), `${files.length.toLocaleString()} · ${formatBytes(total)} ${tr('(압축 해제 시)', '(unpacked)')}`]
     ]),
     heading(tr('내용', 'Contents')),
@@ -344,9 +388,13 @@ async function partDetail(page: PropPage, archive: Archive, pkg: EdzPackage): Pr
   }
   const macros = pkg.items.filter((i) => i.type === 'macro')
   if (macros.length) {
-    el.append(heading(tr('매크로', 'Macros')), note(tr('EPLAN 매크로 그래픽은 여기서 그릴 수 없습니다. 이름, 종류와 변형만 보여 줍니다.', 'EPLAN macro graphics cannot be drawn here; their name, type and variants are listed.')))
+    el.append(
+      heading(tr('매크로', 'Macros')),
+      note(tr('"그리기"는 매크로에 저장된 선·호·문자를 그립니다. 심볼 라이브러리의 장치 심볼은 매크로에 없어 그려지지 않습니다.', '"Draw" shows the lines, arcs and texts stored in the macro; device symbols from symbol libraries are not in the macro and are not drawn.'))
+    )
     const seen = new Set<string>()
     const rows: [string, string][] = []
+    const entries: (ArchiveEntry | undefined)[] = []
     for (const m of macros) {
       const e = resolveItem(archive, m)
       const label = m.name === 'graphicmacro' ? tr('그래픽 매크로', 'graphic macro') : m.name === 'groupsymbolmacro' ? tr('그룹 심볼 매크로', 'group symbol macro') : m.name
@@ -365,8 +413,20 @@ async function partDetail(page: PropPage, archive: Archive, pkg: EdzPackage): Pr
         }
       }
       rows.push([m.locator, `${label} · ${info}`])
+      entries.push(e)
     }
-    el.append(kvTable(rows))
+    const ul = h('ul', 'fp-prop-list')
+    rows.forEach(([loc, text], i) => {
+      const li = h('li')
+      li.style.cssText = 'display:flex;gap:8px;align-items:center;justify-content:space-between'
+      const span = h('span', undefined, loc)
+      span.append(h('small', undefined, text))
+      li.append(span)
+      const e = entries[i]
+      if (e) li.append(button(tr('그리기', 'Draw'), tr('매크로 그래픽 그리기', 'Draw the macro graphics'), () => void openEntry(page, e)))
+      ul.append(li)
+    })
+    el.append(ul)
   }
   return el
 }
@@ -394,13 +454,14 @@ function macroSummary(head: string, tr: PreviewContext['tr']): string {
 // ---------------------------------------------------------------------------------------------
 // Archived / packed projects
 
-async function renderProjectArchive(ctx: PreviewContext, archive: Archive, kindText: string): Promise<void> {
+async function renderProjectArchive(ctx: PreviewContext, archive: Archive, kindText: string, from?: { folder: string; link: { dataDir: string; dbVersion: string } }): Promise<void> {
   const { tr } = ctx
   const ko = korean(ctx)
   const info = archive.entries.find((e) => !e.dir && /(^|\/)ProjectInfo\.xml$/i.test(e.path))
   const bak = archive.entries.find((e) => !e.dir && /(^|\/)A?_BAKINFO\.XML$/i.test(e.path))
   const comment = archive.entries.find((e) => !e.dir && /(^|\/)_COMMENT\.TXT$/i.test(e.path))
   const pageDb = archive.entries.find((e) => !e.dir && /(^|\/)Page\.eod$/i.test(e.path))
+  const articleDb = archive.entries.find((e) => !e.dir && /(^|\/)Article\.eod$/i.test(e.path) && !/\.(sdb|fdb)\//i.test(e.path))
   const images = archive.entries.filter((e) => !e.dir && imageMime(e.path) && e.size > 0)
   const pdfs = archive.entries.filter((e) => !e.dir && /\.pdf$/i.test(e.path))
   const isProject = !!(info || bak || pageDb)
@@ -433,7 +494,17 @@ async function renderProjectArchive(ctx: PreviewContext, archive: Archive, kindT
             isProject ? 'info' : 'warn'
           )
         )
+        if (from)
+          panel.append(
+            note(
+              tr(
+                `프로젝트 폴더 "${from.folder}"에서 읽었습니다. 이 폴더는 EPLAN 고유의 객체 저장소(.eod/.eox)이며 SQLite·SQL CE·XML이 아닙니다. ProjectInfo.xml, 페이지 설명과 부품 목록만 읽을 수 있습니다.`,
+                `Read from the project folder "${from.folder}". It is EPLAN's own object store (.eod/.eox files), not SQLite, SQL CE or XML: only ProjectInfo.xml, the page descriptions and the parts list can be read.`
+              )
+            )
+          )
         const rows: [string, string][] = [[tr('종류', 'Kind'), kindText]]
+        if (from) rows.push([tr('링크 파일 데이터 디렉터리', 'Link file data directory'), from.link.dataDir], [tr('데이터베이스 버전', 'Database version'), from.link.dbVersion])
         for (const [id, k, e, type] of PROJECT_FIELDS) {
           const v = byId(id)
           if (!v) continue
@@ -478,6 +549,48 @@ async function renderProjectArchive(ctx: PreviewContext, archive: Archive, kindT
         const strings = scanMultiLangStrings(await pageDb.read())
         const texts = strings.map((s) => pickLang(s, ko)).filter(Boolean)
         panel.append(texts.length ? orderedList(texts) : note(tr('페이지 설명을 찾지 못했습니다.', 'No page descriptions were found.'), 'warn'))
+      }
+    })
+  }
+  if (articleDb) {
+    tabs.push({
+      id: 'parts',
+      label: tr('부품', 'Parts'),
+      async build(panel) {
+        panel.append(
+          note(
+            tr(
+              'Article.eod의 부품 레코드에서 읽은 부품 번호와 설명입니다 (형식이 공개되지 않아 패턴으로 찾으며, 다른 속성은 해석하지 않습니다).',
+              'Part numbers and descriptions read from the part records in Article.eod (the format is not public: found by pattern; other properties are not decoded).'
+            )
+          )
+        )
+        if (articleDb.size > 64 * 1024 * 1024) {
+          panel.append(note(tr('부품 데이터베이스가 너무 커서 읽지 않았습니다.', 'The parts database is too large to scan.'), 'warn'))
+          return
+        }
+        const parts = scanArticles(await articleDb.read())
+        if (!parts.length) {
+          panel.append(note(tr('부품 레코드를 찾지 못했습니다.', 'No part records were found.'), 'warn'))
+          return
+        }
+        const filter = h('input')
+        filter.type = 'search'
+        filter.placeholder = tr(`부품 ${parts.length}개 검색`, `Filter ${parts.length} parts`)
+        filter.setAttribute('aria-label', filter.placeholder)
+        filter.style.cssText = 'margin:6px 0;padding:4px 8px;width:min(360px,100%);font:inherit;border-radius:6px;border:1px solid var(--orca-input,#ccc);background:var(--orca-background,#fff);color:inherit'
+        const rows = parts
+          .slice()
+          .sort((a, b) => a.partNumber.localeCompare(b.partNumber))
+          .map((p) => [p.partNumber || '—', p.texts.map((t) => pickLang(t, ko)).filter(Boolean).slice(0, 2).join(' · ')] as [string, string])
+        const box = h('div')
+        const draw = () => {
+          const q = filter.value.trim().toLowerCase()
+          box.replaceChildren(list(rows.filter(([a, b]) => !q || a.toLowerCase().includes(q) || b.toLowerCase().includes(q))))
+        }
+        filter.addEventListener('input', draw)
+        draw()
+        panel.append(filter, box)
       }
     })
   }
