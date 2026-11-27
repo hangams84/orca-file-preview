@@ -326,6 +326,8 @@ export interface BlockRec {
   base: [number, number]
   flags: number
   ents: Ent[]
+  /** Path of the referenced drawing for an external reference (flag 4), as written (group 1). */
+  xref?: string
 }
 
 export interface DxfDoc {
@@ -341,6 +343,8 @@ export interface DxfDoc {
   entities: Ent[]
   layouts: Ent[]
   dimstyles: Map<string, Ent>
+  /** IMAGEDEF handle (upper case) → file name of the raster image, as written. */
+  imageDefs: Map<string, string>
 }
 
 /** Value of the first tag with `code` in [s, e). */
@@ -371,7 +375,8 @@ export function parseDoc(t: Tags): DxfDoc {
     blocks: new Map(),
     entities: [],
     layouts: [],
-    dimstyles: new Map()
+    dimstyles: new Map(),
+    imageDefs: new Map()
   }
   let sawSection = false
   let i = 0
@@ -490,6 +495,7 @@ function blocks(doc: DxfDoc, s: number, e: number): void {
   for (const r of recs) {
     if (r.type === 'BLOCK') {
       cur = { name: str(t, r.s, r.e, 2), base: [num(t, r.s, r.e, 10), num(t, r.s, r.e, 20)], flags: num(t, r.s, r.e, 70), ents: [] }
+      if (cur.flags & 4) cur.xref = str(t, r.s, r.e, 1) || undefined
       body = []
     } else if (r.type === 'ENDBLK') {
       if (cur) {
@@ -529,7 +535,13 @@ function group(recs: Ent[]): Ent[] {
 }
 
 function objects(doc: DxfDoc, s: number, e: number): void {
-  for (const r of records(doc.t, s, e)) if (r.type === 'LAYOUT') doc.layouts.push(r)
+  for (const r of records(doc.t, s, e)) {
+    if (r.type === 'LAYOUT') doc.layouts.push(r)
+    else if (r.type === 'IMAGEDEF') {
+      const file = str(doc.t, r.s, r.e, 1)
+      if (file) doc.imageDefs.set(str(doc.t, r.s, r.e, 5).toUpperCase(), file)
+    }
+  }
 }
 
 export const VERSIONS: Record<string, string> = {

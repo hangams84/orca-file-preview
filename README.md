@@ -20,6 +20,14 @@ Read-only previews for Office, PDF, text and image files inside Orca, on desktop
 공통: 다크/라이트 테마 실시간 반영, 한국어/영어 UI, Ctrl+휠 · 핀치 · 버튼 확대/축소, 휴대폰 화면에서 폭 맞춤,
 파일이 바뀌면 자동 갱신, 손상 파일은 친절한 오류 안내.
 
+**참조 파일 / Companion files**: URDF·xacro의 메시와 include, OBJ의 `.mtl`·텍스처, glTF의 `.bin`·이미지, DXF의 xref·이미지는
+툴바의 📁 버튼으로 폴더를 고르거나 파일을 끌어다 놓으면 불러옵니다 (파일은 프레임 안에서만 읽힘). Meshes, includes, `.mtl`,
+`.bin`, textures and DXF xrefs/images load from a folder you pick with 📁 or drop onto the preview.
+
+**File Preview 패널**: 오른쪽 사이드바의 패널에서 "파일 열기…"·"폴더 열기…"·끌어 놓기로 파일을 열면 Orca 편집기의 50 MB 한도
+없이(최대 1 GB) 워크스페이스 밖 파일도 볼 수 있습니다. The File Preview side panel opens any supported file (no 50 MB editor
+limit, up to 1 GB; files outside a workspace too).
+
 ## 설치 / Install
 
 ```sh
@@ -27,7 +35,7 @@ Read-only previews for Office, PDF, text and image files inside Orca, on desktop
 # Orca 설정 → 플러그인 → 설치 → Git URL 에 https://github.com/hangams84/orca-file-preview.git 을 붙여넣어도 됩니다.
 orca plugin install https://github.com/hangams84/orca-file-preview
 orca plugin install https://github.com/hangams84/orca-file-preview --approve <fingerprint>
-# 특정 버전: https://github.com/hangams84/orca-file-preview#v0.3.0
+# 특정 버전: https://github.com/hangams84/orca-file-preview#v0.4.0
 
 # 또는 로컬 폴더
 orca plugin install ./plugin
@@ -35,9 +43,13 @@ orca plugin install ./plugin
 
 플러그인은 `sandboxed-ui` 권한만 사용합니다(추가 capability 없음, 네트워크 없음, 파일 수정 없음).
 
-> Orca가 직접 여는 형식(`.txt` `.csv` `.tsv` `.log` `.html` `.svg`)과 텍스트로 보이는 파일은 Orca의 Source
-> 보기로 먼저 열립니다. 탭 오른쪽 위 보기 전환 버튼으로 미리보기로 바꿀 수 있습니다.
-> Files Orca opens itself open in Source first; switch with the view toggle at the tab's top right.
+> **텍스트 형식도 바로 미리보기로 열립니다** (0.3.1부터). URDF·xacro, KiCad, draw.io, ASCII DXF, STEP·IGES·BREP, OBJ·ASCII
+> STL/PLY·OFF·glTF·DAE, RTF/HTML로 저장된 `.doc`, XML `.xls`는 Orca가 텍스트로 판단하는 파일이라, 플러그인이 텍스트 편집기를
+> 따로 등록해 기본으로 엽니다. 단, Orca가 직접 여는 형식(`.txt` `.csv` `.tsv` `.html` `.htm`)은 Orca 규칙상 Source로 먼저 열리고,
+> 탭 오른쪽 위 보기 전환 버튼으로 미리보기를 고를 수 있습니다(`.csv`·`.tsv`는 Orca 자체 표 보기). / **Text formats open
+> straight in the preview** (from 0.3.1): the plugin registers text editors for URDF, xacro, KiCad, draw.io, ASCII DXF,
+> STEP/IGES/BREP, OBJ and other text 3D formats, RTF/HTML `.doc` and XML `.xls`. Files Orca opens itself (`.txt .csv .tsv
+> .html .htm`) still open in Source first; pick the preview with the view toggle.
 
 ## 저장소 구조 / Layout
 

@@ -2,12 +2,17 @@
  *  .brep read by OpenCascade/occt-import-js in a Web Worker): three.js (MIT) loaders, WebGL, orbit
  *  controls (mouse and touch). Geometry-only formats parse in a Web Worker; glTF/3MF/FBX/COLLADA
  *  parse on the main thread after a yield. Draws only when something changes, and once without
- *  requestAnimationFrame so a hidden window still shows the model. The frame has no network: only
- *  data:/blob: resources load; external textures, .mtl and .bin files are reported, not fetched. */
+ *  requestAnimationFrame so a hidden window still shows the model. The frame has no network: side
+ *  files (an OBJ's .mtl and textures, a glTF's .bin and images, COLLADA/FBX/3MF textures) load only
+ *  from files the user hands over (📁 or drop, core/companions.ts) through blob: URLs; the ones still
+ *  missing are listed. */
 import { formatBytes } from '../core/i18n.ts'
 import { PreviewError, type PreviewContext } from '../core/types.ts'
 import { h, showLoading, showMessage } from '../core/ui.ts'
+import { companionControls, companionFiles } from '../core/companions.ts'
+import { CompanionUrls, locateSelf, resolveRef } from '../core/refs.ts'
 import * as THREE from '../../vendor/three.js'
+import { companionManager, objMaterialLibs, parseMeshFile, quietly } from './meshfiles.ts'
 import {
   CAD_KINDS,
   cadParams,
@@ -43,9 +48,6 @@ const STYLE = `
 export type Backdrop = 'theme' | 'light' | 'dark'
 const BACKDROP_KEY = 'file-preview.backdrop.model3d'
 export const BACKDROP_COLOR: Record<Exclude<Backdrop, 'theme'>, string> = { light: '#eef0f3', dark: '#1d1f23' }
-/** 1×1 white PNG used in place of an external texture (the material keeps its colour). */
-const WHITE_PIXEL =
-  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII='
 /** Above this many triangles, smooth shading for unshared (STL) meshes is not recomputed. */
 const SMOOTH_LIMIT = 3_000_000
 const PARSE_TIMEOUT_MS = 60_000
@@ -60,6 +62,10 @@ interface Loaded {
   /** Format label and up axis when the model does not come from a file of `kind` (SolidWorks meshes). */
   label?: string
   zUp?: boolean
+  /** The model refers to side files: show the 📁 control (re-render when files arrive). */
+  sideFiles?: boolean
+  /** Registers a callback for when the side textures have loaded (draw again). */
+  onTextures?: (cb: () => void) => void
 }
 
 export async function render(ctx: PreviewContext): Promise<() => void> {
@@ -212,6 +218,7 @@ async function mount(ctx: PreviewContext, kind: ModelKind, quality: CadQuality |
 
   try {
     const loaded = await load(kind, ctx, quality ?? 'normal')
+    if (loaded.sideFiles) watchSideFiles(ctx)
     if (signal.aborted) {
       disposeObject(loaded.object)
       return dispose
@@ -233,6 +240,18 @@ async function mount(ctx: PreviewContext, kind: ModelKind, quality: CadQuality |
       tr(`${KIND_LABEL[kind]} 파일을 읽을 수 없습니다. 파일이 손상되었거나 지원하지 않는 변형입니다.`, `Cannot read this ${KIND_LABEL[kind]} file. It is damaged or uses an unsupported variant.`)
     )
   }
+}
+
+/** The 📁 button and drop target for a model's side files: render again when files arrive. */
+function watchSideFiles(ctx: PreviewContext): void {
+  const off = companionControls(ctx, () => ctx.rerender?.(), { what: { ko: '모델이 참조하는 파일(.mtl·텍스처·.bin)', en: 'files the model refers to (.mtl, textures, .bin)' } })
+  ctx.signal.addEventListener('abort', off, { once: true })
+}
+
+/** Names of missing side files for a note (at most 6). */
+function missingList(names: string[]): string {
+  const base = names.map((n) => n.split(/[\\/]/).pop() || n)
+  return base.length > 6 ? `${base.slice(0, 6).join(', ')} …` : base.join(', ')
 }
 
 export function createRenderer(tr: PreviewContext['tr']): THREE.WebGLRenderer {
@@ -262,6 +281,38 @@ export function createRenderer(tr: PreviewContext['tr']): THREE.WebGLRenderer {
 
 async function load(kind: ModelKind, ctx: PreviewContext, quality: CadQuality): Promise<Loaded> {
   if (CAD_KINDS.has(kind)) return loadCad(kind, ctx, quality)
+  const { tr } = ctx
+  // Side files resolve from the opened file's own place when the user's folder holds it.
+  const sides = kind === 'obj' || !WORKER_KINDS.has(kind)
+  const self = sides && companionFiles().length ? await locateSelf(ctx.bytes) : undefined
+  const urls = new CompanionUrls(self)
+  ctx.signal.addEventListener('abort', () => urls.dispose(), { once: true })
+  if (kind === 'obj') {
+    // mtllib lines sit at the top; a huge OBJ is not decoded twice just to find them.
+    const libs = objMaterialLibs(new TextDecoder().decode(ctx.bytes.subarray(0, 1 << 20)))
+    if (libs.length && libs.some((l) => resolveRef(l, self))) {
+      await new Promise((r) => setTimeout(r, 0))
+      let texturesIn: (() => void) | null = null
+      let texturesDone = false
+      const mf = await parseMeshFile(ctx.bytes, self ?? 'model.obj', urls, {
+        onTextures: () => {
+          texturesDone = true
+          texturesIn?.()
+        }
+      })
+      return {
+        object: mf.object,
+        notes: mf.missing.length ? [noteText('missing', tr, mf.missing.length, missingList(mf.missing))] : [],
+        sideFiles: true,
+        onTextures: (cb) => {
+          texturesIn = cb
+          if (texturesDone) cb()
+        }
+      }
+    }
+    const { parts } = await parseOffThread(kind, ctx)
+    return { object: buildParts(parts, kind), notes: libs.length ? [noteText('mtl', tr, 0, missingList(libs))] : [], sideFiles: libs.length > 0 }
+  }
   if (WORKER_KINDS.has(kind)) {
     const { parts, notes } = await parseOffThread(kind, ctx)
     return { object: buildParts(parts, kind), notes: notes.map((n) => noteText(n, ctx.tr)) }
@@ -270,23 +321,31 @@ async function load(kind: ModelKind, ctx: PreviewContext, quality: CadQuality): 
   await new Promise((r) => setTimeout(r, 0))
   if (ctx.signal.aborted) throw new DOMException('aborted', 'AbortError')
   const buffer = copyBuffer(ctx.bytes)
-  const external: string[] = []
-  const manager = new THREE.LoadingManager()
-  manager.setURLModifier((url) => {
-    if (/^(data|blob):/i.test(url)) return url
-    external.push(url)
-    return WHITE_PIXEL
+  // Textures load after parsing: the viewer draws again when they are in.
+  let texturesIn: (() => void) | null = null
+  let texturesDone = false
+  const manager = companionManager(urls, self, () => {
+    texturesDone = true
+    texturesIn?.()
   })
   const finish = (object: THREE.Object3D, notes: string[] = []): Loaded => {
-    if (external.length) notes.push(noteText('textures', ctx.tr, external.length))
-    return { object, notes }
+    if (urls.missing.length) notes.push(noteText('missing', ctx.tr, urls.missing.length, missingList(urls.missing)))
+    return {
+      object,
+      notes,
+      sideFiles: urls.missing.length + urls.used.length > 0,
+      onTextures: (cb) => {
+        texturesIn = cb
+        if (texturesDone) cb()
+      }
+    }
   }
-  if (kind === 'glb' || kind === 'gltf') return finish(...(await loadGltf(kind, buffer, manager, ctx)))
+  if (kind === 'glb' || kind === 'gltf') return finish(...(await loadGltf(kind, buffer, manager, ctx, self)))
   if (kind === '3mf') return finish(new THREE.ThreeMFLoader(manager).parse(buffer))
   if (kind === 'fbx-binary' || kind === 'fbx-ascii') return finish(new THREE.FBXLoader(manager).parse(buffer, ''))
   if (kind === 'dae') {
     const text = new TextDecoder().decode(buffer)
-    const res = new THREE.ColladaLoader(manager).parse(text, '')
+    const res = quietly(() => new THREE.ColladaLoader(manager).parse(text, ''))
     if (!res?.scene) throw new Error('COLLADA: no scene')
     return finish(res.scene)
   }
@@ -297,11 +356,14 @@ function copyBuffer(b: Uint8Array): ArrayBuffer {
   return b.slice().buffer as ArrayBuffer
 }
 
-function noteText(note: string, tr: PreviewContext['tr'], n = 0): string {
+function noteText(note: string, tr: PreviewContext['tr'], n = 0, names = ''): string {
+  const pick = tr(' 📁로 모델 폴더를 고르거나 파일을 끌어다 놓으면 불러옵니다.', ' Pick the model\'s folder with 📁 or drop the files here to load them.')
   if (note === 'mtl')
-    return tr('재질(.mtl)·텍스처 파일은 별도 파일이라 불러오지 않았습니다. 기본 재질로 표시합니다.', 'Material (.mtl) and texture files are separate files and were not loaded; shown with a neutral material.')
+    return tr(`재질 파일(${names || '.mtl'})이 없어 기본 재질로 표시합니다.`, `Material file (${names || '.mtl'}) not supplied: shown with a neutral material.`) + pick
+  if (note === 'missing')
+    return tr(`참조하는 파일이 없습니다 (${n}): ${names}.`, `Side files not supplied (${n}): ${names}.`) + pick
   if (note === 'textures')
-    return tr(`외부 텍스처 ${n}개는 별도 파일이라 불러오지 않았습니다.`, `${n} external texture${n === 1 ? '' : 's'} not loaded (separate files).`)
+    return tr(`외부 텍스처 ${n}개는 별도 파일이라 불러오지 않았습니다.`, `${n} external texture${n === 1 ? '' : 's'} not loaded (separate files).`) + pick
   return note
 }
 
@@ -391,7 +453,13 @@ function neutralMaterial(vertexColors: boolean): THREE.MeshStandardMaterial {
   })
 }
 
-async function loadGltf(kind: 'glb' | 'gltf', buffer: ArrayBuffer, manager: THREE.LoadingManager, ctx: PreviewContext): Promise<[THREE.Object3D, string[]]> {
+async function loadGltf(
+  kind: 'glb' | 'gltf',
+  buffer: ArrayBuffer,
+  manager: THREE.LoadingManager,
+  ctx: PreviewContext,
+  self: string | undefined
+): Promise<[THREE.Object3D, string[]]> {
   const { tr } = ctx
   let json: unknown
   if (kind === 'glb') json = glbJson(new Uint8Array(buffer))
@@ -404,12 +472,16 @@ async function loadGltf(kind: 'glb' | 'gltf', buffer: ArrayBuffer, manager: THRE
   }
   if (!json) throw new Error('glTF: damaged JSON')
   const facts = gltfFacts(json)
-  if (facts.externalUris.length) {
+  // External buffers hold the geometry: without them there is nothing to draw. Images are optional
+  // (a missing one becomes a white pixel and is listed).
+  const noBuffer = facts.externalBuffers.filter((u) => !resolveRef(u, self))
+  if (noBuffer.length) {
+    watchSideFiles(ctx)
     throw new PreviewError(
       'gltf-external',
       tr(
-        `이 glTF는 별도 파일(${facts.externalUris.slice(0, 3).join(', ')})을 참조합니다. 미리보기는 파일 하나만 읽을 수 있으니 모든 데이터가 포함된 .glb로 내보내 주세요.`,
-        `This glTF refers to separate files (${facts.externalUris.slice(0, 3).join(', ')}). The preview can read only this one file: export a self-contained .glb instead.`
+        `이 glTF의 도형 데이터는 별도 파일(${missingList(noBuffer)})에 있습니다. 📁로 모델 폴더를 고르거나 파일을 끌어다 놓으면 표시합니다 (또는 모든 데이터가 포함된 .glb로 내보내 주세요).`,
+        `This glTF keeps its geometry in separate files (${missingList(noBuffer)}). Pick the model's folder with 📁 or drop the files here to show it (or export a self-contained .glb).`
       )
     )
   }
@@ -622,6 +694,7 @@ function mountViewer(
     // A hidden or occluded window may never run animation frames: draw anyway shortly after.
     fallback = window.setTimeout(draw, 120)
   }
+  loaded.onTextures?.(requestDraw)
   disposers.push(() => {
     cancelAnimationFrame(frame)
     clearTimeout(fallback)

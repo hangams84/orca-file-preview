@@ -1,14 +1,14 @@
 /** Text → robot model: XML, xacro expansion when the file uses xacro, then the URDF reader. Shared by
  *  the renderer and the tests; no DOM, no three.js. */
 import { dof, parseRobot, type Robot, UrdfError } from './model.ts'
-import { processXacro, usesXacro, XacroFatal, type XacroResult } from './xacro.ts'
+import { processXacro, usesXacro, XacroFatal, type XacroOptions, type XacroResult } from './xacro.ts'
 import { parseXml, XmlError } from './xml.ts'
 
 export interface Loaded {
   robot: Robot
   /** Present when the file went through the xacro processor. */
   xacro?: XacroResult
-  /** Mesh references that cannot be loaded (every mesh: the preview has no file access). */
+  /** Every mesh reference (the renderer loads the ones the user supplied). */
   meshes: { link: string; filename: string; kind: 'visual' | 'collision' }[]
   textures: { link: string; filename: string }[]
   dof: number
@@ -26,7 +26,7 @@ export class LoadError extends Error {
   }
 }
 
-export function loadRobot(text: string, fileType: string): Loaded {
+export function loadRobot(text: string, fileType: string, opts: { include?: XacroOptions['include']; args?: Record<string, string> } = {}): Loaded {
   let root
   try {
     root = parseXml(text)
@@ -37,7 +37,7 @@ export function loadRobot(text: string, fileType: string): Loaded {
   let xacro: XacroResult | undefined
   if (fileType === 'xacro' || usesXacro(root)) {
     try {
-      xacro = processXacro(root)
+      xacro = processXacro(root, { include: opts.include, args: opts.args })
     } catch (e) {
       if (e instanceof XacroFatal) throw new LoadError(e.code, e.message, e.line)
       throw e
@@ -69,4 +69,36 @@ export function loadRobot(text: string, fileType: string): Loaded {
 /** The last path segment of a mesh reference: `package://p/meshes/a.stl` → `a.stl`. */
 export function fileLabel(filename: string): string {
   return filename.replace(/[?#].*$/, '').split(/[\\/]/).filter(Boolean).pop() ?? filename
+}
+
+export interface IncludeFile {
+  text: string
+  /** Where the file came from (a companion path): nested relative includes resolve from here. */
+  path: string
+}
+
+/** loadRobot with `xacro:include` read through `fetch` (async: files the user picked). The xacro
+ *  processor is synchronous, so the file is expanded again each time an include is found that was
+ *  not fetched yet; every include is fetched once. */
+export async function loadRobotWithIncludes(
+  text: string,
+  fileType: string,
+  fetch: (filename: string, from: string | undefined) => Promise<IncludeFile | null>,
+  selfPath?: string
+): Promise<Loaded> {
+  const cache = new Map<string, IncludeFile | null>()
+  const key = (f: string, from: string | undefined) => `${from ?? selfPath ?? ''}\n${f}`
+  for (let round = 0; ; round++) {
+    const pending: [string, string | undefined][] = []
+    const loaded = loadRobot(text, fileType, {
+      include: (f, from) => {
+        const k = key(f, from ?? selfPath)
+        if (cache.has(k)) return cache.get(k)!
+        if (!pending.some(([pf, pfrom]) => key(pf, pfrom) === k)) pending.push([f, from ?? selfPath])
+        return null
+      }
+    })
+    if (!pending.length || round >= 64) return loaded
+    for (const [f, from] of pending) cache.set(key(f, from), await fetch(f, from))
+  }
 }

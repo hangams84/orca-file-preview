@@ -216,6 +216,8 @@ export interface GltfFacts {
   required: string[]
   used: string[]
   externalUris: string[]
+  /** The external URIs of buffers (geometry: without them nothing can be drawn). */
+  externalBuffers: string[]
 }
 
 export function gltfFacts(json: unknown): GltfFacts {
@@ -227,11 +229,17 @@ export function gltfFacts(json: unknown): GltfFacts {
   }
   const list = (v: unknown) => (Array.isArray(v) ? v.filter((x): x is string => typeof x === 'string') : [])
   const external: string[] = []
-  for (const r of [...(Array.isArray(j.buffers) ? j.buffers : []), ...(Array.isArray(j.images) ? j.images : [])]) {
-    const uri = r && typeof r.uri === 'string' ? r.uri : null
-    if (uri && !/^data:/i.test(uri)) external.push(uri)
+  const buffers: string[] = []
+  const uris = (v: unknown, into: string[]) => {
+    for (const r of Array.isArray(v) ? (v as { uri?: unknown }[]) : []) {
+      const uri = r && typeof r.uri === 'string' ? r.uri : null
+      if (uri && !/^data:/i.test(uri)) into.push(uri)
+    }
   }
-  return { required: list(j.extensionsRequired), used: list(j.extensionsUsed), externalUris: external }
+  uris(j.buffers, buffers)
+  external.push(...buffers)
+  uris(j.images, external)
+  return { required: list(j.extensionsRequired), used: list(j.extensionsUsed), externalUris: external, externalBuffers: buffers }
 }
 
 /** The JSON chunk of a GLB container (null when the container is damaged). */

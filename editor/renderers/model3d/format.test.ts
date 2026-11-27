@@ -135,7 +135,7 @@ test('glTF facts: external buffers/images and extensions', () => {
   assert.deepEqual(f.externalUris, ['scene.bin', 'tex.png'])
   assert.deepEqual(f.required, ['KHR_draco_mesh_compression'])
   assert.equal(f.used.length, 2)
-  assert.deepEqual(gltfFacts(null), { required: [], used: [], externalUris: [] })
+  assert.deepEqual(gltfFacts(null), { required: [], used: [], externalUris: [], externalBuffers: [] })
 })
 
 test('GLB JSON chunk; damaged containers give null', () => {

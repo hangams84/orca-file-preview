@@ -1,16 +1,21 @@
 /** Robot descriptions (.urdf, .xacro, .urdf.xacro): the kinematic tree drawn in 3D with three.js.
  *  xacro files are expanded by the preview's own processor (urdf/xacro.ts, no eval). Primitive
- *  geometry (box, cylinder, sphere, capsule) is drawn; meshes are external files the preview cannot
- *  read, so each is drawn as a translucent placeholder and listed. A side panel lists links and
+ *  geometry (box, cylinder, sphere, capsule) is drawn. Meshes and xacro includes are separate files:
+ *  the user can hand them over (📁 or drop, core/companions.ts). Meshes then replace their
+ *  translucent placeholders in place (the joint pose stays); a new include expands the file again.
+ *  What is still missing is listed. A side panel lists links and
  *  joints, moves joints with sliders (mimic joints follow) and shows notes; toolbar toggles show
  *  visual/collision geometry, link frames and joint axes. */
 import { formatBytes } from '../core/i18n.ts'
 import { decodeText } from '../core/encoding.ts'
 import { PreviewError, type PreviewContext } from '../core/types.ts'
 import { h } from '../core/ui.ts'
+import { companionControls, companionFiles } from '../core/companions.ts'
+import { CompanionUrls, locateSelf, readRef, resolveRef } from '../core/refs.ts'
 import * as THREE from '../../vendor/three.js'
+import { parseMeshFile, type MeshFile } from './meshfiles.ts'
 import { BACKDROP_COLOR, type Backdrop, createRenderer, frameCamera, isDark, niceStep, samplePoints } from './model3d.ts'
-import { fileLabel, LoadError, loadRobot, type Loaded } from './urdf/load.ts'
+import { fileLabel, LoadError, loadRobotWithIncludes, type Loaded } from './urdf/load.ts'
 import { homePosition, isMovable, jointRange, resolvePositions, type Geometry, type Joint, type Material, type Robot, type Shape } from './urdf/model.ts'
 import type { Note } from './urdf/xacro.ts'
 
@@ -18,6 +23,8 @@ const MAX_BYTES = 30 * 1024 * 1024
 const BACKDROP_KEY = 'file-preview.backdrop.urdf'
 /** Above this many placeholders, labels show only for the selected link. */
 const MAX_LABELS = 40
+/** Joint values the user set, per robot name: kept when the file is expanded again (new includes). */
+const POSES = new Map<string, Map<string, number>>()
 
 const STYLE = `
 .fp-urdf { position: absolute; inset: 0; display: flex; overflow: hidden; }
@@ -68,15 +75,51 @@ export async function render(ctx: PreviewContext): Promise<() => void> {
     throw new PreviewError('too-large', tr(`파일이 너무 큽니다 (${formatBytes(ctx.bytes.byteLength)}).`, `This file is too large (${formatBytes(ctx.bytes.byteLength)}).`))
   }
   const { text } = decodeText(ctx.bytes)
+  // The opened file's own place in a picked folder, so its relative references resolve from there.
+  const selfPath = companionFiles().length ? await locateSelf(ctx.bytes, /\.(urdf|xacro)$/i) : undefined
+  const fetchInclude = async (filename: string, from: string | undefined) => {
+    const got = await readRef(filename, from)
+    return got ? { text: decodeText(got.bytes).text, path: got.path } : null
+  }
   let loaded: Loaded
   try {
-    loaded = loadRobot(text, ctx.fileType)
+    loaded = await loadRobotWithIncludes(text, ctx.fileType, fetchInclude, selfPath)
   } catch (e) {
-    if (e instanceof LoadError) throw new PreviewError(e.code, errorHint(e, ctx))
+    if (e instanceof LoadError) {
+      watchCompanions(ctx, null, selfPath)
+      throw new PreviewError(e.code, errorHint(e, ctx))
+    }
     throw e
   }
-  if (!loaded.robot.links.length) return showLibrary(ctx, loaded)
-  return mount(ctx, loaded)
+  if (ctx.signal.aborted) return () => {}
+  if (!loaded.robot.links.length) {
+    watchCompanions(ctx, loaded, selfPath)
+    return showLibrary(ctx, loaded)
+  }
+  return mount(ctx, loaded, selfPath)
+}
+
+/** The 📁 button and drop target. Files that complete a missing include (or show where the opened
+ *  file lives) expand the file again; other files go to `live` (meshes replace their placeholders). */
+function watchCompanions(ctx: PreviewContext, loaded: Loaded | null, selfPath: string | undefined, live?: () => void): void {
+  const off = companionControls(
+    ctx,
+    () => {
+      const includes = loaded?.xacro?.includes ?? []
+      if (!live || includes.some((i) => resolveRef(i.filename, selfPath))) ctx.rerender?.()
+      else live()
+    },
+    { what: { ko: '패키지(메시·include) 파일', en: 'package files (meshes, includes)' } }
+  )
+  ctx.signal.addEventListener('abort', off, { once: true })
+}
+
+/** Hint under every list of missing files. */
+function pickHint(tr: PreviewContext['tr']): string {
+  return tr(
+    '📁 버튼으로 로봇 패키지(또는 워크스페이스 src) 폴더를 고르거나 여기에 끌어다 놓으면 메시와 include를 불러옵니다.',
+    "Pick the robot package's (or the workspace's src) folder with 📁, or drop it here, to load the meshes and includes."
+  )
 }
 
 /** A xacro file without links of its own (a macro library, or a top-level file whose robot comes
@@ -101,8 +144,8 @@ function showLibrary(ctx: PreviewContext, loaded: Loaded): () => void {
       undefined,
       x.includes.length
         ? tr(
-            '이 파일만으로는 그릴 링크가 없습니다. 로봇은 include하는 다른 파일의 매크로로 만들어지는데, 미리보기는 열린 파일만 받으므로 그 파일들을 읽을 수 없습니다.',
-            'This file has no links of its own: the robot is built by macros from the files it includes, and the preview only receives the opened file, so it cannot read them.'
+            '이 파일만으로는 그릴 링크가 없습니다. 로봇은 include하는 다른 파일의 매크로로 만들어지는데, 미리보기는 다른 파일을 건네받기 전에는 열린 파일만 읽을 수 있습니다.',
+            'This file has no links of its own: the robot is built by macros from the files it includes, and the preview only receives the opened file until you hand it the others.'
           )
         : tr('이 파일은 링크 없이 매크로만 정의합니다 (다른 xacro 파일이 호출하는 라이브러리).', 'This file defines macros but no links: a library that other xacro files call.')
     )
@@ -121,6 +164,8 @@ function showLibrary(ctx: PreviewContext, loaded: Loaded): () => void {
   }
   list(tr(`정의된 매크로 ${x.macros.length}`, `Macros defined ${x.macros.length}`), x.macros.map((m) => ({ key: tr(`${m.line}행`, `line ${m.line}`), text: `xacro:${m.name}${m.params ? `  ${m.params}` : ''}` })))
   list(tr(`읽지 못한 include ${x.includes.length}`, `Includes not loaded ${x.includes.length}`), x.includes.map((i) => ({ key: tr(`${i.line}행`, `line ${i.line}`), text: i.filename })))
+  if (x.includes.length) page.append(h('p', undefined, pickHint(tr)))
+  list(tr(`읽은 include ${x.included.length}`, `Includes loaded ${x.included.length}`), x.included.map((i) => ({ text: `${i.filename} → ${i.path}` })))
   list(tr('해석하지 못한 매크로 호출', 'Unresolved macro calls'), x.unresolvedMacros.map((m) => ({ text: `xacro:${m}` })))
   list(tr('인자', 'Args'), Object.entries(x.args).map(([k, v]) => ({ text: `${k} = ${v}` })))
   const notes = [...x.notes, ...loaded.robot.notes].filter((n) => !/unresolved macro|<robot> has no name/.test(n.message))
@@ -164,7 +209,7 @@ interface LinkView {
   collision: THREE.Group
   axes: THREE.AxesHelper
   /** Materials to tint when selected. */
-  materials: THREE.MeshStandardMaterial[]
+  materials: Tintable[]
   labels: { el: HTMLElement; anchor: THREE.Object3D }[]
   treeRow?: HTMLElement
 }
@@ -177,10 +222,23 @@ interface JointView {
   row?: HTMLElement
 }
 
+type Tintable = THREE.Material & { emissive: THREE.Color }
+/** A mesh reference of a link and what currently stands for it in the scene. */
+interface MeshSlot {
+  link: number
+  shape: Shape
+  kind: 'visual' | 'collision'
+  filename: string
+  /** Holds the placeholder until the mesh loads, then the mesh. */
+  holder: THREE.Group
+  label?: { el: HTMLElement; anchor: THREE.Object3D }
+  state: 'missing' | 'loading' | 'loaded' | 'failed'
+}
+
 const COLLISION_COLOR = 0xc04cff
 const PLACEHOLDER_COLOR = 0x8a94a6
 
-function mount(ctx: PreviewContext, loaded: Loaded): () => void {
+function mount(ctx: PreviewContext, loaded: Loaded, selfPath: string | undefined): () => void {
   const { root, tr, toolbar, signal } = ctx
   const { robot } = loaded
   const renderer = createRenderer(tr)
@@ -328,6 +386,7 @@ function mount(ctx: PreviewContext, loaded: Loaded): () => void {
   }
 
   // Links
+  const slots: MeshSlot[] = []
   const links: LinkView[] = robot.links.map((l, k) => {
     const group = new THREE.Group()
     group.name = l.name
@@ -375,7 +434,9 @@ function mount(ctx: PreviewContext, loaded: Loaded): () => void {
         const el = h('div', 'fp-urdf-label', fileLabel(s.geometry.filename) || tr('메시', 'mesh'))
         el.title = s.geometry.filename
         labelLayer.append(el)
-        view.labels.push({ el, anchor })
+        const label = { el, anchor }
+        view.labels.push(label)
+        slots.push({ link: k, shape: s, kind: 'visual', filename: s.geometry.filename, holder, label, state: 'missing' })
         continue
       }
       const mat = surface(s.material)
@@ -392,7 +453,12 @@ function mount(ctx: PreviewContext, loaded: Loaded): () => void {
       const mesh = new THREE.Mesh(geo, mat)
       place(mesh, s)
       mesh.userData.link = k
-      collision.add(mesh)
+      if (s.geometry.type === 'mesh') {
+        const holder = new THREE.Group()
+        holder.add(mesh)
+        collision.add(holder)
+        slots.push({ link: k, shape: s, kind: 'collision', filename: s.geometry.filename, holder, state: 'missing' })
+      } else collision.add(mesh)
     }
     return view
   })
@@ -401,7 +467,7 @@ function mount(ctx: PreviewContext, loaded: Loaded): () => void {
   let showFrames = false
   let showLabels = true
   let selected = -1
-  const labelCount = links.reduce((n, l) => n + l.labels.length, 0)
+  let labelCount = links.reduce((n, l) => n + l.labels.length, 0)
 
   // Joints: origin frame → motion → child link
   const jointViews: JointView[] = robot.joints.map((j) => ({ joint: j, motion: new THREE.Group() }))
@@ -455,8 +521,9 @@ function mount(ctx: PreviewContext, loaded: Loaded): () => void {
     })
   })
 
-  // Pose
-  const values = new Map<string, number>()
+  // Pose (kept per robot name, so expanding the file again after new includes keeps it)
+  const values = POSES.get(robot.name) ?? new Map<string, number>()
+  POSES.set(robot.name, values)
   const applyPose = () => {
     const pos = resolvePositions(robot, values)
     for (const jv of jointViews) {
@@ -718,9 +785,7 @@ function mount(ctx: PreviewContext, loaded: Loaded): () => void {
   toggle(tr('축', 'Axes'), tr('조인트 회전·이동 축 표시', 'Joint axes'), false, (on) => {
     for (const a of axisGroups) a.visible = on
   })
-  if (labelCount) {
-    toggle(tr('이름표', 'Labels'), tr('메시 자리표시에 파일 이름 표시', 'File names on mesh placeholders'), true, (on) => (showLabels = on), true)
-  }
+  const labelsBtn = labelCount ? toggle(tr('이름표', 'Labels'), tr('메시 자리표시에 파일 이름 표시', 'File names on mesh placeholders'), true, (on) => (showLabels = on), true) : null
   toggle('#', tr('바닥 격자', 'Ground grid'), true, (on) => {
     showGrid = on
     for (const c of helpers.children) c.visible = on
@@ -833,7 +898,7 @@ function mount(ctx: PreviewContext, loaded: Loaded): () => void {
       input.min = String(lo)
       input.max = String(hi)
       input.step = String((hi - lo) / 1000 || 0.001)
-      input.value = String(homePosition(j))
+      input.value = String(values.get(j.name) ?? homePosition(j))
       input.setAttribute('aria-label', j.name)
       if (j.mimic) {
         input.disabled = true
@@ -895,9 +960,10 @@ function mount(ctx: PreviewContext, loaded: Loaded): () => void {
   }
 
   // External files and notes
-  const list = (title: string, items: { text: string; key?: string; cls?: string }[]) => {
+  const list = (title: string, items: { text: string; key?: string; cls?: string }[], into: HTMLElement = panel) => {
     if (!items.length) return
-    section(title)
+    const hd = h('h3', undefined, title)
+    into.append(hd)
     const ul = h('ul', 'fp-urdf-list')
     for (const it of items.slice(0, 500)) {
       const li = h('li', it.cls)
@@ -906,17 +972,50 @@ function mount(ctx: PreviewContext, loaded: Loaded): () => void {
       ul.append(li)
     }
     if (items.length > 500) ul.append(h('li', undefined, tr(`… 외 ${items.length - 500}개`, `… and ${items.length - 500} more`)))
-    panel.append(ul)
+    into.append(ul)
   }
-  list(
-    tr(`불러오지 않음 (외부 파일) ${loaded.meshes.length + loaded.textures.length}`, `Not loaded (external file) ${loaded.meshes.length + loaded.textures.length}`),
-    [...loaded.meshes.map((m) => ({ key: `${m.link}${m.kind === 'collision' ? ` (${tr('충돌', 'collision')})` : ''}:`, text: m.filename })), ...loaded.textures.map((t) => ({ key: `${t.link} (${tr('텍스처', 'texture')}):`, text: t.filename }))]
-  )
-  if (loaded.xacro) {
+  // Missing and loaded files: redrawn whenever companion files arrive.
+  const filesBox = h('div')
+  filesBox.className = 'fp-urdf-files'
+  panel.append(filesBox)
+  const textureSlots = loaded.textures.map((t) => ({ ...t, done: false }))
+  const sideMissing: string[] = []
+  const renderFiles = () => {
+    filesBox.replaceChildren()
+    const missingMeshes = slots.filter((m) => m.state !== 'loaded')
+    const missingTextures = textureSlots.filter((t) => !t.done)
+    const linkName = (k: number) => robot.links[k].name
     list(
-      tr(`읽지 못한 include ${loaded.xacro.includes.length}`, `Includes not loaded ${loaded.xacro.includes.length}`),
-      loaded.xacro.includes.map((i) => ({ text: i.filename + (i.optional ? tr(' (선택)', ' (optional)') : ''), key: tr(`${i.line}행`, `line ${i.line}`) }))
+      tr(`불러오지 않은 파일 ${missingMeshes.length + missingTextures.length}`, `Files not loaded ${missingMeshes.length + missingTextures.length}`),
+      [
+        ...missingMeshes.map((m) => ({
+          key: `${linkName(m.link)}${m.kind === 'collision' ? ` (${tr('충돌', 'collision')})` : ''}:`,
+          text: m.filename + (m.state === 'failed' ? tr(' — 읽을 수 없음', ' — cannot be read') : m.state === 'loading' ? ' …' : ''),
+          cls: m.state === 'failed' ? 'error' : undefined
+        })),
+        ...missingTextures.map((t) => ({ key: `${t.link} (${tr('텍스처', 'texture')}):`, text: t.filename }))
+      ],
+      filesBox
     )
+    list(tr(`메시가 참조하는 파일 중 없는 것 ${sideMissing.length}`, `Missing side files of meshes ${sideMissing.length}`), sideMissing.map((f) => ({ text: f })), filesBox)
+    if (loaded.xacro) {
+      list(
+        tr(`읽지 못한 include ${loaded.xacro.includes.length}`, `Includes not loaded ${loaded.xacro.includes.length}`),
+        loaded.xacro.includes.map((i) => ({ text: i.filename + (i.optional ? tr(' (선택)', ' (optional)') : ''), key: tr(`${i.line}행`, `line ${i.line}`) })),
+        filesBox
+      )
+    }
+    if (missingMeshes.length || missingTextures.length || sideMissing.length || loaded.xacro?.includes.length) filesBox.append(h('div', 'fp-urdf-detail', pickHint(tr)))
+    const loadedMeshes = slots.filter((m) => m.state === 'loaded')
+    list(
+      tr(`불러온 메시 ${loadedMeshes.length}`, `Meshes loaded ${loadedMeshes.length}`),
+      loadedMeshes.map((m) => ({ key: `${linkName(m.link)}${m.kind === 'collision' ? ` (${tr('충돌', 'collision')})` : ''}:`, text: fileLabel(m.filename) })),
+      filesBox
+    )
+    if (loaded.xacro?.included.length) list(tr(`읽은 include ${loaded.xacro.included.length}`, `Includes loaded ${loaded.xacro.included.length}`), loaded.xacro.included.map((i) => ({ text: i.path })), filesBox)
+  }
+  renderFiles()
+  if (loaded.xacro) {
     list(
       tr('해석하지 못한 매크로', 'Unresolved macros'),
       loaded.xacro.unresolvedMacros.map((m) => ({ text: `xacro:${m}` }))
@@ -933,32 +1032,199 @@ function mount(ctx: PreviewContext, loaded: Loaded): () => void {
     panel.append(help)
   }
 
-  // Banner for meshes that are not drawn
-  const nMesh = loaded.meshes.filter((m) => m.kind === 'visual').length
+  // Banner for meshes that are not drawn (updated as files arrive)
+  const banner = h('div', 'fp-urdf-banner')
   const missingIncludes = loaded.xacro?.includes.length ?? 0
-  const bannerText = [
-    nMesh ? tr(`메시 ${nMesh}개는 외부 파일이라 불러올 수 없어 반투명 자리표시로 그렸습니다.`, `${nMesh} mesh${nMesh === 1 ? ' is an external file' : 'es are external files'} and cannot be loaded here; drawn as translucent placeholders.`) : '',
-    missingIncludes ? tr(`include ${missingIncludes}개를 읽지 못했습니다.`, `${missingIncludes} included file${missingIncludes === 1 ? '' : 's'} not loaded.`) : '',
-    notes.some((n) => n.level === 'error') ? tr('문제가 있어 일부를 건너뛰었습니다 — 패널의 알림을 보세요.', 'Some parts were skipped because of problems: see Notes in the panel.') : ''
-  ].filter(Boolean)
-  if (bannerText.length) stage.append(h('div', 'fp-urdf-banner', bannerText.join(' ')))
+  const updateBanner = () => {
+    const nMesh = slots.filter((m) => m.kind === 'visual' && m.state !== 'loaded').length
+    const nLoaded = slots.filter((m) => m.kind === 'visual' && m.state === 'loaded').length
+    const text = [
+      nMesh
+        ? tr(
+            `메시 ${nMesh}개는 별도 파일이라 반투명 자리표시로 그렸습니다. 📁로 패키지 폴더를 고르거나 끌어다 놓으면 불러옵니다.`,
+            `${nMesh} mesh${nMesh === 1 ? ' is a separate file' : 'es are separate files'}, drawn as translucent placeholders: pick the package folder with 📁 or drop it here to load ${nMesh === 1 ? 'it' : 'them'}.`
+          )
+        : '',
+      !nMesh && nLoaded ? tr(`메시 ${nLoaded}개를 불러왔습니다.`, `${nLoaded} mesh${nLoaded === 1 ? '' : 'es'} loaded.`) : '',
+      missingIncludes ? tr(`include ${missingIncludes}개를 읽지 못했습니다.`, `${missingIncludes} included file${missingIncludes === 1 ? '' : 's'} not loaded.`) : '',
+      notes.some((n) => n.level === 'error') ? tr('문제가 있어 일부를 건너뛰었습니다 — 패널의 알림을 보세요.', 'Some parts were skipped because of problems: see Notes in the panel.') : ''
+    ].filter(Boolean)
+    banner.textContent = text.join(' ')
+    if (text.length) stage.append(banner)
+    else banner.remove()
+    stage.dataset.meshes = `${nLoaded}/${nLoaded + nMesh}`
+  }
+  updateBanner()
 
   // Info
   scene.background = background()
   rebuildGrid()
-  // With mesh placeholders the extents are only an estimate.
-  const ext = `${nMesh ? '≈ ' : ''}${fmtLen(extents.x)} × ${fmtLen(extents.y)} × ${fmtLen(extents.z)} m`
-  toolbar.info(
-    [
-      loaded.xacro ? 'xacro' : 'URDF',
-      robot.name || tr('(이름 없음)', '(unnamed)'),
-      tr(`링크 ${robot.links.length}`, `${robot.links.length} links`),
-      tr(`조인트 ${robot.joints.length}`, `${robot.joints.length} joints`),
-      tr(`자유도 ${loaded.dof}`, `${loaded.dof} DOF`),
-      ext,
-      formatBytes(ctx.bytes.byteLength)
-    ].join(' · ')
-  )
+  const updateInfo = () => {
+    // With mesh placeholders the extents are only an estimate.
+    const placeholders = slots.some((m) => m.kind === 'visual' && m.state !== 'loaded')
+    const ext = `${placeholders ? '≈ ' : ''}${fmtLen(extents.x)} × ${fmtLen(extents.y)} × ${fmtLen(extents.z)} m`
+    toolbar.info(
+      [
+        loaded.xacro ? 'xacro' : 'URDF',
+        robot.name || tr('(이름 없음)', '(unnamed)'),
+        tr(`링크 ${robot.links.length}`, `${robot.links.length} links`),
+        tr(`조인트 ${robot.joints.length}`, `${robot.joints.length} joints`),
+        tr(`자유도 ${loaded.dof}`, `${loaded.dof} DOF`),
+        ext,
+        formatBytes(ctx.bytes.byteLength)
+      ].join(' · ')
+    )
+  }
+  updateInfo()
+
+  // Mesh files from companions: each replaces its placeholder in place, so the pose stays.
+  const urls = new CompanionUrls(selfPath)
+  disposers.push(() => urls.dispose())
+  const parsed = new Map<File, Promise<MeshFile | null>>()
+  const originals: THREE.Object3D[] = []
+  disposers.push(() => {
+    for (const o of originals) disposeTree(o)
+  })
+  const linkMaterials = new Map<Shape, Tintable>()
+  const attach = (slot: MeshSlot, mf: MeshFile) => {
+    const view = links[slot.link]
+    const inst = mf.object.clone(true)
+    inst.traverse((o) => {
+      const mesh = o as THREE.Mesh
+      if (!mesh.isMesh) return
+      mesh.userData.link = slot.link
+      if (slot.kind === 'collision') {
+        const m = surface(undefined, { collision: true })
+        view.materials.push(m)
+        mesh.material = m
+      } else if (!mf.ownMaterials) {
+        // No colours of its own: the URDF material (or the neutral grey), shared by the shape's parts.
+        let m = linkMaterials.get(slot.shape)
+        if (!m) {
+          m = surface(slot.shape.material)
+          applyTexture(m as THREE.MeshStandardMaterial, slot.shape.material?.texture)
+          linkMaterials.set(slot.shape, m)
+          view.materials.push(m)
+        }
+        mesh.material = m
+      } else {
+        // Its own materials, cloned so selecting this link tints only this link.
+        const own = (Array.isArray(mesh.material) ? mesh.material : [mesh.material]).map((x) => {
+          const c = x.clone()
+          allMaterials.push(c)
+          if ((c as Tintable).emissive) view.materials.push(c as Tintable)
+          return c
+        })
+        mesh.material = Array.isArray(mesh.material) ? own : own[0]
+      }
+    })
+    const g = new THREE.Group()
+    const geo = slot.shape.geometry as Extract<Geometry, { type: 'mesh' }>
+    place(g, slot.shape)
+    g.scale.set(geo.scale[0] || 1, geo.scale[1] || 1, geo.scale[2] || 1)
+    g.add(inst)
+    slot.holder.clear()
+    slot.holder.add(g)
+    slot.holder.userData.placeholder = false
+    if (slot.label) {
+      slot.label.el.remove()
+      view.labels.splice(view.labels.indexOf(slot.label), 1)
+      slot.label = undefined
+    }
+    slot.state = 'loaded'
+  }
+  const texLoader = new THREE.TextureLoader()
+  const applyTexture = (m: THREE.MeshStandardMaterial, filename: string | undefined) => {
+    if (!filename) return
+    const url = urls.url(filename)
+    if (!url) return
+    const tex = texLoader.load(url, () => requestDraw())
+    tex.colorSpace = THREE.SRGBColorSpace
+    m.map = tex
+    m.needsUpdate = true
+    for (const t of textureSlots) if (t.filename === filename) t.done = true
+  }
+  // URDF <texture> on primitive shapes
+  const primitiveTextures = () => {
+    for (const l of links)
+      for (const o of l.visual.children) {
+        const mesh = o as THREE.Mesh
+        if (!mesh.isMesh) continue
+        const k = mesh.userData.link as number
+        const s = robot.links[k]?.visuals.find((v) => v.material?.texture && v.geometry.type !== 'mesh')
+        const m = mesh.material as THREE.MeshStandardMaterial
+        if (s && !m.map) applyTexture(m, s.material!.texture)
+      }
+  }
+  let loading: Promise<void> | null = null
+  let again = false
+  const loadMeshes = async (): Promise<void> => {
+    if (loading) {
+      again = true
+      return loading
+    }
+    loading = (async () => {
+      do {
+        again = false
+        let changed = false
+        primitiveTextures()
+        for (const slot of slots) {
+          if (slot.state === 'loaded' || slot.state === 'loading') continue
+          const c = resolveRef(slot.filename, selfPath)
+          if (!c) continue
+          let p = parsed.get(c.file)
+          if (!p) {
+            const before = urls.missing.length
+            p = (async () => {
+              try {
+                const bytes = new Uint8Array(await c.file.arrayBuffer())
+                const mf = await parseMeshFile(bytes, c.path, urls, { rosFrame: true, onTextures: () => requestDraw() })
+                originals.push(mf.object)
+                return mf
+              } catch (e) {
+                console.warn(`urdf: cannot read mesh ${c.path}:`, (e as Error)?.message ?? e)
+                return null
+              } finally {
+                for (const f of urls.missing.slice(before)) if (!sideMissing.includes(f)) sideMissing.push(f)
+              }
+            })()
+            parsed.set(c.file, p)
+          }
+          slot.state = 'loading'
+          const mf = await p
+          if (disposed) return
+          if (mf) attach(slot, mf)
+          else slot.state = 'failed'
+          changed = true
+        }
+        if (changed) {
+          labelCount = links.reduce((n, l) => n + l.labels.length, 0)
+          if (!labelCount) labelsBtn?.remove()
+          rebuildGrid()
+          if (!userMoved) fit()
+          updateBanner()
+          updateInfo()
+          renderFiles()
+          draw()
+        }
+      } while (again && !disposed)
+    })()
+    try {
+      await loading
+    } finally {
+      loading = null
+    }
+  }
+  watchCompanions(ctx, loaded, selfPath, () => {
+    // A side file (texture, .mtl) may complete a mesh that already loaded: render again (the pose stays).
+    if (sideMissing.length) {
+      ctx.rerender?.()
+      return
+    }
+    for (const slot of slots) if (slot.state === 'failed') slot.state = 'missing'
+    void loadMeshes()
+  })
+  if (companionFiles().length) void loadMeshes()
 
   controls.listenToKeyEvents(canvas)
   canvas.addEventListener(
@@ -977,6 +1243,18 @@ function mount(ctx: PreviewContext, loaded: Loaded): () => void {
   fit()
   draw()
   return dispose
+}
+
+function disposeTree(root: THREE.Object3D): void {
+  root.traverse((o) => {
+    const m = o as THREE.Mesh
+    m.geometry?.dispose?.()
+    const mats = Array.isArray(m.material) ? m.material : m.material ? [m.material] : []
+    for (const mat of mats) {
+      for (const v of Object.values(mat)) if (v && (v as THREE.Texture).isTexture) (v as THREE.Texture).dispose()
+      mat.dispose()
+    }
+  })
 }
 
 /** A length scale for helpers: the spread of link origins and primitive sizes at the home pose. */
