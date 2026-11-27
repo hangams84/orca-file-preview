@@ -103,6 +103,72 @@ add('kicad', 'project-open-schematic', 'samples/kicad-project/demo.kicad_pro', a
   r.check(/demo\.kicad_sch/.test(r.embedded), 'root schematic opened')
 })
 
+// --- SolidWorks ------------------------------------------------------------------------------------------
+const panel = (page) => page.locator('.fp-prop-panel:not([hidden])')
+async function tab(page, label) {
+  await page.locator('.fp-prop-tabs button', { hasText: label }).click()
+  await page.waitForTimeout(300)
+}
+async function canvasNote(page) {
+  await panel(page).locator('canvas').waitFor({ timeout: 30000 })
+  await page.waitForTimeout(800)
+  return ((await panel(page).locator('.fp-prop-note').allTextContents()) ?? []).join(' | ')
+}
+add('sw', 'assembly-stored-then-folder', 'samples/sw-assembly/Orca-Frame.SLDASM', async (page, r) => {
+  await tab(page, '3D assembly')
+  r.before = await canvasNote(page)
+  await r.shot('stored-only')
+  await pickFolder(page, 'samples/sw-assembly')
+  await page.waitForFunction(() => /\(2 from the display meshes stored in the assembly, 1 from given/.test(document.querySelector('.fp-prop-panel:not([hidden])')?.textContent ?? ''), null, { timeout: 30000 })
+  r.after = await canvasNote(page)
+  await r.shot('with-parts')
+  r.check(/^2 of 5 components placed/.test(r.before), 'stored meshes place 2 of 5')
+  r.check(/3 of 5 components placed .*1 from given part files/.test(r.after), 'the given rail fills the third')
+  r.check(/Hidden or suppressed components \(2/.test(await panel(page).textContent()), 'hidden + suppressed listed')
+  await tab(page, 'References')
+  r.placement = (await panel(page).textContent()).replace(/\s+/g, ' ')
+  r.check(/Orca-Bracket-2.*\(300, 0, 40\)/.test(r.placement), 'placement table: Bracket-2 at (300, 0, 40) mm')
+})
+add('sw', 'assembly-2014-drop', 'samples/sw-assembly/Orca-Frame-2014.SLDASM', async (page, r) => {
+  await tab(page, '3D assembly')
+  await page.waitForTimeout(500)
+  r.before = (await panel(page).textContent()).replace(/\s+/g, ' ')
+  await dropFiles(page, ['samples/sw-assembly/Orca-Bracket.SLDPRT', 'samples/sw-assembly/Orca-Rail.SLDPRT'])
+  r.after = await canvasNote(page)
+  await r.shot('dropped-parts')
+  r.check(/0 of 5 components placed|Nothing to draw/.test(r.before), 'no stored meshes in the OLE file')
+  r.check(/3 of 5 components placed .*\(0 from the display meshes stored in the assembly, 3 from given/.test(r.after), 'all three visible parts from the dropped files')
+})
+add('sw', 'drawing-model-links', 'samples/sw-assembly/Orca-Frame.SLDDRW', async (page, r) => {
+  await pickFolder(page, 'samples/sw-assembly')
+  await tab(page, 'References')
+  const open = panel(page).locator('button', { hasText: 'Open' })
+  await open.first().waitFor({ timeout: 10000 })
+  r.openButtons = await open.count()
+  r.text = (await panel(page).textContent()).replace(/\s+/g, ' ')
+  await r.shot('references')
+  r.check(r.openButtons === 2, 'two models given → two Open buttons')
+  r.check(/Missing-Plate\.SLDPRT.*not given/.test(r.text), 'missing model marked')
+  await open.first().click()
+  await page.locator('.fp-prop-embed .fp-prop-embed-bar .info').first().waitFor({ timeout: 10000 })
+  await page.waitForTimeout(800)
+  r.opened = await page.locator('.fp-prop-embed .fp-prop-embed-bar .info').first().textContent()
+  await r.shot('opened-part')
+  r.check(/Orca-Bracket\.SLDPRT/.test(r.opened), 'part opened in the overlay')
+})
+add(
+  'sw',
+  'jaw-real-stored',
+  '.orca/sw/jaw/jaw.SLDASM',
+  async (page, r) => {
+    await tab(page, '3D assembly')
+    r.note = await canvasNote(page)
+    await r.shot('3d')
+    r.check(/^12 of 12 components placed .*\(12 from the display meshes/.test(r.note), 'all 12 from stored meshes')
+  },
+  true
+)
+
 // --- run --------------------------------------------------------------------------------------------------
 const results = []
 for (const c of CASES) {
