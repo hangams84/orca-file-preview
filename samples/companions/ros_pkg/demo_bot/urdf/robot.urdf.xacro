@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!-- demo_bot: a base, two wheels, an arm and a gripper. Macros come from included files:
+     $(find demo_bot)/urdf/macros.xacro (which includes inertia.xacro) and parts/wheel.xacro. -->
+<robot name="demo_bot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:arg name="with_gripper" default="true"/>
+  <xacro:include filename="$(find demo_bot)/urdf/macros.xacro"/>
+  <xacro:include filename="parts/wheel.xacro"/>
+  <link name="base_link">
+    <visual><origin xyz="0 0 0.11"/><geometry><mesh filename="package://demo_bot/meshes/base.stl" scale="0.001 0.001 0.001"/></geometry><material name="steel"/></visual>
+    <collision><origin xyz="0 0 0.11"/><geometry><box size="0.4 0.3 0.1"/></geometry></collision>
+  </link>
+  <xacro:wheel side="left" y="0.18"/>
+  <xacro:wheel side="right" y="-0.18"/>
+  <xacro:arm_link name="arm" parent="base_link"><origin xyz="0.1 0 0.16"/></xacro:arm_link>
+  <xacro:if value="$(arg with_gripper)">
+    <link name="gripper">
+      <visual><origin xyz="0 0 0.025"/><geometry><mesh filename="package://demo_bot/meshes/gripper.obj"/></geometry></visual>
+    </link>
+    <joint name="gripper_joint" type="fixed"><origin xyz="0 0 ${arm_length}"/><parent link="arm"/><child link="gripper"/></joint>
+  </xacro:if>
+</robot>

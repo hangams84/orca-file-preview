@@ -17,7 +17,7 @@ Read-only previews for Office, PDF, text and image files inside Orca, on desktop
 | 웹 | `.html` `.htm` `.xhtml` | DOMPurify + 샌드박스 iframe (스크립트 미실행) |
 | 표 | `.csv` `.tsv` | 자체 RFC 4180 파서 (인코딩·구분자 감지, 정렬, 필터) |
 | 텍스트 | `.txt` `.log` | 인코딩 감지 (UTF-8/16, EUC-KR 등), 줄 번호, 줄바꿈 |
-| 3D 모델 | `.stl` `.obj` `.ply` `.glb` `.gltf` `.3mf` `.off` `.fbx` `.dae` | three.js (WebGL, 회전·확대·이동, 터치, Draco·meshopt, Web Worker 파싱) |
+| 3D 모델 | `.stl` `.obj` `.ply` `.glb` `.gltf` `.3mf` `.off` `.fbx` `.dae` | three.js (WebGL, 회전·확대·이동, 터치, Draco·meshopt, Web Worker 파싱). 📁 버튼이나 끌어 놓기로 건넨 참조 파일 사용: OBJ의 `.mtl`·텍스처, glTF의 외부 `.bin`·이미지, DAE·FBX·3MF 텍스처 (없는 파일은 목록으로 표시) |
 | CAD (B-rep) | `.step` `.stp` `.stpz` `.iges` `.igs` `.brep` | OpenCascade (occt-import-js, WebAssembly, Web Worker): 어셈블리·부품 목록·색, 테셀레이션 품질 선택. `.stpz` = gzip 압축 STEP |
 | AutoCAD 도면 (별도 플러그인) | `.dwg` `.dwt` | **File Preview DWG** ([별도 저장소](https://github.com/hangams84/orca-file-preview-dwg), Git URL `https://github.com/hangams84/orca-file-preview-dwg.git`; 소스 `dwg-plugin/`, GPL-3.0-or-later): LibreDWG (WebAssembly, Web Worker) + Canvas — 모형/배치, 레이어, 블록, 한글 문자, 치수, 해치. 이 MIT 플러그인과 따로 설치 ([dwg-plugin/README.md](dwg-plugin/README.md)) |
 | SolidWorks | `.sldprt` `.sldasm` `.slddrw` `.slddrt` `.prtdot` `.asmdot` `.drwdot` | 자체 컨테이너 리더 (2014 이전 OLE/CFB, 2015 이후 형식): 저장된 미리보기 그림, 파트의 표시 메시(three.js 3D), 속성·구성·참조 파일·피처 이름·저장 기록. 정확한 B-rep 형상과 도면 뷰는 다시 그리지 않음 |
@@ -25,8 +25,9 @@ Read-only previews for Office, PDF, text and image files inside Orca, on desktop
 | (읽을 수 없는 경우) | 위 형식 전체 | 일반 검사기: 형식 식별, 크기, 엔트로피, 16진수 덤프, 문자열 |
 | 다이어그램 | `.drawio` `.dio` `.vsdx` `.vsdm` `.vstx` `.vssx` | 자체 SVG 렌더러: draw.io(압축·여러 페이지, 기본 도형·연결선·스타일, HTML 레이블 DOMPurify 정제), Visio(마스터·스타일 시트 상속, Geometry 행 전체, 그룹·연결선·텍스트 서식·채우기 패턴·그라데이션·테마·EMF/WMF 그림·배경 페이지). 페이지 선택, 이동/확대/맞춤, 어두운 캔버스, 링크 |
 | KiCad | `.kicad_sch` `.kicad_pcb` `.kicad_mod` `.kicad_sym` `.kicad_pro` | 자체 S-expression 파서 + SVG 렌더러 (KiCad 6–10, KiCad 스트로크 글꼴 newstroke): 회로도(심볼·유닛·De Morgan, 핀, 배선·버스, 레이블, 전원, 계층 시트, 표제란), PCB(레이어 표시/숨김, 패드·드릴, 트랙·호, 비아, 채움 영역, 앞/뒷면 뒤집기), 풋프린트, 심볼 라이브러리(목록+선택), 프로젝트 요약(넷 클래스·규칙·텍스트 변수·시트). 이동·확대·맞춤, 패드/핀/넷 정보 툴팁. 정확도: `docs/evidence/kicad/` |
-| CAD 2D 도면 | `.dxf` `.dwf` `.dwfx` | 자체 Canvas 2D 렌더러: DXF(ASCII·바이너리, R12–2018+, 블록·치수·해치·MTEXT·한글), DWF(W2D 스트림, 시트, 썸네일 대체), DWFx(XPS 페이지, 내장 글꼴) · 레이어 목록, 모형/배치(뷰포트)/시트 선택, 밝은/어두운 배경, 정보 표시줄 ([근거](docs/evidence/cad2d/README.md)) |
-| 로봇 설명 (ROS) | `.urdf` `.xacro` (`.urdf.xacro`) | 자체 XML 리더 + xacro 처리기(ROS 2 xacro 2.x 규칙, eval 없는 안전한 식 계산기) + three.js: 기구학 트리, 기본 형상(상자·원기둥·구·캡슐), 원점·재질, 조인트 6종·한계·mimic, 조인트 슬라이더·자세 초기화, 외형/충돌/좌표계/조인트 축 표시, 3D·목록에서 링크 선택. 메시 파일과 include 파일은 외부 파일이라 읽지 못해 반투명 자리표시와 목록으로 표시. 정확도: `docs/evidence/urdf/` |
+| CAD 2D 도면 | `.dxf` `.dwf` `.dwfx` | 자체 Canvas 2D 렌더러: DXF(ASCII·바이너리, R12–2018+, 블록·치수·해치·MTEXT·한글), DWF(W2D 스트림, 시트, 썸네일 대체), DWFx(XPS 페이지, 내장 글꼴) · 레이어 목록, 모형/배치(뷰포트)/시트 선택, 밝은/어두운 배경, 정보 표시줄 ([근거](docs/evidence/cad2d/README.md)). DXF 외부 참조(xref)와 IMAGE는 📁·끌어 놓기로 건넨 파일에서 읽음 (xref 레이어는 `XREF\|레이어`) |
+| 로봇 설명 (ROS) | `.urdf` `.xacro` (`.urdf.xacro`) | 자체 XML 리더 + xacro 처리기(ROS 2 xacro 2.x 규칙, eval 없는 안전한 식 계산기) + three.js: 기구학 트리, 기본 형상(상자·원기둥·구·캡슐), 원점·재질, 조인트 6종·한계·mimic, 조인트 슬라이더·자세 초기화, 외형/충돌/좌표계/조인트 축 표시, 3D·목록에서 링크 선택. 메시(STL·DAE·OBJ+MTL·glTF)와 `xacro:include`(`$(find pkg)`·상대 경로, 재귀)는 📁 버튼으로 패키지 폴더를 고르거나 끌어 놓으면 읽음: 자리표시가 메시로 바뀌고 조인트 자세는 유지, 남은 파일은 목록으로 표시. 정확도: `docs/evidence/urdf/`, 참조 파일: `docs/evidence/companions/` |
+| **File Preview 패널** | 위 형식 전체 | 오른쪽 사이드바 패널: "파일 열기…"/"폴더 열기…"/끌어 놓기로 고른 파일을 같은 렌더러로 표시. Orca가 편집기에 넘기는 50 MB 한도와 워크스페이스 밖 파일 제한이 없음 (렌더러 자체 한도, 최대 1 GB). 함께 연 파일은 참조 파일로 사용 |
 
 공통: 다크/라이트 테마 실시간 반영, 한국어/영어 UI, Ctrl+휠 · 핀치 · 버튼 확대/축소, 휴대폰 화면에서 폭 맞춤,
 파일이 바뀌면 자동 갱신, 손상 파일은 친절한 오류 안내.

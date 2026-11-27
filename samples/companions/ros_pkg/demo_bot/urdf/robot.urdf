@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<robot name="demo_bot_plain">
+  <material name="steel"><color rgba="0.6 0.62 0.66 1"/></material>
+  <link name="base_link">
+    <visual><origin xyz="0 0 0.11"/><geometry><mesh filename="package://demo_bot/meshes/base.stl" scale="0.001 0.001 0.001"/></geometry><material name="steel"/></visual>
+  </link>
+  <link name="arm">
+    <visual><geometry><mesh filename="../meshes/arm.dae"/></geometry></visual>
+  </link>
+  <joint name="arm_joint" type="revolute"><origin xyz="0.1 0 0.16"/><parent link="base_link"/><child link="arm"/><axis xyz="0 1 0"/><limit lower="-1.57" upper="1.57" effort="1" velocity="1"/></joint>
+  <link name="gripper">
+    <visual><origin xyz="0 0 0.025"/><geometry><mesh filename="file:///opt/ros/humble/share/demo_bot/meshes/gripper.obj"/></geometry></visual>
+  </link>
+  <joint name="gripper_joint" type="fixed"><origin xyz="0 0 0.4"/><parent link="arm"/><child link="gripper"/></joint>
+  <link name="sensor">
+    <visual><geometry><mesh filename="package://other_pkg/meshes/lidar.stl"/></geometry><material name="dark"><color rgba="0.2 0.2 0.25 1"/></material></visual>
+    <collision><geometry><cylinder radius="0.04" length="0.05"/></geometry></collision>
+  </link>
+  <joint name="sensor_joint" type="fixed"><origin xyz="-0.12 0 0.19"/><parent link="base_link"/><child link="sensor"/></joint>
+</robot>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:include filename="inertia.xacro"/>
+  <material name="steel"><color rgba="0.6 0.62 0.66 1"/></material>
+  <material name="signal"><color rgba="0.95 0.75 0.1 1"/></material>
+  <xacro:macro name="arm_link" params="name parent *origin">
+    <link name="${name}">
+      <visual><geometry><mesh filename="package://demo_bot/meshes/arm.dae"/></geometry><material name="signal"/></visual>
+      <collision><origin xyz="0 0 ${arm_length/2}"/><geometry><box size="0.06 0.06 ${arm_length}"/></geometry></collision>
+      <xacro:box_inertia m="1.5" x="0.06" y="0.06" z="${arm_length}"/>
+    </link>
+    <joint name="${name}_joint" type="revolute">
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent}"/><child link="${name}"/>
+      <axis xyz="0 1 0"/><limit lower="-1.57" upper="1.57" effort="10" velocity="1"/>
+    </joint>
+  </xacro:macro>
+</robot>

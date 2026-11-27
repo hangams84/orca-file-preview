@@ -3,6 +3,35 @@
 All notable changes per release. Each release on GitHub carries its verification results
 (`docs/release-notes/<tag>.md`) and SHA-256 checksums for every file.
 
+## [Unreleased]
+
+### Added
+- **Companion files for 3D, robot and DXF previews.** The editor only gets the opened file, but the sandboxed frame can
+  read files the user picks (📁 toolbar button: a folder, Shift: single files) or drops. References resolve by the longest
+  path tail and relative to the referring file (`core/refs.ts` on top of `core/companions.ts`):
+  - Robot Preview: meshes (STL binary/ASCII, COLLADA with textures, OBJ with `.mtl` and textures, glTF/GLB) replace
+    their placeholders live; the joint pose stays. `scale`, origins and materials as in rviz (a mesh's own colours,
+    else the URDF material; COLLADA up-axis not turned, unit scale kept). `xacro:include` (`$(find pkg)/…`, relative,
+    nested; cycles stopped) is read and the file expanded again; the "not loaded" lists shrink and keep a hint to
+    pick the package or workspace folder.
+  - 3D Preview: OBJ `mtllib` and textures, glTF external `.bin` and images, DAE/FBX/3MF textures, all through blob:
+    URLs (images and buffers only). A glTF without its `.bin` is a friendly refusal with the 📁 button.
+  - CAD Drawing Preview: DXF external references (xref blocks; nested xrefs, cycles reported) are parsed and
+    inserted with their layers as `XREF|layer`; IMAGE entities draw the picked raster. Missing ones are listed above
+    the drawing.
+- **File Preview panel** (right sidebar, `panel/main.ts`): "Open file…", "Open folder…" and drag and drop show any
+  supported file with the same renderers, without Orca's 50 MB editor limit (renderers' own limits, up to 1 GB) and for
+  files outside a workspace; files opened together are companions. Same `sandboxed-ui` execution, no capabilities; a
+  panel does not use one of the 16 editor slots.
+- `tools/make-companion-samples.mjs` (samples/companions: a ROS-style package, OBJ+MTL+texture, glTF+bin, DAE+texture,
+  DXF with xrefs and an image), `tools/harness/companions.mjs` (folder picker, synthetic drop, panel, 150 MB STL),
+  `tools/vendor-one.mjs`; three.js bundle adds `MTLLoader` and `TextureLoader` (+4 KB). Evidence:
+  `docs/evidence/companions/`.
+
+### Fixed
+- 3D Preview: a model with a missing external texture drew black. The stand-in 1×1 PNG was corrupt; it is now a
+  valid white pixel, and the view draws again once side textures have loaded.
+
 ## [0.3.0] — 2026-11-26
 
 New viewers for CAD drawings, diagrams, electronics, robot descriptions (URDF/xacro) and engineering files, plus an Ubuntu 26.04 column in the Orca

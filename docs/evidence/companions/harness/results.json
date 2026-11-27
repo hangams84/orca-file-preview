@@ -1,0 +1,155 @@
+{
+  "date": "2026-11-27T04:08:18.437Z",
+  "results": [
+    {
+      "name": "xacro-folder: without files the includes are listed",
+      "ok": true,
+      "detail": "Files not loaded 2 | Includes not loaded 2"
+    },
+    {
+      "name": "xacro-folder: includes resolve, 5 placeholders become meshes",
+      "ok": true,
+      "detail": "xacro · demo_bot · 2 links · 1 joints · 0 DOF · ≈ 0.400 × 0.300 × 0.148 m · 1.2 KB → xacro · demo_bot · 5 links · 4 joints · 3 DOF · 0.400 × 0.400 × 0.610 m · 1.2 KB; meshes 5/5"
+    },
+    {
+      "name": "xacro-folder: missing lists are gone",
+      "ok": true,
+      "detail": "Meshes loaded 5 | Includes loaded 3"
+    },
+    {
+      "name": "xacro-folder: picture changes",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "xacro-folder: no errors, no CSP violations",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "urdf-drop: dropped meshes replace placeholders (lidar stays missing)",
+      "ok": true,
+      "detail": "0/4 → 3/4"
+    },
+    {
+      "name": "urdf-drop: joint pose kept",
+      "ok": true,
+      "detail": "arm_joint = 0.8007"
+    },
+    {
+      "name": "urdf-drop: picture changes",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "urdf-drop: no errors, no CSP violations",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "obj-mtl: .mtl missing is noted, then loaded",
+      "ok": true,
+      "detail": "Material file (model.mtl) not supplied: shown with a neutral material. Pick the model's folder with 📁 or drop the files here to load them. → \"\""
+    },
+    {
+      "name": "obj-mtl: texture changes the picture",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "obj-mtl: no errors, no CSP violations",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "gltf-bin: without the .bin a friendly refusal",
+      "ok": true,
+      "detail": "Cannot preview this fileThis glTF keeps its geometry in separate files (model.bin). Pick the model's folder with 📁 or d"
+    },
+    {
+      "name": "gltf-bin: with the folder the model renders (blob: buffer and image)",
+      "ok": true,
+      "detail": "state ready note \"\""
+    },
+    {
+      "name": "gltf-bin: no errors, no CSP violations",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dae-texture: missing texture noted, then drawn",
+      "ok": true,
+      "detail": "Side files not supplied (1): checker.png. Pick the model's folder with 📁 or drop the files here to load them."
+    },
+    {
+      "name": "dae-texture: picture changes",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dae-texture: no errors, no CSP violations",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dxf-xref: xrefs and the image are listed when missing",
+      "ok": true,
+      "detail": "Xrefs not supplied: bolt.dxf, title.dxf. Images not supplied: logo.png. Pick the drawing folder with 📁 or drop the files here."
+    },
+    {
+      "name": "dxf-xref: bolt.dxf inserted and logo drawn; only title.dxf left",
+      "ok": true,
+      "detail": "Xrefs not supplied: title.dxf. Pick the drawing folder with 📁 or drop the files here."
+    },
+    {
+      "name": "dxf-xref: picture changes",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dxf-xref: xref layers listed as BOLT|layer",
+      "ok": true,
+      "detail": "LayersAll onAll off05FRAME4BOLT|BOLT4BOLT|00"
+    },
+    {
+      "name": "dxf-xref: no errors, no CSP violations",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "panel-folder: folder lists the previewable files",
+      "ok": true,
+      "detail": "ros_pkg/demo_bot/meshes/arm.dae | ros_pkg/demo_bot/meshes/base.stl | ros_pkg/demo_bot/meshes/gripper.obj | ros_pkg/demo_bot/meshes/wheel.stl"
+    },
+    {
+      "name": "panel-folder: xacro with includes and meshes from the same folder",
+      "ok": true,
+      "detail": "meshes 5/5"
+    },
+    {
+      "name": "panel-folder: no errors, no CSP violations",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "panel-drop: a dropped file opens; a drop on the drawing adds its references",
+      "ok": true,
+      "detail": "Xrefs not supplied: bolt.dxf, title.dxf. Images not supplied: logo.png. Pick the drawing folder with 📁 or drop the files here. → Xrefs not supplied: title.dxf. Pick the drawing folder with 📁 or drop the files here."
+    },
+    {
+      "name": "panel-drop: no errors, no CSP violations",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "panel-large: 143.1 MiB STL renders through \"Open file…\" (over Orca's 50 MB editor limit)",
+      "ok": true,
+      "detail": "1886 ms · STL (binary) · 3,000,000 triangles · 9,000,000 vertices · 749.5 × 749.5 × 1 (units as stored) · 143.1 MB"
+    },
+    {
+      "name": "panel-large: no errors, no CSP violations",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

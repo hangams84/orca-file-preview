@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+  <asset><contributor><authoring_tool>File Preview tools/make-companion-samples.mjs</authoring_tool></contributor><unit name="meter" meter="1"/><up_axis>Y_UP</up_axis></asset>
+  <library_images><image id="tex-image" name="tex-image"><init_from>checker.png</init_from></image></library_images>
+  <library_effects><effect id="fx"><profile_COMMON><newparam sid="tex-surface"><surface type="2D"><init_from>tex-image</init_from></surface></newparam>
+      <newparam sid="tex-sampler"><sampler2D><source>tex-surface</source></sampler2D></newparam><technique sid="common"><phong><diffuse><texture texture="tex-sampler" texcoord="UVSET0"/></diffuse><specular><color>0.3 0.3 0.3 1</color></specular><shininess><float>20</float></shininess></phong></technique></profile_COMMON></effect></library_effects>
+  <library_materials><material id="mat" name="cube-material"><instance_effect url="#fx"/></material></library_materials>
+  <library_geometries><geometry id="geo" name="cube"><mesh>
+    <source id="pos"><float_array id="pos-a" count="72">0.5 -0.5 -0.5 0.5 0.5 -0.5 0.5 0.5 0.5 0.5 -0.5 0.5 -0.5 0.5 -0.5 -0.5 -0.5 -0.5 -0.5 -0.5 0.5 -0.5 0.5 0.5 0.5 0.5 -0.5 -0.5 0.5 -0.5 -0.5 0.5 0.5 0.5 0.5 0.5 -0.5 -0.5 -0.5 0.5 -0.5 -0.5 0.5 -0.5 0.5 -0.5 -0.5 0.5 -0.5 -0.5 0.5 0.5 -0.5 0.5 0.5 0.5 0.5 -0.5 0.5 0.5 0.5 -0.5 -0.5 -0.5 -0.5 -0.5 -0.5 0.5 -0.5 0.5 0.5 -0.5</float_array><technique_common><accessor source="#pos-a" count="24" stride="3"><param name="X" type="float"/><param name="Y" type="float"/><param name="Z" type="float"/></accessor></technique_common></source>
+    <source id="nor"><float_array id="nor-a" count="72">1 0 0 1 0 0 1 0 0 1 0 0 -1 0 0 -1 0 0 -1 0 0 -1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 -1 0 0 -1 0 0 -1 0 0 -1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 -1 0 0 -1 0 0 -1 0 0 -1</float_array><technique_common><accessor source="#nor-a" count="24" stride="3"><param name="X" type="float"/><param name="Y" type="float"/><param name="Z" type="float"/></accessor></technique_common></source>
+    <source id="uv"><float_array id="uv-a" count="48">0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1</float_array><technique_common><accessor source="#uv-a" count="24" stride="2"><param name="S" type="float"/><param name="T" type="float"/></accessor></technique_common></source>
+    <vertices id="verts"><input semantic="POSITION" source="#pos"/></vertices>
+    <triangles material="mat" count="12"><input semantic="VERTEX" source="#verts" offset="0"/><input semantic="NORMAL" source="#nor" offset="1"/><input semantic="TEXCOORD" source="#uv" offset="2" set="0"/><p>0 0 0 1 1 1 2 2 2 0 0 0 2 2 2 3 3 3 4 4 4 5 5 5 6 6 6 4 4 4 6 6 6 7 7 7 8 8 8 9 9 9 10 10 10 8 8 8 10 10 10 11 11 11 12 12 12 13 13 13 14 14 14 12 12 12 14 14 14 15 15 15 16 16 16 17 17 17 18 18 18 16 16 16 18 18 18 19 19 19 20 20 20 21 21 21 22 22 22 20 20 20 22 22 22 23 23 23</p></triangles>
+  </mesh></geometry></library_geometries>
+  <library_visual_scenes><visual_scene id="scene"><node id="node" name="cube"><instance_geometry url="#geo"><bind_material><technique_common><instance_material symbol="mat" target="#mat"><bind_vertex_input semantic="UVSET0" input_semantic="TEXCOORD" input_set="0"/></instance_material></technique_common></bind_material></instance_geometry></node></visual_scene></library_visual_scenes>
+  <scene><instance_visual_scene url="#scene"/></scene>
+</COLLADA>
