@@ -80,6 +80,9 @@ Requires Orca **1.4.252** or later.
 
 Step-by-step guide with screenshots: [docs/install-guide/en.md](docs/install-guide/en.md)
 
+<!-- install-guide-thumbs -->
+<a href="docs/install-guide/en.md"><img src="docs/install-guide/en/05-from-git-url.png" width="32%" alt="5"><img src="docs/install-guide/en/08-install.png" width="32%" alt="8"><img src="docs/install-guide/en/10-enable.png" width="32%" alt="10"></a>
+
 For `.dwg` and `.dwt`, install `https://github.com/hangams84/orca-file-preview-dwg.git` the same way.
 
 ### (b) From the command line

@@ -77,6 +77,9 @@ Orca 只把您打开的那一个文件交给编辑器。点击工具栏中的 �
 
 带截图的分步指南：[docs/install-guide/zh-CN.md](docs/install-guide/zh-CN.md)
 
+<!-- install-guide-thumbs -->
+<a href="docs/install-guide/zh-CN.md"><img src="docs/install-guide/zh-CN/05-from-git-url.png" width="32%" alt="5"><img src="docs/install-guide/zh-CN/08-install.png" width="32%" alt="8"><img src="docs/install-guide/zh-CN/10-enable.png" width="32%" alt="10"></a>
+
 如需预览 `.dwg` 和 `.dwt`，请用同样的方法安装 `https://github.com/hangams84/orca-file-preview-dwg.git`。
 
 ### (b) 通过命令行安装

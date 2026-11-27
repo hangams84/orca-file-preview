@@ -78,6 +78,9 @@ Orca **1.4.252** 이상에서 사용할 수 있습니다.
 
 화면별 안내: [docs/install-guide/ko.md](docs/install-guide/ko.md)
 
+<!-- install-guide-thumbs -->
+<a href="docs/install-guide/ko.md"><img src="docs/install-guide/ko/05-from-git-url.png" width="32%" alt="5"><img src="docs/install-guide/ko/08-install.png" width="32%" alt="8"><img src="docs/install-guide/ko/10-enable.png" width="32%" alt="10"></a>
+
 `.dwg` · `.dwt` 미리보기가 필요하면 같은 방법으로 `https://github.com/hangams84/orca-file-preview-dwg.git`도 설치합니다.
 
 ### (b) CLI로 설치

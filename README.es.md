@@ -83,6 +83,9 @@ Requiere Orca **1.4.252** o posterior.
 
 Guía paso a paso con capturas de pantalla: [docs/install-guide/es.md](docs/install-guide/es.md)
 
+<!-- install-guide-thumbs -->
+<a href="docs/install-guide/es.md"><img src="docs/install-guide/es/05-from-git-url.png" width="32%" alt="5"><img src="docs/install-guide/es/08-install.png" width="32%" alt="8"><img src="docs/install-guide/es/10-enable.png" width="32%" alt="10"></a>
+
 Para `.dwg` y `.dwt`, instale del mismo modo `https://github.com/hangams84/orca-file-preview-dwg.git`.
 
 ### (b) Desde la línea de comandos

@@ -83,6 +83,9 @@ Orca передаёт редактору только открытый файл.
 
 Пошаговое руководство со снимками экрана: [docs/install-guide/ru.md](docs/install-guide/ru.md)
 
+<!-- install-guide-thumbs -->
+<a href="docs/install-guide/ru.md"><img src="docs/install-guide/ru/05-from-git-url.png" width="32%" alt="5"><img src="docs/install-guide/ru/08-install.png" width="32%" alt="8"><img src="docs/install-guide/ru/10-enable.png" width="32%" alt="10"></a>
+
 Для `.dwg` и `.dwt` таким же способом установите `https://github.com/hangams84/orca-file-preview-dwg.git`.
 
 ### (б) Из командной строки

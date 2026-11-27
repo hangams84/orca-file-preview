@@ -82,6 +82,9 @@ Orca **1.4.252** veya üzeri gerekir.
 
 Ekran görüntülü adım adım kılavuz: [docs/install-guide/tr.md](docs/install-guide/tr.md)
 
+<!-- install-guide-thumbs -->
+<a href="docs/install-guide/tr.md"><img src="docs/install-guide/tr/05-from-git-url.png" width="32%" alt="5"><img src="docs/install-guide/tr/08-install.png" width="32%" alt="8"><img src="docs/install-guide/tr/10-enable.png" width="32%" alt="10"></a>
+
 `.dwg` ve `.dwt` dosyaları için gerekiyorsa `https://github.com/hangams84/orca-file-preview-dwg.git` adresindeki eklentiyi de aynı yöntemle kurun.
 
 ### (b) Komut satırından

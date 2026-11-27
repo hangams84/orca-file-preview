@@ -70,6 +70,9 @@ Orca **1.4.252** 以降が必要です。
 
 スクリーンショット付きの手順: [docs/install-guide/ja.md](docs/install-guide/ja.md)
 
+<!-- install-guide-thumbs -->
+<a href="docs/install-guide/ja.md"><img src="docs/install-guide/ja/05-from-git-url.png" width="32%" alt="5"><img src="docs/install-guide/ja/08-install.png" width="32%" alt="8"><img src="docs/install-guide/ja/10-enable.png" width="32%" alt="10"></a>
+
 `.dwg`・`.dwt` が必要な場合は、同じ手順で `https://github.com/hangams84/orca-file-preview-dwg.git` もインストールしてください。
 
 ### (b) コマンドラインでインストール
