@@ -293,6 +293,71 @@ async function keras() {
 }
 
 const sections = { numpy, gguf, onnx, tflite, hdf5, keras }
+// ---------------------------------------------------------------- robustness
+// Every sample truncated at many points and with random byte damage: each run must end either in a
+// result or in a PreviewError (never a raw exception, never a hang). Tensor reads are exercised too.
+const EXT = { onnx: 'onnx', tflite: 'tflite', gguf: 'gguf', h5: 'keras', keras: 'keras', npy: 'numpy', npz: 'numpy' }
+let seed = 12345
+const rnd = (n) => ((seed = (seed * 1103515245 + 12345) & 0x7fffffff), seed % n)
+const fuzz = { runs: 0, parsed: 0, friendly: 0, raw: [], hangs: [], readRaw: [] }
+async function attempt(fmt, name, bytes) {
+  fuzz.runs++
+  const timeout = new Promise((r) => setTimeout(() => r('timeout'), 10000))
+  const run = (async () => {
+    try {
+      const ir = await readers[fmt].read(source(bytes, name))
+      for (const t of ir.tensors.slice(0, 200)) {
+        if (!t.read) continue
+        try {
+          await t.read({ offset: 0, length: 64 })
+        } catch (e) {
+          if (e?.name !== 'PreviewError') fuzz.readRaw.push(`${name}: ${t.name}: ${e?.message}`)
+        }
+      }
+      return 'parsed'
+    } catch (e) {
+      if (e?.name === 'PreviewError') return 'friendly'
+      return `raw: ${e?.name}: ${e?.message} ${String(e?.stack ?? '').split(/\n/)[1]?.trim()}`
+    }
+  })()
+  const r = await Promise.race([run, timeout])
+  if (r === 'parsed') fuzz.parsed++
+  else if (r === 'friendly') fuzz.friendly++
+  else if (r === 'timeout') fuzz.hangs.push(name)
+  else fuzz.raw.push(`${name}: ${r}`)
+}
+async function robustness() {
+  const n = Number(arg('fuzz', 40))
+  const { readdirSync } = await import('node:fs')
+  for (const f of readdirSync(DIR).sort()) {
+    const fmt = EXT[f.split('.').pop()]
+    if (!fmt) continue
+    const full = file(f)
+    if (f.startsWith('broken.')) {
+      await attempt(fmt, f, full)
+      continue
+    }
+    const cuts = new Set([0, 1, 4, 8, 12, 16, 24, 32, 64, 100, 128, 256, 512, 1024, 2048, 4096])
+    for (let k = 1; k < 20; k++) cuts.add(Math.floor((full.length * k) / 20))
+    for (const c of cuts) if (c < full.length) await attempt(fmt, `${f}[:${c}]`, full.subarray(0, c))
+    for (let k = 0; k < n; k++) {
+      const b = full.slice()
+      const hits = 1 + rnd(8)
+      for (let j = 0; j < hits; j++) {
+        const at = rnd(b.length)
+        if (rnd(3) === 0) b.fill(0xff, at, Math.min(b.length, at + 4))
+        else b[at] = rnd(256)
+      }
+      await attempt(fmt, `${f}~${k}`, b)
+    }
+  }
+  check('fuzz', '*', 'no raw exceptions', [], fuzz.raw.slice(0, 20))
+  check('fuzz', '*', 'no hangs', [], fuzz.hangs)
+  check('fuzz', '*', 'no raw tensor-read exceptions', [], fuzz.readRaw.slice(0, 20))
+  console.log(`fuzz: ${fuzz.runs} runs, ${fuzz.parsed} parsed, ${fuzz.friendly} friendly errors, ${fuzz.raw.length} raw, ${fuzz.hangs.length} hangs, ${fuzz.readRaw.length} raw read errors`)
+}
+sections.robustness = robustness
+
 const only = arg('only')
 for (const [k, fn] of Object.entries(sections)) {
   if (only && only !== k) continue

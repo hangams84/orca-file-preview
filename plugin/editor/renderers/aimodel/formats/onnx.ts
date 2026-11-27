@@ -4,7 +4,7 @@
  *  subgraphs (any depth) and local functions. Initializer values are never loaded up front: each
  *  TensorInfo.read reads its own byte range of the file. */
 import type { ByteSource, DType, Graph, GraphNode, GraphValue, ModelIR, Note, TensorInfo, Value } from '../ir.ts'
-import { bad, byteLen, DTYPE_SIZE, graphValues, MAX_DEPTH, note, product, Src, warn, yieldEvery } from './common.ts'
+import { bad, byteLen, DTYPE_SIZE, graphValues, guarded, MAX_DEPTH, note, product, Src, warn, yieldEvery } from './common.ts'
 import { I32, I64, LEN, Pb, VARINT } from './protobuf.ts'
 
 /** TensorProto.DataType → canonical dtype. */
@@ -645,7 +645,11 @@ async function readFunction(c: Ctx, end: number): Promise<{ graph: Graph; domain
   return { graph: g, domain, name }
 }
 
-export async function read(source: ByteSource): Promise<ModelIR> {
+export function read(source: ByteSource): Promise<ModelIR> {
+  return guarded('onnx', () => readModel(source))
+}
+
+async function readModel(source: ByteSource): Promise<ModelIR> {
   const src = new Src(source, 'onnx')
   if (src.size < 2) throw bad('onnx-damaged', 'The ONNX file is empty or truncated.')
   const pb = new Pb(src, 0)

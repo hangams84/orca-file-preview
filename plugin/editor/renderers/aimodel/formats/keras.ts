@@ -5,7 +5,7 @@
  *  nested models as subgraphs); weight shapes come from the weights file, read lazily. */
 import { openZip } from '../zip.ts'
 import type { ByteSource, CheckpointInfo, Graph, GraphNode, GraphValue, ModelIR, ModuleNode, Note, TensorInfo, Value } from '../ir.ts'
-import { bad, dv, MAX_DEPTH, moduleTree, note, product, Src, text, warn } from './common.ts'
+import { bad, dv, guarded, MAX_DEPTH, moduleTree, note, product, Src, text, warn } from './common.ts'
 import { H5, isHdf5, type H5Object } from './hdf5.ts'
 
 export function detect(head: Uint8Array): boolean {
@@ -480,7 +480,11 @@ async function readKerasZip(source: ByteSource): Promise<ModelIR> {
   return fromH5(wsrc, config, ctx, { keras3Weights: true, label: 'Keras v3 (.keras)', format: 'keras', compile })
 }
 
-export async function read(source: ByteSource): Promise<ModelIR> {
+export function read(source: ByteSource): Promise<ModelIR> {
+  return guarded('keras', () => readModel(source))
+}
+
+async function readModel(source: ByteSource): Promise<ModelIR> {
   const src = new Src(source, 'keras')
   const head = await src.upTo(0, 8)
   if (head[0] === 0x50 && head[1] === 0x4b) return readKerasZip(source)

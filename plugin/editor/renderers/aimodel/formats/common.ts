@@ -2,7 +2,7 @@
  *  over a ByteSource, dtype decoding, module trees and graph values. Every offset and length a file
  *  supplies goes through Src.check(), which refuses anything outside the file with a PreviewError. */
 import { PreviewError } from '../../../core/types.ts'
-import type { ByteSource, DType, Graph, GraphNode, GraphValue, ModuleNode, Note, TensorInfo, Value } from '../ir.ts'
+import type { ByteSource, DType, Graph, GraphNode, GraphValue, ModelIR, ModuleNode, Note, TensorInfo, Value } from '../ir.ts'
 
 /** A friendly refusal: `code` is the machine message, the hint is what the user reads. */
 export function bad(code: string, hint: string): PreviewError {
@@ -273,4 +273,33 @@ export class Stream {
 /** A bigint as a number when exact, else kept as bigint (Value allows both). */
 export function big(v: bigint): number | bigint {
   return v <= BigInt(Number.MAX_SAFE_INTEGER) && v >= -BigInt(Number.MAX_SAFE_INTEGER) ? Number(v) : v
+}
+
+/** A PreviewError for anything a damaged file made a reader throw. */
+export function asPreview(format: string, e: unknown): PreviewError {
+  if (e instanceof PreviewError) return e
+  const why = e instanceof Error ? e.message : String(e)
+  return bad(`${format}-damaged`, `The ${format.toUpperCase()} file is damaged or truncated (${why}).`)
+}
+
+/** Runs a reader so that every failure, now or in a later TensorInfo.read, is a PreviewError. */
+export async function guarded(format: string, run: () => Promise<ModelIR>): Promise<ModelIR> {
+  let ir: ModelIR
+  try {
+    ir = await run()
+  } catch (e) {
+    throw asPreview(format, e)
+  }
+  for (const t of ir.tensors) {
+    const r = t.read
+    if (!r) continue
+    t.read = async (range) => {
+      try {
+        return await r(range)
+      } catch (e) {
+        throw asPreview(format, e)
+      }
+    }
+  }
+  return ir
 }

@@ -4,7 +4,7 @@
  *  (lazy: inline vectors or the offset/size form of >2 GB models), signature defs and metadata.
  *  Every offset is checked against the file size; vector lengths are bounded by the bytes left. */
 import type { ByteSource, DType, Graph, GraphNode, GraphValue, ModelIR, Note, TensorInfo, Value } from '../ir.ts'
-import { bad, clip, dv, graphValues, moduleTree, note, Src, text, warn, yieldEvery } from './common.ts'
+import { bad, clip, dv, graphValues, guarded, moduleTree, note, Src, text, warn, yieldEvery } from './common.ts'
 import { ACTIVATIONS, BUILTIN_OPS, BUILTIN_OPTIONS, BUILTIN_OPTIONS_2, PADDINGS, TENSOR_TYPES, type OptionField } from './tflite-schema.ts'
 
 export function detect(head: Uint8Array): boolean {
@@ -176,7 +176,11 @@ interface Sub {
   subRefs: Map<number, number[]>
 }
 
-export async function read(source: ByteSource): Promise<ModelIR> {
+export function read(source: ByteSource): Promise<ModelIR> {
+  return guarded('tflite', () => readModel(source))
+}
+
+async function readModel(source: ByteSource): Promise<ModelIR> {
   const src = new Src(source, 'tflite')
   if (src.size < 8) throw bad('tflite-damaged', 'The TFLite file is empty or truncated.')
   const head = await src.bytes(0, 8)

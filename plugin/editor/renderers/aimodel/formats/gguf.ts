@@ -3,7 +3,7 @@
  *  F32/F16/BF16/F64/ints, Q4_0/Q4_1/Q5_0/Q5_1/Q8_0, the K-quants (Q2_K…Q8_K) and IQ4_NL/IQ4_XS; the
  *  other IQ/TQ/MXFP types are reported but not decoded. The module tree groups blk.N into attn/ffn. */
 import type { ByteSource, ModelIR, Note, TensorInfo, Value } from '../ir.ts'
-import { bad, big, clip, f16, moduleTree, note, Src, Stream, text, warn, yieldEvery } from './common.ts'
+import { bad, big, clip, f16, guarded, moduleTree, note, Src, Stream, text, warn, yieldEvery } from './common.ts'
 
 export function detect(head: Uint8Array): boolean {
   return head[0] === 0x47 && head[1] === 0x47 && head[2] === 0x55 && head[3] === 0x46 // GGUF
@@ -189,7 +189,11 @@ function groupSegment(seg: string, depth: number, parts: string[]): string[] {
   return [seg]
 }
 
-export async function read(source: ByteSource): Promise<ModelIR> {
+export function read(source: ByteSource): Promise<ModelIR> {
+  return guarded('gguf', () => readModel(source))
+}
+
+async function readModel(source: ByteSource): Promise<ModelIR> {
   const src = new Src(source, 'gguf')
   const h = await readHeader(src)
   const notes: Note[] = []

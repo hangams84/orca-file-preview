@@ -4,9 +4,11 @@
 import { inflateSync } from '../../../../vendor/zip.js'
 import { openZip, type ZipEntry } from '../zip.ts'
 import type { ByteSource, ModelIR, TensorInfo, Value } from '../ir.ts'
-import { bad, dv, memReader, note, product, Src, text, warn, yieldEvery } from './common.ts'
+import { bad, dv, guarded, memReader, note, product, Src, text, warn, yieldEvery } from './common.ts'
 
 const MAGIC = [0x93, 0x4e, 0x55, 0x4d, 0x50, 0x59] // \x93NUMPY
+/** Largest .npz member inflated in memory. */
+const MAX_INFLATE = 1 << 30
 
 export function detect(head: Uint8Array): boolean {
   if (MAGIC.every((b, i) => head[i] === b)) return true
@@ -321,6 +323,11 @@ async function readNpz(source: ByteSource): Promise<ModelIR> {
     } else if (e.method === 8) {
       deflated++
       src.check(off, e.compressedSize, e.name)
+      if (e.size > MAX_INFLATE || e.size > e.compressedSize * 1100 + 4096) {
+        // larger than deflate can produce from these bytes, or too big to inflate in memory
+        notes.push(warn(`Skipped ${e.name}: it claims ${e.size} bytes uncompressed.`, `${e.name} 건너뜀: 압축 해제 크기가 ${e.size}바이트라고 주장합니다.`))
+        continue
+      }
       let whole: Uint8Array | null = null
       const inflateAll = async () => (whole ??= inflateSync(await src.raw(off, e.compressedSize), { out: new Uint8Array(e.size) }))
       const head = await inflatePrefix(await src.raw(off, Math.min(e.compressedSize, 65536)), 4096, inflateAll)
@@ -360,10 +367,14 @@ async function dataOffset(src: Src, e: ZipEntry): Promise<number> {
   return e.headerOffset + 30 + lh.getUint16(26, true) + lh.getUint16(28, true)
 }
 
-export async function read(source: ByteSource): Promise<ModelIR> {
+export function read(source: ByteSource): Promise<ModelIR> {
+  return guarded('numpy', () => readModel(source))
+}
+
+async function readModel(source: ByteSource): Promise<ModelIR> {
   const head = await source.read(0, 8)
   if (head[0] === 0x50 && head[1] === 0x4b) return readNpz(source)
   return readNpy(source)
 }
 
-export { memReader }
+

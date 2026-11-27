@@ -503,6 +503,41 @@ def gguf_samples():
     w.write_tensors_to_file()
     w.close()
 
+    # a small one for the plugin's unit tests: a few blocks of each decoded kind plus one undecoded
+    u = OUT / "gguf-unit.gguf"
+    wu = gguf.GGUFWriter(str(u), "gpt2")
+    wu.add_name("unit")
+    wu.add_block_count(1)
+    wu.add_array("test.arr_str", ["a", "bb", "ccc"])
+    wu.add_array("test.arr_f32", [0.5, 1.5])
+    wu.add_uint64("test.u64", 2**60)
+    for name, shape, qt in (("blk.0.attn_qkv.weight", (2, 32), Q.Q8_0), ("blk.0.ffn_up.weight", (1, 256), Q.Q4_K), ("blk.0.ffn_down.weight", (1, 256), Q.Q6_K),
+                            ("blk.0.attn_norm.weight", (8,), Q.F16), ("output.weight", (4,), Q.BF16), ("token_embd.weight", (1, 256), Q.IQ2_XXS)):
+        data = rng.standard_normal(shape).astype(np.float32)
+        if qt == Q.F16:
+            wu.add_tensor(name, data.astype(np.float16))
+        elif qt in (Q.Q8_0, Q.BF16):
+            wu.add_tensor(name, gguf.quants.quantize(data, qt), raw_dtype=qt)
+        else:
+            bs, ts = gguf.GGML_QUANT_SIZES[qt]
+            q = rng.integers(0, 256, size=(int(np.prod(shape)) // bs, ts), dtype=np.uint8)
+            d = np.frombuffer(np.float16(0.01).tobytes(), np.uint8)
+            for off in {"Q4_K": (0, 2), "Q6_K": (208,), "IQ2_XXS": (0,)}[qt.name]:
+                q[:, off:off + 2] = d
+            wu.add_tensor(name, q.reshape(*shape[:-1], shape[-1] // bs * ts), raw_dtype=qt)
+    wu.write_header_to_file()
+    wu.write_kv_data_to_file()
+    wu.write_tensors_to_file()
+    wu.close()
+    gguf_t = {}
+    for path in (p, u):
+        gguf_t[path.name] = gguf_truth(path)
+    TRUTH["gguf"] = gguf_t
+
+
+def gguf_truth(p):
+    import gguf
+
     r = gguf.GGUFReader(str(p))
     kv = {}
     for f in r.fields.values():
@@ -524,7 +559,7 @@ def gguf_samples():
         except Exception:
             ent["head"] = None
         tens.append(ent)
-    TRUTH["gguf"] = {p.name: {"version": 3, "alignment": r.alignment, "data_offset": r.data_offset, "kv": kv, "tensors": tens}}
+    return {"version": 3, "alignment": r.alignment, "data_offset": r.data_offset, "kv": kv, "tensors": tens}
 
 
 def broken():
