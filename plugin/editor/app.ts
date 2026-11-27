@@ -70,6 +70,8 @@ export const RENDERERS: Record<string, Loader> = {
   zw1: () => import('./renderers/eplan.ts'),
   zx1: () => import('./renderers/eplan.ts'),
   edz: () => import('./renderers/eplan.ts'),
+  ema: () => import('./renderers/eplan.ts'),
+  emp: () => import('./renderers/eplan.ts'),
   kicad_sch: () => import('./renderers/kicad.ts'),
   kicad_pcb: () => import('./renderers/kicad.ts'),
   kicad_mod: () => import('./renderers/kicad.ts'),
@@ -220,6 +222,9 @@ export function textType(family: string, bytes: Uint8Array): string {
       return 'drawio'
     case 'dxf':
       return 'dxf'
+    case 'eplan':
+      // Window macros (Type="WindowMacro") and page macros share the PXF format.
+      return /<EplanPxfRoot\b[^>]*\bType="PageMacro"/.test(head) ? 'emp' : 'ema'
     case 'office':
       // .doc saved as RTF/HTML by other word processors, .xls saved as SpreadsheetML or HTML by Excel.
       return /<\?mso-application\s+progid="Excel|<Workbook[\s>]|urn:schemas-microsoft-com:office:excel/i.test(head) ? 'xls' : 'doc'

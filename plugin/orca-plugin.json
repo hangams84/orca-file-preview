@@ -128,7 +128,9 @@
           ".ela",
           ".zw1",
           ".zx1",
-          ".edz"
+          ".edz",
+          ".ema",
+          ".emp"
         ],
         "entry": "editor/main.ts",
         "contentKind": "bytes",
@@ -243,6 +245,17 @@
           ".xls"
         ],
         "entry": "editor/text/office.ts",
+        "contentKind": "text",
+        "frame": "any"
+      },
+      {
+        "id": "eplan-text",
+        "title": "EPLAN Macro Preview",
+        "extensions": [
+          ".ema",
+          ".emp"
+        ],
+        "entry": "editor/text/eplan.ts",
         "contentKind": "text",
         "frame": "any"
       }

@@ -5,7 +5,7 @@
 // only for the others; a text document carries no fileType. URDF, xacro, KiCad,
 // draw.io, ASCII DXF/STL, STEP, OBJ, SVG … are text, so they need text editors. Orca allows at most 16 editors
 // per plugin, so binary suffixes share 6 bytes editors (entry editor/main.ts, dispatch on fileType) and text
-// suffixes share 9 text editors, one per format family (entry editor/text/<family>.ts; the viewer tells the
+// suffixes share 10 text editors, one per format family (entry editor/text/<family>.ts; the viewer tells the
 // exact type from the content, see textType() in editor/app.ts). Orca shows exactly one of the two per file.
 //
 //   node tools/gen-text-editors.mjs          rewrite the manifest editors and the entries
@@ -25,7 +25,7 @@ export const BYTES_GROUPS = [
   ['diagram', 'Diagram Preview', 'drawio dio vsdx vsdm vstx vssx'],
   ['model3d', '3D · Robot Preview', 'stl obj ply glb gltf 3mf off fbx dae step stp stpz iges igs brep urdf xacro'],
   ['cad2d', 'CAD Drawing Preview', 'dxf dwf dwfx'],
-  ['engineering', 'Engineering Preview', 'kicad_sch kicad_pcb kicad_mod kicad_sym kicad_pro sldprt sldasm slddrw slddrt prtdot asmdot drwdot elk ell elr els elp elx ela zw1 zx1 edz']
+  ['engineering', 'Engineering Preview', 'kicad_sch kicad_pcb kicad_mod kicad_sym kicad_pro sldprt sldasm slddrw slddrt prtdot asmdot drwdot elk ell elr els elp elx ela zw1 zx1 edz ema emp']
 ]
 
 /** Text documents: one editor per family, entry editor/text/<family>.ts. */
@@ -38,7 +38,8 @@ export const TEXT_FAMILIES = [
   ['kicad', 'KiCad Preview', 'kicad_sch kicad_pcb kicad_mod kicad_sym kicad_pro'],
   ['dxf', 'CAD Drawing Preview', 'dxf'],
   ['robot', 'Robot Preview', 'urdf xacro'],
-  ['office', 'Office Preview', 'doc xls']
+  ['office', 'Office Preview', 'doc xls'],
+  ['eplan', 'EPLAN Macro Preview', 'ema emp']
 ]
 
 const exts = (s) => s.split(' ').map((x) => `.${x}`)

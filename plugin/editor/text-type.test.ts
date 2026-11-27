@@ -8,6 +8,8 @@ test('text documents: the suffix comes from the family and the content', () => {
   assert.equal(t('robot', '<?xml version="1.0"?>\n<robot name="arm"><link name="a"/></robot>'), 'urdf')
   assert.equal(t('robot', '<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="r">'), 'xacro')
   assert.equal(t('kicad', '(kicad_sch (version 20231120)'), 'kicad_sch')
+  assert.equal(t('eplan', '<?xml version="1.0" encoding="utf-8" ?>\n<EplanPxfRoot Name="AI204_1" Type="WindowMacro">'), 'ema')
+  assert.equal(t('eplan', '<EplanPxfRoot Name="P1" Type="PageMacro" Version="2.8">'), 'emp')
   assert.equal(t('kicad', '(kicad_pcb (version 20240108)'), 'kicad_pcb')
   assert.equal(t('kicad', '(kicad_symbol_lib (version 20231120)'), 'kicad_sym')
   assert.equal(t('kicad', '(footprint "R_0603"'), 'kicad_mod')

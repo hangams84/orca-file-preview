@@ -16,11 +16,13 @@ whose blocks start with [u32 index][8-byte hash].
   python tools/make-sw-assembly.py
 """
 import importlib.util
+import sys
 import math
 import os
 import struct
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+sys.dont_write_bytecode = True
 spec = importlib.util.spec_from_file_location("prop", os.path.join(HERE, "make-prop-samples.py"))
 prop = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(prop)

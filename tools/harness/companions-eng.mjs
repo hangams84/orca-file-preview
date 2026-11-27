@@ -54,7 +54,7 @@ async function dropFiles(page, files, selector = '.fp-content') {
 }
 
 const CASES = []
-const add = (group, name, file, run, local = false) => CASES.push({ group, name, file, run, local })
+const add = (group, name, file, run, local = false, opts = {}) => CASES.push({ group, name, file, run, local, ...opts })
 
 // --- KiCad -------------------------------------------------------------------------------------------------
 add('kicad', 'hierarchy-folder', 'samples/kicad-project/demo.kicad_sch', async (page, r) => {
@@ -169,6 +169,86 @@ add(
   true
 )
 
+// --- EPLAN ------------------------------------------------------------------------------------------------
+add('eplan', 'link-folder', 'samples/eplan-project/Plant.elk', async (page, r) => {
+  r.before = (await panel(page).textContent()).replace(/\s+/g, ' ')
+  r.check(/Pick the project folder \(\.edb/.test(r.before), 'hint to pick the .edb folder')
+  await pickFolder(page, 'samples/eplan-project')
+  await page.locator('.fp-prop-tabs button', { hasText: 'Parts' }).waitFor({ timeout: 15000 })
+  r.tabs = await page.locator('.fp-prop-tabs button').allTextContents()
+  r.overview = (await panel(page).textContent()).replace(/\s+/g, ' ')
+  await r.shot('overview')
+  await tab(page, 'Pages')
+  await page.waitForTimeout(300)
+  r.pages = (await panel(page).textContent()).replace(/\s+/g, ' ')
+  await tab(page, 'Parts')
+  await panel(page).locator('li').first().waitFor({ timeout: 10000 })
+  r.parts = await panel(page).locator('li').allTextContents()
+  await r.shot('parts')
+  r.check(/Filling plant/.test(r.overview) && /folder "[^"]*Plant\.edb"/.test(r.overview), 'project properties from the folder')
+  r.check(/Pump motor/.test(r.pages) && /PLC inputs/.test(r.pages), 'page descriptions')
+  r.check(r.parts.length === 5 && r.parts.some((p) => /ORCA\.PUMP-2K2.*Pump motor/.test(p)), '5 parts incl. a zlib-compressed record')
+})
+add('eplan', 'macro-ema', 'samples/sample-terminal.ema', async (page, r) => {
+  r.info = await info(page)
+  await page.locator('.fp-content svg path.px').first().waitFor({ timeout: 10000 })
+  r.paths = await page.locator('.fp-content svg path').count()
+  r.texts = await page.locator('.fp-content svg text').allTextContents()
+  await r.shot('variant-1')
+  await page.locator('.fp-toolbar select').first().selectOption({ index: 1 })
+  await page.waitForTimeout(300)
+  r.info2 = await info(page)
+  await r.shot('variant-2')
+  r.check(/Orca-Terminal/.test(r.info) && /Representation 1/.test(r.info), 'macro and variant named')
+  r.check(r.texts.includes('-X1') && r.texts.includes('Jumper'), 'texts drawn')
+  r.check(/Representation 4/.test(r.info2), 'second variant')
+}, false, { noFolder: true })
+add('eplan', 'edz-macro-draw', 'samples/sample.edz', async (page, r) => {
+  await tab(page, 'Parts')
+  await panel(page).locator('button', { hasText: 'Draw' }).first().waitFor({ timeout: 15000 })
+  await panel(page).locator('button', { hasText: 'Draw' }).first().click()
+  await page.locator('.fp-prop-embed svg path.px').first().waitFor({ timeout: 10000 })
+  r.embedded = await page.locator('.fp-prop-embed-bar .info').first().textContent()
+  await r.shot('macro')
+  r.check(/TB-100\.ema/.test(r.embedded), 'macro opened from the part package')
+}, false, { noFolder: true })
+add(
+  'eplan',
+  'macro-real',
+  '.orca/bach/AI204_1.ema',
+  async (page, r) => {
+    await page.locator('.fp-content svg path.px').first().waitFor({ timeout: 20000 })
+    await page.waitForTimeout(500)
+    r.info = await info(page)
+    await r.shot('variant-1')
+    r.check(/AI204_1/.test(r.info), 'real macro drawn')
+  },
+  true,
+  { noFolder: true }
+)
+add(
+  'eplan',
+  'link-folder-real',
+  '.orca/eplan/graphical_edit/cdp_place_only.elk',
+  async (page, r) => {
+    await pickFolder(page, '.orca/eplan/graphical_edit')
+    await page.locator('.fp-prop-tabs button', { hasText: 'Parts' }).waitFor({ timeout: 30000 })
+    r.overview = (await panel(page).textContent()).replace(/\s+/g, ' ')
+    await r.shot('overview')
+    await tab(page, 'Pages')
+    await page.waitForTimeout(800)
+    r.pageCount = await panel(page).locator('li').count()
+    await r.shot('pages')
+    await tab(page, 'Parts')
+    await panel(page).locator('li').first().waitFor({ timeout: 20000 })
+    r.partCount = await panel(page).locator('li').count()
+    await r.shot('parts')
+    r.check(/cdp_place_only\.edb/.test(r.overview), 'folder used although the link names another .edb')
+    r.check(r.pageCount > 10 && r.partCount > 50, `pages ${r.pageCount}, parts ${r.partCount}`)
+  },
+  true
+)
+
 // --- run --------------------------------------------------------------------------------------------------
 const results = []
 for (const c of CASES) {
@@ -195,7 +275,7 @@ for (const c of CASES) {
   try {
     r.state = await open(page, c.file)
     r.check(r.state === 'ready', 'opened')
-    r.check(await folderButton(page).count(), '📁 button present')
+    if (!c.noFolder) r.check(await folderButton(page).count(), '📁 button present')
     await c.run(page, r)
   } catch (e) {
     errors.push(`harness: ${e.message.split('\n')[0]}`)
