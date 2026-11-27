@@ -92,21 +92,12 @@
         "frame": "any"
       },
       {
-        "id": "cad2d",
-        "title": "CAD Drawing Preview",
+        "id": "engineering",
+        "title": "CAD · Engineering Preview",
         "extensions": [
           ".dxf",
           ".dwf",
-          ".dwfx"
-        ],
-        "entry": "editor/main.ts",
-        "contentKind": "bytes",
-        "frame": "any"
-      },
-      {
-        "id": "engineering",
-        "title": "Engineering Preview",
-        "extensions": [
+          ".dwfx",
           ".kicad_sch",
           ".kicad_pcb",
           ".kicad_mod",
@@ -132,6 +123,30 @@
           ".edz",
           ".ema",
           ".emp"
+        ],
+        "entry": "editor/main.ts",
+        "contentKind": "bytes",
+        "frame": "any"
+      },
+      {
+        "id": "aimodel",
+        "title": "AI Model Preview",
+        "extensions": [
+          ".pt",
+          ".pth",
+          ".ckpt",
+          ".chkpt",
+          ".pt2",
+          ".ptl",
+          ".safetensors",
+          ".onnx",
+          ".tflite",
+          ".gguf",
+          ".keras",
+          ".h5",
+          ".hdf5",
+          ".npy",
+          ".npz"
         ],
         "entry": "editor/main.ts",
         "contentKind": "bytes",

@@ -1,7 +1,7 @@
 /** File Preview: one read-only viewer for every format this plugin registers. It never edits the
  *  file; it re-renders when the file changes on disk. Renderers load lazily per format. */
 import { formatBytes, makeTr } from './core/i18n.ts'
-import { PreviewError, type PreviewContext, type Renderer, type ThemeName } from './core/types.ts'
+import { PreviewError, type PreviewContext, type RandomAccessSource, type Renderer, type ThemeName } from './core/types.ts'
 import { createShell, installStyles, showLoading, showMessage, type Shell } from './core/ui.ts'
 
 type Loader = () => Promise<{ render: Renderer }>
@@ -79,8 +79,34 @@ export const RENDERERS: Record<string, Loader> = {
   kicad_pro: () => import('./renderers/kicad.ts'),
   kicad_wks: () => import('./renderers/kicad.ts'),
   urdf: () => import('./renderers/urdf.ts'),
-  xacro: () => import('./renderers/urdf.ts')
+  xacro: () => import('./renderers/urdf.ts'),
+  pt: () => import('./renderers/aimodel.ts'),
+  pth: () => import('./renderers/aimodel.ts'),
+  ckpt: () => import('./renderers/aimodel.ts'),
+  chkpt: () => import('./renderers/aimodel.ts'),
+  pt2: () => import('./renderers/aimodel.ts'),
+  ptl: () => import('./renderers/aimodel.ts'),
+  safetensors: () => import('./renderers/aimodel.ts'),
+  onnx: () => import('./renderers/aimodel.ts'),
+  tflite: () => import('./renderers/aimodel.ts'),
+  gguf: () => import('./renderers/aimodel.ts'),
+  keras: () => import('./renderers/aimodel.ts'),
+  h5: () => import('./renderers/aimodel.ts'),
+  hdf5: () => import('./renderers/aimodel.ts'),
+  npy: () => import('./renderers/aimodel.ts'),
+  npz: () => import('./renderers/aimodel.ts'),
+  // Generic suffixes: not registered as editors (orca-plugin.json), opened by the panel and told apart
+  // by content (PyTorch zip/pickle, safetensors, GGUF).
+  bin: () => import('./renderers/aimodel.ts'),
+  pkl: () => import('./renderers/aimodel.ts')
 }
+
+/** Suffixes whose renderer reads by range (RandomAccessSource): the panel hands them a File instead of
+ *  its bytes, so files of any size open. */
+export const RANGED_TYPES = new Set(['pt', 'pth', 'ckpt', 'chkpt', 'pt2', 'ptl', 'safetensors', 'onnx', 'tflite', 'gguf', 'keras', 'h5', 'hdf5', 'npy', 'npz', 'bin', 'pkl'])
+
+/** Suffixes in RENDERERS that the manifest deliberately does not register (generic binaries). */
+export const PANEL_ONLY_TYPES = new Set(['bin', 'pkl'])
 
 /** Starts the viewer. `textFamily` is set by the text entries (editor/text/<family>.ts): Orca sends a text
  *  document without its suffix, so the exact type comes from the content (textType). */
@@ -116,7 +142,7 @@ export function boot(textFamily?: string): void {
 
 /** The preview inside a shell: `show` renders bytes of a type (a RENDERERS key), replacing what was
  *  shown. Used by the custom editors (boot) and by the File Preview panel (panel/main.ts). */
-export function createPreview(shell: Shell, tr: (ko: string, en: string) => string): { show(bytes: Uint8Array, fileType: string): Promise<void> } {
+export function createPreview(shell: Shell, tr: (ko: string, en: string) => string): { show(bytes: Uint8Array, fileType: string, source?: RandomAccessSource): Promise<void> } {
   const themeListeners = new Set<(t: ThemeName) => void>()
   const currentTheme = (): ThemeName => (document.documentElement.classList.contains('light') ? 'light' : 'dark')
   orca.on('theme', () => {
@@ -127,7 +153,7 @@ export function createPreview(shell: Shell, tr: (ko: string, en: string) => stri
   let abort: AbortController | null = null
   let cleanup: (() => void) | void = undefined
 
-  async function show(bytes: Uint8Array, fileType: string): Promise<void> {
+  async function show(bytes: Uint8Array, fileType: string, source?: RandomAccessSource): Promise<void> {
     const gen = ++generation
     document.body.dataset.state = 'loading'
     abort?.abort()
@@ -147,7 +173,7 @@ export function createPreview(shell: Shell, tr: (ko: string, en: string) => stri
       document.body.dataset.state = 'error'
       return
     }
-    if (bytes.byteLength === 0) {
+    if ((source ? source.size : bytes.byteLength) === 0) {
       showMessage(shell.root, tr('빈 파일입니다', 'This file is empty'), formatBytes(0))
       document.body.dataset.state = 'ready'
       return
@@ -155,6 +181,7 @@ export function createPreview(shell: Shell, tr: (ko: string, en: string) => stri
     showLoading(shell.root, tr('미리보기를 준비하는 중…', 'Preparing preview…'))
     const ctx: PreviewContext = {
       bytes,
+      source,
       fileType,
       root: shell.root,
       toolbar: shell.toolbar,
@@ -166,7 +193,7 @@ export function createPreview(shell: Shell, tr: (ko: string, en: string) => stri
       },
       compact: window.matchMedia('(max-width: 600px)').matches,
       rerender: () => {
-        if (gen === generation) void show(bytes, fileType)
+        if (gen === generation) void show(bytes, fileType, source)
       }
     }
     try {
@@ -196,7 +223,7 @@ export function createPreview(shell: Shell, tr: (ko: string, en: string) => stri
         shell.root,
         tr('미리보기를 표시할 수 없습니다', 'Cannot preview this file'),
         e instanceof PreviewError ? (e.hint ?? e.message) : tr('파일이 손상되었거나 지원하지 않는 변형일 수 있습니다.', 'The file may be damaged or use an unsupported variant.'),
-        `${e instanceof PreviewError ? `code: ${e.message}` : `${e?.name ?? 'Error'}: ${e?.message ?? String(err)}`} · .${fileType} · ${formatBytes(bytes.byteLength)}`,
+        `${e instanceof PreviewError ? `code: ${e.message}` : `${e?.name ?? 'Error'}: ${e?.message ?? String(err)}`} · .${fileType} · ${formatBytes(source ? source.size : bytes.byteLength)}`,
         tr('자세히', 'Details')
       )
     }

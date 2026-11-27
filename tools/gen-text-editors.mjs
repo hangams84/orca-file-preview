@@ -24,8 +24,10 @@ export const BYTES_GROUPS = [
   ['media', 'Text · Web · Image Preview', 'txt log csv tsv html htm xhtml svg gif bmp'],
   ['diagram', 'Diagram Preview', 'drawio dio vsdx vsdm vstx vssx'],
   ['model3d', '3D · Robot Preview', 'stl obj ply glb gltf 3mf off fbx dae step stp stpz iges igs brep urdf xacro'],
-  ['cad2d', 'CAD Drawing Preview', 'dxf dwf dwfx'],
-  ['engineering', 'Engineering Preview', 'kicad_sch kicad_pcb kicad_mod kicad_sym kicad_pro kicad_wks sldprt sldasm slddrw slddrt prtdot asmdot drwdot elk ell elr els elp elx ela zw1 zx1 edz ema emp']
+  // 2D CAD (dxf dwf dwfx) shares the engineering editor since 2026-11 to free a slot for AI models.
+  ['engineering', 'CAD · Engineering Preview', 'dxf dwf dwfx kicad_sch kicad_pcb kicad_mod kicad_sym kicad_pro kicad_wks sldprt sldasm slddrw slddrt prtdot asmdot drwdot elk ell elr els elp elx ela zw1 zx1 edz ema emp'],
+  // .bin and .pkl are generic: not registered; the File Preview panel opens them by content.
+  ['aimodel', 'AI Model Preview', 'pt pth ckpt chkpt pt2 ptl safetensors onnx tflite gguf keras h5 hdf5 npy npz']
 ]
 
 /** Text documents: one editor per family, entry editor/text/<family>.ts. */

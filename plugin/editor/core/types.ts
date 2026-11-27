@@ -31,9 +31,19 @@ export interface ZoomController {
   onChange(listener: (scale: number) => void): void
 }
 
+/** Random access to a file too large to hand over whole (the File Preview panel reads AI models
+ *  this way, with File.slice()). */
+export interface RandomAccessSource {
+  readonly size: number
+  read(offset: number, length: number): Promise<Uint8Array>
+  readonly name?: string
+}
+
 export interface PreviewContext {
-  /** Raw file bytes. Never mutate; the preview is read-only. */
+  /** Raw file bytes. Never mutate; the preview is read-only. Empty when `source` is set. */
   bytes: Uint8Array
+  /** Ranged access instead of `bytes` (panel, AI model files only); renderers that support it use it. */
+  source?: RandomAccessSource
   /** Lower-case suffix without the dot, e.g. `docx`. */
   fileType: string
   /** Scrollable content area that the renderer owns. */

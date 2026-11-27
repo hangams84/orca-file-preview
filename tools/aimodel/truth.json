@@ -1,0 +1,3499 @@
+{
+ "torch": "2.15.0+cpu",
+ "samples": [
+  {
+   "file": "mlp.state_dict.pth",
+   "parameters": 5018,
+   "parameterTensors": 6,
+   "stateTensors": 6,
+   "stateElements": 5018,
+   "tensors": {
+    "fc1.weight": {
+     "shape": [
+      48,
+      64
+     ],
+     "dtype": "float32"
+    },
+    "fc1.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "fc2.weight": {
+     "shape": [
+      32,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "fc2.bias": {
+     "shape": [
+      32
+     ],
+     "dtype": "float32"
+    },
+    "head.weight": {
+     "shape": [
+      10,
+      32
+     ],
+     "dtype": "float32"
+    },
+    "head.bias": {
+     "shape": [
+      10
+     ],
+     "dtype": "float32"
+    }
+   },
+   "torchinfo": 5018,
+   "kind": "state_dict"
+  },
+  {
+   "file": "mlp.module.pt",
+   "parameters": 5018,
+   "parameterTensors": 6,
+   "stateTensors": 6,
+   "stateElements": 5018,
+   "tensors": {
+    "fc1.weight": {
+     "shape": [
+      48,
+      64
+     ],
+     "dtype": "float32"
+    },
+    "fc1.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "fc2.weight": {
+     "shape": [
+      32,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "fc2.bias": {
+     "shape": [
+      32
+     ],
+     "dtype": "float32"
+    },
+    "head.weight": {
+     "shape": [
+      10,
+      32
+     ],
+     "dtype": "float32"
+    },
+    "head.bias": {
+     "shape": [
+      10
+     ],
+     "dtype": "float32"
+    }
+   },
+   "torchinfo": 5018,
+   "kind": "module"
+  },
+  {
+   "file": "mlp.torchscript.pt",
+   "parameters": 5018,
+   "parameterTensors": 6,
+   "stateTensors": 6,
+   "stateElements": 5018,
+   "tensors": {
+    "fc1.weight": {
+     "shape": [
+      48,
+      64
+     ],
+     "dtype": "float32"
+    },
+    "fc1.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "fc2.weight": {
+     "shape": [
+      32,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "fc2.bias": {
+     "shape": [
+      32
+     ],
+     "dtype": "float32"
+    },
+    "head.weight": {
+     "shape": [
+      10,
+      32
+     ],
+     "dtype": "float32"
+    },
+    "head.bias": {
+     "shape": [
+      10
+     ],
+     "dtype": "float32"
+    }
+   },
+   "torchinfo": 5018,
+   "kind": "torchscript"
+  },
+  {
+   "file": "mlp.export.pt2",
+   "parameters": 5018,
+   "parameterTensors": 6,
+   "stateTensors": 6,
+   "stateElements": 5018,
+   "tensors": {
+    "fc1.weight": {
+     "shape": [
+      48,
+      64
+     ],
+     "dtype": "float32"
+    },
+    "fc1.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "fc2.weight": {
+     "shape": [
+      32,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "fc2.bias": {
+     "shape": [
+      32
+     ],
+     "dtype": "float32"
+    },
+    "head.weight": {
+     "shape": [
+      10,
+      32
+     ],
+     "dtype": "float32"
+    },
+    "head.bias": {
+     "shape": [
+      10
+     ],
+     "dtype": "float32"
+    }
+   },
+   "torchinfo": 5018,
+   "kind": "pt2",
+   "graphNodes": 14,
+   "callFunctions": 6
+  },
+  {
+   "file": "mlp.lightning.ckpt",
+   "parameters": 5018,
+   "parameterTensors": 6,
+   "stateTensors": 6,
+   "stateElements": 5018,
+   "tensors": {
+    "model.fc1.weight": {
+     "shape": [
+      48,
+      64
+     ],
+     "dtype": "float32"
+    },
+    "model.fc1.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "model.fc2.weight": {
+     "shape": [
+      32,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "model.fc2.bias": {
+     "shape": [
+      32
+     ],
+     "dtype": "float32"
+    },
+    "model.head.weight": {
+     "shape": [
+      10,
+      32
+     ],
+     "dtype": "float32"
+    },
+    "model.head.bias": {
+     "shape": [
+      10
+     ],
+     "dtype": "float32"
+    }
+   },
+   "torchinfo": 5018,
+   "kind": "lightning",
+   "epoch": 7,
+   "global_step": 1234,
+   "optimizerStateTensors": 18
+  },
+  {
+   "file": "mlp.legacy.pt",
+   "parameters": 5018,
+   "parameterTensors": 6,
+   "stateTensors": 6,
+   "stateElements": 5018,
+   "tensors": {
+    "fc1.weight": {
+     "shape": [
+      48,
+      64
+     ],
+     "dtype": "float32"
+    },
+    "fc1.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "fc2.weight": {
+     "shape": [
+      32,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "fc2.bias": {
+     "shape": [
+      32
+     ],
+     "dtype": "float32"
+    },
+    "head.weight": {
+     "shape": [
+      10,
+      32
+     ],
+     "dtype": "float32"
+    },
+    "head.bias": {
+     "shape": [
+      10
+     ],
+     "dtype": "float32"
+    }
+   },
+   "torchinfo": 5018,
+   "kind": "legacy"
+  },
+  {
+   "file": "mlp.f16.pth",
+   "parameters": 5018,
+   "parameterTensors": 6,
+   "stateTensors": 6,
+   "stateElements": 5018,
+   "tensors": {
+    "fc1.weight": {
+     "shape": [
+      48,
+      64
+     ],
+     "dtype": "float16"
+    },
+    "fc1.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float16"
+    },
+    "fc2.weight": {
+     "shape": [
+      32,
+      48
+     ],
+     "dtype": "float16"
+    },
+    "fc2.bias": {
+     "shape": [
+      32
+     ],
+     "dtype": "float16"
+    },
+    "head.weight": {
+     "shape": [
+      10,
+      32
+     ],
+     "dtype": "float16"
+    },
+    "head.bias": {
+     "shape": [
+      10
+     ],
+     "dtype": "float16"
+    }
+   },
+   "torchinfo": 5018,
+   "kind": "state_dict-f16"
+  },
+  {
+   "file": "mlp.bf16.pth",
+   "parameters": 5018,
+   "parameterTensors": 6,
+   "stateTensors": 6,
+   "stateElements": 5018,
+   "tensors": {
+    "fc1.weight": {
+     "shape": [
+      48,
+      64
+     ],
+     "dtype": "bfloat16"
+    },
+    "fc1.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "fc2.weight": {
+     "shape": [
+      32,
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "fc2.bias": {
+     "shape": [
+      32
+     ],
+     "dtype": "bfloat16"
+    },
+    "head.weight": {
+     "shape": [
+      10,
+      32
+     ],
+     "dtype": "bfloat16"
+    },
+    "head.bias": {
+     "shape": [
+      10
+     ],
+     "dtype": "bfloat16"
+    }
+   },
+   "torchinfo": 5018,
+   "kind": "state_dict-bf16"
+  },
+  {
+   "file": "cnn.state_dict.pth",
+   "parameters": 8842,
+   "parameterTensors": 14,
+   "stateTensors": 20,
+   "stateElements": 8892,
+   "tensors": {
+    "features.0.weight": {
+     "shape": [
+      8,
+      3,
+      3,
+      3
+     ],
+     "dtype": "float32"
+    },
+    "features.0.bias": {
+     "shape": [
+      8
+     ],
+     "dtype": "float32"
+    },
+    "features.1.weight": {
+     "shape": [
+      8
+     ],
+     "dtype": "float32"
+    },
+    "features.1.bias": {
+     "shape": [
+      8
+     ],
+     "dtype": "float32"
+    },
+    "features.1.running_mean": {
+     "shape": [
+      8
+     ],
+     "dtype": "float32"
+    },
+    "features.1.running_var": {
+     "shape": [
+      8
+     ],
+     "dtype": "float32"
+    },
+    "features.1.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "features.4.weight": {
+     "shape": [
+      16,
+      8,
+      3,
+      3
+     ],
+     "dtype": "float32"
+    },
+    "features.4.bias": {
+     "shape": [
+      16
+     ],
+     "dtype": "float32"
+    },
+    "features.5.weight": {
+     "shape": [
+      16
+     ],
+     "dtype": "float32"
+    },
+    "features.5.bias": {
+     "shape": [
+      16
+     ],
+     "dtype": "float32"
+    },
+    "features.5.running_mean": {
+     "shape": [
+      16
+     ],
+     "dtype": "float32"
+    },
+    "features.5.running_var": {
+     "shape": [
+      16
+     ],
+     "dtype": "float32"
+    },
+    "features.5.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "features.8.weight": {
+     "shape": [
+      32,
+      16,
+      3,
+      3
+     ],
+     "dtype": "float32"
+    },
+    "features.8.bias": {
+     "shape": [
+      32
+     ],
+     "dtype": "float32"
+    },
+    "classifier.1.weight": {
+     "shape": [
+      64,
+      32
+     ],
+     "dtype": "float32"
+    },
+    "classifier.1.bias": {
+     "shape": [
+      64
+     ],
+     "dtype": "float32"
+    },
+    "classifier.3.weight": {
+     "shape": [
+      10,
+      64
+     ],
+     "dtype": "float32"
+    },
+    "classifier.3.bias": {
+     "shape": [
+      10
+     ],
+     "dtype": "float32"
+    }
+   },
+   "torchinfo": 8842,
+   "kind": "state_dict"
+  },
+  {
+   "file": "cnn.module.pt",
+   "parameters": 8842,
+   "parameterTensors": 14,
+   "stateTensors": 20,
+   "stateElements": 8892,
+   "tensors": {
+    "features.0.weight": {
+     "shape": [
+      8,
+      3,
+      3,
+      3
+     ],
+     "dtype": "float32"
+    },
+    "features.0.bias": {
+     "shape": [
+      8
+     ],
+     "dtype": "float32"
+    },
+    "features.1.weight": {
+     "shape": [
+      8
+     ],
+     "dtype": "float32"
+    },
+    "features.1.bias": {
+     "shape": [
+      8
+     ],
+     "dtype": "float32"
+    },
+    "features.1.running_mean": {
+     "shape": [
+      8
+     ],
+     "dtype": "float32"
+    },
+    "features.1.running_var": {
+     "shape": [
+      8
+     ],
+     "dtype": "float32"
+    },
+    "features.1.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "features.4.weight": {
+     "shape": [
+      16,
+      8,
+      3,
+      3
+     ],
+     "dtype": "float32"
+    },
+    "features.4.bias": {
+     "shape": [
+      16
+     ],
+     "dtype": "float32"
+    },
+    "features.5.weight": {
+     "shape": [
+      16
+     ],
+     "dtype": "float32"
+    },
+    "features.5.bias": {
+     "shape": [
+      16
+     ],
+     "dtype": "float32"
+    },
+    "features.5.running_mean": {
+     "shape": [
+      16
+     ],
+     "dtype": "float32"
+    },
+    "features.5.running_var": {
+     "shape": [
+      16
+     ],
+     "dtype": "float32"
+    },
+    "features.5.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "features.8.weight": {
+     "shape": [
+      32,
+      16,
+      3,
+      3
+     ],
+     "dtype": "float32"
+    },
+    "features.8.bias": {
+     "shape": [
+      32
+     ],
+     "dtype": "float32"
+    },
+    "classifier.1.weight": {
+     "shape": [
+      64,
+      32
+     ],
+     "dtype": "float32"
+    },
+    "classifier.1.bias": {
+     "shape": [
+      64
+     ],
+     "dtype": "float32"
+    },
+    "classifier.3.weight": {
+     "shape": [
+      10,
+      64
+     ],
+     "dtype": "float32"
+    },
+    "classifier.3.bias": {
+     "shape": [
+      10
+     ],
+     "dtype": "float32"
+    }
+   },
+   "torchinfo": 8842,
+   "kind": "module"
+  },
+  {
+   "file": "cnn.torchscript.pt",
+   "parameters": 8842,
+   "parameterTensors": 14,
+   "stateTensors": 20,
+   "stateElements": 8892,
+   "tensors": {
+    "features.0.weight": {
+     "shape": [
+      8,
+      3,
+      3,
+      3
+     ],
+     "dtype": "float32"
+    },
+    "features.0.bias": {
+     "shape": [
+      8
+     ],
+     "dtype": "float32"
+    },
+    "features.1.weight": {
+     "shape": [
+      8
+     ],
+     "dtype": "float32"
+    },
+    "features.1.bias": {
+     "shape": [
+      8
+     ],
+     "dtype": "float32"
+    },
+    "features.1.running_mean": {
+     "shape": [
+      8
+     ],
+     "dtype": "float32"
+    },
+    "features.1.running_var": {
+     "shape": [
+      8
+     ],
+     "dtype": "float32"
+    },
+    "features.1.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "features.4.weight": {
+     "shape": [
+      16,
+      8,
+      3,
+      3
+     ],
+     "dtype": "float32"
+    },
+    "features.4.bias": {
+     "shape": [
+      16
+     ],
+     "dtype": "float32"
+    },
+    "features.5.weight": {
+     "shape": [
+      16
+     ],
+     "dtype": "float32"
+    },
+    "features.5.bias": {
+     "shape": [
+      16
+     ],
+     "dtype": "float32"
+    },
+    "features.5.running_mean": {
+     "shape": [
+      16
+     ],
+     "dtype": "float32"
+    },
+    "features.5.running_var": {
+     "shape": [
+      16
+     ],
+     "dtype": "float32"
+    },
+    "features.5.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "features.8.weight": {
+     "shape": [
+      32,
+      16,
+      3,
+      3
+     ],
+     "dtype": "float32"
+    },
+    "features.8.bias": {
+     "shape": [
+      32
+     ],
+     "dtype": "float32"
+    },
+    "classifier.1.weight": {
+     "shape": [
+      64,
+      32
+     ],
+     "dtype": "float32"
+    },
+    "classifier.1.bias": {
+     "shape": [
+      64
+     ],
+     "dtype": "float32"
+    },
+    "classifier.3.weight": {
+     "shape": [
+      10,
+      64
+     ],
+     "dtype": "float32"
+    },
+    "classifier.3.bias": {
+     "shape": [
+      10
+     ],
+     "dtype": "float32"
+    }
+   },
+   "torchinfo": 8842,
+   "kind": "torchscript"
+  },
+  {
+   "file": "cnn.export.pt2",
+   "parameters": 8842,
+   "parameterTensors": 14,
+   "stateTensors": 20,
+   "stateElements": 8892,
+   "tensors": {
+    "features.0.weight": {
+     "shape": [
+      8,
+      3,
+      3,
+      3
+     ],
+     "dtype": "float32"
+    },
+    "features.0.bias": {
+     "shape": [
+      8
+     ],
+     "dtype": "float32"
+    },
+    "features.1.weight": {
+     "shape": [
+      8
+     ],
+     "dtype": "float32"
+    },
+    "features.1.bias": {
+     "shape": [
+      8
+     ],
+     "dtype": "float32"
+    },
+    "features.1.running_mean": {
+     "shape": [
+      8
+     ],
+     "dtype": "float32"
+    },
+    "features.1.running_var": {
+     "shape": [
+      8
+     ],
+     "dtype": "float32"
+    },
+    "features.1.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "features.4.weight": {
+     "shape": [
+      16,
+      8,
+      3,
+      3
+     ],
+     "dtype": "float32"
+    },
+    "features.4.bias": {
+     "shape": [
+      16
+     ],
+     "dtype": "float32"
+    },
+    "features.5.weight": {
+     "shape": [
+      16
+     ],
+     "dtype": "float32"
+    },
+    "features.5.bias": {
+     "shape": [
+      16
+     ],
+     "dtype": "float32"
+    },
+    "features.5.running_mean": {
+     "shape": [
+      16
+     ],
+     "dtype": "float32"
+    },
+    "features.5.running_var": {
+     "shape": [
+      16
+     ],
+     "dtype": "float32"
+    },
+    "features.5.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "features.8.weight": {
+     "shape": [
+      32,
+      16,
+      3,
+      3
+     ],
+     "dtype": "float32"
+    },
+    "features.8.bias": {
+     "shape": [
+      32
+     ],
+     "dtype": "float32"
+    },
+    "classifier.1.weight": {
+     "shape": [
+      64,
+      32
+     ],
+     "dtype": "float32"
+    },
+    "classifier.1.bias": {
+     "shape": [
+      64
+     ],
+     "dtype": "float32"
+    },
+    "classifier.3.weight": {
+     "shape": [
+      10,
+      64
+     ],
+     "dtype": "float32"
+    },
+    "classifier.3.bias": {
+     "shape": [
+      10
+     ],
+     "dtype": "float32"
+    }
+   },
+   "torchinfo": 8842,
+   "kind": "pt2",
+   "graphNodes": 37,
+   "callFunctions": 15
+  },
+  {
+   "file": "cnn.lightning.ckpt",
+   "parameters": 8842,
+   "parameterTensors": 14,
+   "stateTensors": 20,
+   "stateElements": 8892,
+   "tensors": {
+    "model.features.0.weight": {
+     "shape": [
+      8,
+      3,
+      3,
+      3
+     ],
+     "dtype": "float32"
+    },
+    "model.features.0.bias": {
+     "shape": [
+      8
+     ],
+     "dtype": "float32"
+    },
+    "model.features.1.weight": {
+     "shape": [
+      8
+     ],
+     "dtype": "float32"
+    },
+    "model.features.1.bias": {
+     "shape": [
+      8
+     ],
+     "dtype": "float32"
+    },
+    "model.features.1.running_mean": {
+     "shape": [
+      8
+     ],
+     "dtype": "float32"
+    },
+    "model.features.1.running_var": {
+     "shape": [
+      8
+     ],
+     "dtype": "float32"
+    },
+    "model.features.1.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "model.features.4.weight": {
+     "shape": [
+      16,
+      8,
+      3,
+      3
+     ],
+     "dtype": "float32"
+    },
+    "model.features.4.bias": {
+     "shape": [
+      16
+     ],
+     "dtype": "float32"
+    },
+    "model.features.5.weight": {
+     "shape": [
+      16
+     ],
+     "dtype": "float32"
+    },
+    "model.features.5.bias": {
+     "shape": [
+      16
+     ],
+     "dtype": "float32"
+    },
+    "model.features.5.running_mean": {
+     "shape": [
+      16
+     ],
+     "dtype": "float32"
+    },
+    "model.features.5.running_var": {
+     "shape": [
+      16
+     ],
+     "dtype": "float32"
+    },
+    "model.features.5.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "model.features.8.weight": {
+     "shape": [
+      32,
+      16,
+      3,
+      3
+     ],
+     "dtype": "float32"
+    },
+    "model.features.8.bias": {
+     "shape": [
+      32
+     ],
+     "dtype": "float32"
+    },
+    "model.classifier.1.weight": {
+     "shape": [
+      64,
+      32
+     ],
+     "dtype": "float32"
+    },
+    "model.classifier.1.bias": {
+     "shape": [
+      64
+     ],
+     "dtype": "float32"
+    },
+    "model.classifier.3.weight": {
+     "shape": [
+      10,
+      64
+     ],
+     "dtype": "float32"
+    },
+    "model.classifier.3.bias": {
+     "shape": [
+      10
+     ],
+     "dtype": "float32"
+    }
+   },
+   "torchinfo": 8842,
+   "kind": "lightning",
+   "epoch": 7,
+   "global_step": 1234,
+   "optimizerStateTensors": 42
+  },
+  {
+   "file": "cnn.legacy.pt",
+   "parameters": 8842,
+   "parameterTensors": 14,
+   "stateTensors": 20,
+   "stateElements": 8892,
+   "tensors": {
+    "features.0.weight": {
+     "shape": [
+      8,
+      3,
+      3,
+      3
+     ],
+     "dtype": "float32"
+    },
+    "features.0.bias": {
+     "shape": [
+      8
+     ],
+     "dtype": "float32"
+    },
+    "features.1.weight": {
+     "shape": [
+      8
+     ],
+     "dtype": "float32"
+    },
+    "features.1.bias": {
+     "shape": [
+      8
+     ],
+     "dtype": "float32"
+    },
+    "features.1.running_mean": {
+     "shape": [
+      8
+     ],
+     "dtype": "float32"
+    },
+    "features.1.running_var": {
+     "shape": [
+      8
+     ],
+     "dtype": "float32"
+    },
+    "features.1.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "features.4.weight": {
+     "shape": [
+      16,
+      8,
+      3,
+      3
+     ],
+     "dtype": "float32"
+    },
+    "features.4.bias": {
+     "shape": [
+      16
+     ],
+     "dtype": "float32"
+    },
+    "features.5.weight": {
+     "shape": [
+      16
+     ],
+     "dtype": "float32"
+    },
+    "features.5.bias": {
+     "shape": [
+      16
+     ],
+     "dtype": "float32"
+    },
+    "features.5.running_mean": {
+     "shape": [
+      16
+     ],
+     "dtype": "float32"
+    },
+    "features.5.running_var": {
+     "shape": [
+      16
+     ],
+     "dtype": "float32"
+    },
+    "features.5.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "features.8.weight": {
+     "shape": [
+      32,
+      16,
+      3,
+      3
+     ],
+     "dtype": "float32"
+    },
+    "features.8.bias": {
+     "shape": [
+      32
+     ],
+     "dtype": "float32"
+    },
+    "classifier.1.weight": {
+     "shape": [
+      64,
+      32
+     ],
+     "dtype": "float32"
+    },
+    "classifier.1.bias": {
+     "shape": [
+      64
+     ],
+     "dtype": "float32"
+    },
+    "classifier.3.weight": {
+     "shape": [
+      10,
+      64
+     ],
+     "dtype": "float32"
+    },
+    "classifier.3.bias": {
+     "shape": [
+      10
+     ],
+     "dtype": "float32"
+    }
+   },
+   "torchinfo": 8842,
+   "kind": "legacy"
+  },
+  {
+   "file": "cnn.f16.pth",
+   "parameters": 8842,
+   "parameterTensors": 14,
+   "stateTensors": 20,
+   "stateElements": 8892,
+   "tensors": {
+    "features.0.weight": {
+     "shape": [
+      8,
+      3,
+      3,
+      3
+     ],
+     "dtype": "float16"
+    },
+    "features.0.bias": {
+     "shape": [
+      8
+     ],
+     "dtype": "float16"
+    },
+    "features.1.weight": {
+     "shape": [
+      8
+     ],
+     "dtype": "float16"
+    },
+    "features.1.bias": {
+     "shape": [
+      8
+     ],
+     "dtype": "float16"
+    },
+    "features.1.running_mean": {
+     "shape": [
+      8
+     ],
+     "dtype": "float16"
+    },
+    "features.1.running_var": {
+     "shape": [
+      8
+     ],
+     "dtype": "float16"
+    },
+    "features.1.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "features.4.weight": {
+     "shape": [
+      16,
+      8,
+      3,
+      3
+     ],
+     "dtype": "float16"
+    },
+    "features.4.bias": {
+     "shape": [
+      16
+     ],
+     "dtype": "float16"
+    },
+    "features.5.weight": {
+     "shape": [
+      16
+     ],
+     "dtype": "float16"
+    },
+    "features.5.bias": {
+     "shape": [
+      16
+     ],
+     "dtype": "float16"
+    },
+    "features.5.running_mean": {
+     "shape": [
+      16
+     ],
+     "dtype": "float16"
+    },
+    "features.5.running_var": {
+     "shape": [
+      16
+     ],
+     "dtype": "float16"
+    },
+    "features.5.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "features.8.weight": {
+     "shape": [
+      32,
+      16,
+      3,
+      3
+     ],
+     "dtype": "float16"
+    },
+    "features.8.bias": {
+     "shape": [
+      32
+     ],
+     "dtype": "float16"
+    },
+    "classifier.1.weight": {
+     "shape": [
+      64,
+      32
+     ],
+     "dtype": "float16"
+    },
+    "classifier.1.bias": {
+     "shape": [
+      64
+     ],
+     "dtype": "float16"
+    },
+    "classifier.3.weight": {
+     "shape": [
+      10,
+      64
+     ],
+     "dtype": "float16"
+    },
+    "classifier.3.bias": {
+     "shape": [
+      10
+     ],
+     "dtype": "float16"
+    }
+   },
+   "torchinfo": 8842,
+   "kind": "state_dict-f16"
+  },
+  {
+   "file": "cnn.bf16.pth",
+   "parameters": 8842,
+   "parameterTensors": 14,
+   "stateTensors": 20,
+   "stateElements": 8892,
+   "tensors": {
+    "features.0.weight": {
+     "shape": [
+      8,
+      3,
+      3,
+      3
+     ],
+     "dtype": "bfloat16"
+    },
+    "features.0.bias": {
+     "shape": [
+      8
+     ],
+     "dtype": "bfloat16"
+    },
+    "features.1.weight": {
+     "shape": [
+      8
+     ],
+     "dtype": "bfloat16"
+    },
+    "features.1.bias": {
+     "shape": [
+      8
+     ],
+     "dtype": "bfloat16"
+    },
+    "features.1.running_mean": {
+     "shape": [
+      8
+     ],
+     "dtype": "bfloat16"
+    },
+    "features.1.running_var": {
+     "shape": [
+      8
+     ],
+     "dtype": "bfloat16"
+    },
+    "features.1.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "features.4.weight": {
+     "shape": [
+      16,
+      8,
+      3,
+      3
+     ],
+     "dtype": "bfloat16"
+    },
+    "features.4.bias": {
+     "shape": [
+      16
+     ],
+     "dtype": "bfloat16"
+    },
+    "features.5.weight": {
+     "shape": [
+      16
+     ],
+     "dtype": "bfloat16"
+    },
+    "features.5.bias": {
+     "shape": [
+      16
+     ],
+     "dtype": "bfloat16"
+    },
+    "features.5.running_mean": {
+     "shape": [
+      16
+     ],
+     "dtype": "bfloat16"
+    },
+    "features.5.running_var": {
+     "shape": [
+      16
+     ],
+     "dtype": "bfloat16"
+    },
+    "features.5.num_batches_tracked": {
+     "shape": [],
+     "dtype": "int64"
+    },
+    "features.8.weight": {
+     "shape": [
+      32,
+      16,
+      3,
+      3
+     ],
+     "dtype": "bfloat16"
+    },
+    "features.8.bias": {
+     "shape": [
+      32
+     ],
+     "dtype": "bfloat16"
+    },
+    "classifier.1.weight": {
+     "shape": [
+      64,
+      32
+     ],
+     "dtype": "bfloat16"
+    },
+    "classifier.1.bias": {
+     "shape": [
+      64
+     ],
+     "dtype": "bfloat16"
+    },
+    "classifier.3.weight": {
+     "shape": [
+      10,
+      64
+     ],
+     "dtype": "bfloat16"
+    },
+    "classifier.3.bias": {
+     "shape": [
+      10
+     ],
+     "dtype": "bfloat16"
+    }
+   },
+   "torchinfo": 8842,
+   "kind": "state_dict-bf16"
+  },
+  {
+   "file": "gpt.state_dict.pth",
+   "parameters": 64320,
+   "parameterTensors": 28,
+   "stateTensors": 29,
+   "stateElements": 70464,
+   "tensors": {
+    "wte.weight": {
+     "shape": [
+      128,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "wpe.weight": {
+     "shape": [
+      32,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.ln_1.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.ln_1.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.attn.in_proj_weight": {
+     "shape": [
+      144,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.attn.in_proj_bias": {
+     "shape": [
+      144
+     ],
+     "dtype": "float32"
+    },
+    "h.0.attn.out_proj.weight": {
+     "shape": [
+      48,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.attn.out_proj.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.ln_2.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.ln_2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.mlp.0.weight": {
+     "shape": [
+      192,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.mlp.0.bias": {
+     "shape": [
+      192
+     ],
+     "dtype": "float32"
+    },
+    "h.0.mlp.2.weight": {
+     "shape": [
+      48,
+      192
+     ],
+     "dtype": "float32"
+    },
+    "h.0.mlp.2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.ln_1.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.ln_1.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.attn.in_proj_weight": {
+     "shape": [
+      144,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.attn.in_proj_bias": {
+     "shape": [
+      144
+     ],
+     "dtype": "float32"
+    },
+    "h.1.attn.out_proj.weight": {
+     "shape": [
+      48,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.attn.out_proj.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.ln_2.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.ln_2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.mlp.0.weight": {
+     "shape": [
+      192,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.mlp.0.bias": {
+     "shape": [
+      192
+     ],
+     "dtype": "float32"
+    },
+    "h.1.mlp.2.weight": {
+     "shape": [
+      48,
+      192
+     ],
+     "dtype": "float32"
+    },
+    "h.1.mlp.2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "ln_f.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "ln_f.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "lm_head.weight": {
+     "shape": [
+      128,
+      48
+     ],
+     "dtype": "float32"
+    }
+   },
+   "torchinfo": 70464,
+   "kind": "state_dict"
+  },
+  {
+   "file": "gpt.module.pt",
+   "parameters": 64320,
+   "parameterTensors": 28,
+   "stateTensors": 29,
+   "stateElements": 70464,
+   "tensors": {
+    "wte.weight": {
+     "shape": [
+      128,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "wpe.weight": {
+     "shape": [
+      32,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.ln_1.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.ln_1.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.attn.in_proj_weight": {
+     "shape": [
+      144,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.attn.in_proj_bias": {
+     "shape": [
+      144
+     ],
+     "dtype": "float32"
+    },
+    "h.0.attn.out_proj.weight": {
+     "shape": [
+      48,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.attn.out_proj.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.ln_2.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.ln_2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.mlp.0.weight": {
+     "shape": [
+      192,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.mlp.0.bias": {
+     "shape": [
+      192
+     ],
+     "dtype": "float32"
+    },
+    "h.0.mlp.2.weight": {
+     "shape": [
+      48,
+      192
+     ],
+     "dtype": "float32"
+    },
+    "h.0.mlp.2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.ln_1.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.ln_1.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.attn.in_proj_weight": {
+     "shape": [
+      144,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.attn.in_proj_bias": {
+     "shape": [
+      144
+     ],
+     "dtype": "float32"
+    },
+    "h.1.attn.out_proj.weight": {
+     "shape": [
+      48,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.attn.out_proj.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.ln_2.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.ln_2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.mlp.0.weight": {
+     "shape": [
+      192,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.mlp.0.bias": {
+     "shape": [
+      192
+     ],
+     "dtype": "float32"
+    },
+    "h.1.mlp.2.weight": {
+     "shape": [
+      48,
+      192
+     ],
+     "dtype": "float32"
+    },
+    "h.1.mlp.2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "ln_f.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "ln_f.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "lm_head.weight": {
+     "shape": [
+      128,
+      48
+     ],
+     "dtype": "float32"
+    }
+   },
+   "torchinfo": 70464,
+   "kind": "module"
+  },
+  {
+   "file": "gpt.torchscript.pt",
+   "parameters": 64320,
+   "parameterTensors": 28,
+   "stateTensors": 29,
+   "stateElements": 70464,
+   "tensors": {
+    "wte.weight": {
+     "shape": [
+      128,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "wpe.weight": {
+     "shape": [
+      32,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.ln_1.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.ln_1.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.attn.in_proj_weight": {
+     "shape": [
+      144,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.attn.in_proj_bias": {
+     "shape": [
+      144
+     ],
+     "dtype": "float32"
+    },
+    "h.0.attn.out_proj.weight": {
+     "shape": [
+      48,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.attn.out_proj.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.ln_2.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.ln_2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.mlp.0.weight": {
+     "shape": [
+      192,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.mlp.0.bias": {
+     "shape": [
+      192
+     ],
+     "dtype": "float32"
+    },
+    "h.0.mlp.2.weight": {
+     "shape": [
+      48,
+      192
+     ],
+     "dtype": "float32"
+    },
+    "h.0.mlp.2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.ln_1.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.ln_1.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.attn.in_proj_weight": {
+     "shape": [
+      144,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.attn.in_proj_bias": {
+     "shape": [
+      144
+     ],
+     "dtype": "float32"
+    },
+    "h.1.attn.out_proj.weight": {
+     "shape": [
+      48,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.attn.out_proj.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.ln_2.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.ln_2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.mlp.0.weight": {
+     "shape": [
+      192,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.mlp.0.bias": {
+     "shape": [
+      192
+     ],
+     "dtype": "float32"
+    },
+    "h.1.mlp.2.weight": {
+     "shape": [
+      48,
+      192
+     ],
+     "dtype": "float32"
+    },
+    "h.1.mlp.2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "ln_f.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "ln_f.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "lm_head.weight": {
+     "shape": [
+      128,
+      48
+     ],
+     "dtype": "float32"
+    }
+   },
+   "torchinfo": 70464,
+   "kind": "torchscript"
+  },
+  {
+   "file": "gpt.export.pt2",
+   "parameters": 64320,
+   "parameterTensors": 28,
+   "stateTensors": 29,
+   "stateElements": 70464,
+   "tensors": {
+    "wte.weight": {
+     "shape": [
+      128,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "wpe.weight": {
+     "shape": [
+      32,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.ln_1.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.ln_1.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.attn.in_proj_weight": {
+     "shape": [
+      144,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.attn.in_proj_bias": {
+     "shape": [
+      144
+     ],
+     "dtype": "float32"
+    },
+    "h.0.attn.out_proj.weight": {
+     "shape": [
+      48,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.attn.out_proj.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.ln_2.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.ln_2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.mlp.0.weight": {
+     "shape": [
+      192,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.mlp.0.bias": {
+     "shape": [
+      192
+     ],
+     "dtype": "float32"
+    },
+    "h.0.mlp.2.weight": {
+     "shape": [
+      48,
+      192
+     ],
+     "dtype": "float32"
+    },
+    "h.0.mlp.2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.ln_1.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.ln_1.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.attn.in_proj_weight": {
+     "shape": [
+      144,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.attn.in_proj_bias": {
+     "shape": [
+      144
+     ],
+     "dtype": "float32"
+    },
+    "h.1.attn.out_proj.weight": {
+     "shape": [
+      48,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.attn.out_proj.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.ln_2.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.ln_2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.mlp.0.weight": {
+     "shape": [
+      192,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.mlp.0.bias": {
+     "shape": [
+      192
+     ],
+     "dtype": "float32"
+    },
+    "h.1.mlp.2.weight": {
+     "shape": [
+      48,
+      192
+     ],
+     "dtype": "float32"
+    },
+    "h.1.mlp.2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "ln_f.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "ln_f.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "lm_head.weight": {
+     "shape": [
+      128,
+      48
+     ],
+     "dtype": "float32"
+    }
+   },
+   "torchinfo": 70464,
+   "kind": "pt2",
+   "graphNodes": 102,
+   "callFunctions": 71
+  },
+  {
+   "file": "gpt.lightning.ckpt",
+   "parameters": 64320,
+   "parameterTensors": 28,
+   "stateTensors": 29,
+   "stateElements": 70464,
+   "tensors": {
+    "model.wte.weight": {
+     "shape": [
+      128,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "model.wpe.weight": {
+     "shape": [
+      32,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "model.h.0.ln_1.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "model.h.0.ln_1.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "model.h.0.attn.in_proj_weight": {
+     "shape": [
+      144,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "model.h.0.attn.in_proj_bias": {
+     "shape": [
+      144
+     ],
+     "dtype": "float32"
+    },
+    "model.h.0.attn.out_proj.weight": {
+     "shape": [
+      48,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "model.h.0.attn.out_proj.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "model.h.0.ln_2.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "model.h.0.ln_2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "model.h.0.mlp.0.weight": {
+     "shape": [
+      192,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "model.h.0.mlp.0.bias": {
+     "shape": [
+      192
+     ],
+     "dtype": "float32"
+    },
+    "model.h.0.mlp.2.weight": {
+     "shape": [
+      48,
+      192
+     ],
+     "dtype": "float32"
+    },
+    "model.h.0.mlp.2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "model.h.1.ln_1.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "model.h.1.ln_1.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "model.h.1.attn.in_proj_weight": {
+     "shape": [
+      144,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "model.h.1.attn.in_proj_bias": {
+     "shape": [
+      144
+     ],
+     "dtype": "float32"
+    },
+    "model.h.1.attn.out_proj.weight": {
+     "shape": [
+      48,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "model.h.1.attn.out_proj.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "model.h.1.ln_2.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "model.h.1.ln_2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "model.h.1.mlp.0.weight": {
+     "shape": [
+      192,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "model.h.1.mlp.0.bias": {
+     "shape": [
+      192
+     ],
+     "dtype": "float32"
+    },
+    "model.h.1.mlp.2.weight": {
+     "shape": [
+      48,
+      192
+     ],
+     "dtype": "float32"
+    },
+    "model.h.1.mlp.2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "model.ln_f.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "model.ln_f.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "model.lm_head.weight": {
+     "shape": [
+      128,
+      48
+     ],
+     "dtype": "float32"
+    }
+   },
+   "torchinfo": 70464,
+   "kind": "lightning",
+   "epoch": 7,
+   "global_step": 1234,
+   "optimizerStateTensors": 84
+  },
+  {
+   "file": "gpt.legacy.pt",
+   "parameters": 64320,
+   "parameterTensors": 28,
+   "stateTensors": 29,
+   "stateElements": 70464,
+   "tensors": {
+    "wte.weight": {
+     "shape": [
+      128,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "wpe.weight": {
+     "shape": [
+      32,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.ln_1.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.ln_1.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.attn.in_proj_weight": {
+     "shape": [
+      144,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.attn.in_proj_bias": {
+     "shape": [
+      144
+     ],
+     "dtype": "float32"
+    },
+    "h.0.attn.out_proj.weight": {
+     "shape": [
+      48,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.attn.out_proj.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.ln_2.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.ln_2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.mlp.0.weight": {
+     "shape": [
+      192,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.mlp.0.bias": {
+     "shape": [
+      192
+     ],
+     "dtype": "float32"
+    },
+    "h.0.mlp.2.weight": {
+     "shape": [
+      48,
+      192
+     ],
+     "dtype": "float32"
+    },
+    "h.0.mlp.2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.ln_1.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.ln_1.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.attn.in_proj_weight": {
+     "shape": [
+      144,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.attn.in_proj_bias": {
+     "shape": [
+      144
+     ],
+     "dtype": "float32"
+    },
+    "h.1.attn.out_proj.weight": {
+     "shape": [
+      48,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.attn.out_proj.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.ln_2.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.ln_2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.mlp.0.weight": {
+     "shape": [
+      192,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.mlp.0.bias": {
+     "shape": [
+      192
+     ],
+     "dtype": "float32"
+    },
+    "h.1.mlp.2.weight": {
+     "shape": [
+      48,
+      192
+     ],
+     "dtype": "float32"
+    },
+    "h.1.mlp.2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "ln_f.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "ln_f.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "lm_head.weight": {
+     "shape": [
+      128,
+      48
+     ],
+     "dtype": "float32"
+    }
+   },
+   "torchinfo": 70464,
+   "kind": "legacy"
+  },
+  {
+   "file": "gpt.f16.pth",
+   "parameters": 64320,
+   "parameterTensors": 28,
+   "stateTensors": 29,
+   "stateElements": 70464,
+   "tensors": {
+    "wte.weight": {
+     "shape": [
+      128,
+      48
+     ],
+     "dtype": "float16"
+    },
+    "wpe.weight": {
+     "shape": [
+      32,
+      48
+     ],
+     "dtype": "float16"
+    },
+    "h.0.ln_1.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float16"
+    },
+    "h.0.ln_1.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float16"
+    },
+    "h.0.attn.in_proj_weight": {
+     "shape": [
+      144,
+      48
+     ],
+     "dtype": "float16"
+    },
+    "h.0.attn.in_proj_bias": {
+     "shape": [
+      144
+     ],
+     "dtype": "float16"
+    },
+    "h.0.attn.out_proj.weight": {
+     "shape": [
+      48,
+      48
+     ],
+     "dtype": "float16"
+    },
+    "h.0.attn.out_proj.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float16"
+    },
+    "h.0.ln_2.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float16"
+    },
+    "h.0.ln_2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float16"
+    },
+    "h.0.mlp.0.weight": {
+     "shape": [
+      192,
+      48
+     ],
+     "dtype": "float16"
+    },
+    "h.0.mlp.0.bias": {
+     "shape": [
+      192
+     ],
+     "dtype": "float16"
+    },
+    "h.0.mlp.2.weight": {
+     "shape": [
+      48,
+      192
+     ],
+     "dtype": "float16"
+    },
+    "h.0.mlp.2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float16"
+    },
+    "h.1.ln_1.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float16"
+    },
+    "h.1.ln_1.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float16"
+    },
+    "h.1.attn.in_proj_weight": {
+     "shape": [
+      144,
+      48
+     ],
+     "dtype": "float16"
+    },
+    "h.1.attn.in_proj_bias": {
+     "shape": [
+      144
+     ],
+     "dtype": "float16"
+    },
+    "h.1.attn.out_proj.weight": {
+     "shape": [
+      48,
+      48
+     ],
+     "dtype": "float16"
+    },
+    "h.1.attn.out_proj.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float16"
+    },
+    "h.1.ln_2.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float16"
+    },
+    "h.1.ln_2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float16"
+    },
+    "h.1.mlp.0.weight": {
+     "shape": [
+      192,
+      48
+     ],
+     "dtype": "float16"
+    },
+    "h.1.mlp.0.bias": {
+     "shape": [
+      192
+     ],
+     "dtype": "float16"
+    },
+    "h.1.mlp.2.weight": {
+     "shape": [
+      48,
+      192
+     ],
+     "dtype": "float16"
+    },
+    "h.1.mlp.2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float16"
+    },
+    "ln_f.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float16"
+    },
+    "ln_f.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float16"
+    },
+    "lm_head.weight": {
+     "shape": [
+      128,
+      48
+     ],
+     "dtype": "float16"
+    }
+   },
+   "torchinfo": 70464,
+   "kind": "state_dict-f16"
+  },
+  {
+   "file": "gpt.bf16.pth",
+   "parameters": 64320,
+   "parameterTensors": 28,
+   "stateTensors": 29,
+   "stateElements": 70464,
+   "tensors": {
+    "wte.weight": {
+     "shape": [
+      128,
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "wpe.weight": {
+     "shape": [
+      32,
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.0.ln_1.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.0.ln_1.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.0.attn.in_proj_weight": {
+     "shape": [
+      144,
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.0.attn.in_proj_bias": {
+     "shape": [
+      144
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.0.attn.out_proj.weight": {
+     "shape": [
+      48,
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.0.attn.out_proj.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.0.ln_2.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.0.ln_2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.0.mlp.0.weight": {
+     "shape": [
+      192,
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.0.mlp.0.bias": {
+     "shape": [
+      192
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.0.mlp.2.weight": {
+     "shape": [
+      48,
+      192
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.0.mlp.2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.1.ln_1.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.1.ln_1.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.1.attn.in_proj_weight": {
+     "shape": [
+      144,
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.1.attn.in_proj_bias": {
+     "shape": [
+      144
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.1.attn.out_proj.weight": {
+     "shape": [
+      48,
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.1.attn.out_proj.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.1.ln_2.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.1.ln_2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.1.mlp.0.weight": {
+     "shape": [
+      192,
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.1.mlp.0.bias": {
+     "shape": [
+      192
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.1.mlp.2.weight": {
+     "shape": [
+      48,
+      192
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.1.mlp.2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "ln_f.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "ln_f.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "lm_head.weight": {
+     "shape": [
+      128,
+      48
+     ],
+     "dtype": "bfloat16"
+    }
+   },
+   "torchinfo": 70464,
+   "kind": "state_dict-bf16"
+  },
+  {
+   "file": "mlp.int8-dynamic.pth",
+   "kind": "quantized-dynamic",
+   "parameters": 5018,
+   "stateKeys": [
+    "fc1.scale",
+    "fc1.zero_point",
+    "fc1._packed_params.dtype",
+    "fc1._packed_params._packed_params",
+    "fc2.scale",
+    "fc2.zero_point",
+    "fc2._packed_params.dtype",
+    "fc2._packed_params._packed_params",
+    "head.scale",
+    "head.zero_point",
+    "head._packed_params.dtype",
+    "head._packed_params._packed_params"
+   ]
+  },
+  {
+   "file": "gpt.bf16.safetensors",
+   "kind": "safetensors",
+   "stateTensors": 28,
+   "stateElements": 64320,
+   "tensors": {
+    "wte.weight": {
+     "shape": [
+      128,
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "wpe.weight": {
+     "shape": [
+      32,
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.0.ln_1.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.0.ln_1.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.0.attn.in_proj_weight": {
+     "shape": [
+      144,
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.0.attn.in_proj_bias": {
+     "shape": [
+      144
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.0.attn.out_proj.weight": {
+     "shape": [
+      48,
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.0.attn.out_proj.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.0.ln_2.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.0.ln_2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.0.mlp.0.weight": {
+     "shape": [
+      192,
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.0.mlp.0.bias": {
+     "shape": [
+      192
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.0.mlp.2.weight": {
+     "shape": [
+      48,
+      192
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.0.mlp.2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.1.ln_1.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.1.ln_1.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.1.attn.in_proj_weight": {
+     "shape": [
+      144,
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.1.attn.in_proj_bias": {
+     "shape": [
+      144
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.1.attn.out_proj.weight": {
+     "shape": [
+      48,
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.1.attn.out_proj.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.1.ln_2.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.1.ln_2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.1.mlp.0.weight": {
+     "shape": [
+      192,
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.1.mlp.0.bias": {
+     "shape": [
+      192
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.1.mlp.2.weight": {
+     "shape": [
+      48,
+      192
+     ],
+     "dtype": "bfloat16"
+    },
+    "h.1.mlp.2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "ln_f.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "bfloat16"
+    },
+    "ln_f.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "bfloat16"
+    }
+   }
+  },
+  {
+   "file": "cnn.safetensors",
+   "kind": "safetensors",
+   "stateTensors": 20,
+   "stateElements": 8892
+  },
+  {
+   "file": "pytorch_model.bin",
+   "parameters": 64320,
+   "parameterTensors": 28,
+   "stateTensors": 29,
+   "stateElements": 70464,
+   "tensors": {
+    "wte.weight": {
+     "shape": [
+      128,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "wpe.weight": {
+     "shape": [
+      32,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.ln_1.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.ln_1.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.attn.in_proj_weight": {
+     "shape": [
+      144,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.attn.in_proj_bias": {
+     "shape": [
+      144
+     ],
+     "dtype": "float32"
+    },
+    "h.0.attn.out_proj.weight": {
+     "shape": [
+      48,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.attn.out_proj.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.ln_2.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.ln_2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.mlp.0.weight": {
+     "shape": [
+      192,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.0.mlp.0.bias": {
+     "shape": [
+      192
+     ],
+     "dtype": "float32"
+    },
+    "h.0.mlp.2.weight": {
+     "shape": [
+      48,
+      192
+     ],
+     "dtype": "float32"
+    },
+    "h.0.mlp.2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.ln_1.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.ln_1.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.attn.in_proj_weight": {
+     "shape": [
+      144,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.attn.in_proj_bias": {
+     "shape": [
+      144
+     ],
+     "dtype": "float32"
+    },
+    "h.1.attn.out_proj.weight": {
+     "shape": [
+      48,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.attn.out_proj.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.ln_2.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.ln_2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.mlp.0.weight": {
+     "shape": [
+      192,
+      48
+     ],
+     "dtype": "float32"
+    },
+    "h.1.mlp.0.bias": {
+     "shape": [
+      192
+     ],
+     "dtype": "float32"
+    },
+    "h.1.mlp.2.weight": {
+     "shape": [
+      48,
+      192
+     ],
+     "dtype": "float32"
+    },
+    "h.1.mlp.2.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "ln_f.weight": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "ln_f.bias": {
+     "shape": [
+      48
+     ],
+     "dtype": "float32"
+    },
+    "lm_head.weight": {
+     "shape": [
+      128,
+      48
+     ],
+     "dtype": "float32"
+    }
+   },
+   "torchinfo": 70464,
+   "kind": "hf-bin"
+  }
+ ]
+}
