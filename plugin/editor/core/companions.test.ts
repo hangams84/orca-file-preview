@@ -10,7 +10,7 @@ test('companion references resolve by the longest path tail', () => {
   assert.equal(findCompanion('package://other_pkg/meshes/base.stl')?.path, 'other_pkg/meshes/base.stl')
   assert.equal(findCompanion('file:///opt/ros/share/robot_description/meshes/BASE.STL')?.path, 'robot_description/meshes/base.stl')
   assert.equal(findCompanion('../urdf/arm.xacro')?.path, 'robot_description/urdf/arm.xacro')
-  assert.equal(findCompanion('C:\models\textures\wood.png')?.path, 'textures/wood.png')
+  assert.equal(findCompanion('C:\\models\\textures\\wood.png')?.path, 'textures/wood.png')
   assert.equal(findCompanion('missing.stl'), null)
   assert.deepEqual(referenceSegments('package://p/a%20b/./c.dae?x=1'), ['p', 'a b', 'c.dae'])
   clearCompanions()
