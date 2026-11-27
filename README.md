@@ -1,50 +1,89 @@
+[한국어](README.md) · [English](README.en.md) · [简体中文](README.zh-CN.md) · [繁體中文](README.zh-TW.md) · [日本語](README.ja.md) · [Deutsch](README.de.md) · [Français](README.fr.md) · [Español](README.es.md) · [Português (Brasil)](README.pt-BR.md) · [Русский](README.ru.md) · [Türkçe](README.tr.md)
+
 # File Preview for Orca
 
 [![orca-compat](https://github.com/hangams84/orca-file-preview/actions/workflows/orca-compat.yml/badge.svg)](https://github.com/hangams84/orca-file-preview/actions/workflows/orca-compat.yml)
 
-Orca 데스크톱(Windows · macOS · Linux)과 브라우저/모바일 클라이언트에서 Office · PDF · 텍스트 · 이미지 파일을
-**읽기 전용으로 미리보기** 하는 [Orca](https://github.com/stablyai/orca) 플러그인입니다.
+File Preview는 [Orca](https://github.com/stablyai/orca) 안에서 Office · 한글 · PDF · 텍스트 · 이미지 · 3D · CAD · 전자 설계 파일을
+**읽기 전용으로 미리보기** 하는 플러그인입니다. Orca 데스크톱(Windows · macOS · Linux)과 브라우저/모바일 클라이언트에서 동작합니다.
 
-Read-only previews for Office, PDF, text and image files inside Orca, on desktop and on browser/mobile clients.
+- 최신 릴리스: **v0.4.0** · Orca **1.4.248** 이상 필요 (Git URL 설치는 **1.4.252** 이상)
+- `sandboxed-ui` 실행만 사용합니다. 추가 권한(capability)도, 네트워크 접근도 없으며 파일을 수정하지 않습니다.
 
-| 형식 | 확장자 | 엔진 |
+## 지원 형식
+
+| 형식 | 확장자 | 엔진 · 표시 내용 |
 | --- | --- | --- |
-| Word | `.docx` `.doc` | docx-preview · 자체 OLE/CFB 파서 (RTF·HTML·DOCX로 저장된 .doc 자동 감지) |
+| Word | `.docx` `.doc` | docx-preview · 자체 OLE/CFB 파서 (RTF·HTML·DOCX로 저장된 `.doc` 자동 감지) |
 | PowerPoint | `.pptx` `.ppt` | 자체 OOXML 렌더러 · 자체 PPT 레코드 파서 |
 | Excel | `.xlsx` `.xlsm` `.xls` `.ods` | SheetJS CE (Web Worker, 수식 계산 대체, 가상 스크롤) |
+| 한글 문서 | `.hwp` `.hwpx` | HWP 5 · HWPX(OWPML)를 한글이 저장한 줄 배치대로 표시. 배포용·암호 문서와 HWP 3은 안내 메시지 |
 | PDF | `.pdf` | pdf.js (지연 렌더링, 한글 CMap, 암호 입력) |
 | 이미지 | `.gif` `.bmp` `.svg` | 브라우저 디코더 (SVG 스크립트 차단, 배경 선택) |
 | 웹 | `.html` `.htm` `.xhtml` | DOMPurify + 샌드박스 iframe (스크립트 미실행) |
 | 표 | `.csv` `.tsv` | 자체 RFC 4180 파서 (인코딩·구분자 감지, 정렬, 필터) |
 | 텍스트 | `.txt` `.log` | 인코딩 감지 (UTF-8/16, EUC-KR 등), 줄 번호, 줄바꿈 |
-| 3D 모델 | `.stl` `.obj` `.ply` `.glb` `.gltf` `.3mf` `.off` `.fbx` `.dae` | three.js (WebGL, 회전·확대·이동, 터치, Draco·meshopt, Web Worker 파싱). 📁 버튼이나 끌어 놓기로 건넨 참조 파일 사용: OBJ의 `.mtl`·텍스처, glTF의 외부 `.bin`·이미지, DAE·FBX·3MF 텍스처 (없는 파일은 목록으로 표시) |
-| CAD (B-rep) | `.step` `.stp` `.stpz` `.iges` `.igs` `.brep` | OpenCascade (occt-import-js, WebAssembly, Web Worker): 어셈블리·부품 목록·색, 테셀레이션 품질 선택. `.stpz` = gzip 압축 STEP |
-| AutoCAD 도면 (별도 플러그인) | `.dwg` `.dwt` | **File Preview DWG** ([별도 저장소](https://github.com/hangams84/orca-file-preview-dwg), Git URL `https://github.com/hangams84/orca-file-preview-dwg.git`; 소스 `dwg-plugin/`, GPL-3.0-or-later): LibreDWG (WebAssembly, Web Worker) + Canvas — 모형/배치, 레이어, 블록, 한글 문자, 치수, 해치. 이 MIT 플러그인과 따로 설치 ([dwg-plugin/README.md](dwg-plugin/README.md)) |
-| SolidWorks | `.sldprt` `.sldasm` `.slddrw` `.slddrt` `.prtdot` `.asmdot` `.drwdot` | 자체 컨테이너 리더 (2014 이전 OLE/CFB, 2015 이후 형식): 저장된 미리보기 그림, 파트의 표시 메시(three.js 3D), **어셈블리 3D**(COMPINSTANCETREE의 구성 요소 배치 + 어셈블리에 저장된 표시 메시, 없으면 📁로 준 파트 파일; 숨김·억제 표시), 속성·구성·참조 파일·피처 이름·저장 기록, 도면이 참조하는 모델 열기(📁). 정확한 B-rep 형상과 도면 뷰는 다시 그리지 않음. 근거: `docs/evidence/companions-eng/` |
-| EPLAN Electric P8 | `.edz` `.zw1` `.elk` `.ell` `.elr` `.els` `.ela` `.elp` `.elx` `.zx1` `.ema` `.emp` | 자체 7z(LZMA/LZMA2)·ZIP 리더: EDZ 부품 데이터·그림·PDF 문서, **매크로 그래픽(PXF: 선·호·곡선·문자, 변형별)**, 프로젝트 백업의 속성·페이지 설명·**부품 목록**·그림·내용 트리, 링크 파일 + 📁 프로젝트 폴더(.edb)의 속성·페이지·부품. 회로도 페이지(EPLAN 고유 바이너리 객체 저장소)와 심볼 라이브러리 그래픽은 그리지 않음 |
-| (읽을 수 없는 경우) | 위 형식 전체 | 일반 검사기: 형식 식별, 크기, 엔트로피, 16진수 덤프, 문자열 |
-| 다이어그램 | `.drawio` `.dio` `.vsdx` `.vsdm` `.vstx` `.vssx` | 자체 SVG 렌더러: draw.io(압축·여러 페이지, 기본 도형·연결선·스타일, HTML 레이블 DOMPurify 정제), Visio(마스터·스타일 시트 상속, Geometry 행 전체, 그룹·연결선·텍스트 서식·채우기 패턴·그라데이션·테마·EMF/WMF 그림·배경 페이지). 페이지 선택, 이동/확대/맞춤, 어두운 캔버스, 링크 |
-| KiCad | `.kicad_sch` `.kicad_pcb` `.kicad_mod` `.kicad_sym` `.kicad_pro` `.kicad_wks` | 자체 S-expression 파서 + SVG 렌더러 (KiCad 6–10, KiCad 스트로크 글꼴 newstroke): 회로도(심볼·유닛·De Morgan, 핀, 배선·버스, 레이블, 전원, 계층 시트, 표제란), PCB(레이어 표시/숨김, 패드·드릴, 트랙·호, 비아, 채움 영역, 앞/뒷면 뒤집기), 풋프린트, 심볼 라이브러리(목록+선택), 프로젝트 요약(넷 클래스·규칙·텍스트 변수·시트). 이동·확대·맞춤, 패드/핀/넷 정보 툴팁. 정확도: `docs/evidence/kicad/`. 📁 프로젝트 폴더: 계층 시트 탐색(하위 시트·인스턴스별 참조 기호·페이지 번호), `.kicad_pro`에서 루트 회로도/보드 열기, 사용자 도면 틀(`.kicad_wks`) |
-| CAD 2D 도면 | `.dxf` `.dwf` `.dwfx` | 자체 Canvas 2D 렌더러: DXF(ASCII·바이너리, R12–2018+, 블록·치수·해치·MTEXT·한글), DWF(W2D 스트림, 시트, 썸네일 대체), DWFx(XPS 페이지, 내장 글꼴) · 레이어 목록, 모형/배치(뷰포트)/시트 선택, 밝은/어두운 배경, 정보 표시줄 ([근거](docs/evidence/cad2d/README.md)). DXF 외부 참조(xref)와 IMAGE는 📁·끌어 놓기로 건넨 파일에서 읽음 (xref 레이어는 `XREF\|레이어`) |
-| 로봇 설명 (ROS) | `.urdf` `.xacro` (`.urdf.xacro`) | 자체 XML 리더 + xacro 처리기(ROS 2 xacro 2.x 규칙, eval 없는 안전한 식 계산기) + three.js: 기구학 트리, 기본 형상(상자·원기둥·구·캡슐), 원점·재질, 조인트 6종·한계·mimic, 조인트 슬라이더·자세 초기화, 외형/충돌/좌표계/조인트 축 표시, 3D·목록에서 링크 선택. 메시(STL·DAE·OBJ+MTL·glTF)와 `xacro:include`(`$(find pkg)`·상대 경로, 재귀)는 📁 버튼으로 패키지 폴더를 고르거나 끌어 놓으면 읽음: 자리표시가 메시로 바뀌고 조인트 자세는 유지, 남은 파일은 목록으로 표시. 정확도: `docs/evidence/urdf/`, 참조 파일: `docs/evidence/companions/` |
-| **File Preview 패널** | 위 형식 전체 | 오른쪽 사이드바 패널: "파일 열기…"/"폴더 열기…"/끌어 놓기로 고른 파일을 같은 렌더러로 표시. Orca가 편집기에 넘기는 50 MB 한도와 워크스페이스 밖 파일 제한이 없음 (렌더러 자체 한도, 최대 1 GB). 함께 연 파일은 참조 파일로 사용 |
+| 다이어그램 | `.drawio` `.dio` `.vsdx` `.vsdm` `.vstx` `.vssx` | 자체 SVG 렌더러: draw.io(압축·여러 페이지, 기본 도형·연결선·스타일, HTML 레이블은 DOMPurify로 정제), Visio(마스터·스타일 시트 상속, Geometry 행 전체, 그룹·연결선·텍스트 서식·채우기 패턴·그라데이션·테마·EMF/WMF 그림·배경 페이지). 페이지 선택, 이동·확대·맞춤, 어두운 캔버스, 링크 |
+| 3D 모델 | `.stl` `.obj` `.ply` `.glb` `.gltf` `.3mf` `.off` `.fbx` `.dae` | three.js (WebGL, 회전·확대·이동, 터치, Draco·meshopt, Web Worker 파싱). OBJ의 `.mtl`·텍스처, glTF의 외부 `.bin`·이미지, DAE·FBX·3MF 텍스처는 참조 파일(📁 · 끌어 놓기)에서 읽음 |
+| CAD (B-rep) | `.step` `.stp` `.stpz` `.iges` `.igs` `.brep` | OpenCascade (occt-import-js, WebAssembly, Web Worker): 어셈블리·부품 목록·색, 테셀레이션 품질 선택. `.stpz`는 gzip으로 압축한 STEP |
+| CAD 2D 도면 | `.dxf` `.dwf` `.dwfx` | 자체 Canvas 2D 렌더러: DXF(ASCII·바이너리, R12–2018+, 블록·치수·해치·MTEXT·한글), DWF(W2D 스트림, 시트, 썸네일 대체), DWFx(XPS 페이지, 내장 글꼴). 레이어 목록, 모형·배치(뷰포트)·시트 선택, 밝은/어두운 배경, 정보 표시줄. DXF 외부 참조(xref)와 IMAGE는 참조 파일에서 읽음 (xref 레이어는 `XREF\|레이어`) |
+| AutoCAD 도면 (별도 플러그인) | `.dwg` `.dwt` | **File Preview DWG** — [별도 저장소](https://github.com/hangams84/orca-file-preview-dwg), GPL-3.0-or-later, 따로 설치합니다 (Git URL `https://github.com/hangams84/orca-file-preview-dwg.git`, 소스 [dwg-plugin/](dwg-plugin/README.md)). LibreDWG (WebAssembly, Web Worker) + Canvas: 모형/배치, 레이어, 블록, 한글 문자, 치수, 해치 |
+| 로봇 설명 (ROS) | `.urdf` `.xacro` | 자체 XML 리더 + xacro 처리기(ROS 2 xacro 2.x 규칙, eval 없는 안전한 식 계산기) + three.js: 기구학 트리, 기본 형상, 원점·재질, 조인트 6종·한계·mimic, 조인트 슬라이더, 외형/충돌/좌표계/조인트 축 표시. `.urdf.xacro`도 엽니다. 메시와 `xacro:include`는 참조 파일에서 읽음 |
+| KiCad | `.kicad_sch` `.kicad_pcb` `.kicad_mod` `.kicad_sym` `.kicad_pro` `.kicad_wks` | 자체 S-expression 파서 + SVG 렌더러 (KiCad 6–10, 스트로크 글꼴 newstroke): 회로도, PCB(레이어 표시/숨김, 앞/뒷면 뒤집기), 풋프린트, 심볼 라이브러리, 프로젝트 요약, 패드·핀·넷 정보 툴팁. 프로젝트 폴더를 주면 계층 시트 탐색과 사용자 도면 틀 표시 |
+| SolidWorks | `.sldprt` `.sldasm` `.slddrw` `.slddrt` `.prtdot` `.asmdot` `.drwdot` | 자체 컨테이너 리더 (2014 이전 OLE/CFB, 2015 이후 형식): 저장된 미리보기 그림, 파트의 표시 메시(3D), **어셈블리 3D**(저장된 배치 + 메시, 없으면 📁로 준 파트 파일), 속성·구성·참조 파일·피처 이름·저장 기록 |
+| EPLAN Electric P8 | `.edz` `.zw1` `.elk` `.ell` `.elr` `.els` `.ela` `.elp` `.elx` `.zx1` `.ema` `.emp` | 자체 7z(LZMA/LZMA2)·ZIP 리더: EDZ 부품 데이터·그림·PDF 문서, **매크로 그래픽**(PXF: 선·호·곡선·문자, 변형별), 프로젝트 백업의 속성·페이지 설명·**부품 목록**·그림·내용 트리, 링크 파일 + 📁 프로젝트 폴더(`.edb`) |
+| (읽을 수 없는 파일) | 위 형식 전체 | 일반 검사기: 형식 식별, 크기, 엔트로피, 16진수 덤프, 문자열 |
+| **File Preview 패널** | 위 형식 전체 | 오른쪽 사이드바 패널. 아래 [File Preview 패널](#file-preview-패널) 참고 |
 
-공통: 다크/라이트 테마 실시간 반영, 한국어/영어 UI, Ctrl+휠 · 핀치 · 버튼 확대/축소, 휴대폰 화면에서 폭 맞춤,
-파일이 바뀌면 자동 갱신, 손상 파일은 친절한 오류 안내.
+공통: 다크/라이트 테마 실시간 반영, 한국어/영어 UI, Ctrl+휠 · 핀치 · 버튼 확대/축소, 휴대폰 화면 폭 맞춤,
+파일이 바뀌면 자동 갱신, 손상된 파일은 친절한 오류 안내.
 
-**파일 크기 / File size** — 플러그인 자체 한도는 1 GB입니다. 하지만 Orca가 편집기에 파일을 넘겨줄 때
-**50 MB 한도**가 있습니다(Orca 1.4.263 기준, 이미지·PDF 제외 · 플러그인에서 바꿀 수 없음, [stablyai/orca#46775](https://github.com/stablyai/orca/issues/46775)).
-50 MB를 넘는 STEP 파일은 gzip으로 압축해 `.stpz`로 열면 됩니다(STEP은 보통 5–8배 줄어듭니다):
-`gzip -c model.step > model.stpz` 또는 7-Zip → 압축 형식 gzip 후 확장자를 `.stpz`로. CAD 엔진(WebAssembly, 최대 4 GB 메모리)
-실측(부품이 많은 합성 어셈블리, Chromium): STEP 61 MB 1.5분 · 189 MB 14분 · 343 MB 메모리는 되지만 30분 안에 끝나지 않음 · 412 MB 메모리 부족.
-실용적인 상한은 STEP 원본 약 200 MB입니다. / The plugin accepts up to 1 GB, but Orca hands an editor at most 50 MB
-(except images and PDFs); compress larger STEP files to `.stpz` (gzip).
+### 텍스트 형식도 바로 미리보기로 열립니다 (0.4.0)
 
-## 설치 / Install
+URDF·xacro, KiCad, draw.io, ASCII DXF, STEP·IGES·BREP, OBJ 등 텍스트로 된 3D 형식, RTF/HTML로 저장된 `.doc`,
+XML `.xls`는 Orca가 텍스트 파일로 판단합니다. 플러그인이 이런 파일용 텍스트 편집기를 따로 등록하므로, 이제 기본으로
+미리보기가 열립니다. 단, Orca가 직접 여는 형식(`.txt` `.csv` `.tsv` `.html` `.htm`)은 Orca 규칙에 따라 Source 보기로 먼저 열립니다.
+탭 오른쪽 위의 보기 전환 버튼에서 미리보기를 고르면 됩니다.
+
+### 참조 파일 (📁 · 끌어 놓기)
+
+Orca는 편집기에 연 파일 하나만 넘겨줍니다. 툴바의 📁 버튼으로 폴더를 고르거나(Shift를 누르면 파일 선택) 파일을 미리보기에
+끌어다 놓으면, 플러그인이 샌드박스 프레임 안에서 그 파일들을 함께 읽습니다.
+
+| 미리보기 | 폴더나 파일을 주면 추가되는 것 |
+| --- | --- |
+| 로봇 (URDF/xacro) | 메시(STL, 텍스처가 있는 DAE, `.mtl`이 있는 OBJ, glTF)가 자리표시를 대체하고 조인트 자세는 유지. `xacro:include` 처리(`$(find pkg)`, 상대 경로, 중첩) |
+| 3D | OBJ 재질과 텍스처, glTF 외부 `.bin`과 이미지, DAE 텍스처 |
+| CAD 도면 (DXF) | 외부 참조(xref)를 `XREF\|레이어`로 삽입, IMAGE 엔터티 표시 |
+| KiCad | 하위 시트 탐색(인스턴스별 참조 기호), `.kicad_pro` → 회로도·보드, 사용자 `.kicad_wks` |
+| SolidWorks | 저장된 배치로 **어셈블리 3D** 표시 (2015 이후 파일은 파트 파일 불필요, 2014 파일은 준 파트 파일 사용) |
+| EPLAN | 매크로 그리기(`.ema` `.emp`, `.edz` 안의 매크로), `.elk` + `.edb` 폴더 → 프로젝트 속성, 페이지, 부품 목록 |
+
+### File Preview 패널
+
+오른쪽 사이드바의 **File Preview** 패널에서 "파일 열기…", "폴더 열기…" 또는 끌어 놓기로 파일을 열면 같은 렌더러로 표시합니다.
+Orca 편집기의 50 MB 한도를 받지 않고(렌더러 자체 한도, 최대 1 GB) 워크스페이스 밖의 파일도 열 수 있습니다. 함께 연 파일은
+참조 파일로 쓰입니다. 추가 권한은 필요하지 않습니다.
+
+## 설치
+
+### (a) Orca 앱에서 설치 (권장)
+
+Orca **1.4.252** 이상에서 사용할 수 있습니다.
+
+1. **설정** → **플러그인**을 엽니다.
+2. **플러그인 추가** → **Git URL에서…**를 고릅니다.
+3. **저장소 URL**에 `https://github.com/hangams84/orca-file-preview.git`을 붙여 넣고 **계속** → **설치**를 누릅니다.
+4. Orca가 보여 주는 권한(샌드박스 화면 표시만)을 확인하고 **플러그인 활성화**를 누릅니다.
+
+화면별 안내: [docs/install-guide/ko.md](docs/install-guide/ko.md)
+
+`.dwg` · `.dwt`가 필요하면 같은 방법으로 `https://github.com/hangams84/orca-file-preview-dwg.git`도 설치합니다.
+
+### (b) CLI로 설치
 
 ```sh
-# GitHub에서 최신 버전 설치 (Orca 1.4.252+; Orca가 요청 권한과 승인 지문을 출력합니다)
-# Orca 설정 → 플러그인 → 설치 → Git URL 에 https://github.com/hangams84/orca-file-preview.git 을 붙여넣어도 됩니다.
+# GitHub에서 최신 버전 설치 (Orca 1.4.252+). Orca가 요청 권한과 승인 지문을 출력합니다.
 orca plugin install https://github.com/hangams84/orca-file-preview
 orca plugin install https://github.com/hangams84/orca-file-preview --approve <fingerprint>
 # 특정 버전: https://github.com/hangams84/orca-file-preview#v0.4.0
@@ -53,30 +92,61 @@ orca plugin install https://github.com/hangams84/orca-file-preview --approve <fi
 orca plugin install ./plugin
 ```
 
-플러그인은 `sandboxed-ui` 권한만 사용합니다(추가 capability 없음, 네트워크 없음, 파일 수정 없음).
+### (c) 릴리스 패키지 · 실행 파일 · 스크립트
 
-> **텍스트 형식도 바로 미리보기로 열립니다** (0.3.1부터). URDF·xacro, KiCad, draw.io, ASCII DXF, STEP·IGES·BREP, OBJ·ASCII
-> STL/PLY·OFF·glTF·DAE, RTF/HTML로 저장된 `.doc`, XML `.xls`는 Orca가 텍스트로 판단하는 파일이라, 플러그인이 텍스트 편집기를
-> 따로 등록해 기본으로 엽니다. 단, Orca가 직접 여는 형식(`.txt` `.csv` `.tsv` `.html` `.htm`)은 Orca 규칙상 Source로 먼저 열리고,
-> 탭 오른쪽 위 보기 전환 버튼으로 미리보기를 고를 수 있습니다(`.csv`·`.tsv`는 Orca 자체 표 보기). / **Text formats open
-> straight in the preview** (from 0.3.1): the plugin registers text editors for URDF, xacro, KiCad, draw.io, ASCII DXF,
-> STEP/IGES/BREP, OBJ and other text 3D formats, RTF/HTML `.doc` and XML `.xls`. Files Orca opens itself (`.txt .csv .tsv
-> .html .htm`) still open in Source first; pick the preview with the view toggle.
+[GitHub Releases](https://github.com/hangams84/orca-file-preview/releases)에서 내려받습니다. Orca 1.4.248 이상이 설치되어 있고
+한 번 이상 실행된 PC가 필요하며, 관리자 권한은 필요 없습니다. 모든 설치 프로그램은 Orca가 요청하는 권한을 보여 주고,
+확인한 뒤에만 승인합니다.
 
-## 저장소 구조 / Layout
+| OS | 실행 파일 | 스크립트 (zip · tar.gz 패키지) |
+| --- | --- | --- |
+| Windows 10/11 | `FilePreviewSetup-<버전>.exe` (메뉴: 설치 · 업데이트 · 제거 · 상태) | `installer\windows\install.cmd` |
+| macOS | `File-Preview-Setup-<버전>-macos.zip` → *File Preview Setup.app* | `installer/macos/Install File Preview.command` |
+| macOS · Linux | `sh file-preview-setup-<버전>.run [install\|update\|uninstall\|status]` | `sh installer/linux/install.sh` (Linux) |
 
-```text
-plugin/            배포되는 플러그인 (orca-plugin.json, editor/, vendor/)
-samples/           테스트 픽스처 (tools/make-samples.py)
-tools/harness/     Orca 유사 CSP + 모의 호스트 브라우저 하네스 (Playwright)
-tools/verify.mjs   검증 라운드 실행기 (tsc, validate, 단위 테스트, 하네스 4종, fuzz, Orca 앱 캡처)
-docs/              개발·검증 문서 (README.md, index.html, evidence/)
-```
+서명되지 않은 실행 파일입니다. Windows SmartScreen이 막으면 *추가 정보* → *실행*, macOS Gatekeeper는 Control-클릭 → *열기*를 고릅니다.
+Orca 1.4.248–1.4.251에는 `plugin install`이 없어 설치 스크립트가 개발 폴더 등록(`plugin dev load`)으로 설치합니다. 이때는 폴더를 지우지 마세요.
+Windows 7/8은 Orca가 지원하지 않으므로 설치 프로그램이 안내 메시지와 함께 거절합니다(Windows 10 이상 필요).
+자세한 옵션: [installer/README.md](installer/README.md)
 
-## Orca 버전별 호환성 (CI) / Orca compatibility
+### (d) 업데이트와 제거
 
-`.github/workflows/orca-compat.yml` 이 각 Orca 릴리스를 새로 설치하고 플러그인을 설치·테스트한 결과입니다.
-플러그인·설치 스크립트·테스트 도구가 바뀌어 `main` 에 푸시되면 자동 실행되고, 아래 표가 자동으로 갱신됩니다.
+- **Orca 앱·CLI로 설치한 경우**: `orca plugin list`로 플러그인 키를 확인한 뒤 `orca plugin update <키>`로 업데이트하고
+  `orca plugin uninstall <키>`로 제거합니다. Git URL 설치는 업데이트하면 최신 버전 태그로 옮겨 갑니다.
+- **실행 파일**: `FilePreviewSetup-<버전>.exe`의 메뉴(또는 `/update` · `/uninstall`), `file-preview-setup-<버전>.run update|uninstall`,
+  macOS는 *File Preview Setup.app*에서 고릅니다.
+- **스크립트**: Windows `installer\windows\update.cmd` · `uninstall.cmd`, macOS `Update File Preview.command` ·
+  `Uninstall File Preview.command`, Linux `sh installer/linux/update.sh` · `sh installer/linux/uninstall.sh`.
+- 업데이트는 이 저장소의 최신 GitHub 릴리스를 확인하고, 패키지를 내려받아 SHA-256을 검증한 뒤 승인을 거쳐 다시 설치합니다.
+  이전 버전 하나는 보관합니다. `--check`(Windows `-Check`)는 확인만 합니다.
+
+## 제한 사항
+
+- **50 MB 읽기 한도**: Orca는 플러그인 편집기에 파일을 최대 50 MB까지만 넘겨줍니다(이미지·PDF 제외, 플러그인에서 바꿀 수 없음,
+  [stablyai/orca#46775](https://github.com/stablyai/orca/issues/46775)). 플러그인 자체 한도는 1 GB입니다. 더 큰 파일은
+  [File Preview 패널](#file-preview-패널)로 여세요. STEP 파일은 gzip으로 압축해 `.stpz`로 열 수도 있습니다(보통 5–8배 줄어듭니다):
+  `gzip -c model.step > model.stpz`.
+- **CAD 엔진 크기**: OpenCascade(32비트 WebAssembly, 최대 4 GB 메모리)의 실용 상한은 STEP 원본 약 200 MB입니다.
+  실측(부품이 많은 합성 어셈블리): 61 MB 1.5분 · 189 MB 14분 · 343 MB는 30분 안에 끝나지 않음 · 412 MB는 메모리 부족.
+- **Source 보기로 먼저 열리는 형식**: `.txt` `.csv` `.tsv` `.html` `.htm`은 Orca가 직접 여는 형식이라 Source 보기가 먼저 열립니다.
+  미리보기는 보기 전환 버튼에서 고릅니다.
+- **그리지 않는 내용**:
+  - EPLAN: 회로도 페이지(EPLAN 고유 바이너리 객체 저장소 `.eod`/`.eox`)와 심볼 라이브러리 그래픽.
+  - SolidWorks: 정확한 B-rep 형상과 도면 뷰는 다시 그리지 않고 저장된 그림을 보여 줍니다. 숨김·억제된 구성 요소는 목록에만 나옵니다.
+  - draw.io: 내장되지 않은 스텐실 라이브러리(`mxgraph.aws4.*` 등)는 이름이 적힌 점선 상자로, 원격 그림은 자리표시로 나옵니다.
+  - Visio: 수식은 계산하지 않고 저장된 값을 씁니다. 바이너리 `.vsd`는 지원하지 않습니다(안내 메시지).
+  - DWF: 읽을 수 없는 명령이 있는 시트는 패키지에 저장된 썸네일과 안내를 보여 줍니다.
+  - DWG(별도 플러그인): 3D 솔리드·영역(ACIS), 래스터 이미지 내용, OLE, xref는 그리지 않고 목록으로 알립니다.
+  - Office: PPTX의 차트·SmartArt와 시트의 셀 스타일은 단순화하고, 스프레드시트는 처음 20,000행만 보여 줍니다.
+    `.hwp`의 수식·차트·OLE 개체는 이름이 붙은 상자로 표시합니다.
+- 모바일 클라이언트는 실제 기기가 아니라 브라우저 하네스(휴대폰 프로필, WebKit, 구형 엔진 모드)로 검사했습니다.
+
+<a id="ci-matrix"></a>
+
+## Orca 버전별 호환성 (CI)
+
+`.github/workflows/orca-compat.yml`이 각 Orca 릴리스를 새로 설치하고 플러그인을 설치·테스트한 결과입니다.
+플러그인·설치 스크립트·테스트 도구가 바뀌어 `main`에 푸시되면 자동으로 실행되고, 아래 표가 자동으로 갱신됩니다.
 
 <!-- ci-matrix:start -->
 **Orca compatibility CI** — ✅ all passing · 2026-11-27 05:05 UTC · [run](https://github.com/hangams84/orca-file-preview/actions/runs/45941724627)
@@ -102,20 +172,9 @@ Windows 7: ✅ the installer refuses with a clear message — Orca (Electron 23+
 Each cell: a fresh Orca install of that version → plugin install with approval → validate · unit tests · static check → every fixture opened in the plugin editor → finished renders captured → plugin log free of errors (Windows also installs and removes through `installer/windows`). 1.4.247 is below the declared minimum (`engines.orca` >=1.4.248): Orca does not enforce that for folder installs, so its row is informational.
 <!-- ci-matrix:end -->
 
-## 설치 스크립트 / Installers
+### 운영체제별 테스트
 
-릴리스 패키지(`node tools/package-release.mjs` → `dist/orca-file-preview-<버전>.zip`)를 풀고 운영체제별 스크립트를 실행합니다.
-자세한 사용법: [installer/README.md](installer/README.md)
-
-| OS | 설치 | 제거 | 테스트 |
-| --- | --- | --- | --- |
-| Windows | `installer\windows\install.cmd` (더블클릭) | `installer\windows\uninstall.cmd` | Windows 11 ✅ |
-| macOS | `installer/macos/Install File Preview.command` (더블클릭) | `Uninstall File Preview.command` | macOS 15 10/10 ✅ |
-| Linux | `sh installer/linux/install.sh` | `sh installer/linux/uninstall.sh` | Ubuntu 22.04 · 24.04 10/10 ✅ |
-
-## 운영체제별 테스트 / Platform tests
-
-실제 Orca(1.4.258)를 새로 설치하고 플러그인 설치 → 검사 → 단위 테스트 → 전 픽스처 마운트 → 렌더 캡처를 수행합니다.
+실제 Orca(1.4.258)를 새로 설치하고 플러그인 설치 → 검사 → 단위 테스트 → 전체 픽스처 마운트 → 렌더 캡처를 수행합니다.
 
 | 환경 | 실행 | 결과 |
 | --- | --- | --- |
@@ -125,20 +184,34 @@ Each cell: a fresh Orca install of that version → plugin install with approval
 
 증빙: `docs/evidence/platforms/` (summary.md, contact-sheet.png, 캡처, 로그)
 
-## 개발 / Development
+## 개발
 
 ```sh
 npm ci
-npm run vendor            # 서드파티 라이브러리를 plugin/vendor 로 번들
+npm run vendor            # 서드파티 라이브러리를 plugin/vendor로 번들
 orca plugin dev load plugin --approve <fingerprint>
 npm run typecheck
 node tools/harness/run.mjs --only docx,pdf --profiles desktop-dark,mobile-light
 node tools/verify.mjs --round <n> && node tools/build-docs.mjs
+node tools/check-readmes.mjs   # README 11개 언어의 언어 표시줄·링크·형식 표 검사
 ```
 
-검증 기록과 스크린샷은 [docs/README.md](docs/README.md) · [docs/index.html](docs/index.html) 에 있습니다.
+### 저장소 구조
 
-## License
+```text
+plugin/            배포되는 플러그인 (orca-plugin.json, editor/, panel/, vendor/)
+dwg-plugin/        File Preview DWG 소스 (GPL-3.0-or-later, 별도 플러그인)
+installer/         Windows · macOS · Linux 설치 스크립트
+samples/           테스트 픽스처 (tools/make-samples.py 등)
+tools/harness/     Orca와 같은 CSP + 모의 호스트 브라우저 하네스 (Playwright)
+tools/verify.mjs   검증 라운드 실행기 (tsc, validate, 단위 테스트, 하네스 4종, fuzz, Orca 앱 캡처)
+docs/              개발·검증 문서 (README.md, index.html, evidence/, release-notes/)
+```
 
-MIT (this project). Bundled libraries keep their own licenses: see
+검증 기록과 스크린샷은 [docs/README.md](docs/README.md) · [docs/index.html](docs/index.html)에, 변경 내역은 [CHANGELOG.md](CHANGELOG.md)에 있습니다.
+
+## 라이선스
+
+이 프로젝트는 MIT 라이선스입니다([LICENSE](LICENSE)). 번들한 라이브러리는 각자의 라이선스를 따릅니다:
 [plugin/THIRD_PARTY_NOTICES.md](plugin/THIRD_PARTY_NOTICES.md).
+`.dwg` · `.dwt`용 **File Preview DWG**는 GPL-3.0-or-later인 별도 플러그인이며 이 MIT 플러그인에 포함되지 않습니다.

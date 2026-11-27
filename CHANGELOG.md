@@ -3,6 +3,18 @@
 All notable changes per release. Each release on GitHub carries its verification results
 (`docs/release-notes/<tag>.md`) and SHA-256 checksums for every file.
 
+## Unreleased
+
+### Documentation
+- **README in 11 languages** (Orca's own UI languages): `README.md` is now Korean only (default), plus `README.en.md`,
+  `README.zh-CN.md`, `README.zh-TW.md`, `README.ja.md`, `README.de.md`, `README.fr.md`, `README.es.md`,
+  `README.pt-BR.md`, `README.ru.md` and `README.tr.md`, with the same language bar and structure. The install steps
+  in the Orca app use Orca's own localized labels and link the screenshot guides `docs/install-guide/<lang>.md`. The
+  format table gains the Hangul (`.hwp` `.hwpx`) row. The CI table stays only in `README.md` (`#ci-matrix`).
+- `tools/check-readmes.mjs`: checks the language bar, relative links and anchors, the CI markers, and that every
+  language's format table has the same rows and extensions and covers every extension in both manifests.
+- `plugin/README.md` links the language READMEs on GitHub.
+
 ## [0.4.0] — 2026-11-27
 
 Text formats open in the preview, and files the user hands over (a folder, files, a drop) lift the "only the

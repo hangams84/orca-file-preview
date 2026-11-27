@@ -1,5 +1,18 @@
 # File Preview for Orca
 
+전체 안내(지원 형식 · 설치 · 제한 사항)는 GitHub의 언어별 README를 보세요. / Full documentation (formats, install, limitations) in 11 languages on GitHub:
+[한국어](https://github.com/hangams84/orca-file-preview/blob/main/README.md) ·
+[English](https://github.com/hangams84/orca-file-preview/blob/main/README.en.md) ·
+[简体中文](https://github.com/hangams84/orca-file-preview/blob/main/README.zh-CN.md) ·
+[繁體中文](https://github.com/hangams84/orca-file-preview/blob/main/README.zh-TW.md) ·
+[日本語](https://github.com/hangams84/orca-file-preview/blob/main/README.ja.md) ·
+[Deutsch](https://github.com/hangams84/orca-file-preview/blob/main/README.de.md) ·
+[Français](https://github.com/hangams84/orca-file-preview/blob/main/README.fr.md) ·
+[Español](https://github.com/hangams84/orca-file-preview/blob/main/README.es.md) ·
+[Português (Brasil)](https://github.com/hangams84/orca-file-preview/blob/main/README.pt-BR.md) ·
+[Русский](https://github.com/hangams84/orca-file-preview/blob/main/README.ru.md) ·
+[Türkçe](https://github.com/hangams84/orca-file-preview/blob/main/README.tr.md)
+
 Orca 데스크톱(Windows · macOS · Linux)과 브라우저/모바일 클라이언트에서 Office · PDF · 텍스트 · 이미지 파일을
 **읽기 전용으로 미리보기** 하는 [Orca](https://github.com/stablyai/orca) 플러그인입니다.
 
@@ -32,7 +45,7 @@ limit, up to 1 GB; files outside a workspace too).
 
 ```sh
 # GitHub에서 최신 버전 설치 (Orca 1.4.252+; Orca가 요청 권한과 승인 지문을 출력합니다)
-# Orca 설정 → 플러그인 → 설치 → Git URL 에 https://github.com/hangams84/orca-file-preview.git 을 붙여넣어도 됩니다.
+# Orca 설정 → 플러그인 → 플러그인 추가 → Git URL에서… 에 https://github.com/hangams84/orca-file-preview.git 을 붙여넣어도 됩니다.
 orca plugin install https://github.com/hangams84/orca-file-preview
 orca plugin install https://github.com/hangams84/orca-file-preview --approve <fingerprint>
 # 특정 버전: https://github.com/hangams84/orca-file-preview#v0.4.0
