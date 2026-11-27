@@ -14,6 +14,14 @@ export interface Sample {
 /** Values for statistics/histograms: all of the tensor up to `budget` bytes, else `chunks` evenly
  *  spaced chunks totalling about `budget`. */
 export async function sampleValues(t: TensorInfo, budget = 4 * 1024 * 1024, chunks = 64): Promise<Sample> {
+  if (t.read && !decodable(t.dtype) && t.decode) {
+    // Block formats (GGUF quants): the whole tensor up to the budget, else its leading blocks.
+    const { blockBytes, blockElems, fn } = t.decode
+    const blocks = Math.max(1, Math.floor(Math.min(t.byteLength, budget) / blockBytes))
+    const b = await t.read({ offset: 0, length: blocks * blockBytes })
+    const v = fn(b, Math.min(numel(t.shape), blocks * blockElems)) ?? new Float32Array(0)
+    return { values: v, sampled: blocks * blockBytes < t.byteLength, bytes: b.byteLength }
+  }
   if (!t.read || !decodable(t.dtype)) return { values: new Float32Array(0), sampled: false, bytes: 0 }
   const es = elementBytes(t.dtype)
   const total = Math.min(t.byteLength, numel(t.shape) * es)
@@ -62,6 +70,17 @@ export interface Grid {
 /** A rows×cols view of a tensor (2-D as is; N-D as shape[0] × rest; 1-D as a single row) downsampled
  *  to at most maxRows×maxCols by picking evenly spaced rows and columns. */
 export async function heatmapGrid(t: TensorInfo, maxRows = 256, maxCols = 512, fullBudget = 16 * 1024 * 1024): Promise<Grid | null> {
+  if (t.read && t.decode && !decodable(t.dtype) && t.shape.length) {
+    // Block formats: rows of the leading blocks we can afford to decode.
+    const s = await sampleValues(t, fullBudget / 4)
+    const srcCols = t.shape.length === 1 ? Math.max(1, s.values.length) : Math.max(1, numel(t.shape) / t.shape[0])
+    const srcRows = Math.max(1, Math.floor(s.values.length / srcCols))
+    const rows = Math.min(maxRows, srcRows)
+    const cols = Math.min(maxCols, srcCols)
+    const out = new Float32Array(rows * cols)
+    for (let i = 0; i < rows; i++) for (let j = 0; j < cols; j++) out[i * cols + j] = s.values[Math.floor((i * srcRows) / rows) * srcCols + Math.floor((j * srcCols) / cols)] ?? NaN
+    return { rows, cols, values: out, srcRows, srcCols, note: s.sampled ? 'leading-rows' : undefined }
+  }
   if (!t.read || !decodable(t.dtype) || !t.shape.length) return null
   const es = elementBytes(t.dtype)
   const srcRows = t.shape.length === 1 ? 1 : t.shape[0]

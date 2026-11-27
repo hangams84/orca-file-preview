@@ -12,10 +12,6 @@ import { isZip, openZip } from './aimodel/zip.ts'
 
 type Reader = (src: ByteSource) => Promise<ModelIR>
 
-/** Formats read by the second worker's modules (aimodel/formats/<name>.ts); until a module exists
- *  the preview says the parser is coming. */
-const EXTERNAL = new Set(['onnx', 'tflite', 'gguf', 'keras', 'numpy'])
-
 async function loadReader(name: string): Promise<Reader> {
   switch (name) {
     case 'pytorch':
@@ -24,15 +20,56 @@ async function loadReader(name: string): Promise<Reader> {
       return (await import('./aimodel/formats/pt2.ts')).read
     case 'safetensors':
       return (await import('./aimodel/formats/safetensors.ts')).read
+    case 'onnx':
+      return (await import('./aimodel/formats/onnx.ts')).read
+    case 'tflite':
+      return (await import('./aimodel/formats/tflite.ts')).read
+    case 'gguf':
+      return (await import('./aimodel/formats/gguf.ts')).read
+    case 'keras':
+      return (await import('./aimodel/formats/keras.ts')).read
+    case 'numpy':
+      return (await import('./aimodel/formats/numpy.ts')).read
   }
-  if (!EXTERNAL.has(name)) throw new PreviewError('aimodel-unknown', 'This file is not a model format this preview reads.')
-  try {
-    const mod = await import(/* @vite-ignore */ `./aimodel/formats/${name}.ts`)
-    if (typeof mod.read !== 'function') throw new Error('no read()')
-    return mod.read as Reader
-  } catch {
-    throw new PreviewError('aimodel-parser-pending', `The ${name.toUpperCase()} parser is not part of this build yet.`)
+  throw new PreviewError('aimodel-unknown', 'This file is not a model format this preview reads.')
+}
+
+/** After reading: decoders for GGUF quant blocks, external ONNX data from companion files. Returns the
+ *  external data files still missing. */
+async function attach(ir: ModelIR): Promise<string[]> {
+  if (ir.format === 'gguf') {
+    const { GGML_TYPES, dequantize, DECODED_TYPES } = await import('./aimodel/formats/gguf.ts')
+    const byName = new Map(Object.values(GGML_TYPES).map((x) => [x[0], x]))
+    for (const t of ir.tensors) {
+      const info = byName.get(t.dtype)
+      if (!info || info[3] || !DECODED_TYPES.includes(t.dtype)) continue
+      const type = t.dtype
+      t.decode = { blockElems: info[1], blockBytes: info[2], fn: (b, n) => dequantize(type, b, n) }
+    }
   }
+  const missing = new Set<string>()
+  const ext = ir.tensors.filter((t) => t.attrs?.['external'] && !t.read)
+  if (ext.length) {
+    const { findCompanion } = await import('../core/companions.ts')
+    for (const t of ext) {
+      const e = t.attrs!['external'] as { location?: string; offset?: number; length?: number }
+      const c = e.location ? findCompanion(e.location) : null
+      if (!c) {
+        missing.add(e.location ?? '?')
+        continue
+      }
+      const file = c.file
+      const base = Number(e.offset ?? 0)
+      const len = Number(e.length ?? t.byteLength)
+      t.read = async (r) => {
+        const off = base + (r?.offset ?? 0)
+        const n = Math.min(r?.length ?? len, len - (r?.offset ?? 0))
+        return new Uint8Array(await file.slice(off, off + n).arrayBuffer())
+      }
+    }
+    if (!missing.size) ir.notes = ir.notes.filter((n) => !/external file/.test(n.en))
+  }
+  return [...missing]
 }
 
 /** Picks the reader from the content first, the suffix second. */
@@ -40,6 +77,7 @@ export async function sniff(src: ByteSource, fileType: string): Promise<string> 
   const head = await src.read(0, 16)
   const ascii = String.fromCharCode(...head.subarray(0, 8))
   if (ascii.startsWith('GGUF')) return 'gguf'
+  if (fileType === 'onnx') return 'onnx'
   if (String.fromCharCode(...head.subarray(4, 8)) === 'TFL3') return 'tflite'
   if (head[0] === 0x89 && ascii.startsWith('\x89HDF')) return 'keras'
   if (head[0] === 0x93 && ascii.startsWith('\x93NUMPY')) return 'numpy'
@@ -105,8 +143,6 @@ export async function render(ctx: PreviewContext): Promise<() => void> {
     ir = await (await loadReader(kind))(src)
   } catch (e) {
     if (e instanceof PreviewError) {
-      if (e.message === 'aimodel-parser-pending')
-        throw new PreviewError(e.message, tr(`${ctx.fileType.toUpperCase()} 파서는 아직 이 빌드에 포함되지 않았습니다 (준비 중). PyTorch·safetensors 파일은 지금 볼 수 있습니다.`, `The ${ctx.fileType.toUpperCase()} parser is coming and not part of this build yet. PyTorch and safetensors files work now.`))
       const near50 = inEditor && ctx.bytes.byteLength >= 49 * 1024 * 1024
       throw new PreviewError(e.message, (e.hint ?? e.message) + (near50 ? tr(' Orca는 편집기에 최대 50 MB만 넘겨 줍니다. 큰 모델은 File Preview 패널에서 여세요(범위 읽기, 크기 제한 없음).', ' Orca hands editors at most 50 MB: open large models in the File Preview panel (ranged reads, no size limit).') : ''))
     }
@@ -115,6 +151,15 @@ export async function render(ctx: PreviewContext): Promise<() => void> {
   }
   ctx.signal.throwIfAborted?.()
   installCss()
+  const missingExternal = await attach(ir)
+  let undoCompanions: (() => void) | null = null
+  if (ir.tensors.some((t) => t.attrs?.['external'])) {
+    const { companionControls } = await import('../core/companions.ts')
+    const list = missingExternal.join(', ') || '.data'
+    undoCompanions = companionControls(ctx, () => ctx.rerender?.(), { what: { ko: `외부 데이터 파일(${list})`, en: `external data file (${list})` } })
+    if (missingExternal.length)
+      ir.notes.unshift({ level: 'warn', en: `External data not loaded: ${list}. Pick the folder with 📁 (or open it together with the model in the File Preview panel) to read those values.`, ko: `외부 데이터를 불러오지 않았습니다: ${list}. 📁로 폴더를 고르거나 File Preview 패널에서 모델과 함께 열면 값을 읽습니다.` })
+  }
 
   const modules = moduleTree(ir)
   const stats = moduleStats(modules, ir.tensors)
@@ -269,6 +314,7 @@ export async function render(ctx: PreviewContext): Promise<() => void> {
 
   await switchTo(ir.graph ? 'graph' : 'tree')
   return () => {
+    undoCompanions?.()
     viewAbort?.abort()
     try {
       cleanupView?.()

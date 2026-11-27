@@ -392,14 +392,15 @@ const SAMPLE_DIR =
       ? 'samples'
       : `samples/${PLUGIN.replace(/-plugin$/, '')}`
 /** With --plugin: only the files that plugin's manifest registers (the default run takes every file). */
-const EXTENSIONS =
-  PLUGIN === 'plugin'
-    ? null
-    : new Set(
-        JSON.parse(readFileSync(join(ROOT, PLUGIN, 'orca-plugin.json'), 'utf8'))
-          .contributes.customEditors.flatMap((e) => e.extensions)
-          .map((x) => x.toLowerCase())
-      )
+// Files the plugin can open: the manifest's suffixes, plus (plugin/) the generic suffixes only the File
+// Preview panel opens (.bin, .pkl: AI models told apart by content). Ground-truth JSON and side files
+// such as .onnx.data in sample folders are skipped.
+const EXTENSIONS = new Set([
+  ...JSON.parse(readFileSync(join(ROOT, PLUGIN, 'orca-plugin.json'), 'utf8'))
+    .contributes.customEditors.flatMap((e) => e.extensions)
+    .map((x) => x.toLowerCase()),
+  ...(PLUGIN === 'plugin' ? ['.bin', '.pkl'] : [])
+])
 
 async function run() {
   const server = await serve()

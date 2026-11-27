@@ -87,7 +87,7 @@ export const view: View = {
         main.append(el('p', 'am-info', tr('이 텐서의 값은 파일에 저장되어 있지 않거나 읽을 수 없습니다.', 'The values of this tensor are not stored in the file or cannot be read.')))
         return
       }
-      if (!decodable(t.dtype)) {
+      if (!decodable(t.dtype) && !t.decode) {
         main.append(el('p', 'am-info', tr(`dtype ${t.dtype}은(는) 값으로 풀지 않습니다(패킹·양자화 블록 형식). 모양과 크기만 표시합니다.`, `dtype ${t.dtype} is not decoded (packed/quantized block format): shape and size only.`)))
         return
       }

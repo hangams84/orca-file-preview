@@ -74,10 +74,13 @@ export const view: View = {
     for (const n of g.nodes) for (const o of n.outputs) producer.set(o, n.id)
     const valueById = new Map(g.values.map((v) => [v.id, v]))
     const nodeById = new Map(g.nodes.map((n) => [n.id, n]))
+    // Constant ops without inputs (ONNX Constant, prim::Constant) fold into their consumers, like weights.
+    const folded = new Set(g.nodes.filter((n) => /^(Constant|prim::Constant|constant)$/.test(n.op) && n.inputs.length === 0).map((n) => n.id))
+    const ops = g.nodes.filter((n) => !folded.has(n.id))
 
     // Module groups: each module path that owns nodes, and its ancestors.
     const groupCount = new Map<string, number>()
-    for (const n of g.nodes) {
+    for (const n of ops) {
       if (!n.module) continue
       const parts = n.module.split('.')
       for (let i = 1; i <= parts.length; i++) {
@@ -119,7 +122,7 @@ export const view: View = {
     }
 
     function weightLabel(n: GraphNode): string {
-      const w = n.inputs.map((i) => valueById.get(i)).filter((v) => v?.tensor)
+      const w = n.inputs.map((i) => valueById.get(i)).filter((v) => v?.tensor || (v && folded.has(producer.get(v.id) ?? '')))
       if (!w.length) return ''
       const first = w[0]!
       return `W ${fmtShape(first.shape ?? [])}${w.length > 1 ? ` +${w.length - 1}` : ''}`
@@ -129,7 +132,7 @@ export const view: View = {
       const out: Item[] = []
       const seen = new Map<string, Item>()
       const vis = new Map<string, string>()
-      for (const n of g.nodes) {
+      for (const n of ops) {
         const v = visibleOf(n)
         vis.set(n.id, v)
         if (seen.has(v)) {
@@ -176,13 +179,14 @@ export const view: View = {
         out.push(it)
         seen.set(it.id, it)
         const p = producer.get(outp)
-        if (p) addEdge(vis.get(p)!, it.id)
+        if (p && !folded.has(p)) addEdge(vis.get(p)!, it.id)
       }
       const inputSet = new Set(g.inputs)
-      for (const n of g.nodes) {
+      for (const n of ops) {
         const to = vis.get(n.id)!
         for (const i of n.inputs) {
           const p = producer.get(i)
+          if (p && folded.has(p)) continue
           if (p) addEdge(vis.get(p)!, to)
           else if (inputSet.has(i) && seen.has(`in:${i}`)) addEdge(`in:${i}`, to)
         }
@@ -197,7 +201,7 @@ export const view: View = {
       edges = built.edges
       itemById = new Map(items.map((i) => [i.id, i]))
       res = layout(items.map((i) => ({ id: i.id, width: i.width, height: i.height })), edges, { direction: dir, rankGap: dir === 'TB' ? 34 : 48, nodeGap: 16 })
-      info.textContent = tr(`연산 ${fmtInt(g.nodes.length)} · 표시 ${fmtInt(items.length)}`, `${fmtInt(g.nodes.length)} ops · ${fmtInt(items.length)} shown`)
+      info.textContent = tr(`연산 ${fmtInt(g.nodes.length)} · 표시 ${fmtInt(items.length)}${folded.size ? ` · 상수 ${folded.size} 접음` : ''}`, `${fmtInt(g.nodes.length)} ops · ${fmtInt(items.length)} shown${folded.size ? ` · ${folded.size} constants folded` : ''}`)
       collapseBtn.disabled = ![...expanded].some((p) => (groupCount.get(p) ?? 0) > 1)
       expandBtn.disabled = [...groupCount.keys()].every((p) => expanded.has(p) || (groupCount.get(p) ?? 0) <= 1)
       if (!keepView) fit()
@@ -525,7 +529,7 @@ export const view: View = {
     let hitIdx = 0
     search.addEventListener('input', () => {
       const q = search.value.trim().toLowerCase()
-      hits = q ? g.nodes.filter((n) => n.op.toLowerCase().includes(q) || (n.name ?? '').toLowerCase().includes(q) || (n.module ?? '').toLowerCase().includes(q)).map((n) => n.id) : []
+      hits = q ? ops.filter((n) => n.op.toLowerCase().includes(q) || (n.name ?? '').toLowerCase().includes(q) || (n.module ?? '').toLowerCase().includes(q)).map((n) => n.id) : []
       hitIdx = 0
       info.textContent = q ? tr(`${hits.length}개 일치 · Enter로 이동`, `${hits.length} match${hits.length === 1 ? '' : 'es'} · Enter to jump`) : tr(`연산 ${fmtInt(g.nodes.length)} · 표시 ${fmtInt(items.length)}`, `${fmtInt(g.nodes.length)} ops · ${fmtInt(items.length)} shown`)
     }, { signal: app.signal })

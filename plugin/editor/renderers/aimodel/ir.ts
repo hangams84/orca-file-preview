@@ -80,6 +80,10 @@ export interface TensorInfo {
    *  `read()` → all, `read({offset, length})` → that byte range (the inspector reads samples of large
    *  tensors this way). Absent when the values are not available. Must not read beyond the tensor. */
   read?(range?: { offset: number; length: number }): Promise<Uint8Array>
+  /** Optional decoder for dtypes the shared decoder (dtype.ts) does not know, e.g. GGUF quant blocks.
+   *  `fn` turns whole blocks of raw bytes into `count` numbers; partial reads must be multiples of
+   *  `blockBytes` (holding `blockElems` elements). Set by the renderer or the reader. */
+  decode?: { blockBytes: number; blockElems: number; fn(bytes: Uint8Array, count: number): Float32Array | null }
 }
 
 /** A node of the module hierarchy (nn.Module tree, Keras layers, ONNX/TFLite name scopes, GGUF
