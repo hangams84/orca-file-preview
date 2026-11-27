@@ -246,6 +246,14 @@
         "contentKind": "text",
         "frame": "any"
       }
+    ],
+    "panels": [
+      {
+        "id": "preview",
+        "title": "File Preview",
+        "icon": "file",
+        "entry": "panel/main.ts"
+      }
     ]
   },
   "license": "MIT"

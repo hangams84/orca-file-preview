@@ -1,5 +1,5 @@
 /** A stand-in for Orca's frame API so the preview runs in a plain browser for automated tests.
- *  Query: ?file=samples/sample.docx&theme=dark|light&locale=ko|en */
+ *  Query: ?file=samples/sample.docx&theme=dark|light&locale=ko|en (&panel=1&entry=panel/main.ts: the panel) */
 const q = new URLSearchParams(location.search)
 const file = q.get('file') ?? ''
 const theme = q.get('theme') === 'light' ? 'light' : 'dark'
@@ -27,7 +27,9 @@ for (const [k, v] of Object.entries(VARS[theme])) html.style.setProperty(`--orca
 
 const listeners: Record<string, ((p: unknown) => void)[]> = {}
 const fileType = (file.match(/\.([^./\\]+)$/)?.[1] ?? '').toLowerCase()
-const docPromise = fetch(`/${file}`).then(async (r) => {
+// panel=1: the File Preview panel (no document API, as in Orca's panel frames).
+const panel = q.get('panel') === '1'
+const docPromise = (panel ? new Promise<never>(() => {}) : fetch(`/${file}`)).then(async (r) => {
   if (!r.ok) throw new Error(`fixture ${file}: HTTP ${r.status}`)
   const buf = await r.arrayBuffer()
   // kind=text: Orca sends a text document (no NUL in the first 8 KB) as UTF-8 text and without a fileType.
@@ -42,7 +44,7 @@ const docPromise = fetch(`/${file}`).then(async (r) => {
     ;(listeners[event] ??= []).push(handler)
     return { dispose() {} }
   },
-  document: {
+  document: panel ? undefined : {
     get: () => docPromise,
     onDidChange(handler: (d: unknown) => void) {
       void docPromise.then(handler)

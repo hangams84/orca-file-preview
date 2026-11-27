@@ -20,6 +20,14 @@ Read-only previews for Office, PDF, text and image files inside Orca, on desktop
 공통: 다크/라이트 테마 실시간 반영, 한국어/영어 UI, Ctrl+휠 · 핀치 · 버튼 확대/축소, 휴대폰 화면에서 폭 맞춤,
 파일이 바뀌면 자동 갱신, 손상 파일은 친절한 오류 안내.
 
+**참조 파일 / Companion files**: URDF·xacro의 메시와 include, OBJ의 `.mtl`·텍스처, glTF의 `.bin`·이미지, DXF의 xref·이미지는
+툴바의 📁 버튼으로 폴더를 고르거나 파일을 끌어다 놓으면 불러옵니다 (파일은 프레임 안에서만 읽힘). Meshes, includes, `.mtl`,
+`.bin`, textures and DXF xrefs/images load from a folder you pick with 📁 or drop onto the preview.
+
+**File Preview 패널**: 오른쪽 사이드바의 패널에서 "파일 열기…"·"폴더 열기…"·끌어 놓기로 파일을 열면 Orca 편집기의 50 MB 한도
+없이(최대 1 GB) 워크스페이스 밖 파일도 볼 수 있습니다. The File Preview side panel opens any supported file (no 50 MB editor
+limit, up to 1 GB; files outside a workspace too).
+
 ## 설치 / Install
 
 ```sh
