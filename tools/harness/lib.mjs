@@ -5,6 +5,7 @@ import { createServer } from 'node:http'
 import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { dirname, extname, join, normalize, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { orcaRoute, routeQuery } from './route.mjs'
 
 export const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..')
 
@@ -51,8 +52,10 @@ export function serve({ plugin = 'plugin' } = {}) {
       const file = normalize(join(ROOT, path))
       if (relative(ROOT, file).startsWith('..')) throw Object.assign(new Error('outside'), { status: 403 })
       let body = readFileSync(file)
-      if (plugin !== 'plugin' && path === '/tools/harness/index.html') {
-        body = Buffer.from(body.toString('utf8').replace('/plugin/editor/main.ts', `/${plugin}/editor/main.ts`))
+      if (path === '/tools/harness/index.html') {
+        // The editor entry Orca would load for this file (tools/harness/route.mjs), else the bytes entry.
+        const entry = url.searchParams.get('entry') ?? 'editor/main.ts'
+        body = Buffer.from(body.toString('utf8').replace('/plugin/editor/main.ts', `/${plugin}/${entry}`))
       }
       let type = TYPES[extname(file)] ?? 'application/octet-stream'
       if (/\.(ts|tsx|mts)$/.test(file)) {
@@ -100,7 +103,7 @@ export function fixtures(args, dir = 'samples') {
 
 /** Opens a fixture through the mock host and waits until the preview settles (no rAF polling). */
 export async function openFixture(page, base, file, { theme = 'dark', locale = 'en', timeout = 30000 } = {}) {
-  await page.goto(`${base}/harness?file=samples/${encodeURIComponent(file)}&theme=${theme}&locale=${locale}`, { waitUntil: 'load' })
+  await page.goto(`${base}/harness?file=samples/${encodeURIComponent(file)}&theme=${theme}&locale=${locale}${routeQuery(orcaRoute(ROOT, 'plugin', `samples/${file}`))}`, { waitUntil: 'load' })
   await page.waitForFunction(() => ['ready', 'error'].includes(document.body.dataset.state ?? ''), null, { timeout, polling: 100 })
   return page.evaluate(() => document.body.dataset.state)
 }

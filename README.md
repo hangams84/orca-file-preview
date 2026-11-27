@@ -54,20 +54,13 @@ orca plugin install ./plugin
 
 플러그인은 `sandboxed-ui` 권한만 사용합니다(추가 capability 없음, 네트워크 없음, 파일 수정 없음).
 
-> Orca가 직접 여는 형식(`.txt` `.csv` `.tsv` `.log` `.html` `.svg`)과 텍스트로 보이는 파일은 Orca의 Source
-> 보기로 먼저 열립니다. 탭 오른쪽 위 보기 전환 버튼으로 미리보기로 바꿀 수 있습니다. **STEP(`.step` `.stp`), IGES
-> (`.iges` `.igs`), BREP(`.brep`)도 텍스트 형식이라 Source로 먼저 열립니다** (Orca 1.4.258에서 확인). ASCII 3D 형식
-> (`.obj`, ASCII `.stl`/`.ply`, `.off`, `.gltf`, `.dae`, ASCII `.fbx`)도 마찬가지일 수 있습니다.
-> Files Orca opens itself open in Source first; switch with the view toggle at the tab's top right. **STEP, IGES and
-> BREP files are text and open in Source first** (checked in Orca 1.4.258); text-based 3D formats may do the same.
-> **KiCad 파일(`.kicad_*`)도 텍스트라 Source로 먼저 열립니다** (Orca 1.4.263 확인). / KiCad files are text and open
-> in Source first too.
-
-> **URDF·xacro(`.urdf` `.xacro`)도 XML 텍스트라 Source로 먼저 열립니다** (Orca 1.4.263 확인). / URDF and xacro files
-> are XML text and open in Source first too.
-
-> **ASCII DXF(`.dxf`)도 텍스트라 Source로 먼저 열립니다** (바이너리 DXF·DWF·DWFx는 바로 미리보기). / ASCII DXF opens in
-> Source first too; binary DXF, DWF and DWFx open straight in the preview.
+> **텍스트 형식도 바로 미리보기로 열립니다** (0.3.1부터). URDF·xacro, KiCad, draw.io, ASCII DXF, STEP·IGES·BREP, OBJ·ASCII
+> STL/PLY·OFF·glTF·DAE, RTF/HTML로 저장된 `.doc`, XML `.xls`는 Orca가 텍스트로 판단하는 파일이라, 플러그인이 텍스트 편집기를
+> 따로 등록해 기본으로 엽니다. 단, Orca가 직접 여는 형식(`.txt` `.csv` `.tsv` `.html` `.htm`)은 Orca 규칙상 Source로 먼저 열리고,
+> 탭 오른쪽 위 보기 전환 버튼으로 미리보기를 고를 수 있습니다(`.csv`·`.tsv`는 Orca 자체 표 보기). / **Text formats open
+> straight in the preview** (from 0.3.1): the plugin registers text editors for URDF, xacro, KiCad, draw.io, ASCII DXF,
+> STEP/IGES/BREP, OBJ and other text 3D formats, RTF/HTML `.doc` and XML `.xls`. Files Orca opens itself (`.txt .csv .tsv
+> .html .htm`) still open in Source first; pick the preview with the view toggle.
 
 ## 저장소 구조 / Layout
 

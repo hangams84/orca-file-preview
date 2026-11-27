@@ -21,6 +21,7 @@ import { createServer } from 'node:http'
 import { mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
 import { dirname, extname, join, normalize, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { orcaRoute, routeQuery } from './route.mjs'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..')
 const args = Object.fromEntries(
@@ -69,8 +70,10 @@ function serve() {
       const file = normalize(join(ROOT, path))
       if (relative(ROOT, file).startsWith('..')) throw Object.assign(new Error('outside'), { status: 403 })
       let body = readFileSync(file)
-      if (PLUGIN !== 'plugin' && path === '/tools/harness/index.html') {
-        body = Buffer.from(body.toString('utf8').replace('/plugin/editor/main.ts', `/${PLUGIN}/editor/main.ts`))
+      if (path === '/tools/harness/index.html') {
+        // The editor entry Orca would load for this file (tools/harness/route.mjs), else the bytes entry.
+        const entry = url.searchParams.get('entry') ?? 'editor/main.ts'
+        body = Buffer.from(body.toString('utf8').replace('/plugin/editor/main.ts', `/${PLUGIN}/${entry}`))
       }
       let type = TYPES[extname(file)] ?? 'application/octet-stream'
       if (/\.(ts|tsx|mts)$/.test(file)) {
@@ -458,7 +461,10 @@ async function run() {
         else if (m.type() === 'warning' && args.warnings) console.log(`  warn ${f}: ${m.text()}`)
       })
       const started = Date.now()
-      const url = `${base}/harness?file=${SAMPLE_DIR}/${encodeURIComponent(f)}&theme=${profile.theme}&locale=${profile.locale}`
+      // Route the file the way Orca does: binary → bytes editor with fileType; text → the text editor's entry
+      // with a UTF-8 document and no fileType; no matching editor → Orca keeps it in Source (no plugin view).
+      const route = orcaRoute(ROOT, PLUGIN, `${SAMPLE_DIR}/${f}`)
+      const url = `${base}/harness?file=${SAMPLE_DIR}/${encodeURIComponent(f)}&theme=${profile.theme}&locale=${profile.locale}${routeQuery(route)}`
       let state = 'timeout'
       const limit = Number(args.timeout) || 30000
       let timer

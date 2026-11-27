@@ -99,7 +99,7 @@ if (existsSync(fid)) {
 if (ci) out.push('### Orca version matrix (CI)', '', ci.trim(), '')
 out.push(`Full reports, screenshots and charts: [docs/README.md](${repo}/blob/source-v${v}/docs/README.md) · [docs/index.html](${repo}/blob/source-v${v}/docs/index.html)`, '')
 out.push('## Known limitations', '')
-out.push("- Orca opens `.txt .csv .tsv .log .html .svg` (and text-like files) in its own Source view first: pick the preview with the view toggle at the tab's top right.")
+out.push("- Files Orca opens itself (`.txt .csv .tsv .html .htm`) open in its Source view first: pick the preview with the view toggle at the tab's top right. Other text formats (URDF, xacro, KiCad, draw.io, DXF, STEP, OBJ …) open in the preview directly.")
 out.push('- Office rendering is a preview, not Office: charts/SmartArt in PPTX and cell styles in sheets are simplified; spreadsheets show the first 20,000 rows; .hwp equations/charts/OLE objects show as labelled boxes; 3D glTF with external .bin/textures and meshopt compression is not supported (no network).')
 out.push('- File size: Orca hands a plugin editor at most 50 MB (images and PDFs excepted; stablyai/orca#46775). The plugin itself accepts up to 1 GB; compress large STEP files to `.stpz` (gzip). The CAD engine (32-bit WebAssembly, 4 GB) is practical up to roughly 200 MB of STEP (measured: 189 MB in 14 min; 343 MB exceeds the time limit; 412 MB runs out of memory).')
 out.push('- Tested on real Orca for Windows 11, Ubuntu 22.04/24.04 and macOS 15; mobile clients were tested through the browser harness (phone profiles, WebKit, older-engine mode), not on physical devices.')

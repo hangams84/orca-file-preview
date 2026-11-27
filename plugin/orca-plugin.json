@@ -12,44 +12,19 @@
   "contributes": {
     "customEditors": [
       {
-        "id": "word",
-        "title": "Word Preview",
+        "id": "office",
+        "title": "Office · PDF Preview",
         "extensions": [
           ".docx",
-          ".doc"
-        ],
-        "entry": "editor/main.ts",
-        "contentKind": "bytes",
-        "frame": "any"
-      },
-      {
-        "id": "slides",
-        "title": "Slides Preview",
-        "extensions": [
+          ".doc",
           ".pptx",
-          ".ppt"
-        ],
-        "entry": "editor/main.ts",
-        "contentKind": "bytes",
-        "frame": "any"
-      },
-      {
-        "id": "sheet",
-        "title": "Sheet Preview",
-        "extensions": [
+          ".ppt",
           ".xlsx",
           ".xlsm",
           ".xls",
-          ".ods"
-        ],
-        "entry": "editor/main.ts",
-        "contentKind": "bytes",
-        "frame": "any"
-      },
-      {
-        "id": "pdf",
-        "title": "PDF Preview",
-        "extensions": [
+          ".ods",
+          ".hwp",
+          ".hwpx",
           ".pdf"
         ],
         "entry": "editor/main.ts",
@@ -57,57 +32,19 @@
         "frame": "any"
       },
       {
-        "id": "image",
-        "title": "Image Preview",
-        "extensions": [
-          ".gif",
-          ".bmp",
-          ".svg"
-        ],
-        "entry": "editor/main.ts",
-        "contentKind": "bytes",
-        "frame": "any"
-      },
-      {
-        "id": "web",
-        "title": "HTML Preview",
-        "extensions": [
-          ".html",
-          ".htm",
-          ".xhtml"
-        ],
-        "entry": "editor/main.ts",
-        "contentKind": "bytes",
-        "frame": "any"
-      },
-      {
-        "id": "csv",
-        "title": "Table Preview",
-        "extensions": [
-          ".csv",
-          ".tsv"
-        ],
-        "entry": "editor/main.ts",
-        "contentKind": "bytes",
-        "frame": "any"
-      },
-      {
-        "id": "hangul",
-        "title": "Hangul Preview",
-        "extensions": [
-          ".hwp",
-          ".hwpx"
-        ],
-        "entry": "editor/main.ts",
-        "contentKind": "bytes",
-        "frame": "any"
-      },
-      {
-        "id": "text",
-        "title": "Text Preview",
+        "id": "media",
+        "title": "Text · Web · Image Preview",
         "extensions": [
           ".txt",
-          ".log"
+          ".log",
+          ".csv",
+          ".tsv",
+          ".html",
+          ".htm",
+          ".xhtml",
+          ".svg",
+          ".gif",
+          ".bmp"
         ],
         "entry": "editor/main.ts",
         "contentKind": "bytes",
@@ -130,7 +67,7 @@
       },
       {
         "id": "model3d",
-        "title": "3D Preview",
+        "title": "3D · Robot Preview",
         "extensions": [
           ".stl",
           ".obj",
@@ -146,56 +83,9 @@
           ".stpz",
           ".iges",
           ".igs",
-          ".brep"
-        ],
-        "entry": "editor/main.ts",
-        "contentKind": "bytes",
-        "frame": "any"
-      },
-      {
-        "id": "solidworks",
-        "title": "SolidWorks Preview",
-        "extensions": [
-          ".sldprt",
-          ".sldasm",
-          ".slddrw",
-          ".slddrt",
-          ".prtdot",
-          ".asmdot",
-          ".drwdot"
-        ],
-        "entry": "editor/main.ts",
-        "contentKind": "bytes",
-        "frame": "any"
-      },
-      {
-        "id": "eplan",
-        "title": "EPLAN Preview",
-        "extensions": [
-          ".elk",
-          ".ell",
-          ".elr",
-          ".els",
-          ".elp",
-          ".elx",
-          ".ela",
-          ".zw1",
-          ".zx1",
-          ".edz"
-        ],
-        "entry": "editor/main.ts",
-        "contentKind": "bytes",
-        "frame": "any"
-      },
-      {
-        "id": "kicad",
-        "title": "KiCad Preview",
-        "extensions": [
-          ".kicad_sch",
-          ".kicad_pcb",
-          ".kicad_mod",
-          ".kicad_sym",
-          ".kicad_pro"
+          ".brep",
+          ".urdf",
+          ".xacro"
         ],
         "entry": "editor/main.ts",
         "contentKind": "bytes",
@@ -214,14 +104,146 @@
         "frame": "any"
       },
       {
-        "id": "robot",
+        "id": "engineering",
+        "title": "Engineering Preview",
+        "extensions": [
+          ".kicad_sch",
+          ".kicad_pcb",
+          ".kicad_mod",
+          ".kicad_sym",
+          ".kicad_pro",
+          ".sldprt",
+          ".sldasm",
+          ".slddrw",
+          ".slddrt",
+          ".prtdot",
+          ".asmdot",
+          ".drwdot",
+          ".elk",
+          ".ell",
+          ".elr",
+          ".els",
+          ".elp",
+          ".elx",
+          ".ela",
+          ".zw1",
+          ".zx1",
+          ".edz"
+        ],
+        "entry": "editor/main.ts",
+        "contentKind": "bytes",
+        "frame": "any"
+      },
+      {
+        "id": "text-text",
+        "title": "Text Preview",
+        "extensions": [
+          ".txt",
+          ".log"
+        ],
+        "entry": "editor/text/text.ts",
+        "contentKind": "text",
+        "frame": "any"
+      },
+      {
+        "id": "csv-text",
+        "title": "Table Preview",
+        "extensions": [
+          ".csv",
+          ".tsv"
+        ],
+        "entry": "editor/text/csv.ts",
+        "contentKind": "text",
+        "frame": "any"
+      },
+      {
+        "id": "web-text",
+        "title": "HTML Preview",
+        "extensions": [
+          ".html",
+          ".htm",
+          ".xhtml"
+        ],
+        "entry": "editor/text/web.ts",
+        "contentKind": "text",
+        "frame": "any"
+      },
+      {
+        "id": "diagram-text",
+        "title": "Diagram Preview",
+        "extensions": [
+          ".drawio",
+          ".dio"
+        ],
+        "entry": "editor/text/diagram.ts",
+        "contentKind": "text",
+        "frame": "any"
+      },
+      {
+        "id": "model3d-text",
+        "title": "3D Preview",
+        "extensions": [
+          ".stl",
+          ".obj",
+          ".ply",
+          ".gltf",
+          ".off",
+          ".fbx",
+          ".dae",
+          ".step",
+          ".stp",
+          ".iges",
+          ".igs",
+          ".brep"
+        ],
+        "entry": "editor/text/model3d.ts",
+        "contentKind": "text",
+        "frame": "any"
+      },
+      {
+        "id": "kicad-text",
+        "title": "KiCad Preview",
+        "extensions": [
+          ".kicad_sch",
+          ".kicad_pcb",
+          ".kicad_mod",
+          ".kicad_sym",
+          ".kicad_pro"
+        ],
+        "entry": "editor/text/kicad.ts",
+        "contentKind": "text",
+        "frame": "any"
+      },
+      {
+        "id": "dxf-text",
+        "title": "CAD Drawing Preview",
+        "extensions": [
+          ".dxf"
+        ],
+        "entry": "editor/text/dxf.ts",
+        "contentKind": "text",
+        "frame": "any"
+      },
+      {
+        "id": "robot-text",
         "title": "Robot Preview",
         "extensions": [
           ".urdf",
           ".xacro"
         ],
-        "entry": "editor/main.ts",
-        "contentKind": "bytes",
+        "entry": "editor/text/robot.ts",
+        "contentKind": "text",
+        "frame": "any"
+      },
+      {
+        "id": "office-text",
+        "title": "Office Preview",
+        "extensions": [
+          ".doc",
+          ".xls"
+        ],
+        "entry": "editor/text/office.ts",
+        "contentKind": "text",
         "frame": "any"
       }
     ]

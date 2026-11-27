@@ -29,7 +29,10 @@ const listeners: Record<string, ((p: unknown) => void)[]> = {}
 const fileType = (file.match(/\.([^./\\]+)$/)?.[1] ?? '').toLowerCase()
 const docPromise = fetch(`/${file}`).then(async (r) => {
   if (!r.ok) throw new Error(`fixture ${file}: HTTP ${r.status}`)
-  return { version: 1, readOnly: false, content: { kind: 'bytes' as const, bytes: await r.arrayBuffer() }, fileType }
+  const buf = await r.arrayBuffer()
+  // kind=text: Orca sends a text document (no NUL in the first 8 KB) as UTF-8 text and without a fileType.
+  if (q.get('kind') === 'text') return { version: 1, readOnly: false, content: { kind: 'text' as const, text: new TextDecoder().decode(buf) } }
+  return { version: 1, readOnly: false, content: { kind: 'bytes' as const, bytes: buf }, fileType }
 })
 
 ;(globalThis as any).orca = {
