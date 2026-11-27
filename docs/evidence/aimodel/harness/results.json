@@ -1,0 +1,237 @@
+[
+ {
+  "name": "desktop-dark gpt.export.pt2: graph, tree, table, map, arch, tensor, info",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "desktop-dark cnn.torchscript.pt: graph, tree, table, map, arch, tensor, info",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "desktop-dark gpt.lightning.ckpt: tree, table, map, arch, tensor, info",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "desktop-dark cnn.state_dict.pth: tree, table, map, arch, tensor, info",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "desktop-dark gpt.bf16.safetensors: tree, table, map, arch, tensor, info",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "desktop-dark mlp.int8-dynamic.pth: tree, table, map, arch, tensor, info",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "desktop-dark malicious.pt: tree, table, map, arch, tensor, info",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "desktop-light gpt.export.pt2: graph, tree, table, map, arch, tensor, info",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "desktop-light cnn.torchscript.pt: graph, tree, table, map, arch, tensor, info",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "desktop-light gpt.lightning.ckpt: tree, table, map, arch, tensor, info",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "desktop-light cnn.state_dict.pth: tree, table, map, arch, tensor, info",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "desktop-light gpt.bf16.safetensors: tree, table, map, arch, tensor, info",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "desktop-light mlp.int8-dynamic.pth: tree, table, map, arch, tensor, info",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "desktop-light malicious.pt: tree, table, map, arch, tensor, info",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "tablet-dark gpt.export.pt2: graph, tree, table, map, arch, tensor, info",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "tablet-dark cnn.torchscript.pt: graph, tree, table, map, arch, tensor, info",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "tablet-dark gpt.lightning.ckpt: tree, table, map, arch, tensor, info",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "tablet-dark cnn.state_dict.pth: tree, table, map, arch, tensor, info",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "tablet-dark gpt.bf16.safetensors: tree, table, map, arch, tensor, info",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "tablet-dark mlp.int8-dynamic.pth: tree, table, map, arch, tensor, info",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "tablet-dark malicious.pt: tree, table, map, arch, tensor, info",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "mobile-light gpt.export.pt2: graph, tree, table, map, arch, tensor, info",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "mobile-light cnn.torchscript.pt: graph, tree, table, map, arch, tensor, info",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "mobile-light gpt.lightning.ckpt: tree, table, map, arch, tensor, info",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "mobile-light cnn.state_dict.pth: tree, table, map, arch, tensor, info",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "mobile-light gpt.bf16.safetensors: tree, table, map, arch, tensor, info",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "mobile-light mlp.int8-dynamic.pth: tree, table, map, arch, tensor, info",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "mobile-light malicious.pt: tree, table, map, arch, tensor, info",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "graph: clicking a node opens its details",
+  "ok": true,
+  "detail": "17 nodes drawn, selected embedding"
+ },
+ {
+  "name": "graph: search + Enter selects a match",
+  "ok": true,
+  "detail": "linear"
+ },
+ {
+  "name": "graph: TB → LR re-lays out",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "graph: collapse folds module groups",
+  "ok": true,
+  "detail": "73 → 21 items after collapse"
+ },
+ {
+  "name": "graph: wheel zoom and drag pan",
+  "ok": true,
+  "detail": "translate(20,334.8404710920771) scale(0.3078158458244111) → translate(-356.8289042264953,415.12771499211675) scale(0.5608770397347659)"
+ },
+ {
+  "name": "graph: no errors",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "tensor: stats, heatmap and conv kernel grid",
+  "ok": true,
+  "detail": "통계min-0.19163max0.19104mean-0.007827std0.108040 비율0.00%NaN0Inf0읽은 원소216"
+ },
+ {
+  "name": "export svg from the tensor view",
+  "ok": true,
+  "detail": "SVG 8.7 KB (내려받기 시작)"
+ },
+ {
+  "name": "export png from the tensor view",
+  "ok": true,
+  "detail": "PNG 640×320 (내려받기 시작)"
+ },
+ {
+  "name": "export json from the tensor view",
+  "ok": true,
+  "detail": "요약 JSON (내려받기 시작)"
+ },
+ {
+  "name": "export md from the tensor view",
+  "ok": true,
+  "detail": "요약 MD (내려받기 시작)"
+ },
+ {
+  "name": "export png from the map view",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "export svg from the diagram view",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "table: sort by #params puts the largest tensor first",
+  "ok": true,
+  "detail": "features.8.weightConv2d32×16×3×3f324,60818.0 KBparam"
+ },
+ {
+  "name": "table: filter",
+  "ok": true,
+  "detail": "4 rows for \"running\""
+ },
+ {
+  "name": "tensor/export: no errors",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "panel: 1.71 GB checkpoint opens by ranged reads",
+  "ok": true,
+  "detail": "ready in 166 ms; inspect wte.weight in 870 ms; JS heap 26 MB; 형식 PyTorch state_dict프레임워크 pytorch파라미터 459.25 M텐서 245크기 1.71 GBdtype  f32"
+ },
+ {
+  "name": "panel: no errors",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "panel-perf",
+  "ok": true,
+  "detail": "{\"file\":\"C:/fpt-ai-lead/big/gpt-large.pth\",\"size\":1837083723,\"tOpen\":166,\"tInspect\":870,\"heap\":26995748}"
+ }
+]
