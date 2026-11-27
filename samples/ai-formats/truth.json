@@ -1,0 +1,6607 @@
+{
+ "numpy": {
+  "np-f32.npy": {
+   "shape": [
+    3,
+    4
+   ],
+   "descr": "<f4",
+   "fortran": false,
+   "head": [
+    0.3455841839313507,
+    0.8216181397438049,
+    0.3304370641708374,
+    -1.3031572103500366,
+    0.9053558707237244,
+    0.4463745653629303
+   ],
+   "itemsize": 4
+  },
+  "np-f64.npy": {
+   "shape": [
+    5
+   ],
+   "descr": "<f8",
+   "fortran": false,
+   "head": [
+    -0.7364540870016669,
+    -0.16290994799305278,
+    -0.48211931267997826,
+    0.5988462126346276,
+    0.03972210748165899
+   ],
+   "itemsize": 8
+  },
+  "np-f16.npy": {
+   "shape": [
+    2,
+    3
+   ],
+   "descr": "<f2",
+   "fortran": false,
+   "head": [
+    -0.29248046875,
+    -0.78173828125,
+    -0.257080078125,
+    0.00814056396484375,
+    -0.275634765625,
+    1.2939453125
+   ],
+   "itemsize": 2
+  },
+  "np-i8.npy": {
+   "shape": [
+    8
+   ],
+   "descr": "|i1",
+   "fortran": false,
+   "head": [
+    -4,
+    -3,
+    -2,
+    -1,
+    0,
+    1
+   ],
+   "itemsize": 1
+  },
+  "np-u8.npy": {
+   "shape": [
+    2,
+    5
+   ],
+   "descr": "|u1",
+   "fortran": false,
+   "head": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "itemsize": 1
+  },
+  "np-bool.npy": {
+   "shape": [
+    3
+   ],
+   "descr": "|b1",
+   "fortran": false,
+   "head": [
+    1,
+    0,
+    1
+   ],
+   "itemsize": 1
+  },
+  "np-i64be.npy": {
+   "shape": [
+    3,
+    2
+   ],
+   "descr": ">i8",
+   "fortran": false,
+   "head": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "itemsize": 8
+  },
+  "np-c64.npy": {
+   "shape": [
+    3
+   ],
+   "descr": "<c8",
+   "fortran": false,
+   "head": [
+    0.0,
+    1.0,
+    2.0
+   ],
+   "itemsize": 8
+  },
+  "np-unicode.npy": {
+   "shape": [
+    3
+   ],
+   "descr": "<U5",
+   "fortran": false,
+   "head": [
+    "alpha",
+    "beta",
+    "\u03b3"
+   ],
+   "itemsize": 20
+  },
+  "np-bytes.npy": {
+   "shape": [
+    2
+   ],
+   "descr": "|S3",
+   "fortran": false,
+   "head": [
+    "b'ab'",
+    "b'cde'"
+   ],
+   "itemsize": 3
+  },
+  "np-scalar.npy": {
+   "shape": [],
+   "descr": "<f4",
+   "fortran": false,
+   "head": [
+    3.5
+   ],
+   "itemsize": 4
+  },
+  "np-empty.npy": {
+   "shape": [
+    0,
+    3
+   ],
+   "descr": "<f4",
+   "fortran": false,
+   "head": [],
+   "itemsize": 4
+  },
+  "np-fortran.npy": {
+   "shape": [
+    3,
+    4
+   ],
+   "descr": "<i4",
+   "fortran": true,
+   "head": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "itemsize": 4
+  },
+  "np-struct.npy": {
+   "shape": [
+    2
+   ],
+   "descr": [
+    [
+     "x",
+     "<f4"
+    ],
+    [
+     "y",
+     "<i4"
+    ],
+    [
+     "z",
+     "<i2",
+     [
+      2
+     ]
+    ]
+   ],
+   "fortran": false,
+   "head": null,
+   "itemsize": 12
+  },
+  "np-object.npy": {
+   "shape": [
+    2
+   ],
+   "descr": "|O",
+   "fortran": false,
+   "head": null,
+   "itemsize": 8
+  },
+  "np-stored.npz": {
+   "weights": {
+    "shape": [
+     16,
+     8
+    ],
+    "descr": "<f4",
+    "head": [
+     1.0067243576049805,
+     -2.711162567138672,
+     -1.8890132904052734,
+     -0.17477209866046906,
+     -0.422190397977829,
+     0.21364299952983856
+    ]
+   },
+   "bias": {
+    "shape": [
+     8
+    ],
+    "descr": "<f4",
+    "head": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "ids": {
+    "shape": [
+     20
+    ],
+    "descr": "<i8",
+    "head": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5
+    ]
+   },
+   "names": {
+    "shape": [
+     2
+    ],
+    "descr": "<U2",
+    "head": [
+     "a",
+     "bb"
+    ]
+   }
+  },
+  "np-compressed.npz": {
+   "weights": {
+    "shape": [
+     16,
+     8
+    ],
+    "descr": "<f4",
+    "head": [
+     1.0067243576049805,
+     -2.711162567138672,
+     -1.8890132904052734,
+     -0.17477209866046906,
+     -0.422190397977829,
+     0.21364299952983856
+    ]
+   },
+   "bias": {
+    "shape": [
+     8
+    ],
+    "descr": "<f4",
+    "head": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "ids": {
+    "shape": [
+     20
+    ],
+    "descr": "<i8",
+    "head": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5
+    ]
+   },
+   "names": {
+    "shape": [
+     2
+    ],
+    "descr": "<U2",
+    "head": [
+     "a",
+     "bb"
+    ]
+   }
+  }
+ },
+ "onnx": {
+  "onnx-mlp.onnx": {
+   "ir_version": 8,
+   "producer": "pytorch",
+   "producer_version": "2.15.0",
+   "opsets": {
+    "ai.onnx": 17
+   },
+   "metadata": {
+    "sample": "onnx-mlp.onnx"
+   },
+   "functions": [],
+   "doc": "",
+   "name": "main_graph",
+   "nodes": 3,
+   "ops": {
+    "Gemm": 2,
+    "Relu": 1
+   },
+   "inputs": [
+    "x"
+   ],
+   "outputs": [
+    "7"
+   ],
+   "initializers": [
+    {
+     "name": "fc1.weight",
+     "dims": [
+      32,
+      16
+     ],
+     "data_type": "float32",
+     "external": false,
+     "head": [
+      -0.0018717050552368164,
+      0.13411089777946472,
+      -0.20576128363609314,
+      -0.18398475646972656,
+      -0.09628859162330627,
+      0.06703934073448181
+     ]
+    },
+    {
+     "name": "fc1.bias",
+     "dims": [
+      32
+     ],
+     "data_type": "float32",
+     "external": false,
+     "head": [
+      -0.06936365365982056,
+      -0.09319892525672913,
+      0.06293725967407227,
+      0.0886734127998352,
+      -0.12214291095733643,
+      0.022099584341049194
+     ]
+    },
+    {
+     "name": "fc2.weight",
+     "dims": [
+      4,
+      32
+     ],
+     "data_type": "float32",
+     "external": false,
+     "head": [
+      0.024286553263664246,
+      0.14535610377788544,
+      -0.119515061378479,
+      0.008208513259887695,
+      -0.06518954038619995,
+      0.1734720915555954
+     ]
+    },
+    {
+     "name": "fc2.bias",
+     "dims": [
+      4
+     ],
+     "data_type": "float32",
+     "external": false,
+     "head": [
+      -0.031050190329551697,
+      0.05729067325592041,
+      0.0693543404340744,
+      0.13573212921619415
+     ]
+    }
+   ],
+   "value_info": 0,
+   "subgraphs": [],
+   "node_names": [
+    "/fc1/Gemm",
+    "/act/Relu",
+    "/fc2/Gemm"
+   ],
+   "attrs": {
+    "/fc1/Gemm": [
+     "alpha",
+     "beta",
+     "transB"
+    ],
+    "/fc2/Gemm": [
+     "alpha",
+     "beta",
+     "transB"
+    ]
+   },
+   "params": 676
+  },
+  "onnx-cnn.onnx": {
+   "ir_version": 8,
+   "producer": "pytorch",
+   "producer_version": "2.15.0",
+   "opsets": {
+    "ai.onnx": 17
+   },
+   "metadata": {
+    "sample": "onnx-cnn.onnx"
+   },
+   "functions": [],
+   "doc": "",
+   "name": "main_graph",
+   "nodes": 7,
+   "ops": {
+    "Conv": 2,
+    "Relu": 2,
+    "GlobalAveragePool": 1,
+    "Flatten": 1,
+    "Gemm": 1
+   },
+   "inputs": [
+    "image"
+   ],
+   "outputs": [
+    "19"
+   ],
+   "initializers": [
+    {
+     "name": "conv2.weight",
+     "dims": [
+      8,
+      8,
+      3,
+      3
+     ],
+     "data_type": "float32",
+     "external": false,
+     "head": [
+      -0.1134524717926979,
+      0.07967939227819443,
+      0.1046309545636177,
+      0.07220502942800522,
+      0.07835095375776291,
+      -0.09926262497901917
+     ]
+    },
+    {
+     "name": "conv2.bias",
+     "dims": [
+      8
+     ],
+     "data_type": "float32",
+     "external": false,
+     "head": [
+      -0.022391609847545624,
+      0.08935681730508804,
+      0.026891641318798065,
+      -0.018209800124168396,
+      -0.06807073950767517,
+      -0.10791309922933578
+     ]
+    },
+    {
+     "name": "head.weight",
+     "dims": [
+      10,
+      8
+     ],
+     "data_type": "float32",
+     "external": false,
+     "head": [
+      -0.0655030608177185,
+      0.005778580904006958,
+      -0.022784322500228882,
+      -0.1736713945865631,
+      0.24538853764533997,
+      0.1991141140460968
+     ]
+    },
+    {
+     "name": "head.bias",
+     "dims": [
+      10
+     ],
+     "data_type": "float32",
+     "external": false,
+     "head": [
+      -0.28146862983703613,
+      -0.025784045457839966,
+      0.1758902370929718,
+      -0.11540818214416504,
+      -0.18515008687973022,
+      0.2912496030330658
+     ]
+    },
+    {
+     "name": "onnx::Conv_21",
+     "dims": [
+      8,
+      3,
+      3,
+      3
+     ],
+     "data_type": "float32",
+     "external": false,
+     "head": [
+      -0.09182137995958328,
+      0.12328984588384628,
+      -0.02444755658507347,
+      -0.09139943867921829,
+      -0.1675846427679062,
+      -0.17657561600208282
+     ]
+    },
+    {
+     "name": "onnx::Conv_22",
+     "dims": [
+      8
+     ],
+     "data_type": "float32",
+     "external": false,
+     "head": [
+      0.12309926003217697,
+      -0.17411084473133087,
+      0.07305086404085159,
+      -0.15027278661727905,
+      0.1457432210445404,
+      0.06038869544863701
+     ]
+    }
+   ],
+   "value_info": 0,
+   "subgraphs": [],
+   "node_names": [
+    "/conv1/Conv",
+    "/Relu",
+    "/conv2/Conv",
+    "/Relu_1",
+    "/pool/GlobalAveragePool",
+    "/Flatten",
+    "/head/Gemm"
+   ],
+   "attrs": {
+    "/conv1/Conv": [
+     "dilations",
+     "group",
+     "kernel_shape",
+     "pads",
+     "strides"
+    ],
+    "/conv2/Conv": [
+     "dilations",
+     "group",
+     "kernel_shape",
+     "pads",
+     "strides"
+    ],
+    "/Flatten": [
+     "axis"
+    ],
+    "/head/Gemm": [
+     "alpha",
+     "beta",
+     "transB"
+    ]
+   },
+   "params": 898
+  },
+  "onnx-transformer.onnx": {
+   "ir_version": 8,
+   "producer": "pytorch",
+   "producer_version": "2.15.0",
+   "opsets": {
+    "ai.onnx": 17
+   },
+   "metadata": {
+    "sample": "onnx-transformer.onnx"
+   },
+   "functions": [],
+   "doc": "",
+   "name": "main_graph",
+   "nodes": 85,
+   "ops": {
+    "Identity": 3,
+    "Gather": 4,
+    "Constant": 24,
+    "Transpose": 8,
+    "MatMul": 6,
+    "Add": 7,
+    "Mod": 1,
+    "Shape": 2,
+    "Reshape": 11,
+    "Slice": 3,
+    "Concat": 1,
+    "Unsqueeze": 1,
+    "Squeeze": 1,
+    "Cast": 2,
+    "Sqrt": 3,
+    "Div": 1,
+    "Mul": 2,
+    "Softmax": 1,
+    "Gemm": 1,
+    "LayerNormalization": 2,
+    "Relu": 1
+   },
+   "inputs": [
+    "ids"
+   ],
+   "outputs": [
+    "172"
+   ],
+   "initializers": [
+    {
+     "name": "emb.weight",
+     "dims": [
+      50,
+      32
+     ],
+     "data_type": "float32",
+     "external": false,
+     "head": [
+      -0.3974640369415283,
+      -0.8334136605262756,
+      -0.06204356253147125,
+      -0.2864474356174469,
+      -1.8184555768966675,
+      1.7360074520111084
+     ]
+    },
+    {
+     "name": "enc.self_attn.in_proj_bias",
+     "dims": [
+      96
+     ],
+     "data_type": "float32",
+     "external": false,
+     "head": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    {
+     "name": "enc.self_attn.out_proj.weight",
+     "dims": [
+      32,
+      32
+     ],
+     "data_type": "float32",
+     "external": false,
+     "head": [
+      0.15247564017772675,
+      -0.10126401484012604,
+      0.12527145445346832,
+      -0.059169940650463104,
+      0.001766979694366455,
+      -0.1721433699131012
+     ]
+    },
+    {
+     "name": "enc.self_attn.out_proj.bias",
+     "dims": [
+      32
+     ],
+     "data_type": "float32",
+     "external": false,
+     "head": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    {
+     "name": "enc.linear1.bias",
+     "dims": [
+      64
+     ],
+     "data_type": "float32",
+     "external": false,
+     "head": [
+      -0.15294238924980164,
+      0.07422663271427155,
+      0.1053108423948288,
+      -0.17560137808322906,
+      -0.1635608971118927,
+      -0.021345213055610657
+     ]
+    },
+    {
+     "name": "enc.linear2.bias",
+     "dims": [
+      32
+     ],
+     "data_type": "float32",
+     "external": false,
+     "head": [
+      0.11659502983093262,
+      -0.020158782601356506,
+      0.008604168891906738,
+      -0.07003439962863922,
+      0.09144474565982819,
+      0.11608636379241943
+     ]
+    },
+    {
+     "name": "enc.norm1.weight",
+     "dims": [
+      32
+     ],
+     "data_type": "float32",
+     "external": false,
+     "head": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ]
+    },
+    {
+     "name": "out.bias",
+     "dims": [
+      50
+     ],
+     "data_type": "float32",
+     "external": false,
+     "head": [
+      0.10846622288227081,
+      0.1632121056318283,
+      -0.16825821995735168,
+      -0.06118626147508621,
+      0.14015378057956696,
+      0.03942020237445831
+     ]
+    },
+    {
+     "name": "onnx::MatMul_173",
+     "dims": [
+      32,
+      96
+     ],
+     "data_type": "float32",
+     "external": false,
+     "head": [
+      -0.1770634651184082,
+      0.05667899549007416,
+      0.09194774925708771,
+      0.06334669888019562,
+      -0.08872467279434204,
+      -0.1637771725654602
+     ]
+    },
+    {
+     "name": "onnx::MatMul_212",
+     "dims": [
+      32,
+      64
+     ],
+     "data_type": "float32",
+     "external": false,
+     "head": [
+      -0.10191735625267029,
+      -0.13534054160118103,
+      0.1243724673986435,
+      0.042219892144203186,
+      0.022196471691131592,
+      0.057645007967948914
+     ]
+    },
+    {
+     "name": "onnx::MatMul_213",
+     "dims": [
+      64,
+      32
+     ],
+     "data_type": "float32",
+     "external": false,
+     "head": [
+      -0.08679550886154175,
+      0.0682428777217865,
+      0.04233573377132416,
+      -0.11154690384864807,
+      0.07232294976711273,
+      -0.08258697390556335
+     ]
+    },
+    {
+     "name": "onnx::MatMul_214",
+     "dims": [
+      32,
+      50
+     ],
+     "data_type": "float32",
+     "external": false,
+     "head": [
+      -0.0816609114408493,
+      -0.16336345672607422,
+      0.1685633510351181,
+      0.15929098427295685,
+      0.02675129473209381,
+      -0.13958749175071716
+     ]
+    }
+   ],
+   "value_info": 0,
+   "subgraphs": [],
+   "node_names": [
+    "Identity_24",
+    "Identity_25",
+    "Identity_26",
+    "/emb/Gather",
+    "/enc/self_attn/Constant",
+    "/enc/self_attn/Constant_1",
+    "/enc/self_attn/Transpose",
+    "/enc/self_attn/Constant_2",
+    "/enc/self_attn/MatMul",
+    "/enc/self_attn/Add",
+    "/enc/self_attn/Constant_3",
+    "/enc/self_attn/Constant_4",
+    "/enc/self_attn/Constant_5",
+    "/enc/self_attn/Mod",
+    "/enc/self_attn/Shape",
+    "/enc/self_attn/Constant_6",
+    "/enc/self_attn/Constant_7",
+    "/enc/self_attn/Reshape",
+    "/enc/self_attn/Slice",
+    "/enc/self_attn/Constant_8"
+   ],
+   "attrs": {
+    "/enc/self_attn/Constant": [
+     "value"
+    ],
+    "/enc/self_attn/Constant_1": [
+     "value"
+    ],
+    "/enc/self_attn/Transpose": [
+     "perm"
+    ],
+    "/enc/self_attn/Constant_2": [
+     "value"
+    ],
+    "/enc/self_attn/Constant_3": [
+     "value"
+    ],
+    "/enc/self_attn/Constant_4": [
+     "value"
+    ],
+    "/enc/self_attn/Constant_5": [
+     "value"
+    ],
+    "/enc/self_attn/Constant_6": [
+     "value"
+    ],
+    "/enc/self_attn/Constant_7": [
+     "value"
+    ],
+    "/enc/self_attn/Constant_8": [
+     "value"
+    ],
+    "/enc/self_attn/Constant_9": [
+     "value"
+    ],
+    "/enc/self_attn/Constant_10": [
+     "value"
+    ],
+    "/enc/self_attn/Concat": [
+     "axis"
+    ],
+    "/enc/self_attn/Reshape_2": [
+     "allowzero"
+    ],
+    "/enc/self_attn/Constant_11": [
+     "value"
+    ],
+    "/enc/self_attn/Transpose_1": [
+     "perm"
+    ],
+    "/enc/self_attn/Constant_12": [
+     "value"
+    ],
+    "/enc/self_attn/Gather": [
+     "axis"
+    ],
+    "/enc/self_attn/Gather_1": [
+     "axis"
+    ],
+    "/enc/self_attn/Gather_2": [
+     "axis"
+    ],
+    "/enc/self_attn/Constant_13": [
+     "value"
+    ],
+    "/enc/self_attn/Reshape_3": [
+     "allowzero"
+    ],
+    "/enc/self_attn/Transpose_2": [
+     "perm"
+    ],
+    "/enc/self_attn/Constant_14": [
+     "value"
+    ],
+    "/enc/self_attn/Reshape_4": [
+     "allowzero"
+    ],
+    "/enc/self_attn/Transpose_3": [
+     "perm"
+    ],
+    "/enc/self_attn/Constant_15": [
+     "value"
+    ],
+    "/enc/self_attn/Reshape_5": [
+     "allowzero"
+    ],
+    "/enc/self_attn/Transpose_4": [
+     "perm"
+    ],
+    "/enc/self_attn/Constant_16": [
+     "value"
+    ],
+    "/enc/self_attn/Reshape_6": [
+     "allowzero"
+    ],
+    "/enc/self_attn/Constant_17": [
+     "value"
+    ],
+    "/enc/self_attn/Constant_18": [
+     "value"
+    ],
+    "/enc/self_attn/Reshape_7": [
+     "allowzero"
+    ],
+    "/enc/self_attn/Reshape_8": [
+     "allowzero"
+    ],
+    "/enc/self_attn/Constant_19": [
+     "value"
+    ],
+    "/enc/self_attn/Constant_20": [
+     "value"
+    ],
+    "/enc/self_attn/Cast": [
+     "to"
+    ],
+    "/enc/self_attn/Constant_21": [
+     "value"
+    ],
+    "/enc/self_attn/Cast_1": [
+     "to"
+    ],
+    "/enc/self_attn/Transpose_5": [
+     "perm"
+    ],
+    "/enc/self_attn/Softmax": [
+     "axis"
+    ],
+    "/enc/self_attn/Transpose_6": [
+     "perm"
+    ],
+    "/enc/self_attn/Constant_22": [
+     "value"
+    ],
+    "/enc/self_attn/Reshape_9": [
+     "allowzero"
+    ],
+    "/enc/self_attn/Gemm": [
+     "alpha",
+     "beta",
+     "transB"
+    ],
+    "/enc/self_attn/Constant_23": [
+     "value"
+    ],
+    "/enc/self_attn/Reshape_10": [
+     "allowzero"
+    ],
+    "/enc/self_attn/Transpose_7": [
+     "perm"
+    ],
+    "/enc/norm1/LayerNormalization": [
+     "axis",
+     "epsilon"
+    ],
+    "/enc/norm2/LayerNormalization": [
+     "axis",
+     "epsilon"
+    ]
+   },
+   "params": 11698
+  },
+  "onnx-external.onnx": {
+   "ir_version": 8,
+   "producer": "pytorch",
+   "producer_version": "2.15.0",
+   "opsets": {
+    "ai.onnx": 17
+   },
+   "metadata": {
+    "sample": "onnx-mlp.onnx"
+   },
+   "functions": [],
+   "doc": "",
+   "name": "main_graph",
+   "nodes": 3,
+   "ops": {
+    "Gemm": 2,
+    "Relu": 1
+   },
+   "inputs": [
+    "x"
+   ],
+   "outputs": [
+    "7"
+   ],
+   "initializers": [
+    {
+     "name": "fc1.weight",
+     "dims": [
+      32,
+      16
+     ],
+     "data_type": "float32",
+     "external": true,
+     "head": [
+      -0.0018717050552368164,
+      0.13411089777946472,
+      -0.20576128363609314,
+      -0.18398475646972656,
+      -0.09628859162330627,
+      0.06703934073448181
+     ]
+    },
+    {
+     "name": "fc1.bias",
+     "dims": [
+      32
+     ],
+     "data_type": "float32",
+     "external": true,
+     "head": [
+      -0.06936365365982056,
+      -0.09319892525672913,
+      0.06293725967407227,
+      0.0886734127998352,
+      -0.12214291095733643,
+      0.022099584341049194
+     ]
+    },
+    {
+     "name": "fc2.weight",
+     "dims": [
+      4,
+      32
+     ],
+     "data_type": "float32",
+     "external": true,
+     "head": [
+      0.024286553263664246,
+      0.14535610377788544,
+      -0.119515061378479,
+      0.008208513259887695,
+      -0.06518954038619995,
+      0.1734720915555954
+     ]
+    },
+    {
+     "name": "fc2.bias",
+     "dims": [
+      4
+     ],
+     "data_type": "float32",
+     "external": true,
+     "head": [
+      -0.031050190329551697,
+      0.05729067325592041,
+      0.0693543404340744,
+      0.13573212921619415
+     ]
+    }
+   ],
+   "value_info": 0,
+   "subgraphs": [],
+   "node_names": [
+    "/fc1/Gemm",
+    "/act/Relu",
+    "/fc2/Gemm"
+   ],
+   "attrs": {
+    "/fc1/Gemm": [
+     "alpha",
+     "beta",
+     "transB"
+    ],
+    "/fc2/Gemm": [
+     "alpha",
+     "beta",
+     "transB"
+    ]
+   },
+   "params": 676
+  },
+  "onnx-control-flow.onnx": {
+   "ir_version": 8,
+   "producer": "make-ai-format-samples",
+   "producer_version": "1",
+   "opsets": {
+    "ai.onnx": 17,
+    "local.fn": 1,
+    "custom.test": 1
+   },
+   "metadata": {
+    "author": "fp-ai-formats",
+    "license": "MIT"
+   },
+   "functions": [
+    "MyScale"
+   ],
+   "doc": "If/Loop/Scan, functions and every attribute type",
+   "name": "control_flow",
+   "nodes": 8,
+   "ops": {
+    "If": 1,
+    "Constant": 2,
+    "Loop": 1,
+    "Scan": 1,
+    "MyScale": 1,
+    "AllAttrs": 1,
+    "Add": 1
+   },
+   "inputs": [
+    "x",
+    "cond"
+   ],
+   "outputs": [
+    "y",
+    "aa_out",
+    "scan_ys"
+   ],
+   "initializers": [
+    {
+     "name": "w_float_data",
+     "dims": [
+      2,
+      2
+     ],
+     "data_type": "float32",
+     "external": false,
+     "head": [
+      1.0,
+      2.0,
+      3.0,
+      4.0
+     ]
+    },
+    {
+     "name": "w_int64_data",
+     "dims": [
+      3
+     ],
+     "data_type": "int64",
+     "external": false,
+     "head": [
+      7,
+      -8,
+      9
+     ]
+    },
+    {
+     "name": "w_f16",
+     "dims": [
+      2
+     ],
+     "data_type": "float16",
+     "external": false,
+     "head": [
+      15872.0,
+      49280.0
+     ]
+    },
+    {
+     "name": "w_str",
+     "dims": [
+      2
+     ],
+     "data_type": "object",
+     "external": false,
+     "head": [
+      "hello",
+      "world"
+     ]
+    },
+    {
+     "name": "w_raw_f64",
+     "dims": [
+      2,
+      3
+     ],
+     "data_type": "float64",
+     "external": false,
+     "head": [
+      0.0,
+      1.0,
+      2.0,
+      3.0,
+      4.0,
+      5.0
+     ]
+    },
+    {
+     "name": "w_bf16",
+     "dims": [
+      2
+     ],
+     "data_type": "bfloat16",
+     "external": false,
+     "head": [
+      16256.0,
+      49152.0
+     ]
+    },
+    {
+     "name": "w_u8",
+     "dims": [
+      5
+     ],
+     "data_type": "uint8",
+     "external": false,
+     "head": [
+      0,
+      1,
+      2,
+      3,
+      4
+     ]
+    }
+   ],
+   "value_info": 1,
+   "subgraphs": [
+    {
+     "node": "branch",
+     "attr": "else_branch",
+     "name": "else_branch",
+     "nodes": 1,
+     "ops": {
+      "Neg": 1
+     },
+     "inputs": [],
+     "outputs": [
+      "e_out"
+     ],
+     "initializers": [],
+     "value_info": 0,
+     "subgraphs": [],
+     "node_names": [
+      "else_neg"
+     ],
+     "attrs": {}
+    },
+    {
+     "node": "branch",
+     "attr": "then_branch",
+     "name": "then_branch",
+     "nodes": 1,
+     "ops": {
+      "Relu": 1
+     },
+     "inputs": [],
+     "outputs": [
+      "t_out"
+     ],
+     "initializers": [],
+     "value_info": 0,
+     "subgraphs": [],
+     "node_names": [
+      "then_relu"
+     ],
+     "attrs": {}
+    },
+    {
+     "node": "loop",
+     "attr": "body",
+     "name": "loop_body",
+     "nodes": 2,
+     "ops": {
+      "Identity": 1,
+      "Add": 1
+     },
+     "inputs": [
+      "iter",
+      "cond_in",
+      "acc_in"
+     ],
+     "outputs": [
+      "cond_out",
+      "acc_out"
+     ],
+     "initializers": [
+      {
+       "name": "one",
+       "dims": [
+        4
+       ],
+       "data_type": "float32",
+       "external": false,
+       "head": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+       ]
+      }
+     ],
+     "value_info": 0,
+     "subgraphs": [],
+     "node_names": [
+      "body_cond",
+      "body_add"
+     ],
+     "attrs": {}
+    },
+    {
+     "node": "scan",
+     "attr": "body",
+     "name": "scan_body",
+     "nodes": 2,
+     "ops": {
+      "Add": 1,
+      "Identity": 1
+     },
+     "inputs": [
+      "s_in",
+      "s_x"
+     ],
+     "outputs": [
+      "s_out",
+      "s_y"
+     ],
+     "initializers": [],
+     "value_info": 0,
+     "subgraphs": [],
+     "node_names": [
+      "scan_add",
+      "scan_id"
+     ],
+     "attrs": {}
+    },
+    {
+     "node": "all_attrs",
+     "attr": "g",
+     "name": "then_branch",
+     "nodes": 1,
+     "ops": {
+      "Relu": 1
+     },
+     "inputs": [],
+     "outputs": [
+      "t_out"
+     ],
+     "initializers": [],
+     "value_info": 0,
+     "subgraphs": [],
+     "node_names": [
+      "then_relu"
+     ],
+     "attrs": {}
+    },
+    {
+     "node": "all_attrs",
+     "attr": "graphs",
+     "name": "else_branch",
+     "nodes": 1,
+     "ops": {
+      "Neg": 1
+     },
+     "inputs": [],
+     "outputs": [
+      "e_out"
+     ],
+     "initializers": [],
+     "value_info": 0,
+     "subgraphs": [],
+     "node_names": [
+      "else_neg"
+     ],
+     "attrs": {}
+    }
+   ],
+   "node_names": [
+    "branch",
+    "trip_count",
+    "acc_init",
+    "loop",
+    "scan",
+    "fn_call",
+    "all_attrs",
+    "final_add"
+   ],
+   "attrs": {
+    "branch": [
+     "else_branch",
+     "then_branch"
+    ],
+    "trip_count": [
+     "value"
+    ],
+    "acc_init": [
+     "value_floats"
+    ],
+    "loop": [
+     "body"
+    ],
+    "scan": [
+     "body",
+     "num_scan_inputs"
+    ],
+    "all_attrs": [
+     "f",
+     "floats",
+     "g",
+     "graphs",
+     "i",
+     "ints",
+     "s",
+     "sparse_tensor",
+     "strings",
+     "t",
+     "tensors",
+     "tp"
+    ]
+   },
+   "params": 24
+  }
+ },
+ "gguf": {
+  "gguf-tiny-llama.gguf": {
+   "version": 3,
+   "alignment": 32,
+   "data_offset": 3872,
+   "kv": {
+    "general.architecture": {
+     "type": [
+      "STRING"
+     ],
+     "value": "llama"
+    },
+    "general.name": {
+     "type": [
+      "STRING"
+     ],
+     "value": "tiny-llama-sample"
+    },
+    "llama.context_length": {
+     "type": [
+      "UINT32"
+     ],
+     "value": 64
+    },
+    "llama.embedding_length": {
+     "type": [
+      "UINT32"
+     ],
+     "value": 32
+    },
+    "llama.block_count": {
+     "type": [
+      "UINT32"
+     ],
+     "value": 2
+    },
+    "llama.feed_forward_length": {
+     "type": [
+      "UINT32"
+     ],
+     "value": 64
+    },
+    "llama.attention.head_count": {
+     "type": [
+      "UINT32"
+     ],
+     "value": 4
+    },
+    "llama.attention.head_count_kv": {
+     "type": [
+      "UINT32"
+     ],
+     "value": 2
+    },
+    "llama.attention.layer_norm_rms_epsilon": {
+     "type": [
+      "FLOAT32"
+     ],
+     "value": 9.999999747378752e-06
+    },
+    "general.file_type": {
+     "type": [
+      "UINT32"
+     ],
+     "value": 7
+    },
+    "tokenizer.ggml.model": {
+     "type": [
+      "STRING"
+     ],
+     "value": "llama"
+    },
+    "tokenizer.ggml.tokens": {
+     "type": [
+      "ARRAY",
+      "STRING"
+     ],
+     "value": {
+      "len": 64,
+      "head": [
+       "<unk>",
+       "<s>",
+       "</s>",
+       "tok0"
+      ]
+     }
+    },
+    "tokenizer.ggml.scores": {
+     "type": [
+      "ARRAY",
+      "FLOAT32"
+     ],
+     "value": {
+      "len": 64,
+      "head": [
+       0.0,
+       -1.0,
+       -2.0,
+       -3.0
+      ]
+     }
+    },
+    "tokenizer.ggml.token_type": {
+     "type": [
+      "ARRAY",
+      "INT32"
+     ],
+     "value": {
+      "len": 64,
+      "head": [
+       1,
+       1,
+       1,
+       1
+      ]
+     }
+    },
+    "tokenizer.ggml.bos_token_id": {
+     "type": [
+      "UINT32"
+     ],
+     "value": 1
+    },
+    "tokenizer.ggml.eos_token_id": {
+     "type": [
+      "UINT32"
+     ],
+     "value": 2
+    },
+    "test.u8": {
+     "type": [
+      "UINT8"
+     ],
+     "value": 200
+    },
+    "test.i8": {
+     "type": [
+      "INT8"
+     ],
+     "value": -100
+    },
+    "test.u16": {
+     "type": [
+      "UINT16"
+     ],
+     "value": 60000
+    },
+    "test.i16": {
+     "type": [
+      "INT16"
+     ],
+     "value": -30000
+    },
+    "test.u32": {
+     "type": [
+      "UINT32"
+     ],
+     "value": 4000000000
+    },
+    "test.i32": {
+     "type": [
+      "INT32"
+     ],
+     "value": -2000000000
+    },
+    "test.u64": {
+     "type": [
+      "UINT64"
+     ],
+     "value": 1099511627779
+    },
+    "test.i64": {
+     "type": [
+      "INT64"
+     ],
+     "value": -1099511627776
+    },
+    "test.f32": {
+     "type": [
+      "FLOAT32"
+     ],
+     "value": 0.25
+    },
+    "test.f64": {
+     "type": [
+      "FLOAT64"
+     ],
+     "value": 0.3333333333333333
+    },
+    "test.bool": {
+     "type": [
+      "BOOL"
+     ],
+     "value": true
+    },
+    "test.str": {
+     "type": [
+      "STRING"
+     ],
+     "value": "h\u00e9llo"
+    },
+    "test.arr_i32": {
+     "type": [
+      "ARRAY",
+      "INT32"
+     ],
+     "value": [
+      1,
+      -2,
+      3
+     ]
+    },
+    "test.arr_str": {
+     "type": [
+      "ARRAY",
+      "STRING"
+     ],
+     "value": [
+      "x",
+      "yy"
+     ]
+    },
+    "test.arr_nested": {
+     "type": [
+      "ARRAY",
+      "ARRAY",
+      "INT32"
+     ],
+     "value": [
+      1,
+      2,
+      3
+     ]
+    }
+   },
+   "tensors": [
+    {
+     "name": "token_embd.weight",
+     "shape": [
+      32,
+      64
+     ],
+     "type": "Q8_0",
+     "n_bytes": 2176,
+     "offset": 3872,
+     "head": [
+      0.0,
+      0.2973175048828125,
+      -0.277496337890625,
+      -0.8919525146484375,
+      -0.4558868408203125,
+      -0.991058349609375
+     ]
+    },
+    {
+     "name": "blk.0.attn_norm.weight",
+     "shape": [
+      32
+     ],
+     "type": "F32",
+     "n_bytes": 128,
+     "offset": 6048,
+     "head": [
+      -0.45097407698631287,
+      1.6689448356628418,
+      0.8596487641334534,
+      0.8028258085250854,
+      0.5288166999816895,
+      0.4842015504837036
+     ]
+    },
+    {
+     "name": "blk.0.attn_q.weight",
+     "shape": [
+      32,
+      32
+     ],
+     "type": "Q4_0",
+     "n_bytes": 576,
+     "offset": 6176,
+     "head": [
+      -1.103515625,
+      1.103515625,
+      1.6552734375,
+      -0.82763671875,
+      -0.27587890625,
+      1.103515625
+     ]
+    },
+    {
+     "name": "blk.0.attn_k.weight",
+     "shape": [
+      32,
+      16
+     ],
+     "type": "Q4_1",
+     "n_bytes": 320,
+     "offset": 6752,
+     "head": [
+      0.93115234375,
+      0.673828125,
+      0.673828125,
+      0.93115234375,
+      1.1884765625,
+      -0.09814453125
+     ]
+    },
+    {
+     "name": "blk.0.attn_v.weight",
+     "shape": [
+      32,
+      16
+     ],
+     "type": "Q5_0",
+     "n_bytes": 352,
+     "offset": 7072,
+     "head": [
+      -2.5360107421875,
+      -0.338134765625,
+      -1.690673828125,
+      -0.5072021484375,
+      0.8453369140625,
+      -0.67626953125
+     ]
+    },
+    {
+     "name": "blk.0.attn_output.weight",
+     "shape": [
+      32,
+      32
+     ],
+     "type": "F16",
+     "n_bytes": 2048,
+     "offset": 7424,
+     "head": [
+      0.43017578125,
+      0.673828125,
+      1.830078125,
+      0.34033203125,
+      1.400390625,
+      -1.484375
+     ]
+    },
+    {
+     "name": "blk.0.ffn_norm.weight",
+     "shape": [
+      32
+     ],
+     "type": "F32",
+     "n_bytes": 128,
+     "offset": 9472,
+     "head": [
+      -0.686968207359314,
+      0.8236973285675049,
+      0.8601008057594299,
+      0.6925818920135498,
+      -0.19572529196739197,
+      1.9988007545471191
+     ]
+    },
+    {
+     "name": "blk.0.ffn_gate.weight",
+     "shape": [
+      256,
+      64
+     ],
+     "type": "Q4_K",
+     "n_bytes": 9216,
+     "offset": 9600,
+     "head": [
+      5.6612091064453125,
+      6.1013031005859375,
+      -0.0600128173828125,
+      0.8201751708984375,
+      6.5413970947265625,
+      6.5413970947265625
+     ]
+    },
+    {
+     "name": "blk.0.ffn_up.weight",
+     "shape": [
+      256,
+      64
+     ],
+     "type": "Q6_K",
+     "n_bytes": 13440,
+     "offset": 18816,
+     "head": [
+      -22.364776611328125,
+      -10.32220458984375,
+      -21.504592895507812,
+      8.601837158203125,
+      -26.665695190429688,
+      15.483306884765625
+     ]
+    },
+    {
+     "name": "blk.0.ffn_down.weight",
+     "shape": [
+      256,
+      32
+     ],
+     "type": "Q3_K",
+     "n_bytes": 3520,
+     "offset": 32256,
+     "head": [
+      -0.6901473999023438,
+      -0.920196533203125,
+      -0.920196533203125,
+      0.6901473999023438,
+      -0.920196533203125,
+      0.0
+     ]
+    },
+    {
+     "name": "blk.0.ffn_gate_inp.weight",
+     "shape": [
+      256,
+      8
+     ],
+     "type": "IQ2_XXS",
+     "n_bytes": 528,
+     "offset": 35776,
+     "head": [
+      0.01000213623046875,
+      -0.05376148223876953,
+      -0.031256675720214844,
+      0.05376148223876953,
+      -0.031256675720214844,
+      0.01000213623046875
+     ]
+    },
+    {
+     "name": "blk.1.attn_norm.weight",
+     "shape": [
+      32
+     ],
+     "type": "F32",
+     "n_bytes": 128,
+     "offset": 36320,
+     "head": [
+      0.009514967910945415,
+      -1.2288669347763062,
+      0.15460191667079926,
+      -0.7092444896697998,
+      1.6458940505981445,
+      0.5509254336357117
+     ]
+    },
+    {
+     "name": "blk.1.attn_q.weight",
+     "shape": [
+      32,
+      32
+     ],
+     "type": "Q4_0",
+     "n_bytes": 576,
+     "offset": 36448,
+     "head": [
+      -0.7822265625,
+      -0.2607421875,
+      -0.7822265625,
+      1.3037109375,
+      0.2607421875,
+      -0.521484375
+     ]
+    },
+    {
+     "name": "blk.1.attn_k.weight",
+     "shape": [
+      32,
+      16
+     ],
+     "type": "Q5_1",
+     "n_bytes": 384,
+     "offset": 37024,
+     "head": [
+      1.245361328125,
+      -0.99365234375,
+      0.00146484375,
+      0.1258544921875,
+      -0.247314453125,
+      -0.99365234375
+     ]
+    },
+    {
+     "name": "blk.1.attn_v.weight",
+     "shape": [
+      32,
+      16
+     ],
+     "type": "Q5_0",
+     "n_bytes": 352,
+     "offset": 37408,
+     "head": [
+      0.6396484375,
+      1.279296875,
+      -1.279296875,
+      1.119384765625,
+      1.119384765625,
+      -0.799560546875
+     ]
+    },
+    {
+     "name": "blk.1.attn_output.weight",
+     "shape": [
+      32,
+      32
+     ],
+     "type": "F16",
+     "n_bytes": 2048,
+     "offset": 37760,
+     "head": [
+      -0.148681640625,
+      1.0478515625,
+      0.970703125,
+      -0.282958984375,
+      -0.1380615234375,
+      1.5576171875
+     ]
+    },
+    {
+     "name": "blk.1.ffn_norm.weight",
+     "shape": [
+      32
+     ],
+     "type": "F32",
+     "n_bytes": 128,
+     "offset": 39808,
+     "head": [
+      1.3420038223266602,
+      -1.6972969770431519,
+      -0.4727209508419037,
+      1.280512809753418,
+      -0.08819614350795746,
+      -1.7815407514572144
+     ]
+    },
+    {
+     "name": "blk.1.ffn_gate.weight",
+     "shape": [
+      256,
+      64
+     ],
+     "type": "Q5_K",
+     "n_bytes": 11264,
+     "offset": 39936,
+     "head": [
+      9.662063598632812,
+      0.6601409912109375,
+      13.262832641601562,
+      -0.5401153564453125,
+      0.6601409912109375,
+      13.262832641601562
+     ]
+    },
+    {
+     "name": "blk.1.ffn_up.weight",
+     "shape": [
+      256,
+      64
+     ],
+     "type": "Q2_K",
+     "n_bytes": 5376,
+     "offset": 51200,
+     "head": [
+      0.11002349853515625,
+      0.11002349853515625,
+      0.23004913330078125,
+      0.23004913330078125,
+      0.23004913330078125,
+      0.11002349853515625
+     ]
+    },
+    {
+     "name": "blk.1.ffn_down.weight",
+     "shape": [
+      256,
+      32
+     ],
+     "type": "IQ4_NL",
+     "n_bytes": 4608,
+     "offset": 56576,
+     "head": [
+      0.3800811767578125,
+      0.01000213623046875,
+      -1.04022216796875,
+      0.5301132202148438,
+      0.01000213623046875,
+      -0.49010467529296875
+     ]
+    },
+    {
+     "name": "blk.1.ffn_gate_inp.weight",
+     "shape": [
+      256,
+      8
+     ],
+     "type": "IQ4_XS",
+     "n_bytes": 1088,
+     "offset": 61184,
+     "head": [
+      -3.640777587890625,
+      6.16131591796875,
+      29.126220703125,
+      9.802093505859375,
+      -31.646759033203125,
+      -19.324127197265625
+     ]
+    },
+    {
+     "name": "output_norm.weight",
+     "shape": [
+      32
+     ],
+     "type": "F32",
+     "n_bytes": 128,
+     "offset": 62272,
+     "head": [
+      1.2070155143737793,
+      1.8569695949554443,
+      0.3529086112976074,
+      -0.10583451390266418,
+      0.7788890600204468,
+      -1.6612321138381958
+     ]
+    },
+    {
+     "name": "output.weight",
+     "shape": [
+      32,
+      64
+     ],
+     "type": "BF16",
+     "n_bytes": 4096,
+     "offset": 62400,
+     "head": [
+      -0.54296875,
+      -1.96875,
+      -0.193359375,
+      1.546875,
+      -0.423828125,
+      0.10546875
+     ]
+    }
+   ]
+  },
+  "gguf-unit.gguf": {
+   "version": 3,
+   "alignment": 32,
+   "data_offset": 640,
+   "kv": {
+    "general.architecture": {
+     "type": [
+      "STRING"
+     ],
+     "value": "gpt2"
+    },
+    "general.name": {
+     "type": [
+      "STRING"
+     ],
+     "value": "unit"
+    },
+    "gpt2.block_count": {
+     "type": [
+      "UINT32"
+     ],
+     "value": 1
+    },
+    "test.arr_str": {
+     "type": [
+      "ARRAY",
+      "STRING"
+     ],
+     "value": [
+      "a",
+      "bb",
+      "ccc"
+     ]
+    },
+    "test.arr_f32": {
+     "type": [
+      "ARRAY",
+      "FLOAT32"
+     ],
+     "value": [
+      0.5,
+      1.5
+     ]
+    },
+    "test.u64": {
+     "type": [
+      "UINT64"
+     ],
+     "value": 1152921504606846976
+    }
+   },
+   "tensors": [
+    {
+     "name": "blk.0.attn_qkv.weight",
+     "shape": [
+      32,
+      2
+     ],
+     "type": "Q8_0",
+     "n_bytes": 68,
+     "offset": 640,
+     "head": [
+      -0.3769073486328125,
+      -0.5321044921875,
+      -2.8157196044921875,
+      -0.1995391845703125,
+      1.374603271484375,
+      1.5963134765625
+     ]
+    },
+    {
+     "name": "blk.0.ffn_up.weight",
+     "shape": [
+      256,
+      1
+     ],
+     "type": "Q4_K",
+     "n_bytes": 144,
+     "offset": 736,
+     "head": [
+      1.320281982421875,
+      8.251762390136719,
+      0.0600128173828125,
+      3.2106857299804688,
+      5.1010894775390625,
+      2.5805511474609375
+     ]
+    },
+    {
+     "name": "blk.0.ffn_down.weight",
+     "shape": [
+      256,
+      1
+     ],
+     "type": "Q6_K",
+     "n_bytes": 210,
+     "offset": 896,
+     "head": [
+      -6.081298828125,
+      23.565032958984375,
+      -19.004058837890625,
+      -24.3251953125,
+      15.2032470703125,
+      11.402435302734375
+     ]
+    },
+    {
+     "name": "blk.0.attn_norm.weight",
+     "shape": [
+      8
+     ],
+     "type": "F16",
+     "n_bytes": 16,
+     "offset": 1120,
+     "head": [
+      -0.05975341796875,
+      0.0433349609375,
+      -0.456787109375,
+      0.006206512451171875,
+      1.087890625,
+      -1.3291015625
+     ]
+    },
+    {
+     "name": "output.weight",
+     "shape": [
+      4
+     ],
+     "type": "BF16",
+     "n_bytes": 8,
+     "offset": 1152,
+     "head": [
+      -0.296875,
+      -0.62890625,
+      0.3359375,
+      -0.3828125
+     ]
+    },
+    {
+     "name": "token_embd.weight",
+     "shape": [
+      256,
+      1
+     ],
+     "type": "IQ2_XXS",
+     "n_bytes": 66,
+     "offset": 1184,
+     "head": [
+      0.31006622314453125,
+      0.31006622314453125,
+      0.31006622314453125,
+      0.31006622314453125,
+      -0.31006622314453125,
+      0.9689569473266602
+     ]
+    }
+   ]
+  }
+ },
+ "hdf5": {
+  "hdf5-v0.h5": {
+   "datasets": {
+    "big_endian": {
+     "shape": [
+      6
+     ],
+     "dtype": ">i4",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "attrs": []
+    },
+    "chunked": {
+     "shape": [
+      40,
+      30
+     ],
+     "dtype": "<f4",
+     "chunks": [
+      16,
+      16
+     ],
+     "compression": null,
+     "shuffle": false,
+     "layout": 2,
+     "head": [
+      2.040919065475464,
+      -2.5556650161743164,
+      0.4180988371372223,
+      -0.5677695870399475,
+      -0.4526492953300476,
+      -0.21559716761112213
+     ],
+     "attrs": []
+    },
+    "compound": {
+     "shape": [
+      1
+     ],
+     "dtype": "struct",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "attrs": []
+    },
+    "contiguous": {
+     "shape": [
+      4,
+      6
+     ],
+     "dtype": "<f4",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      0.0,
+      1.0,
+      2.0,
+      3.0,
+      4.0,
+      5.0
+     ],
+     "attrs": []
+    },
+    "empty": {
+     "shape": [
+      0
+     ],
+     "dtype": "<f4",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "attrs": []
+    },
+    "f16": {
+     "shape": [
+      3
+     ],
+     "dtype": "<f2",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      0.5,
+      -1.0,
+      65504.0
+     ],
+     "attrs": []
+    },
+    "group/nested/compact": {
+     "shape": [
+      4
+     ],
+     "dtype": "|u1",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      0,
+      1,
+      2,
+      3
+     ],
+     "attrs": []
+    },
+    "gzip_shuffle": {
+     "shape": [
+      25,
+      40
+     ],
+     "dtype": "<i4",
+     "chunks": [
+      10,
+      10
+     ],
+     "compression": "gzip",
+     "shuffle": true,
+     "layout": 2,
+     "head": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "attrs": []
+    },
+    "many/d00": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      0
+     ],
+     "attrs": []
+    },
+    "many/d01": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      1
+     ],
+     "attrs": []
+    },
+    "many/d02": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      2
+     ],
+     "attrs": []
+    },
+    "many/d03": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      3
+     ],
+     "attrs": []
+    },
+    "many/d04": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      4
+     ],
+     "attrs": []
+    },
+    "many/d05": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      5
+     ],
+     "attrs": []
+    },
+    "many/d06": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      6
+     ],
+     "attrs": []
+    },
+    "many/d07": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      7
+     ],
+     "attrs": []
+    },
+    "many/d08": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      8
+     ],
+     "attrs": []
+    },
+    "many/d09": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      9
+     ],
+     "attrs": []
+    },
+    "many/d10": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      10
+     ],
+     "attrs": []
+    },
+    "many/d11": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      11
+     ],
+     "attrs": []
+    },
+    "many/d12": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      12
+     ],
+     "attrs": []
+    },
+    "many/d13": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      13
+     ],
+     "attrs": []
+    },
+    "many/d14": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      14
+     ],
+     "attrs": []
+    },
+    "many/d15": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      15
+     ],
+     "attrs": []
+    },
+    "many/d16": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      16
+     ],
+     "attrs": []
+    },
+    "many/d17": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      17
+     ],
+     "attrs": []
+    },
+    "many/d18": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      18
+     ],
+     "attrs": []
+    },
+    "many/d19": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      19
+     ],
+     "attrs": []
+    },
+    "resizable": {
+     "shape": [
+      10
+     ],
+     "dtype": "<i2",
+     "chunks": [
+      4
+     ],
+     "compression": null,
+     "shuffle": false,
+     "layout": 2,
+     "head": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "attrs": []
+    },
+    "scalar": {
+     "shape": [],
+     "dtype": "<f8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      2.5
+     ],
+     "attrs": []
+    },
+    "single_chunk": {
+     "shape": [
+      16
+     ],
+     "dtype": "<f8",
+     "chunks": [
+      16
+     ],
+     "compression": "gzip",
+     "shuffle": false,
+     "layout": 2,
+     "head": [
+      0.0,
+      1.0,
+      2.0,
+      3.0,
+      4.0,
+      5.0
+     ],
+     "attrs": []
+    },
+    "strings": {
+     "shape": [
+      2
+     ],
+     "dtype": "|S5",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      "one",
+      "three"
+     ],
+     "attrs": []
+    },
+    "vlen_str": {
+     "shape": [
+      2
+     ],
+     "dtype": "|O",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      "alpha",
+      "beta"
+     ],
+     "attrs": []
+    }
+   },
+   "groups": [
+    "group",
+    "group/nested",
+    "many"
+   ],
+   "attrs": {
+    "group/nested": [
+     "depth"
+    ],
+    "/": [
+     "scales",
+     "tags",
+     "title",
+     "utf8",
+     "version"
+    ]
+   },
+   "superblock": 0,
+   "root_attr_values": {
+    "scales": [
+     0.5,
+     1.5,
+     2.5
+    ],
+    "tags": [
+     "a",
+     "bc"
+    ],
+    "title": "hdf5 features",
+    "utf8": "\u03c7\u03b1\u03af\u03c1\u03b5\u03c4\u03b5",
+    "version": 3
+   }
+  },
+  "hdf5-v2.h5": {
+   "datasets": {
+    "big_endian": {
+     "shape": [
+      6
+     ],
+     "dtype": ">i4",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "attrs": []
+    },
+    "chunked": {
+     "shape": [
+      40,
+      30
+     ],
+     "dtype": "<f4",
+     "chunks": [
+      16,
+      16
+     ],
+     "compression": null,
+     "shuffle": false,
+     "layout": 2,
+     "head": [
+      1.3160899877548218,
+      -0.1465705782175064,
+      1.6935900449752808,
+      1.2241992950439453,
+      -0.40974128246307373,
+      0.35544049739837646
+     ],
+     "attrs": []
+    },
+    "compound": {
+     "shape": [
+      1
+     ],
+     "dtype": "struct",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "attrs": []
+    },
+    "contiguous": {
+     "shape": [
+      4,
+      6
+     ],
+     "dtype": "<f4",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      0.0,
+      1.0,
+      2.0,
+      3.0,
+      4.0,
+      5.0
+     ],
+     "attrs": []
+    },
+    "empty": {
+     "shape": [
+      0
+     ],
+     "dtype": "<f4",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "attrs": []
+    },
+    "f16": {
+     "shape": [
+      3
+     ],
+     "dtype": "<f2",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      0.5,
+      -1.0,
+      65504.0
+     ],
+     "attrs": []
+    },
+    "group/nested/compact": {
+     "shape": [
+      4
+     ],
+     "dtype": "|u1",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      0,
+      1,
+      2,
+      3
+     ],
+     "attrs": []
+    },
+    "gzip_shuffle": {
+     "shape": [
+      25,
+      40
+     ],
+     "dtype": "<i4",
+     "chunks": [
+      10,
+      10
+     ],
+     "compression": "gzip",
+     "shuffle": true,
+     "layout": 2,
+     "head": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "attrs": []
+    },
+    "many/d00": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      0
+     ],
+     "attrs": []
+    },
+    "many/d01": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      1
+     ],
+     "attrs": []
+    },
+    "many/d02": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      2
+     ],
+     "attrs": []
+    },
+    "many/d03": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      3
+     ],
+     "attrs": []
+    },
+    "many/d04": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      4
+     ],
+     "attrs": []
+    },
+    "many/d05": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      5
+     ],
+     "attrs": []
+    },
+    "many/d06": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      6
+     ],
+     "attrs": []
+    },
+    "many/d07": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      7
+     ],
+     "attrs": []
+    },
+    "many/d08": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      8
+     ],
+     "attrs": []
+    },
+    "many/d09": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      9
+     ],
+     "attrs": []
+    },
+    "many/d10": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      10
+     ],
+     "attrs": []
+    },
+    "many/d11": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      11
+     ],
+     "attrs": []
+    },
+    "many/d12": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      12
+     ],
+     "attrs": []
+    },
+    "many/d13": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      13
+     ],
+     "attrs": []
+    },
+    "many/d14": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      14
+     ],
+     "attrs": []
+    },
+    "many/d15": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      15
+     ],
+     "attrs": []
+    },
+    "many/d16": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      16
+     ],
+     "attrs": []
+    },
+    "many/d17": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      17
+     ],
+     "attrs": []
+    },
+    "many/d18": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      18
+     ],
+     "attrs": []
+    },
+    "many/d19": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      19
+     ],
+     "attrs": []
+    },
+    "resizable": {
+     "shape": [
+      10
+     ],
+     "dtype": "<i2",
+     "chunks": [
+      4
+     ],
+     "compression": null,
+     "shuffle": false,
+     "layout": 2,
+     "head": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "attrs": []
+    },
+    "scalar": {
+     "shape": [],
+     "dtype": "<f8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      2.5
+     ],
+     "attrs": []
+    },
+    "single_chunk": {
+     "shape": [
+      16
+     ],
+     "dtype": "<f8",
+     "chunks": [
+      16
+     ],
+     "compression": "gzip",
+     "shuffle": false,
+     "layout": 2,
+     "head": [
+      0.0,
+      1.0,
+      2.0,
+      3.0,
+      4.0,
+      5.0
+     ],
+     "attrs": []
+    },
+    "strings": {
+     "shape": [
+      2
+     ],
+     "dtype": "|S5",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      "one",
+      "three"
+     ],
+     "attrs": []
+    },
+    "vlen_str": {
+     "shape": [
+      2
+     ],
+     "dtype": "|O",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      "alpha",
+      "beta"
+     ],
+     "attrs": []
+    }
+   },
+   "groups": [
+    "group",
+    "group/nested",
+    "many"
+   ],
+   "attrs": {
+    "group/nested": [
+     "depth"
+    ],
+    "/": [
+     "scales",
+     "tags",
+     "title",
+     "utf8",
+     "version"
+    ]
+   },
+   "superblock": 2,
+   "root_attr_values": {
+    "scales": [
+     0.5,
+     1.5,
+     2.5
+    ],
+    "tags": [
+     "a",
+     "bc"
+    ],
+    "title": "hdf5 features",
+    "utf8": "\u03c7\u03b1\u03af\u03c1\u03b5\u03c4\u03b5",
+    "version": 3
+   }
+  },
+  "hdf5-v3.h5": {
+   "datasets": {
+    "big_endian": {
+     "shape": [
+      6
+     ],
+     "dtype": ">i4",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "attrs": []
+    },
+    "chunked": {
+     "shape": [
+      40,
+      30
+     ],
+     "dtype": "<f4",
+     "chunks": [
+      16,
+      16
+     ],
+     "compression": null,
+     "shuffle": false,
+     "layout": 2,
+     "head": [
+      1.2269155979156494,
+      -0.6066330075263977,
+      0.7783809304237366,
+      -1.0265306234359741,
+      0.13558101654052734,
+      0.6694432497024536
+     ],
+     "attrs": []
+    },
+    "compound": {
+     "shape": [
+      1
+     ],
+     "dtype": "struct",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "attrs": []
+    },
+    "contiguous": {
+     "shape": [
+      4,
+      6
+     ],
+     "dtype": "<f4",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      0.0,
+      1.0,
+      2.0,
+      3.0,
+      4.0,
+      5.0
+     ],
+     "attrs": []
+    },
+    "empty": {
+     "shape": [
+      0
+     ],
+     "dtype": "<f4",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "attrs": []
+    },
+    "f16": {
+     "shape": [
+      3
+     ],
+     "dtype": "<f2",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      0.5,
+      -1.0,
+      65504.0
+     ],
+     "attrs": []
+    },
+    "group/nested/compact": {
+     "shape": [
+      4
+     ],
+     "dtype": "|u1",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      0,
+      1,
+      2,
+      3
+     ],
+     "attrs": []
+    },
+    "gzip_shuffle": {
+     "shape": [
+      25,
+      40
+     ],
+     "dtype": "<i4",
+     "chunks": [
+      10,
+      10
+     ],
+     "compression": "gzip",
+     "shuffle": true,
+     "layout": 2,
+     "head": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "attrs": []
+    },
+    "many/d00": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      0
+     ],
+     "attrs": []
+    },
+    "many/d01": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      1
+     ],
+     "attrs": []
+    },
+    "many/d02": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      2
+     ],
+     "attrs": []
+    },
+    "many/d03": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      3
+     ],
+     "attrs": []
+    },
+    "many/d04": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      4
+     ],
+     "attrs": []
+    },
+    "many/d05": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      5
+     ],
+     "attrs": []
+    },
+    "many/d06": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      6
+     ],
+     "attrs": []
+    },
+    "many/d07": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      7
+     ],
+     "attrs": []
+    },
+    "many/d08": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      8
+     ],
+     "attrs": []
+    },
+    "many/d09": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      9
+     ],
+     "attrs": []
+    },
+    "many/d10": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      10
+     ],
+     "attrs": []
+    },
+    "many/d11": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      11
+     ],
+     "attrs": []
+    },
+    "many/d12": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      12
+     ],
+     "attrs": []
+    },
+    "many/d13": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      13
+     ],
+     "attrs": []
+    },
+    "many/d14": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      14
+     ],
+     "attrs": []
+    },
+    "many/d15": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      15
+     ],
+     "attrs": []
+    },
+    "many/d16": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      16
+     ],
+     "attrs": []
+    },
+    "many/d17": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      17
+     ],
+     "attrs": []
+    },
+    "many/d18": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      18
+     ],
+     "attrs": []
+    },
+    "many/d19": {
+     "shape": [
+      1
+     ],
+     "dtype": "<i8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      19
+     ],
+     "attrs": []
+    },
+    "resizable": {
+     "shape": [
+      10
+     ],
+     "dtype": "<i2",
+     "chunks": [
+      4
+     ],
+     "compression": null,
+     "shuffle": false,
+     "layout": 2,
+     "head": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "attrs": []
+    },
+    "scalar": {
+     "shape": [],
+     "dtype": "<f8",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      2.5
+     ],
+     "attrs": []
+    },
+    "single_chunk": {
+     "shape": [
+      16
+     ],
+     "dtype": "<f8",
+     "chunks": [
+      16
+     ],
+     "compression": "gzip",
+     "shuffle": false,
+     "layout": 2,
+     "head": [
+      0.0,
+      1.0,
+      2.0,
+      3.0,
+      4.0,
+      5.0
+     ],
+     "attrs": []
+    },
+    "strings": {
+     "shape": [
+      2
+     ],
+     "dtype": "|S5",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      "one",
+      "three"
+     ],
+     "attrs": []
+    },
+    "vlen_str": {
+     "shape": [
+      2
+     ],
+     "dtype": "|O",
+     "chunks": null,
+     "compression": null,
+     "shuffle": false,
+     "layout": 1,
+     "head": [
+      "alpha",
+      "beta"
+     ],
+     "attrs": []
+    }
+   },
+   "groups": [
+    "group",
+    "group/nested",
+    "many"
+   ],
+   "attrs": {
+    "group/nested": [
+     "depth"
+    ],
+    "/": [
+     "scales",
+     "tags",
+     "title",
+     "utf8",
+     "version"
+    ]
+   },
+   "superblock": 3,
+   "root_attr_values": {
+    "scales": [
+     0.5,
+     1.5,
+     2.5
+    ],
+    "tags": [
+     "a",
+     "bc"
+    ],
+    "title": "hdf5 features",
+    "utf8": "\u03c7\u03b1\u03af\u03c1\u03b5\u03c4\u03b5",
+    "version": 3
+   }
+  }
+ },
+ "keras": {
+  "keras-sequential.keras": {
+   "name": "tiny_seq",
+   "class": "Sequential",
+   "params": 2563,
+   "layers": [
+    {
+     "name": "hidden",
+     "class": "Dense",
+     "weights": [
+      [
+       "tiny_seq/hidden/kernel",
+       [
+        16,
+        128
+       ]
+      ],
+      [
+       "tiny_seq/hidden/bias",
+       [
+        128
+       ]
+      ]
+     ],
+     "params": 2176
+    },
+    {
+     "name": "dropout",
+     "class": "Dropout",
+     "weights": [],
+     "params": 0
+    },
+    {
+     "name": "probs",
+     "class": "Dense",
+     "weights": [
+      [
+       "tiny_seq/probs/kernel",
+       [
+        128,
+        3
+       ]
+      ],
+      [
+       "tiny_seq/probs/bias",
+       [
+        3
+       ]
+      ]
+     ],
+     "params": 387
+    }
+   ],
+   "zip": [
+    "metadata.json",
+    "config.json",
+    "model.weights.h5"
+   ],
+   "weights_h5": {
+    "datasets": {
+     "layers/dense/vars/0": {
+      "shape": [
+       16,
+       128
+      ],
+      "dtype": "<f4",
+      "chunks": null,
+      "compression": null,
+      "shuffle": false,
+      "layout": 1,
+      "head": [
+       0.006403118371963501,
+       -0.077950119972229,
+       0.13835713267326355,
+       -0.16060413420200348,
+       -0.042894601821899414,
+       -0.12789884209632874
+      ],
+      "attrs": []
+     },
+     "layers/dense/vars/1": {
+      "shape": [
+       128
+      ],
+      "dtype": "<f4",
+      "chunks": null,
+      "compression": null,
+      "shuffle": false,
+      "layout": 1,
+      "head": [
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0
+      ],
+      "attrs": []
+     },
+     "layers/dense_1/vars/0": {
+      "shape": [
+       128,
+       3
+      ],
+      "dtype": "<f4",
+      "chunks": null,
+      "compression": null,
+      "shuffle": false,
+      "layout": 1,
+      "head": [
+       0.06815136969089508,
+       -0.17897692322731018,
+       0.17887525260448456,
+       0.20607097446918488,
+       0.06651522219181061,
+       -0.07457411289215088
+      ],
+      "attrs": []
+     },
+     "layers/dense_1/vars/1": {
+      "shape": [
+       3
+      ],
+      "dtype": "<f4",
+      "chunks": null,
+      "compression": null,
+      "shuffle": false,
+      "layout": 1,
+      "head": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "attrs": []
+     }
+    },
+    "groups": [
+     "layers",
+     "layers/dense",
+     "layers/dense/vars",
+     "layers/dense_1",
+     "layers/dense_1/vars",
+     "layers/dropout",
+     "layers/dropout/vars",
+     "vars"
+    ],
+    "attrs": {
+     "layers/dense/vars": [
+      "name"
+     ],
+     "layers/dense_1/vars": [
+      "name"
+     ],
+     "layers/dropout/vars": [
+      "name"
+     ],
+     "vars": [
+      "name"
+     ],
+     "/": []
+    },
+    "superblock": 0,
+    "root_attr_values": {}
+   },
+   "methods": [
+    [
+     "metadata.json",
+     0
+    ],
+    [
+     "config.json",
+     0
+    ],
+    [
+     "model.weights.h5",
+     0
+    ]
+   ]
+  },
+  "keras-sequential.h5": {
+   "name": "tiny_seq",
+   "class": "Sequential",
+   "params": 2563,
+   "layers": [
+    {
+     "name": "hidden",
+     "class": "Dense",
+     "weights": [
+      [
+       "tiny_seq/hidden/kernel",
+       [
+        16,
+        128
+       ]
+      ],
+      [
+       "tiny_seq/hidden/bias",
+       [
+        128
+       ]
+      ]
+     ],
+     "params": 2176
+    },
+    {
+     "name": "dropout",
+     "class": "Dropout",
+     "weights": [],
+     "params": 0
+    },
+    {
+     "name": "probs",
+     "class": "Dense",
+     "weights": [
+      [
+       "tiny_seq/probs/kernel",
+       [
+        128,
+        3
+       ]
+      ],
+      [
+       "tiny_seq/probs/bias",
+       [
+        3
+       ]
+      ]
+     ],
+     "params": 387
+    }
+   ],
+   "h5": {
+    "datasets": {
+     "model_weights/hidden/tiny_seq/hidden/bias": {
+      "shape": [
+       128
+      ],
+      "dtype": "<f4",
+      "chunks": null,
+      "compression": null,
+      "shuffle": false,
+      "layout": 1,
+      "head": [
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0
+      ],
+      "attrs": []
+     },
+     "model_weights/hidden/tiny_seq/hidden/kernel": {
+      "shape": [
+       16,
+       128
+      ],
+      "dtype": "<f4",
+      "chunks": null,
+      "compression": null,
+      "shuffle": false,
+      "layout": 1,
+      "head": [
+       0.006403118371963501,
+       -0.077950119972229,
+       0.13835713267326355,
+       -0.16060413420200348,
+       -0.042894601821899414,
+       -0.12789884209632874
+      ],
+      "attrs": []
+     },
+     "model_weights/probs/tiny_seq/probs/bias": {
+      "shape": [
+       3
+      ],
+      "dtype": "<f4",
+      "chunks": null,
+      "compression": null,
+      "shuffle": false,
+      "layout": 1,
+      "head": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "attrs": []
+     },
+     "model_weights/probs/tiny_seq/probs/kernel": {
+      "shape": [
+       128,
+       3
+      ],
+      "dtype": "<f4",
+      "chunks": null,
+      "compression": null,
+      "shuffle": false,
+      "layout": 1,
+      "head": [
+       0.06815136969089508,
+       -0.17897692322731018,
+       0.17887525260448456,
+       0.20607097446918488,
+       0.06651522219181061,
+       -0.07457411289215088
+      ],
+      "attrs": []
+     }
+    },
+    "groups": [
+     "model_weights",
+     "model_weights/dropout",
+     "model_weights/hidden",
+     "model_weights/hidden/tiny_seq",
+     "model_weights/hidden/tiny_seq/hidden",
+     "model_weights/probs",
+     "model_weights/probs/tiny_seq",
+     "model_weights/probs/tiny_seq/probs",
+     "model_weights/top_level_model_weights"
+    ],
+    "attrs": {
+     "model_weights": [
+      "backend",
+      "keras_version",
+      "layer_names"
+     ],
+     "model_weights/dropout": [
+      "weight_names"
+     ],
+     "model_weights/hidden": [
+      "weight_names"
+     ],
+     "model_weights/probs": [
+      "weight_names"
+     ],
+     "model_weights/top_level_model_weights": [
+      "weight_names"
+     ],
+     "/": [
+      "backend",
+      "keras_version",
+      "model_config"
+     ]
+    },
+    "superblock": 0,
+    "root_attr_values": {
+     "backend": "tensorflow",
+     "keras_version": "3.15.1",
+     "model_config": {
+      "len": 1990,
+      "start": "{\"class_name\": \"Sequential\", \"config\": {\"name\": \"tiny_seq\", "
+     }
+    }
+   }
+  },
+  "keras-functional.keras": {
+   "name": "tiny_functional",
+   "class": "Functional",
+   "params": 106,
+   "layers": [
+    {
+     "name": "image",
+     "class": "InputLayer",
+     "weights": [],
+     "params": 0
+    },
+    {
+     "name": "conv",
+     "class": "Conv2D",
+     "weights": [
+      [
+       "conv/kernel",
+       [
+        3,
+        3,
+        1,
+        4
+       ]
+      ],
+      [
+       "conv/bias",
+       [
+        4
+       ]
+      ]
+     ],
+     "params": 40
+    },
+    {
+     "name": "bn",
+     "class": "BatchNormalization",
+     "weights": [
+      [
+       "bn/gamma",
+       [
+        4
+       ]
+      ],
+      [
+       "bn/beta",
+       [
+        4
+       ]
+      ],
+      [
+       "bn/moving_mean",
+       [
+        4
+       ]
+      ],
+      [
+       "bn/moving_variance",
+       [
+        4
+       ]
+      ]
+     ],
+     "params": 16
+    },
+    {
+     "name": "gap",
+     "class": "GlobalAveragePooling2D",
+     "weights": [],
+     "params": 0
+    },
+    {
+     "name": "gmp",
+     "class": "GlobalMaxPooling2D",
+     "weights": [],
+     "params": 0
+    },
+    {
+     "name": "concat",
+     "class": "Concatenate",
+     "weights": [],
+     "params": 0
+    },
+    {
+     "name": "logits",
+     "class": "Dense",
+     "weights": [
+      [
+       "logits/kernel",
+       [
+        8,
+        5
+       ]
+      ],
+      [
+       "logits/bias",
+       [
+        5
+       ]
+      ]
+     ],
+     "params": 45
+    },
+    {
+     "name": "aux",
+     "class": "Dense",
+     "weights": [
+      [
+       "aux/kernel",
+       [
+        4,
+        1
+       ]
+      ],
+      [
+       "aux/bias",
+       [
+        1
+       ]
+      ]
+     ],
+     "params": 5
+    }
+   ],
+   "zip": [
+    "metadata.json",
+    "config.json",
+    "model.weights.h5"
+   ],
+   "weights_h5": {
+    "datasets": {
+     "layers/batch_normalization/vars/0": {
+      "shape": [
+       4
+      ],
+      "dtype": "<f4",
+      "chunks": null,
+      "compression": null,
+      "shuffle": false,
+      "layout": 1,
+      "head": [
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ],
+      "attrs": []
+     },
+     "layers/batch_normalization/vars/1": {
+      "shape": [
+       4
+      ],
+      "dtype": "<f4",
+      "chunks": null,
+      "compression": null,
+      "shuffle": false,
+      "layout": 1,
+      "head": [
+       0.0,
+       0.0,
+       0.0,
+       0.0
+      ],
+      "attrs": []
+     },
+     "layers/batch_normalization/vars/2": {
+      "shape": [
+       4
+      ],
+      "dtype": "<f4",
+      "chunks": null,
+      "compression": null,
+      "shuffle": false,
+      "layout": 1,
+      "head": [
+       0.0,
+       0.0,
+       0.0,
+       0.0
+      ],
+      "attrs": []
+     },
+     "layers/batch_normalization/vars/3": {
+      "shape": [
+       4
+      ],
+      "dtype": "<f4",
+      "chunks": null,
+      "compression": null,
+      "shuffle": false,
+      "layout": 1,
+      "head": [
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ],
+      "attrs": []
+     },
+     "layers/conv2d/vars/0": {
+      "shape": [
+       3,
+       3,
+       1,
+       4
+      ],
+      "dtype": "<f4",
+      "chunks": null,
+      "compression": null,
+      "shuffle": false,
+      "layout": 1,
+      "head": [
+       -0.11256158351898193,
+       0.1730174422264099,
+       -0.050379931926727295,
+       -0.06458741426467896,
+       0.08710551261901855,
+       -0.33955711126327515
+      ],
+      "attrs": []
+     },
+     "layers/conv2d/vars/1": {
+      "shape": [
+       4
+      ],
+      "dtype": "<f4",
+      "chunks": null,
+      "compression": null,
+      "shuffle": false,
+      "layout": 1,
+      "head": [
+       0.0,
+       0.0,
+       0.0,
+       0.0
+      ],
+      "attrs": []
+     },
+     "layers/dense/vars/0": {
+      "shape": [
+       8,
+       5
+      ],
+      "dtype": "<f4",
+      "chunks": null,
+      "compression": null,
+      "shuffle": false,
+      "layout": 1,
+      "head": [
+       -0.06337589025497437,
+       -0.4208846688270569,
+       0.34314966201782227,
+       -0.3975335955619812,
+       -0.1445806622505188,
+       0.28343600034713745
+      ],
+      "attrs": []
+     },
+     "layers/dense/vars/1": {
+      "shape": [
+       5
+      ],
+      "dtype": "<f4",
+      "chunks": null,
+      "compression": null,
+      "shuffle": false,
+      "layout": 1,
+      "head": [
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0
+      ],
+      "attrs": []
+     },
+     "layers/dense_1/vars/0": {
+      "shape": [
+       4,
+       1
+      ],
+      "dtype": "<f4",
+      "chunks": null,
+      "compression": null,
+      "shuffle": false,
+      "layout": 1,
+      "head": [
+       -0.4158325791358948,
+       -0.6065139770507812,
+       0.5945411920547485,
+       0.6101694107055664
+      ],
+      "attrs": []
+     },
+     "layers/dense_1/vars/1": {
+      "shape": [
+       1
+      ],
+      "dtype": "<f4",
+      "chunks": null,
+      "compression": null,
+      "shuffle": false,
+      "layout": 1,
+      "head": [
+       0.0
+      ],
+      "attrs": []
+     },
+     "optimizer/vars/0": {
+      "shape": [],
+      "dtype": "<i8",
+      "chunks": null,
+      "compression": null,
+      "shuffle": false,
+      "layout": 1,
+      "head": [
+       0
+      ],
+      "attrs": []
+     },
+     "optimizer/vars/1": {
+      "shape": [],
+      "dtype": "<f4",
+      "chunks": null,
+      "compression": null,
+      "shuffle": false,
+      "layout": 1,
+      "head": [
+       0.0010000000474974513
+      ],
+      "attrs": []
+     }
+    },
+    "groups": [
+     "layers",
+     "layers/batch_normalization",
+     "layers/batch_normalization/vars",
+     "layers/concatenate",
+     "layers/concatenate/vars",
+     "layers/conv2d",
+     "layers/conv2d/vars",
+     "layers/dense",
+     "layers/dense/vars",
+     "layers/dense_1",
+     "layers/dense_1/vars",
+     "layers/global_average_pooling2d",
+     "layers/global_average_pooling2d/vars",
+     "layers/global_max_pooling2d",
+     "layers/global_max_pooling2d/vars",
+     "layers/input_layer",
+     "layers/input_layer/vars",
+     "optimizer",
+     "optimizer/vars",
+     "vars"
+    ],
+    "attrs": {
+     "layers/batch_normalization/vars": [
+      "name"
+     ],
+     "layers/concatenate/vars": [
+      "name"
+     ],
+     "layers/conv2d/vars": [
+      "name"
+     ],
+     "layers/dense/vars": [
+      "name"
+     ],
+     "layers/dense_1/vars": [
+      "name"
+     ],
+     "layers/global_average_pooling2d/vars": [
+      "name"
+     ],
+     "layers/global_max_pooling2d/vars": [
+      "name"
+     ],
+     "layers/input_layer/vars": [
+      "name"
+     ],
+     "optimizer/vars": [
+      "name"
+     ],
+     "vars": [
+      "name"
+     ],
+     "/": []
+    },
+    "superblock": 0,
+    "root_attr_values": {}
+   },
+   "methods": [
+    [
+     "metadata.json",
+     0
+    ],
+    [
+     "config.json",
+     0
+    ],
+    [
+     "model.weights.h5",
+     0
+    ]
+   ]
+  },
+  "keras-functional.h5": {
+   "name": "tiny_functional",
+   "class": "Functional",
+   "params": 106,
+   "layers": [
+    {
+     "name": "image",
+     "class": "InputLayer",
+     "weights": [],
+     "params": 0
+    },
+    {
+     "name": "conv",
+     "class": "Conv2D",
+     "weights": [
+      [
+       "conv/kernel",
+       [
+        3,
+        3,
+        1,
+        4
+       ]
+      ],
+      [
+       "conv/bias",
+       [
+        4
+       ]
+      ]
+     ],
+     "params": 40
+    },
+    {
+     "name": "bn",
+     "class": "BatchNormalization",
+     "weights": [
+      [
+       "bn/gamma",
+       [
+        4
+       ]
+      ],
+      [
+       "bn/beta",
+       [
+        4
+       ]
+      ],
+      [
+       "bn/moving_mean",
+       [
+        4
+       ]
+      ],
+      [
+       "bn/moving_variance",
+       [
+        4
+       ]
+      ]
+     ],
+     "params": 16
+    },
+    {
+     "name": "gap",
+     "class": "GlobalAveragePooling2D",
+     "weights": [],
+     "params": 0
+    },
+    {
+     "name": "gmp",
+     "class": "GlobalMaxPooling2D",
+     "weights": [],
+     "params": 0
+    },
+    {
+     "name": "concat",
+     "class": "Concatenate",
+     "weights": [],
+     "params": 0
+    },
+    {
+     "name": "logits",
+     "class": "Dense",
+     "weights": [
+      [
+       "logits/kernel",
+       [
+        8,
+        5
+       ]
+      ],
+      [
+       "logits/bias",
+       [
+        5
+       ]
+      ]
+     ],
+     "params": 45
+    },
+    {
+     "name": "aux",
+     "class": "Dense",
+     "weights": [
+      [
+       "aux/kernel",
+       [
+        4,
+        1
+       ]
+      ],
+      [
+       "aux/bias",
+       [
+        1
+       ]
+      ]
+     ],
+     "params": 5
+    }
+   ],
+   "h5": {
+    "datasets": {
+     "model_weights/aux/aux/bias": {
+      "shape": [
+       1
+      ],
+      "dtype": "<f4",
+      "chunks": null,
+      "compression": null,
+      "shuffle": false,
+      "layout": 1,
+      "head": [
+       0.0
+      ],
+      "attrs": []
+     },
+     "model_weights/aux/aux/kernel": {
+      "shape": [
+       4,
+       1
+      ],
+      "dtype": "<f4",
+      "chunks": null,
+      "compression": null,
+      "shuffle": false,
+      "layout": 1,
+      "head": [
+       -0.4158325791358948,
+       -0.6065139770507812,
+       0.5945411920547485,
+       0.6101694107055664
+      ],
+      "attrs": []
+     },
+     "model_weights/bn/bn/beta": {
+      "shape": [
+       4
+      ],
+      "dtype": "<f4",
+      "chunks": null,
+      "compression": null,
+      "shuffle": false,
+      "layout": 1,
+      "head": [
+       0.0,
+       0.0,
+       0.0,
+       0.0
+      ],
+      "attrs": []
+     },
+     "model_weights/bn/bn/gamma": {
+      "shape": [
+       4
+      ],
+      "dtype": "<f4",
+      "chunks": null,
+      "compression": null,
+      "shuffle": false,
+      "layout": 1,
+      "head": [
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ],
+      "attrs": []
+     },
+     "model_weights/bn/bn/moving_mean": {
+      "shape": [
+       4
+      ],
+      "dtype": "<f4",
+      "chunks": null,
+      "compression": null,
+      "shuffle": false,
+      "layout": 1,
+      "head": [
+       0.0,
+       0.0,
+       0.0,
+       0.0
+      ],
+      "attrs": []
+     },
+     "model_weights/bn/bn/moving_variance": {
+      "shape": [
+       4
+      ],
+      "dtype": "<f4",
+      "chunks": null,
+      "compression": null,
+      "shuffle": false,
+      "layout": 1,
+      "head": [
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ],
+      "attrs": []
+     },
+     "model_weights/conv/conv/bias": {
+      "shape": [
+       4
+      ],
+      "dtype": "<f4",
+      "chunks": null,
+      "compression": null,
+      "shuffle": false,
+      "layout": 1,
+      "head": [
+       0.0,
+       0.0,
+       0.0,
+       0.0
+      ],
+      "attrs": []
+     },
+     "model_weights/conv/conv/kernel": {
+      "shape": [
+       3,
+       3,
+       1,
+       4
+      ],
+      "dtype": "<f4",
+      "chunks": null,
+      "compression": null,
+      "shuffle": false,
+      "layout": 1,
+      "head": [
+       -0.11256158351898193,
+       0.1730174422264099,
+       -0.050379931926727295,
+       -0.06458741426467896,
+       0.08710551261901855,
+       -0.33955711126327515
+      ],
+      "attrs": []
+     },
+     "model_weights/logits/logits/bias": {
+      "shape": [
+       5
+      ],
+      "dtype": "<f4",
+      "chunks": null,
+      "compression": null,
+      "shuffle": false,
+      "layout": 1,
+      "head": [
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0
+      ],
+      "attrs": []
+     },
+     "model_weights/logits/logits/kernel": {
+      "shape": [
+       8,
+       5
+      ],
+      "dtype": "<f4",
+      "chunks": null,
+      "compression": null,
+      "shuffle": false,
+      "layout": 1,
+      "head": [
+       -0.06337589025497437,
+       -0.4208846688270569,
+       0.34314966201782227,
+       -0.3975335955619812,
+       -0.1445806622505188,
+       0.28343600034713745
+      ],
+      "attrs": []
+     },
+     "optimizer_weights/adam/iteration": {
+      "shape": [],
+      "dtype": "<i8",
+      "chunks": null,
+      "compression": null,
+      "shuffle": false,
+      "layout": 1,
+      "head": [
+       0
+      ],
+      "attrs": []
+     },
+     "optimizer_weights/adam/learning_rate": {
+      "shape": [],
+      "dtype": "<f4",
+      "chunks": null,
+      "compression": null,
+      "shuffle": false,
+      "layout": 1,
+      "head": [
+       0.0010000000474974513
+      ],
+      "attrs": []
+     }
+    },
+    "groups": [
+     "model_weights",
+     "model_weights/aux",
+     "model_weights/aux/aux",
+     "model_weights/bn",
+     "model_weights/bn/bn",
+     "model_weights/concat",
+     "model_weights/conv",
+     "model_weights/conv/conv",
+     "model_weights/gap",
+     "model_weights/gmp",
+     "model_weights/image",
+     "model_weights/logits",
+     "model_weights/logits/logits",
+     "model_weights/top_level_model_weights",
+     "optimizer_weights",
+     "optimizer_weights/adam"
+    ],
+    "attrs": {
+     "model_weights": [
+      "backend",
+      "keras_version",
+      "layer_names"
+     ],
+     "model_weights/aux": [
+      "weight_names"
+     ],
+     "model_weights/bn": [
+      "weight_names"
+     ],
+     "model_weights/concat": [
+      "weight_names"
+     ],
+     "model_weights/conv": [
+      "weight_names"
+     ],
+     "model_weights/gap": [
+      "weight_names"
+     ],
+     "model_weights/gmp": [
+      "weight_names"
+     ],
+     "model_weights/image": [
+      "weight_names"
+     ],
+     "model_weights/logits": [
+      "weight_names"
+     ],
+     "model_weights/top_level_model_weights": [
+      "weight_names"
+     ],
+     "optimizer_weights": [
+      "weight_names"
+     ],
+     "/": [
+      "backend",
+      "keras_version",
+      "model_config",
+      "training_config"
+     ]
+    },
+    "superblock": 0,
+    "root_attr_values": {
+     "backend": "tensorflow",
+     "keras_version": "3.15.1",
+     "model_config": {
+      "len": 5635,
+      "start": "{\"class_name\": \"Functional\", \"config\": {\"name\": \"tiny_functi"
+     },
+     "training_config": {
+      "len": 560,
+      "start": "{\"loss\": [\"mse\", \"mse\"], \"loss_weights\": null, \"metrics\": nu"
+     }
+    }
+   }
+  }
+ },
+ "tflite": {
+  "__ops__": {
+   "0": "ADD",
+   "1": "AVERAGE_POOL_2D",
+   "2": "CONCATENATION",
+   "3": "CONV_2D",
+   "4": "DEPTHWISE_CONV_2D",
+   "5": "DEPTH_TO_SPACE",
+   "6": "DEQUANTIZE",
+   "7": "EMBEDDING_LOOKUP",
+   "8": "FLOOR",
+   "9": "FULLY_CONNECTED",
+   "10": "HASHTABLE_LOOKUP",
+   "11": "L2_NORMALIZATION",
+   "12": "L2_POOL_2D",
+   "13": "LOCAL_RESPONSE_NORMALIZATION",
+   "14": "LOGISTIC",
+   "15": "LSH_PROJECTION",
+   "16": "LSTM",
+   "17": "MAX_POOL_2D",
+   "18": "MUL",
+   "19": "RELU",
+   "20": "RELU_N1_TO_1",
+   "21": "RELU6",
+   "22": "RESHAPE",
+   "23": "RESIZE_BILINEAR",
+   "24": "RNN",
+   "25": "SOFTMAX",
+   "26": "SPACE_TO_DEPTH",
+   "27": "SVDF",
+   "28": "TANH",
+   "29": "CONCAT_EMBEDDINGS",
+   "30": "SKIP_GRAM",
+   "31": "CALL",
+   "32": "CUSTOM",
+   "33": "EMBEDDING_LOOKUP_SPARSE",
+   "34": "PAD",
+   "35": "UNIDIRECTIONAL_SEQUENCE_RNN",
+   "36": "GATHER",
+   "37": "BATCH_TO_SPACE_ND",
+   "38": "SPACE_TO_BATCH_ND",
+   "39": "TRANSPOSE",
+   "40": "MEAN",
+   "41": "SUB",
+   "42": "DIV",
+   "43": "SQUEEZE",
+   "44": "UNIDIRECTIONAL_SEQUENCE_LSTM",
+   "45": "STRIDED_SLICE",
+   "46": "BIDIRECTIONAL_SEQUENCE_RNN",
+   "47": "EXP",
+   "48": "TOPK_V2",
+   "49": "SPLIT",
+   "50": "LOG_SOFTMAX",
+   "51": "DELEGATE",
+   "52": "BIDIRECTIONAL_SEQUENCE_LSTM",
+   "53": "CAST",
+   "54": "PRELU",
+   "55": "MAXIMUM",
+   "56": "ARG_MAX",
+   "57": "MINIMUM",
+   "58": "LESS",
+   "59": "NEG",
+   "60": "PADV2",
+   "61": "GREATER",
+   "62": "GREATER_EQUAL",
+   "63": "LESS_EQUAL",
+   "64": "SELECT",
+   "65": "SLICE",
+   "66": "SIN",
+   "67": "TRANSPOSE_CONV",
+   "68": "SPARSE_TO_DENSE",
+   "69": "TILE",
+   "70": "EXPAND_DIMS",
+   "71": "EQUAL",
+   "72": "NOT_EQUAL",
+   "73": "LOG",
+   "74": "SUM",
+   "75": "SQRT",
+   "76": "RSQRT",
+   "77": "SHAPE",
+   "78": "POW",
+   "79": "ARG_MIN",
+   "80": "FAKE_QUANT",
+   "81": "REDUCE_PROD",
+   "82": "REDUCE_MAX",
+   "83": "PACK",
+   "84": "LOGICAL_OR",
+   "85": "ONE_HOT",
+   "86": "LOGICAL_AND",
+   "87": "LOGICAL_NOT",
+   "88": "UNPACK",
+   "89": "REDUCE_MIN",
+   "90": "FLOOR_DIV",
+   "91": "REDUCE_ANY",
+   "92": "SQUARE",
+   "93": "ZEROS_LIKE",
+   "94": "FILL",
+   "95": "FLOOR_MOD",
+   "96": "RANGE",
+   "97": "RESIZE_NEAREST_NEIGHBOR",
+   "98": "LEAKY_RELU",
+   "99": "SQUARED_DIFFERENCE",
+   "100": "MIRROR_PAD",
+   "101": "ABS",
+   "102": "SPLIT_V",
+   "103": "UNIQUE",
+   "104": "CEIL",
+   "105": "REVERSE_V2",
+   "106": "ADD_N",
+   "107": "GATHER_ND",
+   "108": "COS",
+   "109": "WHERE",
+   "110": "RANK",
+   "111": "ELU",
+   "112": "REVERSE_SEQUENCE",
+   "113": "MATRIX_DIAG",
+   "114": "QUANTIZE",
+   "115": "MATRIX_SET_DIAG",
+   "116": "ROUND",
+   "117": "HARD_SWISH",
+   "118": "IF",
+   "119": "WHILE",
+   "120": "NON_MAX_SUPPRESSION_V4",
+   "121": "NON_MAX_SUPPRESSION_V5",
+   "122": "SCATTER_ND",
+   "123": "SELECT_V2",
+   "124": "DENSIFY",
+   "125": "SEGMENT_SUM",
+   "126": "BATCH_MATMUL",
+   "127": "PLACEHOLDER_FOR_GREATER_OP_CODES",
+   "128": "CUMSUM",
+   "129": "CALL_ONCE",
+   "130": "BROADCAST_TO",
+   "131": "RFFT2D",
+   "132": "CONV_3D",
+   "133": "IMAG",
+   "134": "REAL",
+   "135": "COMPLEX_ABS",
+   "136": "HASHTABLE",
+   "137": "HASHTABLE_FIND",
+   "138": "HASHTABLE_IMPORT",
+   "139": "HASHTABLE_SIZE",
+   "140": "REDUCE_ALL",
+   "141": "CONV_3D_TRANSPOSE",
+   "142": "VAR_HANDLE",
+   "143": "READ_VARIABLE",
+   "144": "ASSIGN_VARIABLE",
+   "145": "BROADCAST_ARGS",
+   "146": "RANDOM_STANDARD_NORMAL",
+   "147": "BUCKETIZE",
+   "148": "RANDOM_UNIFORM",
+   "149": "MULTINOMIAL",
+   "150": "GELU",
+   "151": "DYNAMIC_UPDATE_SLICE",
+   "152": "RELU_0_TO_1",
+   "153": "UNSORTED_SEGMENT_PROD",
+   "154": "UNSORTED_SEGMENT_MAX",
+   "155": "UNSORTED_SEGMENT_SUM",
+   "156": "ATAN2",
+   "157": "UNSORTED_SEGMENT_MIN",
+   "158": "SIGN",
+   "159": "BITCAST",
+   "160": "BITWISE_XOR",
+   "161": "RIGHT_SHIFT",
+   "162": "STABLEHLO_LOGISTIC",
+   "163": "STABLEHLO_ADD",
+   "164": "STABLEHLO_DIVIDE",
+   "165": "STABLEHLO_MULTIPLY",
+   "166": "STABLEHLO_MAXIMUM",
+   "167": "STABLEHLO_RESHAPE",
+   "168": "STABLEHLO_CLAMP",
+   "169": "STABLEHLO_CONCATENATE",
+   "170": "STABLEHLO_BROADCAST_IN_DIM",
+   "171": "STABLEHLO_CONVOLUTION",
+   "172": "STABLEHLO_SLICE",
+   "173": "STABLEHLO_CUSTOM_CALL",
+   "174": "STABLEHLO_REDUCE",
+   "175": "STABLEHLO_ABS",
+   "176": "STABLEHLO_AND",
+   "177": "STABLEHLO_COSINE",
+   "178": "STABLEHLO_EXPONENTIAL",
+   "179": "STABLEHLO_FLOOR",
+   "180": "STABLEHLO_LOG",
+   "181": "STABLEHLO_MINIMUM",
+   "182": "STABLEHLO_NEGATE",
+   "183": "STABLEHLO_OR",
+   "184": "STABLEHLO_POWER",
+   "185": "STABLEHLO_REMAINDER",
+   "186": "STABLEHLO_RSQRT",
+   "187": "STABLEHLO_SELECT",
+   "188": "STABLEHLO_SUBTRACT",
+   "189": "STABLEHLO_TANH",
+   "190": "STABLEHLO_SCATTER",
+   "191": "STABLEHLO_COMPARE",
+   "192": "STABLEHLO_CONVERT",
+   "193": "STABLEHLO_DYNAMIC_SLICE",
+   "194": "STABLEHLO_DYNAMIC_UPDATE_SLICE",
+   "195": "STABLEHLO_PAD",
+   "196": "STABLEHLO_IOTA",
+   "197": "STABLEHLO_DOT_GENERAL",
+   "198": "STABLEHLO_REDUCE_WINDOW",
+   "199": "STABLEHLO_SORT",
+   "200": "STABLEHLO_WHILE",
+   "201": "STABLEHLO_GATHER",
+   "202": "STABLEHLO_TRANSPOSE",
+   "203": "DILATE",
+   "204": "STABLEHLO_RNG_BIT_GENERATOR",
+   "205": "REDUCE_WINDOW",
+   "206": "STABLEHLO_COMPOSITE",
+   "207": "STABLEHLO_SHIFT_LEFT",
+   "208": "STABLEHLO_CBRT",
+   "209": "STABLEHLO_CASE"
+  },
+  "__types__": {
+   "0": "FLOAT32",
+   "1": "FLOAT16",
+   "2": "INT32",
+   "3": "UINT8",
+   "4": "INT64",
+   "5": "STRING",
+   "6": "BOOL",
+   "7": "INT16",
+   "8": "COMPLEX64",
+   "9": "INT8",
+   "10": "FLOAT64",
+   "11": "COMPLEX128",
+   "12": "UINT64",
+   "13": "RESOURCE",
+   "14": "VARIANT",
+   "15": "UINT32",
+   "16": "UINT16",
+   "17": "INT4",
+   "18": "BFLOAT16",
+   "19": "INT2",
+   "20": "UINT4"
+  },
+  "tflite-sequential.tflite": {
+   "version": 3,
+   "description": "MLIR Converted.",
+   "subgraphs": [
+    {
+     "name": "main",
+     "tensors": [
+      {
+       "name": "serving_default_keras_tensor:0",
+       "shape": [
+        1,
+        16
+       ],
+       "type": "FLOAT32",
+       "buffer": 1,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "tiny_seq_1/probs_1/MatMul",
+       "shape": [
+        3,
+        128
+       ],
+       "type": "FLOAT32",
+       "buffer": 2,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "tiny_seq_1/hidden_1/MatMul",
+       "shape": [
+        128,
+        16
+       ],
+       "type": "FLOAT32",
+       "buffer": 3,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "tiny_seq_1/hidden_1/MatMul;tiny_seq_1/hidden_1/Relu",
+       "shape": [
+        1,
+        128
+       ],
+       "type": "FLOAT32",
+       "buffer": 4,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "tiny_seq_1/probs_1/MatMul1",
+       "shape": [
+        1,
+        3
+       ],
+       "type": "FLOAT32",
+       "buffer": 5,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "StatefulPartitionedCall_1:0",
+       "shape": [
+        1,
+        3
+       ],
+       "type": "FLOAT32",
+       "buffer": 6,
+       "scale": null,
+       "zero_point": null
+      }
+     ],
+     "ops": [
+      "FULLY_CONNECTED",
+      "FULLY_CONNECTED",
+      "SOFTMAX"
+     ],
+     "inputs": [
+      0
+     ],
+     "outputs": [
+      5
+     ]
+    }
+   ],
+   "signatures": [
+    {
+     "key": "serving_default",
+     "subgraph": 0,
+     "inputs": [
+      "keras_tensor"
+     ],
+     "outputs": [
+      "output_0"
+     ]
+    }
+   ],
+   "metadata": {
+    "min_runtime_version": 16,
+    "CONVERSION_METADATA": 96
+   },
+   "buffers": [
+    0,
+    0,
+    1536,
+    8192,
+    0,
+    0,
+    0,
+    16,
+    96
+   ],
+   "interp_ops": [
+    "FULLY_CONNECTED",
+    "FULLY_CONNECTED",
+    "SOFTMAX"
+   ],
+   "values": {
+    "tiny_seq_1/probs_1/MatMul": [
+     0.06815136969089508,
+     0.20607097446918488,
+     0.13495270907878876,
+     0.008537903428077698
+    ],
+    "tiny_seq_1/hidden_1/MatMul": [
+     0.006403118371963501,
+     -0.0016665011644363403,
+     0.11565709114074707,
+     0.04320947825908661
+    ]
+   }
+  },
+  "tflite-functional.tflite": {
+   "version": 3,
+   "description": "MLIR Converted.",
+   "subgraphs": [
+    {
+     "name": "main",
+     "tensors": [
+      {
+       "name": "serving_default_image:0",
+       "shape": [
+        1,
+        12,
+        12,
+        1
+       ],
+       "type": "FLOAT32",
+       "buffer": 1,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "tiny_functional_1/logits_1/MatMul",
+       "shape": [
+        5,
+        8
+       ],
+       "type": "FLOAT32",
+       "buffer": 2,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "tiny_functional_1/aux_1/MatMul",
+       "shape": [
+        1,
+        4
+       ],
+       "type": "FLOAT32",
+       "buffer": 3,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "arith.constant",
+       "shape": [
+        4
+       ],
+       "type": "FLOAT32",
+       "buffer": 4,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "arith.constant1",
+       "shape": [
+        2
+       ],
+       "type": "INT32",
+       "buffer": 5,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "tiny_functional_1/bn_1/batchnorm/Rsqrt",
+       "shape": [
+        4
+       ],
+       "type": "FLOAT32",
+       "buffer": 6,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "tiny_functional_1/conv_1/convolution",
+       "shape": [
+        4,
+        3,
+        3,
+        1
+       ],
+       "type": "FLOAT32",
+       "buffer": 7,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "tiny_functional_1/conv_1/Relu;tiny_functional_1/conv_1/convolution",
+       "shape": [
+        1,
+        10,
+        10,
+        4
+       ],
+       "type": "FLOAT32",
+       "buffer": 8,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "tiny_functional_1/bn_1/batchnorm/mul_1",
+       "shape": [
+        1,
+        10,
+        10,
+        4
+       ],
+       "type": "FLOAT32",
+       "buffer": 9,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "tiny_functional_1/gap_1/Mean",
+       "shape": [
+        1,
+        4
+       ],
+       "type": "FLOAT32",
+       "buffer": 10,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "tiny_functional_1/aux_1/MatMul1",
+       "shape": [
+        1,
+        1
+       ],
+       "type": "FLOAT32",
+       "buffer": 11,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "StatefulPartitionedCall_1:1",
+       "shape": [
+        1,
+        1
+       ],
+       "type": "FLOAT32",
+       "buffer": 12,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "tiny_functional_1/gmp_1/Max",
+       "shape": [
+        1,
+        4
+       ],
+       "type": "FLOAT32",
+       "buffer": 13,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "tiny_functional_1/concat_1/concat",
+       "shape": [
+        1,
+        8
+       ],
+       "type": "FLOAT32",
+       "buffer": 14,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "StatefulPartitionedCall_1:0",
+       "shape": [
+        1,
+        5
+       ],
+       "type": "FLOAT32",
+       "buffer": 15,
+       "scale": null,
+       "zero_point": null
+      }
+     ],
+     "ops": [
+      "CONV_2D",
+      "MUL",
+      "MEAN",
+      "FULLY_CONNECTED",
+      "LOGISTIC",
+      "REDUCE_MAX",
+      "CONCATENATION",
+      "FULLY_CONNECTED"
+     ],
+     "inputs": [
+      0
+     ],
+     "outputs": [
+      11,
+      14
+     ]
+    }
+   ],
+   "signatures": [
+    {
+     "key": "serving_default",
+     "subgraph": 0,
+     "inputs": [
+      "image"
+     ],
+     "outputs": [
+      "output_0",
+      "output_1"
+     ]
+    }
+   ],
+   "metadata": {
+    "min_runtime_version": 16,
+    "CONVERSION_METADATA": 96
+   },
+   "buffers": [
+    0,
+    0,
+    160,
+    16,
+    16,
+    8,
+    16,
+    144,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    16,
+    96
+   ],
+   "interp_ops": [
+    "CONV_2D",
+    "MUL",
+    "MEAN",
+    "FULLY_CONNECTED",
+    "LOGISTIC",
+    "REDUCE_MAX",
+    "CONCATENATION",
+    "FULLY_CONNECTED"
+   ],
+   "values": {
+    "tiny_functional_1/logits_1/MatMul": [
+     -0.06337589025497437,
+     0.28343600034713745,
+     -0.11804258823394775,
+     -0.6664350628852844
+    ],
+    "tiny_functional_1/aux_1/MatMul": [
+     -0.4158325791358948,
+     -0.6065139770507812,
+     0.5945411920547485,
+     0.6101694107055664
+    ],
+    "arith.constant": [
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "arith.constant1": [
+     1,
+     2
+    ],
+    "tiny_functional_1/bn_1/batchnorm/Rsqrt": [
+     0.9995003342628479,
+     0.9995003342628479,
+     0.9995003342628479,
+     0.9995003342628479
+    ],
+    "tiny_functional_1/conv_1/convolution": [
+     -0.11256158351898193,
+     0.08710551261901855,
+     0.28500914573669434,
+     -0.23274901509284973
+    ]
+   }
+  },
+  "tflite-control-flow.tflite": {
+   "version": 3,
+   "description": "MLIR Converted.",
+   "subgraphs": [
+    {
+     "name": "main",
+     "tensors": [
+      {
+       "name": "x",
+       "shape": [
+        4
+       ],
+       "type": "FLOAT32",
+       "buffer": 1,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "n",
+       "shape": [],
+       "type": "INT32",
+       "buffer": 2,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "arith.constant",
+       "shape": [],
+       "type": "INT32",
+       "buffer": 3,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "Const_1",
+       "shape": [
+        1
+       ],
+       "type": "INT32",
+       "buffer": 3,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "Greater/y",
+       "shape": [],
+       "type": "FLOAT32",
+       "buffer": 3,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "while",
+       "shape": [],
+       "type": "INT32",
+       "buffer": 6,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "while1",
+       "shape": [
+        4
+       ],
+       "type": "FLOAT32",
+       "buffer": 7,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "while2",
+       "shape": [],
+       "type": "INT32",
+       "buffer": 8,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "Sum",
+       "shape": [],
+       "type": "FLOAT32",
+       "buffer": 9,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "Greater",
+       "shape": [],
+       "type": "BOOL",
+       "buffer": 10,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "Identity",
+       "shape": [
+        4
+       ],
+       "type": "FLOAT32",
+       "buffer": 11,
+       "scale": null,
+       "zero_point": null
+      }
+     ],
+     "ops": [
+      "WHILE",
+      "SUM",
+      "GREATER",
+      "IF"
+     ],
+     "inputs": [
+      0,
+      1
+     ],
+     "outputs": [
+      10
+     ]
+    },
+    {
+     "name": "cond_false_17930",
+     "tensors": [
+      {
+       "name": "cond_false_17930_arg0",
+       "shape": [
+        4
+       ],
+       "type": "FLOAT32",
+       "buffer": 12,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "cond/Neg",
+       "shape": [
+        4
+       ],
+       "type": "FLOAT32",
+       "buffer": 13,
+       "scale": null,
+       "zero_point": null
+      }
+     ],
+     "ops": [
+      "NEG"
+     ],
+     "inputs": [
+      0
+     ],
+     "outputs": [
+      1
+     ]
+    },
+    {
+     "name": "cond_true_17920",
+     "tensors": [
+      {
+       "name": "cond_true_17920_arg0",
+       "shape": [
+        4
+       ],
+       "type": "FLOAT32",
+       "buffer": 14,
+       "scale": null,
+       "zero_point": null
+      }
+     ],
+     "ops": [],
+     "inputs": [
+      0
+     ],
+     "outputs": [
+      0
+     ]
+    },
+    {
+     "name": "while_cond",
+     "tensors": [
+      {
+       "name": "while_cond_arg0",
+       "shape": [],
+       "type": "INT32",
+       "buffer": 15,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "while_cond_arg1",
+       "shape": [
+        4
+       ],
+       "type": "FLOAT32",
+       "buffer": 16,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "while_cond_arg2",
+       "shape": [],
+       "type": "INT32",
+       "buffer": 17,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "while/Less",
+       "shape": [],
+       "type": "BOOL",
+       "buffer": 18,
+       "scale": null,
+       "zero_point": null
+      }
+     ],
+     "ops": [
+      "LESS"
+     ],
+     "inputs": [
+      0,
+      1,
+      2
+     ],
+     "outputs": [
+      3
+     ]
+    },
+    {
+     "name": "while_body",
+     "tensors": [
+      {
+       "name": "while_body_arg0",
+       "shape": [],
+       "type": "INT32",
+       "buffer": 19,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "while_body_arg1",
+       "shape": [
+        4
+       ],
+       "type": "FLOAT32",
+       "buffer": 20,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "while_body_arg2",
+       "shape": [],
+       "type": "INT32",
+       "buffer": 21,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "arith.constant1",
+       "shape": [],
+       "type": "INT32",
+       "buffer": 22,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "while/add_1/y",
+       "shape": [],
+       "type": "FLOAT32",
+       "buffer": 23,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "while/mul/y",
+       "shape": [],
+       "type": "FLOAT32",
+       "buffer": 24,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "while/add",
+       "shape": [],
+       "type": "INT32",
+       "buffer": 25,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "while/mul",
+       "shape": [
+        4
+       ],
+       "type": "FLOAT32",
+       "buffer": 26,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "while/add_1",
+       "shape": [
+        4
+       ],
+       "type": "FLOAT32",
+       "buffer": 27,
+       "scale": null,
+       "zero_point": null
+      }
+     ],
+     "ops": [
+      "ADD",
+      "MUL",
+      "ADD"
+     ],
+     "inputs": [
+      0,
+      1,
+      2
+     ],
+     "outputs": [
+      6,
+      8,
+      2
+     ]
+    }
+   ],
+   "signatures": [],
+   "metadata": {
+    "min_runtime_version": 16,
+    "CONVERSION_METADATA": 96
+   },
+   "buffers": [
+    0,
+    0,
+    0,
+    4,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    4,
+    4,
+    4,
+    0,
+    0,
+    0,
+    16,
+    96
+   ],
+   "interp_ops": [
+    "WHILE",
+    "SUM",
+    "GREATER",
+    "IF"
+   ],
+   "values": {
+    "arith.constant": [
+     0
+    ],
+    "Const_1": [
+     0
+    ],
+    "Greater/y": [
+     0.0
+    ]
+   }
+  },
+  "tflite-dynamic-range.tflite": {
+   "version": 3,
+   "description": "MLIR Converted.",
+   "subgraphs": [
+    {
+     "name": "main",
+     "tensors": [
+      {
+       "name": "serving_default_keras_tensor:0",
+       "shape": [
+        1,
+        16
+       ],
+       "type": "FLOAT32",
+       "buffer": 1,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "tiny_seq_1/probs_1/MatMul",
+       "shape": [
+        3,
+        128
+       ],
+       "type": "FLOAT32",
+       "buffer": 2,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "tiny_seq_1/hidden_1/MatMul",
+       "shape": [
+        128,
+        16
+       ],
+       "type": "INT8",
+       "buffer": 3,
+       "scale": [
+        0.0015976023860275745,
+        0.0014548280742019415,
+        0.0016027136007323861,
+        0.0015731811290606856
+       ],
+       "zero_point": [
+        0,
+        0,
+        0,
+        0
+       ]
+      },
+      {
+       "name": "tiny_seq_1/hidden_1/MatMul;tiny_seq_1/hidden_1/Relu",
+       "shape": [
+        1,
+        128
+       ],
+       "type": "FLOAT32",
+       "buffer": 4,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "tiny_seq_1/probs_1/MatMul1",
+       "shape": [
+        1,
+        3
+       ],
+       "type": "FLOAT32",
+       "buffer": 5,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "StatefulPartitionedCall_1:0",
+       "shape": [
+        1,
+        3
+       ],
+       "type": "FLOAT32",
+       "buffer": 6,
+       "scale": null,
+       "zero_point": null
+      }
+     ],
+     "ops": [
+      "FULLY_CONNECTED",
+      "FULLY_CONNECTED",
+      "SOFTMAX"
+     ],
+     "inputs": [
+      0
+     ],
+     "outputs": [
+      5
+     ]
+    }
+   ],
+   "signatures": [
+    {
+     "key": "serving_default",
+     "subgraph": 0,
+     "inputs": [
+      "keras_tensor"
+     ],
+     "outputs": [
+      "output_0"
+     ]
+    }
+   ],
+   "metadata": {
+    "min_runtime_version": 16,
+    "CONVERSION_METADATA": 96
+   },
+   "buffers": [
+    0,
+    0,
+    1536,
+    2048,
+    0,
+    0,
+    0,
+    16,
+    96
+   ],
+   "interp_ops": [
+    "FULLY_CONNECTED",
+    "FULLY_CONNECTED",
+    "SOFTMAX"
+   ],
+   "values": {
+    "tiny_seq_1/probs_1/MatMul": [
+     0.06815136969089508,
+     0.20607097446918488,
+     0.13495270907878876,
+     0.008537903428077698
+    ],
+    "tiny_seq_1/hidden_1/MatMul": [
+     4,
+     -1,
+     72,
+     27
+    ]
+   }
+  },
+  "tflite-int8.tflite": {
+   "version": 3,
+   "description": "MLIR Converted.",
+   "subgraphs": [
+    {
+     "name": "main",
+     "tensors": [
+      {
+       "name": "serving_default_image:0",
+       "shape": [
+        1,
+        12,
+        12,
+        1
+       ],
+       "type": "INT8",
+       "buffer": 1,
+       "scale": [
+        0.02508028782904148
+       ],
+       "zero_point": [
+        3
+       ]
+      },
+      {
+       "name": "arith.constant1",
+       "shape": [
+        2
+       ],
+       "type": "INT32",
+       "buffer": 2,
+       "scale": null,
+       "zero_point": null
+      },
+      {
+       "name": "tiny_functional_1/logits_1/MatMul",
+       "shape": [
+        5,
+        8
+       ],
+       "type": "INT8",
+       "buffer": 3,
+       "scale": [
+        0.005247520282864571,
+        0.005273072514683008,
+        0.003257805947214365,
+        0.0049520693719387054
+       ],
+       "zero_point": [
+        0,
+        0,
+        0,
+        0
+       ]
+      },
+      {
+       "name": "tiny_functional_1/aux_1/MatMul",
+       "shape": [
+        1,
+        4
+       ],
+       "type": "INT8",
+       "buffer": 4,
+       "scale": [
+        0.004804483614861965
+       ],
+       "zero_point": [
+        0
+       ]
+      },
+      {
+       "name": "tiny_functional_1/bn_1/batchnorm/Rsqrt",
+       "shape": [
+        4
+       ],
+       "type": "INT8",
+       "buffer": 5,
+       "scale": [
+        0.003919609356671572
+       ],
+       "zero_point": [
+        -128
+       ]
+      },
+      {
+       "name": "arith.constant",
+       "shape": [
+        4
+       ],
+       "type": "INT32",
+       "buffer": 6,
+       "scale": [
+        6.237324851099402e-05,
+        6.705661508021876e-05,
+        7.122169336071238e-05,
+        6.927450885996222e-05
+       ],
+       "zero_point": [
+        0,
+        0,
+        0,
+        0
+       ]
+      },
+      {
+       "name": "tiny_functional_1/conv_1/convolution",
+       "shape": [
+        4,
+        3,
+        3,
+        1
+       ],
+       "type": "INT8",
+       "buffer": 7,
+       "scale": [
+        0.00248694303445518,
+        0.0026736781001091003,
+        0.002839747816324234,
+        0.0027621097397059202
+       ],
+       "zero_point": [
+        0,
+        0,
+        0,
+        0
+       ]
+      },
+      {
+       "name": "tiny_functional_1/conv_1/Relu;tiny_functional_1/conv_1/convolution",
+       "shape": [
+        1,
+        10,
+        10,
+        4
+       ],
+       "type": "INT8",
+       "buffer": 8,
+       "scale": [
+        0.008637895807623863
+       ],
+       "zero_point": [
+        -128
+       ]
+      },
+      {
+       "name": "tiny_functional_1/bn_1/batchnorm/mul_1",
+       "shape": [
+        1,
+        10,
+        10,
+        4
+       ],
+       "type": "INT8",
+       "buffer": 9,
+       "scale": [
+        0.008633580058813095
+       ],
+       "zero_point": [
+        -128
+       ]
+      },
+      {
+       "name": "tiny_functional_1/gap_1/Mean",
+       "shape": [
+        1,
+        4
+       ],
+       "type": "INT8",
+       "buffer": 10,
+       "scale": [
+        0.008633580058813095
+       ],
+       "zero_point": [
+        -128
+       ]
+      },
+      {
+       "name": "tiny_functional_1/aux_1/MatMul1",
+       "shape": [
+        1,
+        1
+       ],
+       "type": "INT8",
+       "buffer": 11,
+       "scale": [
+        0.00034185228287242353
+       ],
+       "zero_point": [
+        46
+       ]
+      },
+      {
+       "name": "StatefulPartitionedCall_1:1",
+       "shape": [
+        1,
+        1
+       ],
+       "type": "INT8",
+       "buffer": 12,
+       "scale": [
+        0.00390625
+       ],
+       "zero_point": [
+        -128
+       ]
+      },
+      {
+       "name": "tiny_functional_1/gmp_1/Max",
+       "shape": [
+        1,
+        4
+       ],
+       "type": "INT8",
+       "buffer": 13,
+       "scale": [
+        0.008633580058813095
+       ],
+       "zero_point": [
+        -128
+       ]
+      },
+      {
+       "name": "tiny_functional_1/concat_1/concat",
+       "shape": [
+        1,
+        8
+       ],
+       "type": "INT8",
+       "buffer": 14,
+       "scale": [
+        0.008633580058813095
+       ],
+       "zero_point": [
+        -128
+       ]
+      },
+      {
+       "name": "StatefulPartitionedCall_1:0",
+       "shape": [
+        1,
+        5
+       ],
+       "type": "INT8",
+       "buffer": 15,
+       "scale": [
+        0.011455830186605453
+       ],
+       "zero_point": [
+        -45
+       ]
+      }
+     ],
+     "ops": [
+      "CONV_2D",
+      "MUL",
+      "MEAN",
+      "FULLY_CONNECTED",
+      "LOGISTIC",
+      "REDUCE_MAX",
+      "CONCATENATION",
+      "FULLY_CONNECTED"
+     ],
+     "inputs": [
+      0
+     ],
+     "outputs": [
+      11,
+      14
+     ]
+    }
+   ],
+   "signatures": [
+    {
+     "key": "serving_default",
+     "subgraph": 0,
+     "inputs": [
+      "image"
+     ],
+     "outputs": [
+      "output_0",
+      "output_1"
+     ]
+    }
+   ],
+   "metadata": {
+    "min_runtime_version": 16,
+    "CONVERSION_METADATA": 96
+   },
+   "buffers": [
+    0,
+    0,
+    8,
+    40,
+    4,
+    4,
+    16,
+    36,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    16,
+    96
+   ],
+   "interp_ops": [
+    "CONV_2D",
+    "MUL",
+    "MEAN",
+    "FULLY_CONNECTED",
+    "LOGISTIC",
+    "REDUCE_MAX",
+    "CONCATENATION",
+    "FULLY_CONNECTED"
+   ],
+   "values": {
+    "arith.constant1": [
+     1,
+     2
+    ],
+    "tiny_functional_1/logits_1/MatMul": [
+     -12,
+     54,
+     -22,
+     -127
+    ],
+    "tiny_functional_1/aux_1/MatMul": [
+     -87,
+     -126,
+     124,
+     127
+    ],
+    "tiny_functional_1/bn_1/batchnorm/Rsqrt": [
+     127,
+     127,
+     127,
+     127
+    ],
+    "arith.constant": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "tiny_functional_1/conv_1/convolution": [
+     -45,
+     35,
+     115,
+     -94
+    ]
+   }
+  }
+ }
+}

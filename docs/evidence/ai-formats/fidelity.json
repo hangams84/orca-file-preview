@@ -1,0 +1,9034 @@
+{
+ "by": {
+  "numpy": {
+   "checks": 73,
+   "ok": 73
+  },
+  "gguf": {
+   "checks": 193,
+   "ok": 193
+  },
+  "onnx": {
+   "checks": 286,
+   "ok": 286
+  },
+  "tflite": {
+   "checks": 313,
+   "ok": 313
+  },
+  "hdf5": {
+   "checks": 426,
+   "ok": 426
+  },
+  "keras": {
+   "checks": 206,
+   "ok": 206
+  },
+  "fuzz": {
+   "checks": 3,
+   "ok": 3
+  }
+ },
+ "results": [
+  {
+   "format": "numpy",
+   "file": "np-f32.npy",
+   "check": "shape",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-f32.npy",
+   "check": "dtype",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-f32.npy",
+   "check": "bytes",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-f32.npy",
+   "check": "values",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-f64.npy",
+   "check": "shape",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-f64.npy",
+   "check": "dtype",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-f64.npy",
+   "check": "bytes",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-f64.npy",
+   "check": "values",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-f16.npy",
+   "check": "shape",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-f16.npy",
+   "check": "dtype",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-f16.npy",
+   "check": "bytes",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-f16.npy",
+   "check": "values",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-i8.npy",
+   "check": "shape",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-i8.npy",
+   "check": "dtype",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-i8.npy",
+   "check": "bytes",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-i8.npy",
+   "check": "values",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-u8.npy",
+   "check": "shape",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-u8.npy",
+   "check": "dtype",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-u8.npy",
+   "check": "bytes",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-u8.npy",
+   "check": "values",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-bool.npy",
+   "check": "shape",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-bool.npy",
+   "check": "dtype",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-bool.npy",
+   "check": "bytes",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-bool.npy",
+   "check": "values",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-i64be.npy",
+   "check": "shape",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-i64be.npy",
+   "check": "dtype",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-i64be.npy",
+   "check": "bytes",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-i64be.npy",
+   "check": "values",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-c64.npy",
+   "check": "shape",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-c64.npy",
+   "check": "dtype",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-c64.npy",
+   "check": "bytes",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-unicode.npy",
+   "check": "shape",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-unicode.npy",
+   "check": "bytes",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-bytes.npy",
+   "check": "shape",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-bytes.npy",
+   "check": "bytes",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-scalar.npy",
+   "check": "shape",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-scalar.npy",
+   "check": "dtype",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-scalar.npy",
+   "check": "bytes",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-scalar.npy",
+   "check": "values",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-empty.npy",
+   "check": "shape",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-empty.npy",
+   "check": "dtype",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-empty.npy",
+   "check": "bytes",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-empty.npy",
+   "check": "values",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-fortran.npy",
+   "check": "shape",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-fortran.npy",
+   "check": "dtype",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-fortran.npy",
+   "check": "bytes",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-fortran.npy",
+   "check": "values",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-struct.npy",
+   "check": "shape",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-struct.npy",
+   "check": "bytes",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-object.npy",
+   "check": "shape",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-object.npy",
+   "check": "bytes",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-stored.npz",
+   "check": "arrays",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-stored.npz",
+   "check": "weights shape",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-stored.npz",
+   "check": "weights dtype",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-stored.npz",
+   "check": "weights values",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-stored.npz",
+   "check": "bias shape",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-stored.npz",
+   "check": "bias dtype",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-stored.npz",
+   "check": "bias values",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-stored.npz",
+   "check": "ids shape",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-stored.npz",
+   "check": "ids dtype",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-stored.npz",
+   "check": "ids values",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-stored.npz",
+   "check": "names shape",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-compressed.npz",
+   "check": "arrays",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-compressed.npz",
+   "check": "weights shape",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-compressed.npz",
+   "check": "weights dtype",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-compressed.npz",
+   "check": "weights values",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-compressed.npz",
+   "check": "bias shape",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-compressed.npz",
+   "check": "bias dtype",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-compressed.npz",
+   "check": "bias values",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-compressed.npz",
+   "check": "ids shape",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-compressed.npz",
+   "check": "ids dtype",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-compressed.npz",
+   "check": "ids values",
+   "ok": true
+  },
+  {
+   "format": "numpy",
+   "file": "np-compressed.npz",
+   "check": "names shape",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "tensor names",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "alignment",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "data offset",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "token_embd.weight shape",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "token_embd.weight type",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "token_embd.weight bytes",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "token_embd.weight offset",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "token_embd.weight values (Q8_0)",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.attn_norm.weight shape",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.attn_norm.weight type",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.attn_norm.weight bytes",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.attn_norm.weight offset",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.attn_norm.weight values (F32)",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.attn_q.weight shape",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.attn_q.weight type",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.attn_q.weight bytes",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.attn_q.weight offset",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.attn_q.weight values (Q4_0)",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.attn_k.weight shape",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.attn_k.weight type",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.attn_k.weight bytes",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.attn_k.weight offset",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.attn_k.weight values (Q4_1)",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.attn_v.weight shape",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.attn_v.weight type",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.attn_v.weight bytes",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.attn_v.weight offset",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.attn_v.weight values (Q5_0)",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.attn_output.weight shape",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.attn_output.weight type",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.attn_output.weight bytes",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.attn_output.weight offset",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.attn_output.weight values (F16)",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.ffn_norm.weight shape",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.ffn_norm.weight type",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.ffn_norm.weight bytes",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.ffn_norm.weight offset",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.ffn_norm.weight values (F32)",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.ffn_gate.weight shape",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.ffn_gate.weight type",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.ffn_gate.weight bytes",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.ffn_gate.weight offset",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.ffn_gate.weight values (Q4_K)",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.ffn_up.weight shape",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.ffn_up.weight type",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.ffn_up.weight bytes",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.ffn_up.weight offset",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.ffn_up.weight values (Q6_K)",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.ffn_down.weight shape",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.ffn_down.weight type",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.ffn_down.weight bytes",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.ffn_down.weight offset",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.ffn_down.weight values (Q3_K)",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.ffn_gate_inp.weight shape",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.ffn_gate_inp.weight type",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.ffn_gate_inp.weight bytes",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.ffn_gate_inp.weight offset",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.0.ffn_gate_inp.weight not decoded (IQ2_XXS)",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.attn_norm.weight shape",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.attn_norm.weight type",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.attn_norm.weight bytes",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.attn_norm.weight offset",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.attn_norm.weight values (F32)",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.attn_q.weight shape",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.attn_q.weight type",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.attn_q.weight bytes",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.attn_q.weight offset",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.attn_q.weight values (Q4_0)",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.attn_k.weight shape",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.attn_k.weight type",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.attn_k.weight bytes",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.attn_k.weight offset",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.attn_k.weight values (Q5_1)",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.attn_v.weight shape",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.attn_v.weight type",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.attn_v.weight bytes",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.attn_v.weight offset",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.attn_v.weight values (Q5_0)",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.attn_output.weight shape",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.attn_output.weight type",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.attn_output.weight bytes",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.attn_output.weight offset",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.attn_output.weight values (F16)",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.ffn_norm.weight shape",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.ffn_norm.weight type",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.ffn_norm.weight bytes",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.ffn_norm.weight offset",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.ffn_norm.weight values (F32)",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.ffn_gate.weight shape",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.ffn_gate.weight type",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.ffn_gate.weight bytes",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.ffn_gate.weight offset",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.ffn_gate.weight values (Q5_K)",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.ffn_up.weight shape",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.ffn_up.weight type",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.ffn_up.weight bytes",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.ffn_up.weight offset",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.ffn_up.weight values (Q2_K)",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.ffn_down.weight shape",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.ffn_down.weight type",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.ffn_down.weight bytes",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.ffn_down.weight offset",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.ffn_down.weight values (IQ4_NL)",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.ffn_gate_inp.weight shape",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.ffn_gate_inp.weight type",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.ffn_gate_inp.weight bytes",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.ffn_gate_inp.weight offset",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "blk.1.ffn_gate_inp.weight values (IQ4_XS)",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "output_norm.weight shape",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "output_norm.weight type",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "output_norm.weight bytes",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "output_norm.weight offset",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "output_norm.weight values (F32)",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "output.weight shape",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "output.weight type",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "output.weight bytes",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "output.weight offset",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "output.weight values (BF16)",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "kv general.architecture",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "kv general.name",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "kv llama.context_length",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "kv llama.embedding_length",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "kv llama.block_count",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "kv llama.feed_forward_length",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "kv llama.attention.head_count",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "kv llama.attention.head_count_kv",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "kv llama.attention.layer_norm_rms_epsilon",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "kv general.file_type",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "kv tokenizer.ggml.model",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "kv tokenizer.ggml.tokens length",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "kv tokenizer.ggml.tokens",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "kv tokenizer.ggml.scores length",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "kv tokenizer.ggml.scores",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "kv tokenizer.ggml.token_type length",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "kv tokenizer.ggml.token_type",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "kv tokenizer.ggml.bos_token_id",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "kv tokenizer.ggml.eos_token_id",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "kv test.u8",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "kv test.i8",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "kv test.u16",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "kv test.i16",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "kv test.u32",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "kv test.i32",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "kv test.u64",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "kv test.i64",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "kv test.f32",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "kv test.f64",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "kv test.bool",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "kv test.str",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "kv test.arr_i32",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "kv test.arr_str",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "kv test.arr_nested",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-tiny-llama.gguf",
+   "check": "tree blk.0 groups",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "tensor names",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "alignment",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "data offset",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "blk.0.attn_qkv.weight shape",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "blk.0.attn_qkv.weight type",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "blk.0.attn_qkv.weight bytes",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "blk.0.attn_qkv.weight offset",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "blk.0.attn_qkv.weight values (Q8_0)",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "blk.0.ffn_up.weight shape",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "blk.0.ffn_up.weight type",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "blk.0.ffn_up.weight bytes",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "blk.0.ffn_up.weight offset",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "blk.0.ffn_up.weight values (Q4_K)",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "blk.0.ffn_down.weight shape",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "blk.0.ffn_down.weight type",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "blk.0.ffn_down.weight bytes",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "blk.0.ffn_down.weight offset",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "blk.0.ffn_down.weight values (Q6_K)",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "blk.0.attn_norm.weight shape",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "blk.0.attn_norm.weight type",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "blk.0.attn_norm.weight bytes",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "blk.0.attn_norm.weight offset",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "blk.0.attn_norm.weight values (F16)",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "output.weight shape",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "output.weight type",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "output.weight bytes",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "output.weight offset",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "output.weight values (BF16)",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "token_embd.weight shape",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "token_embd.weight type",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "token_embd.weight bytes",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "token_embd.weight offset",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "token_embd.weight not decoded (IQ2_XXS)",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "kv general.architecture",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "kv general.name",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "kv gpt2.block_count",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "kv test.arr_str",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "kv test.arr_f32",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "kv test.u64",
+   "ok": true
+  },
+  {
+   "format": "gguf",
+   "file": "gguf-unit.gguf",
+   "check": "tree blk.0 groups",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-mlp.onnx",
+   "check": "ir_version",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-mlp.onnx",
+   "check": "opsets",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-mlp.onnx",
+   "check": "producer",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-mlp.onnx",
+   "check": "metadata sample",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-mlp.onnx",
+   "check": "functions",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-mlp.onnx",
+   "check": "main nodes",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-mlp.onnx",
+   "check": "main op histogram",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-mlp.onnx",
+   "check": "main inputs",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-mlp.onnx",
+   "check": "main outputs",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-mlp.onnx",
+   "check": "main node names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-mlp.onnx",
+   "check": "main /fc1/Gemm attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-mlp.onnx",
+   "check": "main /fc2/Gemm attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-mlp.onnx",
+   "check": "init fc1.weight shape",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-mlp.onnx",
+   "check": "init fc1.weight dtype",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-mlp.onnx",
+   "check": "init fc1.weight external",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-mlp.onnx",
+   "check": "init fc1.weight values",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-mlp.onnx",
+   "check": "init fc1.bias shape",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-mlp.onnx",
+   "check": "init fc1.bias dtype",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-mlp.onnx",
+   "check": "init fc1.bias external",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-mlp.onnx",
+   "check": "init fc1.bias values",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-mlp.onnx",
+   "check": "init fc2.weight shape",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-mlp.onnx",
+   "check": "init fc2.weight dtype",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-mlp.onnx",
+   "check": "init fc2.weight external",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-mlp.onnx",
+   "check": "init fc2.weight values",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-mlp.onnx",
+   "check": "init fc2.bias shape",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-mlp.onnx",
+   "check": "init fc2.bias dtype",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-mlp.onnx",
+   "check": "init fc2.bias external",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-mlp.onnx",
+   "check": "init fc2.bias values",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-mlp.onnx",
+   "check": "params",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "ir_version",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "opsets",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "producer",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "metadata sample",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "functions",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "main nodes",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "main op histogram",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "main inputs",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "main outputs",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "main node names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "main /conv1/Conv attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "main /conv2/Conv attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "main /Flatten attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "main /head/Gemm attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "init conv2.weight shape",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "init conv2.weight dtype",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "init conv2.weight external",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "init conv2.weight values",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "init conv2.bias shape",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "init conv2.bias dtype",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "init conv2.bias external",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "init conv2.bias values",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "init head.weight shape",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "init head.weight dtype",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "init head.weight external",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "init head.weight values",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "init head.bias shape",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "init head.bias dtype",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "init head.bias external",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "init head.bias values",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "init onnx::Conv_21 shape",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "init onnx::Conv_21 dtype",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "init onnx::Conv_21 external",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "init onnx::Conv_21 values",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "init onnx::Conv_22 shape",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "init onnx::Conv_22 dtype",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "init onnx::Conv_22 external",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "init onnx::Conv_22 values",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-cnn.onnx",
+   "check": "params",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "ir_version",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "opsets",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "producer",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "metadata sample",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "functions",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main nodes",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main op histogram",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main inputs",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main outputs",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main node names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Constant attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Constant_1 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Transpose attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Constant_2 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Constant_3 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Constant_4 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Constant_5 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Constant_6 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Constant_7 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Constant_8 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Constant_9 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Constant_10 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Concat attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Reshape_2 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Constant_11 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Transpose_1 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Constant_12 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Gather attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Gather_1 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Gather_2 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Constant_13 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Reshape_3 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Transpose_2 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Constant_14 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Reshape_4 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Transpose_3 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Constant_15 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Reshape_5 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Transpose_4 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Constant_16 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Reshape_6 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Constant_17 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Constant_18 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Reshape_7 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Reshape_8 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Constant_19 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Constant_20 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Cast attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Constant_21 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Cast_1 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Transpose_5 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Softmax attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Transpose_6 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Constant_22 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Reshape_9 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Gemm attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Constant_23 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Reshape_10 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/self_attn/Transpose_7 attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/norm1/LayerNormalization attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "main /enc/norm2/LayerNormalization attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init emb.weight shape",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init emb.weight dtype",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init emb.weight external",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init emb.weight values",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init enc.self_attn.in_proj_bias shape",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init enc.self_attn.in_proj_bias dtype",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init enc.self_attn.in_proj_bias external",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init enc.self_attn.in_proj_bias values",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init enc.self_attn.out_proj.weight shape",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init enc.self_attn.out_proj.weight dtype",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init enc.self_attn.out_proj.weight external",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init enc.self_attn.out_proj.weight values",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init enc.self_attn.out_proj.bias shape",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init enc.self_attn.out_proj.bias dtype",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init enc.self_attn.out_proj.bias external",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init enc.self_attn.out_proj.bias values",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init enc.linear1.bias shape",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init enc.linear1.bias dtype",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init enc.linear1.bias external",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init enc.linear1.bias values",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init enc.linear2.bias shape",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init enc.linear2.bias dtype",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init enc.linear2.bias external",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init enc.linear2.bias values",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init enc.norm1.weight shape",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init enc.norm1.weight dtype",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init enc.norm1.weight external",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init enc.norm1.weight values",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init out.bias shape",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init out.bias dtype",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init out.bias external",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init out.bias values",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init onnx::MatMul_173 shape",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init onnx::MatMul_173 dtype",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init onnx::MatMul_173 external",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init onnx::MatMul_173 values",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init onnx::MatMul_212 shape",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init onnx::MatMul_212 dtype",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init onnx::MatMul_212 external",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init onnx::MatMul_212 values",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init onnx::MatMul_213 shape",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init onnx::MatMul_213 dtype",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init onnx::MatMul_213 external",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init onnx::MatMul_213 values",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init onnx::MatMul_214 shape",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init onnx::MatMul_214 dtype",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init onnx::MatMul_214 external",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "init onnx::MatMul_214 values",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-transformer.onnx",
+   "check": "params",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-external.onnx",
+   "check": "ir_version",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-external.onnx",
+   "check": "opsets",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-external.onnx",
+   "check": "producer",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-external.onnx",
+   "check": "metadata sample",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-external.onnx",
+   "check": "functions",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-external.onnx",
+   "check": "main nodes",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-external.onnx",
+   "check": "main op histogram",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-external.onnx",
+   "check": "main inputs",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-external.onnx",
+   "check": "main outputs",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-external.onnx",
+   "check": "main node names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-external.onnx",
+   "check": "main /fc1/Gemm attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-external.onnx",
+   "check": "main /fc2/Gemm attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-external.onnx",
+   "check": "init fc1.weight shape",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-external.onnx",
+   "check": "init fc1.weight dtype",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-external.onnx",
+   "check": "init fc1.weight external",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-external.onnx",
+   "check": "init fc1.weight no read",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-external.onnx",
+   "check": "init fc1.bias shape",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-external.onnx",
+   "check": "init fc1.bias dtype",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-external.onnx",
+   "check": "init fc1.bias external",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-external.onnx",
+   "check": "init fc1.bias no read",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-external.onnx",
+   "check": "init fc2.weight shape",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-external.onnx",
+   "check": "init fc2.weight dtype",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-external.onnx",
+   "check": "init fc2.weight external",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-external.onnx",
+   "check": "init fc2.weight no read",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-external.onnx",
+   "check": "init fc2.bias shape",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-external.onnx",
+   "check": "init fc2.bias dtype",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-external.onnx",
+   "check": "init fc2.bias external",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-external.onnx",
+   "check": "init fc2.bias no read",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-external.onnx",
+   "check": "params",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "ir_version",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "opsets",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "producer",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "metadata author",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "metadata license",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "functions",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main nodes",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main op histogram",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main inputs",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main outputs",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main node names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main branch attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main trip_count attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main acc_init attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main loop attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main scan attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main all_attrs attr names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main/else_branch nodes",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main/else_branch op histogram",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main/else_branch inputs",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main/else_branch outputs",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main/else_branch node names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main/then_branch nodes",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main/then_branch op histogram",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main/then_branch inputs",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main/then_branch outputs",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main/then_branch node names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main/loop_body nodes",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main/loop_body op histogram",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main/loop_body inputs",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main/loop_body outputs",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main/loop_body node names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main/scan_body nodes",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main/scan_body op histogram",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main/scan_body inputs",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main/scan_body outputs",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main/scan_body node names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main/then_branch nodes",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main/then_branch op histogram",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main/then_branch inputs",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main/then_branch outputs",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main/then_branch node names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main/else_branch nodes",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main/else_branch op histogram",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main/else_branch inputs",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main/else_branch outputs",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "main/else_branch node names",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "init w_float_data shape",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "init w_float_data dtype",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "init w_float_data external",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "init w_float_data values",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "init w_int64_data shape",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "init w_int64_data dtype",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "init w_int64_data external",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "init w_int64_data values",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "init w_f16 shape",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "init w_f16 dtype",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "init w_f16 external",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "init w_f16 values",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "init w_str shape",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "init w_str dtype",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "init w_str external",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "init w_raw_f64 shape",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "init w_raw_f64 dtype",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "init w_raw_f64 external",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "init w_raw_f64 values",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "init w_bf16 shape",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "init w_bf16 dtype",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "init w_bf16 external",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "init w_bf16 values",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "init w_u8 shape",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "init w_u8 dtype",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "init w_u8 external",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "init w_u8 values",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "init one shape",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "init one dtype",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "init one external",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "init one values",
+   "ok": true
+  },
+  {
+   "format": "onnx",
+   "file": "onnx-control-flow.onnx",
+   "check": "params",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-sequential.tflite",
+   "check": "schema version",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-sequential.tflite",
+   "check": "subgraphs",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-sequential.tflite",
+   "check": "main ops",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-sequential.tflite",
+   "check": "main inputs",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-sequential.tflite",
+   "check": "main outputs",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-sequential.tflite",
+   "check": "main serving_default_keras_tensor:0 shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-sequential.tflite",
+   "check": "main serving_default_keras_tensor:0 dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-sequential.tflite",
+   "check": "main serving_default_keras_tensor:0 stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-sequential.tflite",
+   "check": "main tiny_seq_1/probs_1/MatMul shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-sequential.tflite",
+   "check": "main tiny_seq_1/probs_1/MatMul dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-sequential.tflite",
+   "check": "main tiny_seq_1/probs_1/MatMul stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-sequential.tflite",
+   "check": "tiny_seq_1/probs_1/MatMul bytes",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-sequential.tflite",
+   "check": "tiny_seq_1/probs_1/MatMul values",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-sequential.tflite",
+   "check": "main tiny_seq_1/hidden_1/MatMul shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-sequential.tflite",
+   "check": "main tiny_seq_1/hidden_1/MatMul dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-sequential.tflite",
+   "check": "main tiny_seq_1/hidden_1/MatMul stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-sequential.tflite",
+   "check": "tiny_seq_1/hidden_1/MatMul bytes",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-sequential.tflite",
+   "check": "tiny_seq_1/hidden_1/MatMul values",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-sequential.tflite",
+   "check": "main tiny_seq_1/hidden_1/MatMul;tiny_seq_1/hidden_1/Relu shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-sequential.tflite",
+   "check": "main tiny_seq_1/hidden_1/MatMul;tiny_seq_1/hidden_1/Relu dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-sequential.tflite",
+   "check": "main tiny_seq_1/hidden_1/MatMul;tiny_seq_1/hidden_1/Relu stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-sequential.tflite",
+   "check": "main tiny_seq_1/probs_1/MatMul1 shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-sequential.tflite",
+   "check": "main tiny_seq_1/probs_1/MatMul1 dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-sequential.tflite",
+   "check": "main tiny_seq_1/probs_1/MatMul1 stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-sequential.tflite",
+   "check": "main StatefulPartitionedCall_1:0 shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-sequential.tflite",
+   "check": "main StatefulPartitionedCall_1:0 dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-sequential.tflite",
+   "check": "main StatefulPartitionedCall_1:0 stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-sequential.tflite",
+   "check": "signatures",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-sequential.tflite",
+   "check": "metadata names",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-sequential.tflite",
+   "check": "ops vs interpreter",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "schema version",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "subgraphs",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main ops",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main inputs",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main outputs",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main serving_default_image:0 shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main serving_default_image:0 dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main serving_default_image:0 stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main tiny_functional_1/logits_1/MatMul shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main tiny_functional_1/logits_1/MatMul dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main tiny_functional_1/logits_1/MatMul stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "tiny_functional_1/logits_1/MatMul bytes",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "tiny_functional_1/logits_1/MatMul values",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main tiny_functional_1/aux_1/MatMul shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main tiny_functional_1/aux_1/MatMul dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main tiny_functional_1/aux_1/MatMul stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "tiny_functional_1/aux_1/MatMul bytes",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "tiny_functional_1/aux_1/MatMul values",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main arith.constant shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main arith.constant dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main arith.constant stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "arith.constant bytes",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "arith.constant values",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main arith.constant1 shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main arith.constant1 dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main arith.constant1 stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "arith.constant1 bytes",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "arith.constant1 values",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main tiny_functional_1/bn_1/batchnorm/Rsqrt shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main tiny_functional_1/bn_1/batchnorm/Rsqrt dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main tiny_functional_1/bn_1/batchnorm/Rsqrt stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "tiny_functional_1/bn_1/batchnorm/Rsqrt bytes",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "tiny_functional_1/bn_1/batchnorm/Rsqrt values",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main tiny_functional_1/conv_1/convolution shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main tiny_functional_1/conv_1/convolution dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main tiny_functional_1/conv_1/convolution stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "tiny_functional_1/conv_1/convolution bytes",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "tiny_functional_1/conv_1/convolution values",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main tiny_functional_1/conv_1/Relu;tiny_functional_1/conv_1/convolution shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main tiny_functional_1/conv_1/Relu;tiny_functional_1/conv_1/convolution dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main tiny_functional_1/conv_1/Relu;tiny_functional_1/conv_1/convolution stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main tiny_functional_1/bn_1/batchnorm/mul_1 shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main tiny_functional_1/bn_1/batchnorm/mul_1 dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main tiny_functional_1/bn_1/batchnorm/mul_1 stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main tiny_functional_1/gap_1/Mean shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main tiny_functional_1/gap_1/Mean dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main tiny_functional_1/gap_1/Mean stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main tiny_functional_1/aux_1/MatMul1 shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main tiny_functional_1/aux_1/MatMul1 dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main tiny_functional_1/aux_1/MatMul1 stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main StatefulPartitionedCall_1:1 shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main StatefulPartitionedCall_1:1 dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main StatefulPartitionedCall_1:1 stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main tiny_functional_1/gmp_1/Max shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main tiny_functional_1/gmp_1/Max dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main tiny_functional_1/gmp_1/Max stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main tiny_functional_1/concat_1/concat shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main tiny_functional_1/concat_1/concat dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main tiny_functional_1/concat_1/concat stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main StatefulPartitionedCall_1:0 shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main StatefulPartitionedCall_1:0 dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "main StatefulPartitionedCall_1:0 stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "signatures",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "metadata names",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-functional.tflite",
+   "check": "ops vs interpreter",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "schema version",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "subgraphs",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main ops",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main inputs",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main outputs",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main x shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main x dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main x stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main n shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main n dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main n stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main arith.constant shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main arith.constant dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main arith.constant stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "arith.constant bytes",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "arith.constant values",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main Const_1 shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main Const_1 dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main Const_1 stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "Const_1 bytes",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "Const_1 values",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main Greater/y shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main Greater/y dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main Greater/y stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "Greater/y bytes",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "Greater/y values",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main while shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main while dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main while stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main while1 shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main while1 dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main while1 stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main while2 shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main while2 dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main while2 stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main Sum shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main Sum dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main Sum stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main Greater shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main Greater dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main Greater stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main Identity shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main Identity dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "main Identity stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "cond_false_17930 ops",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "cond_false_17930 inputs",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "cond_false_17930 outputs",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "cond_false_17930 cond_false_17930_arg0 shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "cond_false_17930 cond_false_17930_arg0 dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "cond_false_17930 cond_false_17930_arg0 stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "cond_false_17930 cond/Neg shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "cond_false_17930 cond/Neg dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "cond_false_17930 cond/Neg stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "cond_true_17920 ops",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "cond_true_17920 inputs",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "cond_true_17920 outputs",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "cond_true_17920 cond_true_17920_arg0 shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "cond_true_17920 cond_true_17920_arg0 dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "cond_true_17920 cond_true_17920_arg0 stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_cond ops",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_cond inputs",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_cond outputs",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_cond while_cond_arg0 shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_cond while_cond_arg0 dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_cond while_cond_arg0 stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_cond while_cond_arg1 shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_cond while_cond_arg1 dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_cond while_cond_arg1 stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_cond while_cond_arg2 shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_cond while_cond_arg2 dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_cond while_cond_arg2 stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_cond while/Less shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_cond while/Less dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_cond while/Less stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_body ops",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_body inputs",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_body outputs",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_body while_body_arg0 shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_body while_body_arg0 dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_body while_body_arg0 stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_body while_body_arg1 shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_body while_body_arg1 dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_body while_body_arg1 stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_body while_body_arg2 shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_body while_body_arg2 dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_body while_body_arg2 stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_body arith.constant1 shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_body arith.constant1 dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_body arith.constant1 stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "arith.constant1 bytes",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_body while/add_1/y shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_body while/add_1/y dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_body while/add_1/y stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while/add_1/y bytes",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_body while/mul/y shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_body while/mul/y dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_body while/mul/y stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while/mul/y bytes",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_body while/add shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_body while/add dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_body while/add stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_body while/mul shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_body while/mul dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_body while/mul stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_body while/add_1 shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_body while/add_1 dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "while_body while/add_1 stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "signatures",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "metadata names",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-control-flow.tflite",
+   "check": "ops vs interpreter",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-dynamic-range.tflite",
+   "check": "schema version",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-dynamic-range.tflite",
+   "check": "subgraphs",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-dynamic-range.tflite",
+   "check": "main ops",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-dynamic-range.tflite",
+   "check": "main inputs",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-dynamic-range.tflite",
+   "check": "main outputs",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-dynamic-range.tflite",
+   "check": "main serving_default_keras_tensor:0 shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-dynamic-range.tflite",
+   "check": "main serving_default_keras_tensor:0 dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-dynamic-range.tflite",
+   "check": "main serving_default_keras_tensor:0 stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-dynamic-range.tflite",
+   "check": "main tiny_seq_1/probs_1/MatMul shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-dynamic-range.tflite",
+   "check": "main tiny_seq_1/probs_1/MatMul dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-dynamic-range.tflite",
+   "check": "main tiny_seq_1/probs_1/MatMul stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-dynamic-range.tflite",
+   "check": "tiny_seq_1/probs_1/MatMul bytes",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-dynamic-range.tflite",
+   "check": "tiny_seq_1/probs_1/MatMul values",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-dynamic-range.tflite",
+   "check": "main tiny_seq_1/hidden_1/MatMul shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-dynamic-range.tflite",
+   "check": "main tiny_seq_1/hidden_1/MatMul dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-dynamic-range.tflite",
+   "check": "main tiny_seq_1/hidden_1/MatMul stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-dynamic-range.tflite",
+   "check": "tiny_seq_1/hidden_1/MatMul bytes",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-dynamic-range.tflite",
+   "check": "tiny_seq_1/hidden_1/MatMul scale",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-dynamic-range.tflite",
+   "check": "tiny_seq_1/hidden_1/MatMul zero point",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-dynamic-range.tflite",
+   "check": "tiny_seq_1/hidden_1/MatMul values",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-dynamic-range.tflite",
+   "check": "main tiny_seq_1/hidden_1/MatMul;tiny_seq_1/hidden_1/Relu shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-dynamic-range.tflite",
+   "check": "main tiny_seq_1/hidden_1/MatMul;tiny_seq_1/hidden_1/Relu dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-dynamic-range.tflite",
+   "check": "main tiny_seq_1/hidden_1/MatMul;tiny_seq_1/hidden_1/Relu stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-dynamic-range.tflite",
+   "check": "main tiny_seq_1/probs_1/MatMul1 shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-dynamic-range.tflite",
+   "check": "main tiny_seq_1/probs_1/MatMul1 dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-dynamic-range.tflite",
+   "check": "main tiny_seq_1/probs_1/MatMul1 stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-dynamic-range.tflite",
+   "check": "main StatefulPartitionedCall_1:0 shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-dynamic-range.tflite",
+   "check": "main StatefulPartitionedCall_1:0 dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-dynamic-range.tflite",
+   "check": "main StatefulPartitionedCall_1:0 stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-dynamic-range.tflite",
+   "check": "signatures",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-dynamic-range.tflite",
+   "check": "metadata names",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-dynamic-range.tflite",
+   "check": "ops vs interpreter",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "schema version",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "subgraphs",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main ops",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main inputs",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main outputs",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main serving_default_image:0 shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main serving_default_image:0 dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main serving_default_image:0 stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main arith.constant1 shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main arith.constant1 dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main arith.constant1 stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "arith.constant1 bytes",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "arith.constant1 values",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main tiny_functional_1/logits_1/MatMul shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main tiny_functional_1/logits_1/MatMul dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main tiny_functional_1/logits_1/MatMul stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "tiny_functional_1/logits_1/MatMul bytes",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "tiny_functional_1/logits_1/MatMul scale",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "tiny_functional_1/logits_1/MatMul zero point",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "tiny_functional_1/logits_1/MatMul values",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main tiny_functional_1/aux_1/MatMul shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main tiny_functional_1/aux_1/MatMul dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main tiny_functional_1/aux_1/MatMul stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "tiny_functional_1/aux_1/MatMul bytes",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "tiny_functional_1/aux_1/MatMul scale",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "tiny_functional_1/aux_1/MatMul zero point",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "tiny_functional_1/aux_1/MatMul values",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main tiny_functional_1/bn_1/batchnorm/Rsqrt shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main tiny_functional_1/bn_1/batchnorm/Rsqrt dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main tiny_functional_1/bn_1/batchnorm/Rsqrt stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "tiny_functional_1/bn_1/batchnorm/Rsqrt bytes",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "tiny_functional_1/bn_1/batchnorm/Rsqrt scale",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "tiny_functional_1/bn_1/batchnorm/Rsqrt zero point",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "tiny_functional_1/bn_1/batchnorm/Rsqrt values",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main arith.constant shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main arith.constant dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main arith.constant stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "arith.constant bytes",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "arith.constant scale",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "arith.constant zero point",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "arith.constant values",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main tiny_functional_1/conv_1/convolution shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main tiny_functional_1/conv_1/convolution dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main tiny_functional_1/conv_1/convolution stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "tiny_functional_1/conv_1/convolution bytes",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "tiny_functional_1/conv_1/convolution scale",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "tiny_functional_1/conv_1/convolution zero point",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "tiny_functional_1/conv_1/convolution values",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main tiny_functional_1/conv_1/Relu;tiny_functional_1/conv_1/convolution shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main tiny_functional_1/conv_1/Relu;tiny_functional_1/conv_1/convolution dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main tiny_functional_1/conv_1/Relu;tiny_functional_1/conv_1/convolution stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main tiny_functional_1/bn_1/batchnorm/mul_1 shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main tiny_functional_1/bn_1/batchnorm/mul_1 dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main tiny_functional_1/bn_1/batchnorm/mul_1 stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main tiny_functional_1/gap_1/Mean shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main tiny_functional_1/gap_1/Mean dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main tiny_functional_1/gap_1/Mean stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main tiny_functional_1/aux_1/MatMul1 shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main tiny_functional_1/aux_1/MatMul1 dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main tiny_functional_1/aux_1/MatMul1 stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main StatefulPartitionedCall_1:1 shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main StatefulPartitionedCall_1:1 dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main StatefulPartitionedCall_1:1 stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main tiny_functional_1/gmp_1/Max shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main tiny_functional_1/gmp_1/Max dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main tiny_functional_1/gmp_1/Max stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main tiny_functional_1/concat_1/concat shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main tiny_functional_1/concat_1/concat dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main tiny_functional_1/concat_1/concat stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main StatefulPartitionedCall_1:0 shape",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main StatefulPartitionedCall_1:0 dtype",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "main StatefulPartitionedCall_1:0 stored",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "signatures",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "metadata names",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "tflite-int8.tflite",
+   "check": "ops vs interpreter",
+   "ok": true
+  },
+  {
+   "format": "tflite",
+   "file": "schema",
+   "check": "builtin op table",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "superblock",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "dataset paths",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "big_endian shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "big_endian dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "big_endian big-endian",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "big_endian values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "big_endian attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "chunked shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "chunked dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "chunked chunks",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "chunked values (chunked)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "chunked attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "compound shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "compound dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "compound attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "contiguous shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "contiguous dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "contiguous values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "contiguous attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "empty shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "empty dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "empty attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "f16 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "f16 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "f16 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "f16 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "group/nested/compact shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "group/nested/compact dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "group/nested/compact values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "group/nested/compact attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "gzip_shuffle shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "gzip_shuffle dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "gzip_shuffle chunks",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "gzip_shuffle values (chunked shuffle+deflate)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "gzip_shuffle attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d00 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d00 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d00 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d00 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d01 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d01 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d01 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d01 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d02 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d02 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d02 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d02 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d03 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d03 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d03 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d03 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d04 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d04 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d04 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d04 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d05 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d05 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d05 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d05 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d06 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d06 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d06 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d06 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d07 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d07 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d07 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d07 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d08 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d08 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d08 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d08 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d09 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d09 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d09 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d09 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d10 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d10 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d10 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d10 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d11 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d11 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d11 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d11 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d12 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d12 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d12 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d12 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d13 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d13 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d13 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d13 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d14 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d14 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d14 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d14 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d15 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d15 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d15 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d15 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d16 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d16 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d16 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d16 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d17 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d17 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d17 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d17 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d18 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d18 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d18 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d18 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d19 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d19 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d19 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "many/d19 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "resizable shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "resizable dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "resizable chunks",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "resizable values (chunked)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "resizable attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "scalar shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "scalar dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "scalar values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "scalar attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "single_chunk shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "single_chunk dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "single_chunk chunks",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "single_chunk values (chunked deflate)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "single_chunk attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "strings shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "strings dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "strings attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "vlen_str shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "vlen_str dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "vlen_str attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "attr scales",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "attr tags",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "attr title",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "attr utf8",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "attr version",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "group group/nested attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v0.h5",
+   "check": "no issues",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "superblock",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "dataset paths",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "big_endian shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "big_endian dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "big_endian big-endian",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "big_endian values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "big_endian attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "chunked shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "chunked dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "chunked chunks",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "chunked values (chunked)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "chunked attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "compound shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "compound dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "compound attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "contiguous shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "contiguous dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "contiguous values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "contiguous attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "empty shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "empty dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "empty attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "f16 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "f16 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "f16 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "f16 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "group/nested/compact shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "group/nested/compact dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "group/nested/compact values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "group/nested/compact attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "gzip_shuffle shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "gzip_shuffle dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "gzip_shuffle chunks",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "gzip_shuffle values (chunked shuffle+deflate)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "gzip_shuffle attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d00 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d00 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d00 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d00 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d01 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d01 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d01 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d01 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d02 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d02 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d02 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d02 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d03 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d03 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d03 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d03 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d04 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d04 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d04 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d04 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d05 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d05 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d05 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d05 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d06 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d06 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d06 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d06 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d07 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d07 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d07 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d07 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d08 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d08 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d08 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d08 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d09 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d09 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d09 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d09 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d10 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d10 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d10 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d10 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d11 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d11 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d11 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d11 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d12 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d12 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d12 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d12 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d13 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d13 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d13 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d13 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d14 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d14 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d14 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d14 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d15 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d15 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d15 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d15 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d16 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d16 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d16 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d16 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d17 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d17 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d17 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d17 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d18 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d18 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d18 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d18 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d19 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d19 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d19 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "many/d19 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "resizable shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "resizable dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "resizable chunks",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "resizable values (chunked)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "resizable attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "scalar shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "scalar dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "scalar values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "scalar attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "single_chunk shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "single_chunk dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "single_chunk chunks",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "single_chunk values (chunked deflate)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "single_chunk attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "strings shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "strings dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "strings attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "vlen_str shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "vlen_str dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "vlen_str attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "attr scales",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "attr tags",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "attr title",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "attr utf8",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "attr version",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "group group/nested attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v2.h5",
+   "check": "no issues",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "superblock",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "dataset paths",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "big_endian shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "big_endian dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "big_endian big-endian",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "big_endian values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "big_endian attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "chunked shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "chunked dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "chunked chunks",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "chunked values (chunked)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "chunked attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "compound shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "compound dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "compound attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "contiguous shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "contiguous dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "contiguous values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "contiguous attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "empty shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "empty dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "empty attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "f16 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "f16 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "f16 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "f16 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "group/nested/compact shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "group/nested/compact dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "group/nested/compact values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "group/nested/compact attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "gzip_shuffle shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "gzip_shuffle dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "gzip_shuffle chunks",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "gzip_shuffle values (chunked shuffle+deflate)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "gzip_shuffle attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d00 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d00 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d00 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d00 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d01 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d01 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d01 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d01 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d02 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d02 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d02 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d02 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d03 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d03 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d03 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d03 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d04 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d04 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d04 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d04 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d05 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d05 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d05 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d05 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d06 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d06 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d06 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d06 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d07 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d07 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d07 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d07 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d08 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d08 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d08 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d08 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d09 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d09 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d09 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d09 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d10 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d10 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d10 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d10 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d11 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d11 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d11 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d11 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d12 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d12 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d12 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d12 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d13 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d13 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d13 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d13 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d14 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d14 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d14 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d14 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d15 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d15 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d15 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d15 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d16 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d16 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d16 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d16 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d17 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d17 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d17 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d17 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d18 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d18 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d18 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d18 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d19 shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d19 dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d19 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "many/d19 attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "resizable shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "resizable dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "resizable chunks",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "resizable values (chunked)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "resizable attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "scalar shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "scalar dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "scalar values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "scalar attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "single_chunk shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "single_chunk dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "single_chunk chunks",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "single_chunk values (chunked deflate)",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "single_chunk attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "strings shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "strings dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "strings attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "vlen_str shape",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "vlen_str dtype",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "vlen_str attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "attr scales",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "attr tags",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "attr title",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "attr utf8",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "attr version",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "group group/nested attrs",
+   "ok": true
+  },
+  {
+   "format": "hdf5",
+   "file": "hdf5-v3.h5",
+   "check": "no issues",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.keras",
+   "check": "parameters",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.keras",
+   "check": "graph ops",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.keras",
+   "check": "graph node names",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.keras",
+   "check": "module children",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.keras",
+   "check": "hidden weight shapes",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.keras",
+   "check": "hidden weight names",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.keras",
+   "check": "dropout weight shapes",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.keras",
+   "check": "dropout weight names",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.keras",
+   "check": "probs weight shapes",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.keras",
+   "check": "probs weight names",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.keras",
+   "check": "optimizer",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.keras",
+   "check": "dataset paths",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.keras",
+   "check": "layers/dense/vars/0 shape",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.keras",
+   "check": "layers/dense/vars/0 dtype",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.keras",
+   "check": "layers/dense/vars/0 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.keras",
+   "check": "layers/dense/vars/0 attrs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.keras",
+   "check": "layers/dense/vars/1 shape",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.keras",
+   "check": "layers/dense/vars/1 dtype",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.keras",
+   "check": "layers/dense/vars/1 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.keras",
+   "check": "layers/dense/vars/1 attrs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.keras",
+   "check": "layers/dense_1/vars/0 shape",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.keras",
+   "check": "layers/dense_1/vars/0 dtype",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.keras",
+   "check": "layers/dense_1/vars/0 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.keras",
+   "check": "layers/dense_1/vars/0 attrs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.keras",
+   "check": "layers/dense_1/vars/1 shape",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.keras",
+   "check": "layers/dense_1/vars/1 dtype",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.keras",
+   "check": "layers/dense_1/vars/1 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.keras",
+   "check": "layers/dense_1/vars/1 attrs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.keras",
+   "check": "no issues",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.h5",
+   "check": "parameters",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.h5",
+   "check": "graph ops",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.h5",
+   "check": "graph node names",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.h5",
+   "check": "module children",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.h5",
+   "check": "hidden weight shapes",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.h5",
+   "check": "hidden weight names",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.h5",
+   "check": "dropout weight shapes",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.h5",
+   "check": "dropout weight names",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.h5",
+   "check": "probs weight shapes",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.h5",
+   "check": "probs weight names",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.h5",
+   "check": "optimizer",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.h5",
+   "check": "dataset paths",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.h5",
+   "check": "model_weights/hidden/tiny_seq/hidden/bias shape",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.h5",
+   "check": "model_weights/hidden/tiny_seq/hidden/bias dtype",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.h5",
+   "check": "model_weights/hidden/tiny_seq/hidden/bias values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.h5",
+   "check": "model_weights/hidden/tiny_seq/hidden/bias attrs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.h5",
+   "check": "model_weights/hidden/tiny_seq/hidden/kernel shape",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.h5",
+   "check": "model_weights/hidden/tiny_seq/hidden/kernel dtype",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.h5",
+   "check": "model_weights/hidden/tiny_seq/hidden/kernel values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.h5",
+   "check": "model_weights/hidden/tiny_seq/hidden/kernel attrs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.h5",
+   "check": "model_weights/probs/tiny_seq/probs/bias shape",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.h5",
+   "check": "model_weights/probs/tiny_seq/probs/bias dtype",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.h5",
+   "check": "model_weights/probs/tiny_seq/probs/bias values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.h5",
+   "check": "model_weights/probs/tiny_seq/probs/bias attrs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.h5",
+   "check": "model_weights/probs/tiny_seq/probs/kernel shape",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.h5",
+   "check": "model_weights/probs/tiny_seq/probs/kernel dtype",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.h5",
+   "check": "model_weights/probs/tiny_seq/probs/kernel values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.h5",
+   "check": "model_weights/probs/tiny_seq/probs/kernel attrs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-sequential.h5",
+   "check": "no issues",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "parameters",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "graph ops",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "graph node names",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "module children",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "image weight shapes",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "image weight names",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "conv weight shapes",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "conv weight names",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "bn weight shapes",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "bn weight names",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "gap weight shapes",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "gap weight names",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "gmp weight shapes",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "gmp weight names",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "concat weight shapes",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "concat weight names",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "logits weight shapes",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "logits weight names",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "aux weight shapes",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "aux weight names",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "concat inputs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "aux inputs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "graph inputs/outputs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "optimizer",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "dataset paths",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/batch_normalization/vars/0 shape",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/batch_normalization/vars/0 dtype",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/batch_normalization/vars/0 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/batch_normalization/vars/0 attrs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/batch_normalization/vars/1 shape",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/batch_normalization/vars/1 dtype",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/batch_normalization/vars/1 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/batch_normalization/vars/1 attrs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/batch_normalization/vars/2 shape",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/batch_normalization/vars/2 dtype",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/batch_normalization/vars/2 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/batch_normalization/vars/2 attrs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/batch_normalization/vars/3 shape",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/batch_normalization/vars/3 dtype",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/batch_normalization/vars/3 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/batch_normalization/vars/3 attrs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/conv2d/vars/0 shape",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/conv2d/vars/0 dtype",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/conv2d/vars/0 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/conv2d/vars/0 attrs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/conv2d/vars/1 shape",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/conv2d/vars/1 dtype",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/conv2d/vars/1 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/conv2d/vars/1 attrs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/dense/vars/0 shape",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/dense/vars/0 dtype",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/dense/vars/0 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/dense/vars/0 attrs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/dense/vars/1 shape",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/dense/vars/1 dtype",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/dense/vars/1 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/dense/vars/1 attrs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/dense_1/vars/0 shape",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/dense_1/vars/0 dtype",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/dense_1/vars/0 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/dense_1/vars/0 attrs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/dense_1/vars/1 shape",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/dense_1/vars/1 dtype",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/dense_1/vars/1 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "layers/dense_1/vars/1 attrs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "optimizer/vars/0 shape",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "optimizer/vars/0 dtype",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "optimizer/vars/0 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "optimizer/vars/0 attrs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "optimizer/vars/1 shape",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "optimizer/vars/1 dtype",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "optimizer/vars/1 values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "optimizer/vars/1 attrs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.keras",
+   "check": "no issues",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "parameters",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "graph ops",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "graph node names",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "module children",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "image weight shapes",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "image weight names",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "conv weight shapes",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "conv weight names",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "bn weight shapes",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "bn weight names",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "gap weight shapes",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "gap weight names",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "gmp weight shapes",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "gmp weight names",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "concat weight shapes",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "concat weight names",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "logits weight shapes",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "logits weight names",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "aux weight shapes",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "aux weight names",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "concat inputs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "aux inputs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "graph inputs/outputs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "optimizer",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "dataset paths",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/aux/aux/bias shape",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/aux/aux/bias dtype",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/aux/aux/bias values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/aux/aux/bias attrs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/aux/aux/kernel shape",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/aux/aux/kernel dtype",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/aux/aux/kernel values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/aux/aux/kernel attrs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/bn/bn/beta shape",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/bn/bn/beta dtype",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/bn/bn/beta values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/bn/bn/beta attrs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/bn/bn/gamma shape",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/bn/bn/gamma dtype",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/bn/bn/gamma values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/bn/bn/gamma attrs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/bn/bn/moving_mean shape",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/bn/bn/moving_mean dtype",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/bn/bn/moving_mean values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/bn/bn/moving_mean attrs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/bn/bn/moving_variance shape",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/bn/bn/moving_variance dtype",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/bn/bn/moving_variance values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/bn/bn/moving_variance attrs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/conv/conv/bias shape",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/conv/conv/bias dtype",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/conv/conv/bias values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/conv/conv/bias attrs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/conv/conv/kernel shape",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/conv/conv/kernel dtype",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/conv/conv/kernel values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/conv/conv/kernel attrs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/logits/logits/bias shape",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/logits/logits/bias dtype",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/logits/logits/bias values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/logits/logits/bias attrs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/logits/logits/kernel shape",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/logits/logits/kernel dtype",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/logits/logits/kernel values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "model_weights/logits/logits/kernel attrs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "optimizer_weights/adam/iteration shape",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "optimizer_weights/adam/iteration dtype",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "optimizer_weights/adam/iteration values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "optimizer_weights/adam/iteration attrs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "optimizer_weights/adam/learning_rate shape",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "optimizer_weights/adam/learning_rate dtype",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "optimizer_weights/adam/learning_rate values (contiguous)",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "optimizer_weights/adam/learning_rate attrs",
+   "ok": true
+  },
+  {
+   "format": "keras",
+   "file": "keras-functional.h5",
+   "check": "no issues",
+   "ok": true
+  },
+  {
+   "format": "fuzz",
+   "file": "*",
+   "check": "no raw exceptions",
+   "ok": true
+  },
+  {
+   "format": "fuzz",
+   "file": "*",
+   "check": "no hangs",
+   "ok": true
+  },
+  {
+   "format": "fuzz",
+   "file": "*",
+   "check": "no raw tensor-read exceptions",
+   "ok": true
+  }
+ ]
+}
