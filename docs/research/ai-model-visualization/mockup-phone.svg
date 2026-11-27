@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="760" viewBox="0 0 390 760" font-family="Segoe UI, Malgun Gothic, sans-serif" font-size="12">
+  <rect width="390" height="760" rx="28" fill="#fff" stroke="#bbb"/>
+  <rect x="0" y="30" width="390" height="80" fill="#fafafa"/><line x1="0" y1="110" x2="390" y2="110" stroke="#ddd"/>
+  <rect x="10" y="38" width="44" height="30" rx="6" fill="#333"/><text x="17" y="58" fill="#fff">그래프</text>
+  <rect x="58" y="38" width="38" height="30" rx="6" fill="#eee" stroke="#ccc"/><text x="65" y="58">트리</text>
+  <rect x="100" y="38" width="30" height="30" rx="6" fill="#eee" stroke="#ccc"/><text x="109" y="58">표</text>
+  <rect x="134" y="38" width="30" height="30" rx="6" fill="#eee" stroke="#ccc"/><text x="143" y="58">맵</text>
+  <rect x="168" y="38" width="38" height="30" rx="6" fill="#eee" stroke="#ccc"/><text x="175" y="58">도식</text>
+  <rect x="210" y="38" width="38" height="30" rx="6" fill="#eee" stroke="#ccc"/><text x="217" y="58">텐서</text>
+  <rect x="252" y="38" width="38" height="30" rx="6" fill="#eee" stroke="#ccc"/><text x="259" y="58">정보</text>
+  <rect x="294" y="38" width="34" height="30" rx="6" fill="#eee" stroke="#ccc"/><text x="304" y="58">⋯</text>
+  <text x="12" y="96" fill="#666" font-size="11">TorchScript · 1.2 M params · 4.6 MB (전체 폭 정보 행)</text>
+  <g stroke="#888" fill="none"><path d="M195 160 V180"/><path d="M195 216 V236"/><path d="M195 272 V292"/></g>
+  <rect x="130" y="130" width="130" height="30" rx="15" fill="none" stroke="#999"/><text x="195" y="150" text-anchor="middle">input</text>
+  <rect x="110" y="180" width="170" height="36" rx="6" fill="#d8e5fb" stroke="#2a5ea8"/><text x="120" y="203">linear · fc1</text>
+  <rect x="110" y="236" width="170" height="36" rx="6" fill="#fde7c8" stroke="#9a6a10"/><text x="120" y="259">relu</text>
+  <rect x="110" y="292" width="170" height="36" rx="6" fill="#d8e5fb" stroke="#2a5ea8"/><text x="120" y="315">linear · fc2</text>
+  <rect x="0" y="520" width="390" height="240" rx="16" fill="#f3f3f5" stroke="#ccc"/>
+  <rect x="175" y="530" width="40" height="5" rx="3" fill="#bbb"/>
+  <text x="16" y="562" font-weight="700" font-size="14">linear · fc1</text>
+  <text x="16" y="582" fill="#666">aten::linear · Linear(64 → 48)</text>
+  <g font-family="Consolas, monospace" font-size="11"><text x="16" y="608">weight  fc1.weight  f32 48×64</text><text x="16" y="626">bias    fc1.bias    f32 48</text></g>
+  <text x="16" y="660" fill="#666">세부 패널 = 하단 시트 (휴대폰 폭 ≤ 600 px)</text>
+</svg>

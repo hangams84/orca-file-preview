@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="640" viewBox="0 0 1100 640" font-family="Segoe UI, Malgun Gothic, sans-serif" font-size="12">
+  <rect width="1100" height="640" fill="#1e1f22"/>
+  <rect width="1100" height="40" fill="#2b2d31"/>
+  <rect x="8" y="10" width="44" height="20" rx="4" fill="#3a3c42"/><text x="16" y="24" fill="#ddd" font-weight="600" font-size="11">PT</text>
+  <g font-size="12">
+    <rect x="62" y="7" width="58" height="26" rx="6" fill="#e6e6e6"/><text x="73" y="24" fill="#111">그래프</text>
+    <rect x="124" y="7" width="58" height="26" rx="6" fill="#3a3c42" stroke="#555"/><text x="141" y="24" fill="#ddd">트리</text>
+    <rect x="186" y="7" width="40" height="26" rx="6" fill="#3a3c42" stroke="#555"/><text x="200" y="24" fill="#ddd">표</text>
+    <rect x="230" y="7" width="40" height="26" rx="6" fill="#3a3c42" stroke="#555"/><text x="244" y="24" fill="#ddd">맵</text>
+    <rect x="274" y="7" width="46" height="26" rx="6" fill="#3a3c42" stroke="#555"/><text x="286" y="24" fill="#ddd">도식</text>
+    <rect x="324" y="7" width="46" height="26" rx="6" fill="#3a3c42" stroke="#555"/><text x="336" y="24" fill="#ddd">텐서</text>
+    <rect x="374" y="7" width="46" height="26" rx="6" fill="#3a3c42" stroke="#555"/><text x="386" y="24" fill="#ddd">정보</text>
+    <rect x="434" y="7" width="150" height="26" rx="6" fill="#1e1f22" stroke="#555"/><text x="444" y="24" fill="#888">노드·텐서 검색</text>
+    <rect x="590" y="7" width="40" height="26" rx="6" fill="#3a3c42" stroke="#555"/><text x="600" y="24" fill="#ddd">↕ ↔</text>
+    <rect x="634" y="7" width="72" height="26" rx="6" fill="#3a3c42" stroke="#555"/><text x="642" y="24" fill="#ddd">내보내기 ▾</text>
+    <text x="1090" y="24" fill="#999" text-anchor="end">TorchScript · 11.7 M params · 44.7 MB</text>
+  </g>
+  <rect x="0" y="40" width="1100" height="46" fill="#232428"/>
+  <g fill="#bbb"><text x="14" y="60">형식 <tspan fill="#fff" font-weight="600">TorchScript (zip v3)</tspan></text>
+  <text x="230" y="60">파라미터 <tspan fill="#fff" font-weight="600">11,689,512</tspan></text>
+  <text x="420" y="60">크기 <tspan fill="#fff" font-weight="600">44.7 MB</tspan></text>
+  <text x="560" y="60">dtype</text></g>
+  <rect x="600" y="51" width="200" height="10" rx="3" fill="#4c8bf5"/><rect x="760" y="51" width="40" height="10" fill="#a0a0a0"/>
+  <text x="14" y="78" fill="#d9a54c">⚠ 노트 2 — 모양은 저장되지 않아 표시되지 않습니다 ▸</text>
+  <g stroke="#777" fill="none" stroke-width="1.4">
+    <path d="M395 140 V170"/><path d="M395 206 V236"/><path d="M395 272 V300"/><path d="M395 400 V430"/><path d="M395 466 V496"/>
+    <path d="M300 286 C250 286 250 440 330 448" stroke-dasharray="4 3"/>
+  </g>
+  <rect x="335" y="110" width="120" height="30" rx="15" fill="none" stroke="#999"/><text x="395" y="130" fill="#ddd" text-anchor="middle">input · x</text>
+  <rect x="320" y="170" width="150" height="36" rx="6" fill="#2f4f86"/><text x="330" y="186" fill="#fff" font-weight="600">conv2d</text><text x="330" y="200" fill="#bcd" font-size="10">conv1 · W 64×3×7×7</text>
+  <rect x="320" y="236" width="150" height="36" rx="6" fill="#2f6b45"/><text x="330" y="252" fill="#fff" font-weight="600">batch_norm</text><text x="330" y="266" fill="#bcd" font-size="10">bn1 · 64</text>
+  <rect x="300" y="300" width="190" height="100" rx="8" fill="#26303f" stroke="#4c8bf5" stroke-dasharray="5 3"/>
+  <text x="312" y="320" fill="#9cf" font-weight="600">▸ layer1  (Sequential · 2 blocks)</text>
+  <text x="312" y="338" fill="#aaa" font-size="11">147,968 params · 12 ops</text>
+  <rect x="312" y="350" width="166" height="38" rx="5" fill="#2b3442"/><text x="322" y="373" fill="#ccc" font-size="11">누르면 펼치기</text>
+  <rect x="320" y="430" width="150" height="36" rx="6" fill="#5a3f7a"/><text x="330" y="446" fill="#fff" font-weight="600">add</text><text x="330" y="460" fill="#dcd" font-size="10">residual</text>
+  <rect x="320" y="496" width="150" height="36" rx="6" fill="#8a5a1f"/><text x="330" y="512" fill="#fff" font-weight="600">relu</text><text x="330" y="526" fill="#edc" font-size="10">layer2.0</text>
+  <rect x="620" y="480" width="150" height="140" rx="6" fill="#26272b" stroke="#444"/>
+  <g fill="#4c8bf5" opacity=".8"><rect x="690" y="490" width="10" height="5"/><rect x="690" y="500" width="10" height="5"/><rect x="684" y="510" width="22" height="10"/><rect x="690" y="525" width="10" height="5"/><rect x="690" y="535" width="10" height="5"/><rect x="684" y="545" width="22" height="10"/><rect x="690" y="560" width="10" height="5"/><rect x="690" y="570" width="10" height="5"/><rect x="684" y="580" width="22" height="10"/><rect x="690" y="598" width="10" height="5"/></g>
+  <rect x="670" y="486" width="50" height="40" fill="none" stroke="#fff"/>
+  <text x="630" y="634" fill="#888" font-size="10">미니맵 · 누르거나 끌어 이동</text>
+  <rect x="790" y="86" width="310" height="554" fill="#26272b"/><line x1="790" y1="86" x2="790" y2="640" stroke="#444"/>
+  <text x="806" y="112" fill="#fff" font-weight="600" font-size="14">conv2d</text>
+  <text x="806" y="130" fill="#999">aten::conv2d · module conv1 (Conv2d)</text>
+  <text x="806" y="160" fill="#bbb">속성</text>
+  <g font-family="Consolas, monospace" font-size="11" fill="#ddd">
+    <text x="816" y="180">stride   [2, 2]</text><text x="816" y="196">padding  [3, 3]</text><text x="816" y="212">dilation [1, 1]</text><text x="816" y="228">groups   1</text>
+  </g>
+  <text x="806" y="258" fill="#bbb">입력</text>
+  <g font-family="Consolas, monospace" font-size="11" fill="#ddd"><text x="816" y="278">input  x</text><text x="816" y="294">weight conv1.weight  f32 64×3×7×7</text><text x="816" y="310">bias   None</text></g>
+  <text x="806" y="340" fill="#bbb">출력</text>
+  <g font-family="Consolas, monospace" font-size="11" fill="#ddd"><text x="816" y="360">input0</text></g>
+  <rect x="806" y="380" width="120" height="26" rx="6" fill="#3a3c42" stroke="#555"/><text x="818" y="397" fill="#ddd">텐서 검사 →</text>
+</svg>

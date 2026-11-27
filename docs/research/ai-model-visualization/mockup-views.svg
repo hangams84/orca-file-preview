@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="700" viewBox="0 0 1100 700" font-family="Segoe UI, Malgun Gothic, sans-serif" font-size="11">
+  <defs><linearGradient id="hm"><stop offset="0" stop-color="#2a5ea8"/><stop offset=".5" stop-color="#f5f5f5"/><stop offset="1" stop-color="#c0392b"/></linearGradient></defs>
+  <rect width="1100" height="700" fill="#f6f6f7"/>
+  <g transform="translate(16,16)"><rect width="340" height="320" rx="8" fill="#fff" stroke="#ddd"/>
+    <text x="12" y="22" font-weight="700" font-size="13">② 모듈 트리</text>
+    <text x="12" y="48">▾ ResNet</text><text x="250" y="48" fill="#555">11.7 M · 44.7 MB</text>
+    <text x="26" y="68">▸ conv1  Conv2d</text><text x="250" y="68" fill="#555">9,408</text>
+    <text x="26" y="88">▸ bn1  BatchNorm2d</text><text x="250" y="88" fill="#555">128</text>
+    <text x="26" y="108">▾ layer1  Sequential</text><text x="250" y="108" fill="#555">147,968</text>
+    <text x="40" y="128">▸ 0  BasicBlock</text><text x="250" y="128" fill="#555">73,984</text>
+    <text x="40" y="148">▸ 1  BasicBlock</text><text x="250" y="148" fill="#555">73,984</text>
+    <text x="26" y="168">▸ layer2 … layer4</text><text x="250" y="168" fill="#555">11.0 M</text>
+    <text x="26" y="188">▸ fc  Linear</text><text x="250" y="188" fill="#555">513,000</text>
+    <rect x="196" y="40" width="48" height="10" fill="#4c8bf5" opacity=".3"/><rect x="196" y="100" width="6" height="10" fill="#4c8bf5" opacity=".5"/>
+    <text x="12" y="300" fill="#777">막대 = 전체 대비 파라미터 비율 · dtype 칩 · 가상 스크롤</text></g>
+  <g transform="translate(376,16)"><rect width="340" height="320" rx="8" fill="#fff" stroke="#ddd"/>
+    <text x="12" y="22" font-weight="700" font-size="13">③ 레이어 표</text>
+    <rect x="12" y="32" width="200" height="22" rx="5" fill="#fff" stroke="#ccc"/><text x="20" y="47" fill="#999">필터: layer1</text>
+    <rect x="240" y="32" width="86" height="22" rx="5" fill="#eee" stroke="#ccc"/><text x="252" y="47">CSV 복사</text>
+    <text x="12" y="76" font-weight="700">이름 ▾</text><text x="150" y="76" font-weight="700">모양</text><text x="230" y="76" font-weight="700">dtype</text><text x="280" y="76" font-weight="700">#params</text>
+    <text x="12" y="96">layer1.0.conv1.weight</text><text x="150" y="96">64×64×3×3</text><text x="230" y="96">f32</text><text x="280" y="96">36,864</text>
+    <text x="12" y="114">layer1.0.bn1.weight</text><text x="150" y="114">64</text><text x="230" y="114">f32</text><text x="280" y="114">64</text>
+    <text x="12" y="132">layer1.0.bn1.running_mean</text><text x="150" y="132">64</text><text x="230" y="132">f32</text><text x="280" y="132">(buf)</text>
+    <text x="12" y="150">layer1.0.conv2.weight</text><text x="150" y="150">64×64×3×3</text><text x="230" y="150">f32</text><text x="280" y="150">36,864</text>
+    <text x="12" y="300" fill="#777">정렬·필터·CSV · 100k 행 가상 스크롤</text></g>
+  <g transform="translate(736,16)"><rect width="348" height="320" rx="8" fill="#fff" stroke="#ddd"/>
+    <text x="12" y="22" font-weight="700" font-size="13">④ 파라미터 맵 (트리맵 / 선버스트)</text>
+    <rect x="12" y="36" width="200" height="250" fill="#3b6fd6"/><text x="20" y="54" fill="#fff">layer4 · 8.4 M (72%)</text>
+    <rect x="214" y="36" width="122" height="130" fill="#5a8be6"/><text x="220" y="54" fill="#fff">layer3 · 2.1 M</text>
+    <rect x="214" y="168" width="122" height="64" fill="#7aa3ee"/><text x="220" y="186" fill="#fff">layer2 · 0.5 M</text>
+    <rect x="214" y="234" width="70" height="52" fill="#9bbcf3"/><text x="218" y="252" fill="#123">fc</text>
+    <rect x="286" y="234" width="50" height="52" fill="#bcd3f7"/><text x="290" y="252" fill="#123">…</text>
+    <text x="12" y="306" fill="#777">클릭 = 확대 · 파라미터/바이트 전환</text></g>
+  <g transform="translate(16,356)"><rect width="520" height="328" rx="8" fill="#fff" stroke="#ddd"/>
+    <text x="12" y="22" font-weight="700" font-size="13">⑤ 아키텍처 도식 <tspan fill="#c55" font-weight="400">(이름·모양에서 추론)</tspan></text>
+    <g fill="#f2b950" stroke="#9a6a10"><path d="M30 200 l30 -20 h10 v120 l-30 20 h-10z"/></g>
+    <g fill="#5d9cec" stroke="#2a5ea8"><path d="M90 210 l24 -16 h20 v96 l-24 16 h-20z"/>
+    <path d="M160 220 l20 -12 h30 v76 l-20 12 h-30z"/>
+    <path d="M240 230 l16 -10 h44 v56 l-16 10 h-44z"/>
+    <path d="M330 238 l12 -8 h60 v40 l-12 8 h-60z"/></g>
+    <g fill="#a3d977" stroke="#4f8a2a"><rect x="430" y="200" width="16" height="100"/><rect x="460" y="230" width="16" height="40"/></g>
+    <g font-size="10" fill="#333"><text x="26" y="342">3×224²</text><text x="86" y="330">64</text><text x="160" y="320">128</text><text x="240" y="310">256</text><text x="330" y="300">512</text><text x="428" y="316">fc 1000</text></g></g>
+  <g transform="translate(556,356)"><rect width="528" height="328" rx="8" fill="#fff" stroke="#ddd"/>
+    <text x="12" y="22" font-weight="700" font-size="13">⑥ 텐서 검사기 — conv1.weight  f32 64×3×7×7</text>
+    <text x="12" y="46">min −0.214 · max 0.231 · mean 0.0003 · std 0.081 · zeros 0% · NaN 0</text>
+    <g fill="#5d9cec"><rect x="12" y="150" width="10" height="20"/><rect x="24" y="130" width="10" height="40"/><rect x="36" y="100" width="10" height="70"/><rect x="48" y="70" width="10" height="100"/><rect x="60" y="62" width="10" height="108"/><rect x="72" y="80" width="10" height="90"/><rect x="84" y="110" width="10" height="60"/><rect x="96" y="140" width="10" height="30"/><rect x="108" y="158" width="10" height="12"/></g>
+    <text x="12" y="186" fill="#777">히스토그램 (64 구간)</text>
+    <g transform="translate(160,60)">
+      <rect width="22" height="22" fill="#7a2"/><rect x="24" width="22" height="22" fill="#c43"/><rect x="48" width="22" height="22" fill="#38c"/><rect x="72" width="22" height="22" fill="#a6c"/><rect x="96" width="22" height="22" fill="#e93"/><rect x="120" width="22" height="22" fill="#5b8"/>
+      <rect y="24" width="22" height="22" fill="#d55"/><rect x="24" y="24" width="22" height="22" fill="#69c"/><rect x="48" y="24" width="22" height="22" fill="#4a4"/><rect x="72" y="24" width="22" height="22" fill="#b83"/><rect x="96" y="24" width="22" height="22" fill="#57b"/><rect x="120" y="24" width="22" height="22" fill="#c6a"/>
+      <text y="64" fill="#777">합성곱 커널 격자 (출력 × 입력 채널, RGB 첫 층은 컬러)</text></g>
+    <g transform="translate(12,210)"><text y="0" fill="#333">2-D 히트맵 (fc.weight 1000×512, 표본 256×256)</text>
+      <rect y="8" width="250" height="90" fill="url(#hm)"/></g>
+    <text x="290" y="300" fill="#777">큰 텐서: 균등 간격 블록 표본(최대 4 MB)</text></g>
+</svg>
