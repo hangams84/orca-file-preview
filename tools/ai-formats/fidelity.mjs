@@ -230,7 +230,69 @@ async function tflite() {
   check('tflite', 'schema', 'builtin op table', Object.entries(table).map(([k, v]) => [Number(k), v]).filter(([k, v]) => mod.BUILTIN_OPS[k] !== v).length, 0)
 }
 
-const sections = { numpy, gguf, onnx, tflite }
+// ---------------------------------------------------------------- HDF5 / Keras
+const H5_DT = { '<f4': 'f32', '<f8': 'f64', '<f2': 'f16', '<i4': 'i32', '<i2': 'i16', '<i8': 'i64', '|u1': 'u8', '|i1': 'i8', '>i4': 'i32', '|b1': 'bool', '|O': 'str' }
+async function h5Compare(fmt, f, ir, th, prefix = '') {
+  const byPath = new Map(ir.tensors.map((x) => [x.attrs.hdf5Path, x]))
+  check(fmt, f, `${prefix}dataset paths`, Object.keys(th.datasets).sort(), [...byPath.keys()].map((p) => p.slice(1)).sort())
+  for (const [p, d] of Object.entries(th.datasets)) {
+    const x = byPath.get('/' + p)
+    if (!x) continue
+    check(fmt, f, `${p} shape`, d.shape, x.shape)
+    const want = H5_DT[d.dtype] ?? (d.dtype.startsWith('|S') ? 'S' + d.dtype.slice(2) : d.dtype)
+    check(fmt, f, `${p} dtype`, want, want === 'struct' ? 'struct' : x.dtype.startsWith('struct') ? 'struct' : x.dtype)
+    if (d.dtype.startsWith('>')) check(fmt, f, `${p} big-endian`, 'big', x.byteOrder)
+    if (d.chunks) check(fmt, f, `${p} chunks`, d.chunks, x.attrs.chunks)
+    if (d.head && typeof d.head[0] === 'number') checkClose(fmt, f, `${p} values (${x.attrs.layout}${x.attrs.filters ? ' ' + x.attrs.filters.join('+') : ''})`, d.head, await head(x))
+    check(fmt, f, `${p} attrs`, d.attrs, Object.keys(x.attrs).filter((k) => k.startsWith('@')).map((k) => k.slice(1)).sort())
+  }
+}
+async function hdf5() {
+  for (const [f, t] of Object.entries(truth.hdf5)) {
+    const ir = await readers.keras.read(source(file(f), f))
+    check('hdf5', f, 'superblock', t.superblock, ir.metadata.hdf5_superblock)
+    await h5Compare('hdf5', f, ir, t)
+    for (const [k, v] of Object.entries(t.root_attr_values)) {
+      const got = ir.metadata[k]
+      if (Array.isArray(v) && typeof v[0] === 'number') checkClose('hdf5', f, `attr ${k}`, v, got)
+      else check('hdf5', f, `attr ${k}`, v, got)
+    }
+    const groupAttrs = {}
+    const walk = (m) => { if (m.attrs && m.path) groupAttrs[m.path.replace(/\./g, '/')] = Object.keys(m.attrs).sort(); m.children.forEach(walk) }
+    walk(ir.modules)
+    for (const [g, keys] of Object.entries(t.attrs)) if (g !== '/') check('hdf5', f, `group ${g} attrs`, keys, groupAttrs[g])
+    check('hdf5', f, 'no issues', [], ir.notes.filter((n) => n.level === 'warn').map((n) => n.en))
+  }
+}
+async function keras() {
+  for (const [f, t] of Object.entries(truth.keras)) {
+    const ir = await readers.keras.read(source(file(f), f))
+    check('keras', f, 'parameters', t.params, ir.metadata.parameters)
+    // model.layers hides a Sequential's InputLayer; the saved config (and our graph) keeps it
+    const hidden = t.class === 'Sequential' ? (n) => n.op !== 'InputLayer' && n.type !== 'InputLayer' : () => true
+    check('keras', f, 'graph ops', t.layers.map((l) => l.class), ir.graph.nodes.filter(hidden).map((n) => n.op))
+    check('keras', f, 'graph node names', t.layers.map((l) => l.name), ir.graph.nodes.filter(hidden).map((n) => n.name))
+    check('keras', f, 'module children', t.layers.map((l) => l.name), ir.modules.children.filter((c) => !c.inferred).filter(hidden).map((c) => c.name))
+    for (const l of t.layers) {
+      const m = ir.modules.children.find((c) => c.name === l.name)
+      const ts = (m?.tensors ?? []).map((n) => ir.tensors.find((x) => x.name === n))
+      check('keras', f, `${l.name} weight shapes`, l.weights.map((w) => w[1]), ts.map((x) => x.shape))
+      const named = ts.map((x) => x.attrs.variable)
+      if (named.every(Boolean)) check('keras', f, `${l.name} weight names`, l.weights.map((w) => w[0].split('/').pop()), named)
+    }
+    if (f.includes('functional')) {
+      const n = (k) => ir.graph.nodes.find((x) => x.name === k)
+      check('keras', f, 'concat inputs', ['gap', 'gmp'], n('concat')?.inputs)
+      check('keras', f, 'aux inputs', ['gap'], n('aux')?.inputs)
+      check('keras', f, 'graph inputs/outputs', [['image'], ['logits', 'aux']], [ir.graph.inputs, ir.graph.outputs])
+    }
+    check('keras', f, 'optimizer', true, !!ir.checkpoint?.optimizers?.length === f.includes('functional'))
+    await h5Compare('keras', f, ir, t.weights_h5 ?? t.h5)
+    check('keras', f, 'no issues', [], ir.notes.filter((n) => n.level === 'warn').map((n) => n.en))
+  }
+}
+
+const sections = { numpy, gguf, onnx, tflite, hdf5, keras }
 const only = arg('only')
 for (const [k, fn] of Object.entries(sections)) {
   if (only && only !== k) continue
