@@ -654,5 +654,7 @@ writeFileSync(join(OUT, 'broken.kicad_sch'), schText.slice(0, Math.floor(schText
 writeFileSync(join(OUT, 'broken.kicad_pcb'), 'EESchema Schematic File Version 4\nthis is not an S-expression\n')
 writeFileSync(join(OUT, 'broken.kicad_pro'), '{ "meta": { "filename": "broken.kicad_pro", ')
 writeFileSync(join(OUT, 'broken.kicad_sym'), '(kicad_symbol_lib (version 20231120) (generator "x"))\n')
-writeFileSync(join(OUT, 'broken.kicad_mod'), '(kicad_wks (version 20231120))\n')
+// Cut off mid-pad. (A worksheet under a .kicad_mod name is not broken: text documents carry no suffix, so the
+// preview recognises and draws the worksheet.)
+writeFileSync(join(OUT, 'broken.kicad_mod'), '(footprint "R_0603" (version 20240108) (generator pcbnew)\n  (layer "F.Cu")\n  (pad "1" smd roundrect (at -0.8 0) (size 0.8 0.9')
 console.log('wrote samples/*.kicad_*')
