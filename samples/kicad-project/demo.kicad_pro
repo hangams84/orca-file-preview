@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "filename": "demo.kicad_pro",
+    "version": 1
+  },
+  "schematic": {
+    "page_layout_descr_file": "demo.kicad_wks",
+    "drawing": {
+      "default_line_thickness": 6
+    }
+  },
+  "pcbnew": {
+    "page_layout_descr_file": ""
+  },
+  "sheets": [
+    [
+      "f1e1d000-0000-4000-8000-000000000001",
+      "Root"
+    ],
+    [
+      "f1e1d000-0000-4000-8000-0000000000a1",
+      "Channel A"
+    ],
+    [
+      "f1e1d000-0000-4000-8000-0000000000b1",
+      "Channel B"
+    ],
+    [
+      "f1e1d000-0000-4000-8000-0000000000c1",
+      "Power"
+    ],
+    [
+      "f1e1d000-0000-4000-8000-0000000000d1",
+      "Regulator"
+    ]
+  ],
+  "text_variables": {
+    "PROJECT_CODE": "FP-42"
+  }
+}

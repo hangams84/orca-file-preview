@@ -105,6 +105,11 @@ const LOADERS: Record<string, () => Promise<{ render: (c: PreviewContext) => Pro
   edz: () => import('../eplan.ts')
 }
 
+/** Adopts the page stylesheet (for `embed` used outside `createPage`). */
+export function adoptPropStyles(): void {
+  adoptStyle('prop', CSS)
+}
+
 export function canEmbed(ext: string): boolean {
   return ext.toLowerCase() in LOADERS
 }

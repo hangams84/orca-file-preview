@@ -5,6 +5,7 @@ import { plainText, wrapText, type Pt } from './font.ts'
 import { arcD, Box, circleD, clockwise, fmt, Scene, type Layer } from './scene.ts'
 import { arcPoints, child, children, flag, head, isList, num, nums, points, str, val, type SList } from './sexpr.ts'
 import { drawSheet, paperOf, titleBlockOf } from './sheet.ts'
+import { drawWorksheet } from './wks.ts'
 import { bezier } from './symbol.ts'
 import type { Hit } from './view.ts'
 
@@ -58,7 +59,8 @@ const DEFAULT_LAYERS = [
 
 const HOLES = 'Holes'
 
-export function buildBoard(root: SList, tr: (ko: string, en: string) => string): BoardModel {
+/** `wks`: a custom drawing sheet (.kicad_wks) with its text variables, instead of the built-in frame. */
+export function buildBoard(root: SList, tr: (ko: string, en: string) => string, opts: { wks?: SList; projectVars?: Record<string, string> } = {}): BoardModel {
   const isFootprint = head(root) === 'footprint' || head(root) === 'module'
   const scene = new Scene()
   const items: HitItem[] = []
@@ -106,7 +108,8 @@ export function buildBoard(root: SList, tr: (ko: string, en: string) => string):
 
   if (!isFootprint) {
     const paper = paperOf(root)
-    drawSheet(scene.layer('border'), paper, titleBlockOf(root))
+    if (opts.wks) drawWorksheet(scene.layer('border'), opts.wks, { paper, tb: titleBlockOf(root), project: opts.projectVars })
+    else drawSheet(scene.layer('border'), paper, titleBlockOf(root))
   }
 
   let tracks = 0
