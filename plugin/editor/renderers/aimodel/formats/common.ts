@@ -212,14 +212,16 @@ export class Stream {
   le = true
   constructor(
     readonly src: Src,
-    pos = 0
+    pos = 0,
+    /** Read-ahead size: large for dense headers (GGUF), small where big fields are skipped (ONNX). */
+    readonly window = 1 << 20
   ) {
     this.pos = pos
   }
   async need(n: number, what?: string): Promise<void> {
     this.src.check(this.pos, n, what)
     if (this.pos >= this.bufAt && this.pos + n <= this.bufAt + this.buf.length) return
-    const len = Math.min(this.src.size - this.pos, Math.max(n, 1 << 20))
+    const len = Math.min(this.src.size - this.pos, Math.max(n, this.window))
     this.buf = await this.src.raw(this.pos, len)
     this.bufAt = this.pos
     this.view = dv(this.buf)

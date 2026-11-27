@@ -436,7 +436,7 @@ async function fromH5(source: ByteSource, config: Obj | undefined, ctx: Ctx, opt
   if (keras) ctx.metadata.parameters = params
   const keras_version = ctx.metadata.keras_version
   return {
-    format: opts.format === 'keras' ? 'keras' : keras ? 'keras-h5' : 'hdf5',
+    format: opts.format === 'keras' ? 'keras' : 'hdf5',
     formatLabel: keras ? `${opts.label}${typeof keras_version === 'string' ? ` · Keras ${keras_version}` : ''}` : `HDF5 · superblock v${h5.version}`,
     framework: keras ? 'keras' : undefined,
     producer: typeof keras_version === 'string' ? `keras ${keras_version}${typeof ctx.metadata.backend === 'string' ? ` (${ctx.metadata.backend})` : ''}` : undefined,

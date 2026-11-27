@@ -11,7 +11,7 @@ export const I32 = 5
 export class Pb {
   readonly s: Stream
   constructor(readonly src: Src, pos = 0) {
-    this.s = new Stream(src, pos)
+    this.s = new Stream(src, pos, 1 << 16)
   }
   get pos(): number {
     return this.s.pos
