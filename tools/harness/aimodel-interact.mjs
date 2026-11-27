@@ -46,7 +46,8 @@ async function newPage(profile) {
   page.on('console', (m) => {
     const t = m.text()
     if (/Content Security Policy|Refused to/i.test(t)) errors.push(`csp: ${t}`)
-    else if (m.type() === 'error') errors.push(`console: ${t}`)
+    // HTTP failures are recorded from responses (a favicon 404 on the first page has no response event).
+    else if (m.type() === 'error' && !/Failed to load resource/.test(t)) errors.push(`console: ${t}`)
   })
   await page.addInitScript(() => document.addEventListener('securitypolicyviolation', (e) => console.error(`Refused to (CSP) ${e.violatedDirective} ${e.blockedURI}`)))
   return { page, context, errors, p }
@@ -80,7 +81,7 @@ for (const profile of profiles) {
       if (await switchView(page, v)) {
         shown.push(v)
         // Evidence: all views for two samples on the main profiles, the default view elsewhere.
-        if ((file === 'gpt.export.pt2' || file === 'cnn.torchscript.pt' || file === 'gpt.lightning.ckpt') && (profile === 'desktop-dark' || profile === 'mobile-light' || v === 'graph')) await shot(page, `${file}-${v}-${profile}`)
+        if ((file === 'gpt.export.pt2' && (profile === 'desktop-dark' || profile === 'mobile-light')) || (v === shown[0] && profile === 'desktop-light')) await shot(page, `${file}-${v}-${profile}`)
       }
     }
     record(`${profile} ${file}: ${shown.join(', ')}`, state === 'ready' && errors.length === 0 && shown.length >= 6, errors.slice(0, 3).join(' | '))

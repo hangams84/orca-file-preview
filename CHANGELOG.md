@@ -5,6 +5,30 @@ All notable changes per release. Each release on GitHub carries its verification
 
 ## Unreleased
 
+### Added
+- **AI Model Preview** (`.pt` `.pth` `.ckpt` `.chkpt` `.pt2` `.ptl` `.safetensors` `.onnx` `.tflite` `.gguf` `.keras`
+  `.h5` `.hdf5` `.npy` `.npz`; the File Preview panel also opens `.bin`/`.pkl` recognised by content). Nothing in a
+  model file is ever executed: PyTorch pickles go through an inert pickle VM (`aimodel/pickle.ts`) where
+  GLOBAL/REDUCE/BUILD only make records, and a pickle that asks for `os.system` & co. is shown with a warning.
+  Readers: PyTorch zip (state_dict, whole module, Hugging Face `pytorch_model.bin`), legacy non-zip pickles,
+  TorchScript (module tree from `data.pkl`, call graph parsed from `code/`), `torch.export` `.pt2`, Lightning
+  checkpoints (epoch, step, hyper-parameters, optimizer groups with the type guessed from state, schedulers),
+  safetensors; ONNX, TFLite, GGUF, Keras/HDF5 and NumPy from the formats worker. All go into one model description
+  (`aimodel/ir.ts`). Views in the toolbar: **graph** (layered layout written for 10k+ nodes, collapsible module
+  groups, TB/LR, minimap, search, node details), **module tree**, **layer table** (sort, filter, CSV), **parameter
+  map** (treemap/sunburst), **architecture diagram** (NN-SVG style, marked as inferred), **tensor inspector**
+  (stats, histogram, heatmap, conv kernel grid, sampled reads, GGUF dequantization), **checkpoint info**, and export
+  of the view as SVG/PNG and of the summary as JSON/Markdown. Parameter totals match PyTorch on every sample
+  (39/39, `docs/evidence/aimodel/`). Research and design: `docs/research/ai-model-visualization.md`.
+- **Ranged reads in the File Preview panel** for AI models: only the ZIP directory, `data.pkl`/headers and the viewed
+  tensors are read (`File.slice()`), so a 1.7 GB checkpoint opens in about 0.1 s; the 1 GB panel limit no longer
+  applies to these files. Orca itself refuses editor files over 50 MB.
+
+### Changed
+- 2D CAD (`.dxf` `.dwf` `.dwfx` as bytes) now shares the "CAD · Engineering Preview" editor with KiCad, SolidWorks
+  and EPLAN, freeing one of Orca's 16 custom-editor slots for "AI Model Preview".
+- The browser harness skips side files in sample folders that the plugin does not open (`truth.json`, `.onnx.data`).
+
 ### Documentation
 - **README in 11 languages** (Orca's own UI languages): `README.md` is now Korean only (default), plus `README.en.md`,
   `README.zh-CN.md`, `README.zh-TW.md`, `README.ja.md`, `README.de.md`, `README.fr.md`, `README.es.md`,

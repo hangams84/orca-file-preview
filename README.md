@@ -32,6 +32,8 @@ File Preview는 [Orca](https://github.com/stablyai/orca) 안에서 Office · 한
 | KiCad | `.kicad_sch` `.kicad_pcb` `.kicad_mod` `.kicad_sym` `.kicad_pro` `.kicad_wks` | 자체 S-expression 파서 + SVG 렌더러 (KiCad 6–10, 스트로크 글꼴 newstroke): 회로도, PCB(레이어 표시/숨김, 앞/뒷면 뒤집기), 풋프린트, 심볼 라이브러리, 프로젝트 요약, 패드·핀·넷 정보 툴팁. 프로젝트 폴더를 지정하면 계층 시트 탐색과 사용자 도면 틀 표시 |
 | SolidWorks | `.sldprt` `.sldasm` `.slddrw` `.slddrt` `.prtdot` `.asmdot` `.drwdot` | 자체 컨테이너 리더 (2014 이전 OLE/CFB, 2015 이후 형식): 저장된 미리보기 그림, 파트의 표시 메시(3D), **어셈블리 3D**(저장된 배치 + 메시, 없으면 📁로 지정한 파트 파일), 속성·구성·참조 파일·피처 이름·저장 기록 |
 | EPLAN Electric P8 | `.edz` `.zw1` `.elk` `.ell` `.elr` `.els` `.ela` `.elp` `.elx` `.zx1` `.ema` `.emp` | 자체 7z(LZMA/LZMA2)·ZIP 리더: EDZ 부품 데이터·그림·PDF 문서, **매크로 그래픽**(PXF: 선·호·곡선·문자, 변형별), 프로젝트 백업의 속성·페이지 설명·**부품 목록**·그림·내용 트리, 링크 파일 + 📁 프로젝트 폴더(`.edb`) |
+| AI 모델 (PyTorch) | `.pt` `.pth` `.ckpt` `.chkpt` `.pt2` `.ptl` `.safetensors` | 코드를 **실행하지 않는** 자체 pickle 해석기: state_dict·통째 저장한 모듈·TorchScript·torch.export·Lightning 체크포인트·레거시 pickle, safetensors. 보기 7종(**연산 그래프**·모듈 트리·레이어 표·파라미터 맵·아키텍처 도식(추론)·**텐서 검사기**·체크포인트 정보)과 SVG/PNG/JSON/Markdown 내보내기. File Preview 패널은 범위 읽기로 GB 단위 파일도 열고, 내용으로 판별한 bin·pkl 파일도 엽니다 |
+| AI 모델 (ONNX·TFLite·GGUF·Keras·NumPy) | `.onnx` `.tflite` `.gguf` `.keras` `.h5` `.hdf5` `.npy` `.npz` | 같은 보기로 표시: ONNX·TFLite·Keras 연산 그래프, GGUF 메타데이터와 양자화 텐서(Q4_K 등) 값, HDF5·NumPy 배열. ONNX 외부 데이터는 📁 폴더로 연결 |
 | (읽을 수 없는 파일) | 위 형식 전체 | 일반 검사기: 형식 식별, 크기, 엔트로피, 16진수 덤프, 문자열 |
 | **File Preview 패널** | 위 형식 전체 | 오른쪽 사이드바 패널. 아래 [File Preview 패널](#file-preview-패널) 참고 |
 

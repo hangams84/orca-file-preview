@@ -31,6 +31,8 @@ File Preview は、Office・ハングル（Hangul）・PDF・テキスト・画�
 | KiCad | `.kicad_sch` `.kicad_pcb` `.kicad_mod` `.kicad_sym` `.kicad_pro` `.kicad_wks` | 独自の S 式パーサー + SVG レンダラー（KiCad 6–10、KiCad のストロークフォント newstroke）: 回路図、基板（レイヤーの表示／非表示、表裏の反転）、フットプリント、シンボルライブラリ、プロジェクト概要、パッド・ピン・ネットのツールチップ。プロジェクトフォルダーを渡すと階層シート間の移動とカスタム図枠の表示に対応 |
 | SolidWorks | `.sldprt` `.sldasm` `.slddrw` `.slddrt` `.prtdot` `.asmdot` `.drwdot` | 独自のコンテナリーダー（2014 以前の OLE/CFB、2015 以降の形式）: 保存されたプレビュー画像、部品の表示メッシュ（3D）、**アセンブリ 3D**（保存された配置 + メッシュ、なければ 📁 で渡した部品ファイル）、プロパティ・コンフィギュレーション・参照ファイル・フィーチャー名・保存履歴 |
 | EPLAN Electric P8 | `.edz` `.zw1` `.elk` `.ell` `.elr` `.els` `.ela` `.elp` `.elx` `.zx1` `.ema` `.emp` | 独自の 7z（LZMA/LZMA2）・ZIP リーダー: EDZ の部品データ・画像・PDF 文書、**マクロ図形**（PXF: 線・円弧・曲線・文字、バリアント別）、プロジェクトバックアップのプロパティ・ページ説明・**部品リスト**・画像・内容ツリー、リンクファイル + 📁 プロジェクトフォルダー（`.edb`） |
+| AI モデル（PyTorch） | `.pt` `.pth` `.ckpt` `.chkpt` `.pt2` `.ptl` `.safetensors` | **コードを一切実行しない**独自の pickle インタープリター：state_dict、モジュール丸ごとの保存、TorchScript、torch.export、Lightning チェックポイント、旧形式の pickle、safetensors。7 種類のビュー（**演算グラフ**・モジュールツリー・レイヤー表・パラメーターマップ・推定アーキテクチャ図・**テンソルインスペクター**・チェックポイント情報）と SVG/PNG/JSON/Markdown 書き出し。File Preview パネルは範囲読み込みで数 GB のファイルも開け、内容で判別した bin・pkl ファイルも開きます |
+| AI モデル（ONNX・TFLite・GGUF・Keras・NumPy） | `.onnx` `.tflite` `.gguf` `.keras` `.h5` `.hdf5` `.npy` `.npz` | 同じビューで表示：ONNX・TFLite・Keras の演算グラフ、GGUF のメタデータと量子化テンソル（Q4_K など）の値、HDF5・NumPy の配列。ONNX の外部データは 📁 フォルダーで読み込み |
 | （読み取れないファイル） | 上記すべての形式 | 汎用インスペクター: 形式の識別、サイズ、エントロピー、16 進ダンプ、文字列 |
 | **File Preview パネル** | 上記すべての形式 | 右サイドバーのパネル。詳しくは下記の [File Preview パネル](#file-preview-パネル) を参照してください |
 

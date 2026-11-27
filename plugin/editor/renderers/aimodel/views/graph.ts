@@ -301,7 +301,7 @@ export const view: View = {
       if (!res) return
       const w = (mini.width = mini.clientWidth * devicePixelRatio || 160)
       const h = (mini.height = mini.clientHeight * devicePixelRatio || 120)
-      const c = mini.getContext('2d')!
+      const c = mini.getContext('2d', { willReadFrequently: true })!
       miniScale = Math.min(w / Math.max(1, res.width), h / Math.max(1, res.height))
       c.clearRect(0, 0, w, h)
       for (const it of items) {
@@ -314,7 +314,7 @@ export const view: View = {
     }
     function drawMiniViewport() {
       if (!miniBase || !res) return
-      const c = mini.getContext('2d')!
+      const c = mini.getContext('2d', { willReadFrequently: true })!
       c.putImageData(miniBase, 0, 0)
       c.strokeStyle = dark() ? '#fff' : '#d33'
       c.lineWidth = Math.max(1, devicePixelRatio)

@@ -66,7 +66,8 @@ export function inferBlocks(app: App, root: ModuleNode, depth = 0): Block[] {
   let i = 0
   while (i < kids.length) {
     const c = kids[i]
-    const isLeaf = !c.children.length
+    // Attention modules (in_proj_weight + out_proj child) draw as one block.
+    const isLeaf = !c.children.length || (kindOf(shortType(c.type), c.name) === 'attn' && c.tensors.length > 0)
     if (isLeaf) {
       const b = leafBlock(c)
       if (b) out.push(b)
@@ -122,7 +123,7 @@ export const view: View = {
     const dark = app.theme() === 'dark'
     const maxSize = Math.max(...blocks.flatMap((b) => [b.size, ...(b.children ?? []).map((c) => c.size)]).filter((x) => x > 0), 2)
     const hOf = (size: number) => 30 + 110 * (Math.log2(Math.max(1, size)) / Math.log2(Math.max(2, maxSize)))
-    const H = 260
+    const H = 300
     const base = 190
     const parts: { draw: (g: SVGGElement, x: number) => number }[] = []
     const text = (g: SVGElement, x: number, y: number, s: string, size = 10, anchor = 'middle', fill = dark ? '#ddd' : '#333', rotate = false) => {
@@ -190,7 +191,7 @@ export const view: View = {
     }
     // Measure by drawing into a group, then size the SVG.
     const g = svg('g')
-    let x = 16
+    let x = 56
     const arrows: number[] = []
     for (const p of parts) {
       x += p.draw(g, x)
@@ -199,7 +200,7 @@ export const view: View = {
     }
     arrows.pop()
     for (const ax of arrows) g.append(svg('path', { d: `M${ax} ${base - 20} h8`, stroke: dark ? '#888' : '#999', 'marker-end': 'url(#am-arr2)', fill: 'none' }))
-    const W = x + 16
+    const W = Math.max(x + 16, 460)
     const s = svg('svg', { xmlns: 'http://www.w3.org/2000/svg', width: W, height: H, viewBox: `0 0 ${W} ${H}` })
     const defs = svg('defs')
     const mk = svg('marker', { id: 'am-arr2', viewBox: '0 0 10 10', refX: 9, refY: 5, markerWidth: 6, markerHeight: 6, orient: 'auto' })
@@ -209,6 +210,16 @@ export const view: View = {
     text(s, 8, 18, `${app.ir.formatLabel} · ${fmtCount(app.stats.get('')?.params ?? 0)} params · ${tr('추론된 도식', 'inferred diagram')}`, 11, 'start')
     current = s
     area.append(s)
+    // Scale up to the available height (labels stay readable), keep the natural size for export.
+    const fitScale = () => {
+      const k = Math.max(1, Math.min(2.5, (area.clientHeight - 24) / H, (area.clientWidth * 3) / W))
+      s.style.width = `${W * k}px`
+      s.style.height = `${H * k}px`
+    }
+    fitScale()
+    const ro = new ResizeObserver(fitScale)
+    ro.observe(area)
+    app.signal.addEventListener('abort', () => ro.disconnect())
     if (blocks.length > 80) area.append(el('div', 'am-info am-pad', tr(`층 ${blocks.length}개 중 80개만 그렸습니다.`, `Drew 80 of ${blocks.length} layers.`)))
     void LAYER_TYPES
   }
