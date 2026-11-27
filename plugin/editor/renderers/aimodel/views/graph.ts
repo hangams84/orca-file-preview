@@ -198,7 +198,7 @@ export const view: View = {
       itemById = new Map(items.map((i) => [i.id, i]))
       res = layout(items.map((i) => ({ id: i.id, width: i.width, height: i.height })), edges, { direction: dir, rankGap: dir === 'TB' ? 34 : 48, nodeGap: 16 })
       info.textContent = tr(`연산 ${fmtInt(g.nodes.length)} · 표시 ${fmtInt(items.length)}`, `${fmtInt(g.nodes.length)} ops · ${fmtInt(items.length)} shown`)
-      collapseBtn.disabled = expanded.size === 0
+      collapseBtn.disabled = ![...expanded].some((p) => (groupCount.get(p) ?? 0) > 1)
       expandBtn.disabled = [...groupCount.keys()].every((p) => expanded.has(p) || (groupCount.get(p) ?? 0) <= 1)
       if (!keepView) fit()
       else draw()
@@ -419,9 +419,11 @@ export const view: View = {
       relayout()
     }, { signal: app.signal })
     collapseBtn.addEventListener('click', () => {
-      if (!expanded.size) return
-      const lvl = Math.max(...[...expanded].map((p) => p.split('.').length))
-      ;[...expanded].filter((p) => p.split('.').length === lvl).forEach((p) => expanded.delete(p))
+      // Fold the deepest level of groups that hold more than one op (single-op groups do not fold).
+      const foldable = [...expanded].filter((p) => (groupCount.get(p) ?? 0) > 1)
+      if (!foldable.length) return
+      const lvl = Math.max(...foldable.map((p) => p.split('.').length))
+      ;[...expanded].filter((p) => p.split('.').length >= lvl).forEach((p) => expanded.delete(p))
       relayout()
     }, { signal: app.signal })
 
