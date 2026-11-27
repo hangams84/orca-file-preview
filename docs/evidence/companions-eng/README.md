@@ -15,9 +15,9 @@ files; or a drop on the preview), on top of `plugin/editor/core/companions.ts`:
 | Check | Command | Result |
 | --- | --- | --- |
 | Typecheck | `tsc -p plugin --noEmit` | 0 errors |
-| Unit tests | `orca plugin test plugin --json` (copy in `C:\fpt-compeng`) | 242/242 (14 new: `kicad/hierarchy.test.ts` 6, `prop/swasm.test.ts` 4, `prop/pxf.test.ts` 4 incl. 2 for `.edb`; `text-type.test.ts` extended for the eplan family) |
-| Companion harness | `node tools/harness/companions-eng.mjs [--local]` — Playwright answers the 📁 folder picker with `fileChooser.setFiles(<dir>)` (webkitdirectory) and fires synthetic `DataTransfer` drops | 9/9 committed-sample cases, 13/13 with `--local` (public downloads in `.orca/`); `harness/results.json`, screenshots in `harness/` |
-| Full harness | `node tools/harness/run.mjs --profiles desktop-dark,desktop-light,mobile-light,tablet-dark` (+ `--dir samples/kicad-project`, `samples/sw-assembly`, `samples/eplan-project`) | see the commit message of the evidence commit |
+| Unit tests | `orca plugin test plugin --json` (copy in `C:\fpt-compeng`) | 262/262 after rebasing on master (242 before; 14 new: `kicad/hierarchy.test.ts` 6, `prop/swasm.test.ts` 4, `prop/pxf.test.ts` 4 incl. 2 for `.edb`; `text-type.test.ts` extended for the eplan family) |
+| Companion harness | `node tools/harness/companions-eng.mjs [--local]` — Playwright answers the 📁 folder picker with `fileChooser.setFiles(<dir>)` (webkitdirectory) and fires synthetic `DataTransfer` drops | 9/9 committed-sample cases, 12/12 with `--local` (public downloads in `.orca/`); `harness/results.json`, screenshots in `harness/` |
+| Full harness | `node tools/harness/run.mjs --profiles desktop-dark,desktop-light,mobile-light,tablet-dark` (+ `--dir samples/kicad-project`, `samples/sw-assembly`, `samples/eplan-project`) | 512/512 (all samples × 4 profiles, before the rebase); `samples/kicad-project` 24/24 (incl. the new standalone `.kicad_wks` view), `samples/sw-assembly` 20/20, `samples/eplan-project` 4/4 |
 | KiCad ground truth | `kicad-cli sch export svg samples/kicad-project/demo.kicad_sch` (KiCad 10.0.5) | KiCad loads the generated hierarchy; per-instance references R101/R201/R301/C501 and the custom sheet text match (`kicad-channel-b-vs-kicad-cli.png`) |
 | Real Orca | 1.4.277, Windows 11: copy of `plugin/` with id `file-preview-compeng` and only the engineering, KiCad-text and EPLAN-text editors; `orca plugin open --editor <file>` + `orca plugin shot --window`, left 285 px and the file tree cropped | 7 files opened in the Engineering Preview, 📁 control present in each toolbar, `orca plugin logs`: no lines (`orca/`) |
 
@@ -74,6 +74,7 @@ drawing's referenced models get **Open** when given (the sheet pictures stay as 
 - UI: the sheet select lists the tree (indented, page numbers, "(missing)"); select, double-click a sheet box, or ↑;
   the toolbar shows the breadcrumb `Root › Power › Regulator (page 5)`. Missing or unreadable sheets (and recursive
   ones) are listed in a note with a hint.
+- `.kicad_wks` opened on its own: drawn on A4 landscape with the variables left as names (a template view).
 - `.kicad_pro`: "Project files" buttons open `<name>.kicad_sch` / `<name>.kicad_pcb` in an overlay.
 - Drawing sheet: `schematic.page_layout_descr_file` / `pcbnew.page_layout_descr_file` (`${KIPRJMOD}/` removed) of the
   project → `.kicad_wks` (or the older `page_layout`): `line`, `rect`, `tbtext`, `polygon` from the four corners inside

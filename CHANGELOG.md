@@ -33,7 +33,7 @@ All notable changes per release. Each release on GitHub carries its verification
     sheets in a note with a hint) and opens sub-sheets (select, double-click, ↑) with their instance references and
     units (KiCad 7+ symbol `instances`, KiCad 6 `symbol_instances`); `.kicad_pro` opens the root schematic and board;
     the project's custom drawing sheet (`.kicad_wks`: lines, rects, texts, polygons, repeats, page-1 options, text
-    variables) is drawn for schematics and boards. Matches `kicad-cli` 10.0.5 on the generated sample project.
+    variables) is drawn for schematics and boards; a `.kicad_wks` opened on its own shows as a template. Matches `kicad-cli` 10.0.5 on the generated sample project.
   - SolidWorks: **3D assembly** tab. Component placements come from `COMPINSTANCETREE` (column-major 4×4 per instance,
     nested sub-assemblies, suppressed/hidden, display states; verified on 5 public assemblies against their stored
     bounding boxes); meshes from the assembly's own `FaceTessellations` (2015+, no parts needed) or from given part files

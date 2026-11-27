@@ -9,7 +9,7 @@ import { buildBoard, type BoardModel } from './kicad/pcb.ts'
 import { renderProject } from './kicad/pro.ts'
 import { buildHierarchy, flatten, missingSheets, projectTextVars, projectWorksheet, refLookup, type HierNode } from './kicad/hierarchy.ts'
 import { buildSchematic, SCH_ORDER } from './kicad/sch.ts'
-import { isWorksheet } from './kicad/wks.ts'
+import { drawWorksheet, isWorksheet } from './kicad/wks.ts'
 import { Box, Scene } from './kicad/scene.ts'
 import { head, parseSexpr, SexprError, str, child, type SList } from './kicad/sexpr.ts'
 import { buildSymbolView } from './kicad/symlib.ts'
@@ -78,7 +78,8 @@ export async function render(ctx: PreviewContext): Promise<void | (() => void)> 
   if (kind === 'kicad_sch') return renderSchematic(ctx, root)
   if (kind === 'kicad_pcb' || kind === 'footprint' || kind === 'module') return renderBoard(ctx, root)
   if (kind === 'kicad_symbol_lib') return renderSymbolLib(ctx, root)
-  if (kind === 'eeschema' || kind === 'kicad_wks' || kind === 'page_layout')
+  if (kind === 'kicad_wks' || kind === 'page_layout') return renderWorksheet(ctx, root)
+  if (kind === 'eeschema')
     throw new PreviewError('kicad-kind', tr(`이 KiCad 파일 종류(${kind})는 지원하지 않습니다.`, `This KiCad file kind (${kind}) is not supported.`))
   throw new PreviewError('kicad-kind', tr(`KiCad 파일이 아닙니다 (최상위: ${kind || '?'}).`, `Not a KiCad file (top level: ${kind || '?'}).`))
 }
@@ -719,4 +720,19 @@ function projectFiles(ctx: PreviewContext, text: string): () => void {
     closeOpen?.()
     undo()
   }
+}
+
+/** A drawing sheet on its own (.kicad_wks): drawn on A4 landscape with the variables left as names, like a template. */
+function renderWorksheet(ctx: PreviewContext, root: SList): void {
+  const { tr, toolbar } = ctx
+  const scene = new Scene()
+  const paper = { name: 'A4', w: 297, h: 210 }
+  const names = { title: '${TITLE}', date: '${ISSUE_DATE}', rev: '${REVISION}', company: '${COMPANY}', comments: Array.from({ length: 9 }, (_, i) => `\${COMMENT${i + 1}}`) }
+  const count = drawWorksheet(scene.layer('border'), root, { paper, tb: names, sheetName: '${SHEETNAME}', sheetPath: '${SHEETPATH}', file: '${FILENAME}', page: '${#}', pages: '${##}' }, true)
+  const bounds = new Box()
+  bounds.add(0, 0)
+  bounds.add(paper.w, paper.h)
+  const view = createView(ctx, { css: schCss, background: (t) => SCH_COLORS[t].background })
+  view.setContent(`<rect x="0" y="0" width="${paper.w}" height="${paper.h}" fill="none" stroke="currentColor" stroke-opacity=".25" stroke-width=".3"/>` + scene.toSvg(SCH_ORDER, layerClass), bounds)
+  toolbar.info([tr('KiCad 도면 틀', 'KiCad drawing sheet'), tr(`항목 ${count}개`, `${count} items`), tr('A4 가로에 표시', 'shown on A4 landscape'), formatBytes(ctx.bytes.byteLength)].join(' · '))
 }

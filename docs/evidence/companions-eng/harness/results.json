@@ -1,5 +1,262 @@
 [
   {
+    "group": "kicad",
+    "name": "hierarchy-folder",
+    "file": "samples/kicad-project/demo.kicad_sch",
+    "checks": [
+      {
+        "ok": true,
+        "what": "opened"
+      },
+      {
+        "ok": true,
+        "what": "📁 button present"
+      },
+      {
+        "ok": true,
+        "what": "Channel B with page 3"
+      },
+      {
+        "ok": true,
+        "what": "Regulator with page 5"
+      },
+      {
+        "ok": true,
+        "what": "Up goes to Power"
+      },
+      {
+        "ok": true,
+        "what": "5 sheets listed"
+      }
+    ],
+    "errors": [],
+    "shots": [
+      "kicad-hierarchy-folder-root.png",
+      "kicad-hierarchy-folder-channel-b.png",
+      "kicad-hierarchy-folder-regulator.png"
+    ],
+    "state": "ready",
+    "before": "Schematic · KiCad 8 · 0 symbols · A4 · Hierarchy demo · 3.9 KB",
+    "options": [
+      "Root [1]",
+      " Channel A [2]",
+      " Channel B [3]",
+      " Power [4]",
+      "  Regulator [5]"
+    ],
+    "channelB": "Schematic · KiCad 8 · Root › Channel B (page 3) · 2 symbols · A4 · Channel · 3.9 KB",
+    "regulator": "Schematic · KiCad 8 · Root › Power › Regulator (page 5) · 1 symbols · A4 · Regulator · 3.9 KB",
+    "up": "Schematic · KiCad 8 · Root › Power (page 4) · 1 symbols · A4 · Power · 3.9 KB",
+    "ms": 1800,
+    "pass": true
+  },
+  {
+    "group": "kicad",
+    "name": "hierarchy-drop-missing",
+    "file": "samples/kicad-project/demo.kicad_sch",
+    "checks": [
+      {
+        "ok": true,
+        "what": "opened"
+      },
+      {
+        "ok": true,
+        "what": "📁 button present"
+      },
+      {
+        "ok": true,
+        "what": "missing power sheet listed"
+      },
+      {
+        "ok": true,
+        "what": "hint shown"
+      }
+    ],
+    "errors": [],
+    "shots": [
+      "kicad-hierarchy-drop-missing-missing.png"
+    ],
+    "state": "ready",
+    "notice": "1 sheet not available×/Power/ — power.kicad_sch: not among the given filesHint: pick the whole project folder (the one with the .kicad_pro).",
+    "ms": 247,
+    "pass": true
+  },
+  {
+    "group": "kicad",
+    "name": "project-open-schematic",
+    "file": "samples/kicad-project/demo.kicad_pro",
+    "checks": [
+      {
+        "ok": true,
+        "what": "opened"
+      },
+      {
+        "ok": true,
+        "what": "📁 button present"
+      },
+      {
+        "ok": true,
+        "what": "root schematic button enabled"
+      },
+      {
+        "ok": true,
+        "what": "board button disabled (no board in the sample)"
+      },
+      {
+        "ok": true,
+        "what": "root schematic opened"
+      }
+    ],
+    "errors": [],
+    "shots": [
+      "kicad-project-open-schematic-project.png",
+      "kicad-project-open-schematic-root-schematic.png"
+    ],
+    "state": "ready",
+    "embedded": "kicad-project/demo.kicad_sch · Schematic · KiCad 8 · Root (page 1) · 0 symbols · A4 · Hierarchy demo · 3.9 KB",
+    "ms": 926,
+    "pass": true
+  },
+  {
+    "group": "sw",
+    "name": "assembly-stored-then-folder",
+    "file": "samples/sw-assembly/Orca-Frame.SLDASM",
+    "checks": [
+      {
+        "ok": true,
+        "what": "opened"
+      },
+      {
+        "ok": true,
+        "what": "📁 button present"
+      },
+      {
+        "ok": true,
+        "what": "stored meshes place 2 of 5"
+      },
+      {
+        "ok": true,
+        "what": "the given rail fills the third"
+      },
+      {
+        "ok": true,
+        "what": "hidden + suppressed listed"
+      },
+      {
+        "ok": true,
+        "what": "placement table: Bracket-2 at (300, 0, 40) mm"
+      }
+    ],
+    "errors": [],
+    "shots": [
+      "sw-assembly-stored-then-folder-stored-only.png",
+      "sw-assembly-stored-then-folder-with-parts.png"
+    ],
+    "state": "ready",
+    "before": "2 of 5 components placed at their stored positions (2 from the display meshes stored in the assembly, 0 from given part files). Configuration: Default. Colours tell files apart; they are not the real materials. | 1 component has no mesh: pick the folder with the part files (📁) or drop them here to fill it in.",
+    "after": "3 of 5 components placed at their stored positions (2 from the display meshes stored in the assembly, 1 from given part files). Configuration: Default. Colours tell files apart; they are not the real materials.",
+    "placement": "Configurations (1)Defaultlast activeFiles the assembly references (2)Paths are as they were on the computer that saved the file.C:\\Samples\\Frame\\Orca-Bracket.SLDPRTPARTOpenC:\\Samples\\Frame\\Orca-Rail.SLDPRTPARTOpenComponent placement (5, configuration Default)Positions are in mm from the top assembly origin.Orca-Bracket-1Orca-Bracket.SLDPRT · Default · (0, 0, 0)Orca-Bracket-2Orca-Bracket.SLDPRT · Default · (300, 0, 40)Orca-Rail-1Orca-Rail.SLDPRT · Default · (0, 50, 10)Orca-Rail-2Orca-Rail.SLDPRT · Default · (0, 50, -50) · suppressedOrca-Bracket-3Orca-Bracket.SLDPRT · Default · (150, 100, 0) · hiddenComponent instances (5)Orca-Bracket-1Orca-Bracket-2Orca-Bracket-3Orca-Rail-1Orca-Rail-2Features (1)Feature names and types only, not in tree order; feature definitions are not interpreted.MatesMateGroup",
+    "ms": 2652,
+    "pass": true
+  },
+  {
+    "group": "sw",
+    "name": "assembly-2014-drop",
+    "file": "samples/sw-assembly/Orca-Frame-2014.SLDASM",
+    "checks": [
+      {
+        "ok": true,
+        "what": "opened"
+      },
+      {
+        "ok": true,
+        "what": "📁 button present"
+      },
+      {
+        "ok": true,
+        "what": "no stored meshes in the OLE file"
+      },
+      {
+        "ok": true,
+        "what": "all three visible parts from the dropped files"
+      }
+    ],
+    "errors": [],
+    "shots": [
+      "sw-assembly-2014-drop-dropped-parts.png"
+    ],
+    "state": "ready",
+    "before": "0 of 5 components placed at their stored positions (0 from the display meshes stored in the assembly, 0 from given part files). Configuration: Default. Colours tell files apart; they are not the real materials.3 components have no mesh: pick the folder with the part files (📁) or drop them here to fill them in.Components without a mesh (3)Orca-Bracket-1@Orca-Frame-2014Orca-Bracket.SLDPRT · file not givenOrca-Bracket-2@Orca-Frame-2014Orca-Bracket.SLDPRT · file not givenOrca-Rail-1@Orca-Frame-2014Orca-Rail.SLDPRT · file not givenHidden or suppressed components (2, not drawn)Orca-Rail-2@Orca-Frame-2014suppressedOrca-Bracket-3@Orca-Frame-2014hiddenNothing to draw yet: pick the folder with the part files (📁) or drop them here.",
+    "after": "3 of 5 components placed at their stored positions (0 from the display meshes stored in the assembly, 3 from given part files). Configuration: Default. Colours tell files apart; they are not the real materials.",
+    "ms": 2001,
+    "pass": true
+  },
+  {
+    "group": "sw",
+    "name": "drawing-model-links",
+    "file": "samples/sw-assembly/Orca-Frame.SLDDRW",
+    "checks": [
+      {
+        "ok": true,
+        "what": "opened"
+      },
+      {
+        "ok": true,
+        "what": "📁 button present"
+      },
+      {
+        "ok": true,
+        "what": "two models given → two Open buttons"
+      },
+      {
+        "ok": true,
+        "what": "missing model marked"
+      },
+      {
+        "ok": true,
+        "what": "part opened in the overlay"
+      }
+    ],
+    "errors": [],
+    "shots": [
+      "sw-drawing-model-links-references.png",
+      "sw-drawing-model-links-opened-part.png"
+    ],
+    "state": "ready",
+    "openButtons": 2,
+    "text": "Models the drawing views reference (3)Paths are as they were on the computer that saved the file.C:\\Samples\\Frame\\Orca-Bracket.SLDPRTPARTOpenC:\\Samples\\Frame\\Orca-Rail.SLDPRTPARTOpenC:\\Samples\\Frame\\Missing-Plate.SLDPRTPARTnot given",
+    "opened": "sw-assembly/Orca-Bracket.SLDPRT · SolidWorks Part · SolidWorks 2024 · 3.4 KB",
+    "ms": 1525,
+    "pass": true
+  },
+  {
+    "group": "sw",
+    "name": "jaw-real-stored",
+    "file": ".orca/sw/jaw/jaw.SLDASM",
+    "checks": [
+      {
+        "ok": true,
+        "what": "opened"
+      },
+      {
+        "ok": true,
+        "what": "📁 button present"
+      },
+      {
+        "ok": true,
+        "what": "all 12 from stored meshes"
+      }
+    ],
+    "errors": [],
+    "shots": [
+      "sw-jaw-real-stored-3d.png"
+    ],
+    "state": "ready",
+    "note": "12 of 12 components placed at their stored positions (12 from the display meshes stored in the assembly, 0 from given part files). Configuration: 默认. Colours tell files apart; they are not the real materials.",
+    "ms": 1426,
+    "pass": true
+  },
+  {
     "group": "eplan",
     "name": "link-folder",
     "file": "samples/eplan-project/Plant.elk",
@@ -53,7 +310,7 @@
       "ORCA.PUMP-2K2Pump motor · 2.2 kW, 400 V",
       "ORCA.TB-100Feed-through terminal · 2.5 mm², 800 V"
     ],
-    "ms": 1861,
+    "ms": 1322,
     "pass": true
   },
   {
@@ -93,7 +350,7 @@
       "Jumper"
     ],
     "info2": "EPLAN WindowMacro · Orca-Terminal · EPLAN 2.9.0 · Representation 4 · variant A · Panel layout · 3 lines · 0 arcs · 0 curves · 1 texts · 3.1 KB",
-    "ms": 692,
+    "ms": 593,
     "pass": true
   },
   {
@@ -116,7 +373,7 @@
     ],
     "state": "ready",
     "embedded": "items/macro/Orca/TB-100.ema · EPLAN WindowMacro · TB-100 · EPLAN 2.9.0 · Representation 1 · variant A · 4 lines · 2 arcs · 0 curves · 1 texts · 936 B",
-    "ms": 835,
+    "ms": 655,
     "pass": true
   },
   {
@@ -139,7 +396,7 @@
     ],
     "state": "ready",
     "info": "EPLAN WindowMacro · AI204_1 · EPLAN 2.8.12830 · Representation 1 · variant A · 132 lines · 46 arcs · 424 curves · 6 texts · 533.1 KB",
-    "ms": 786,
+    "ms": 769,
     "pass": true
   },
   {
@@ -174,7 +431,7 @@
     "overview": "Schematic pages are stored in EPLAN’s own binary databases and cannot be drawn. The project properties, page descriptions, pictures and the archive contents are shown.Read from the project folder \"graphical_edit/cdp_place_only.edb\". It is EPLAN's own object store (.eod/.eox files), not SQLite, SQL CE or XML: only ProjectInfo.xml, the page descriptions and the parts list can be read.KindEPLAN project · folder graphical_edit/cdp_place_only.edbLink file data directoryEPLAN_Sample_Project_Education.edbDatabase version18.0Project descriptionGrinding machineProject numberIEC_bas001Project typeGrinding machine, Type 1CompanyEPLAN GmbH & Co. KGInstallation siteHall 17 / Section BYear of construction2016/2017Created byEPLCreated2025-06-05 12:31:55 UTCLast modified bySloanModified2026-03-23 13:19:00 UTCProject managerEPLLast saved with EPLAN2026.0.3EPLAN build25581Highest EPLAN version used2026.0.3.25581",
     "pageCount": 77,
     "partCount": 97,
-    "ms": 2106,
+    "ms": 2009,
     "pass": true
   }
 ]

@@ -25,7 +25,7 @@ export const BYTES_GROUPS = [
   ['diagram', 'Diagram Preview', 'drawio dio vsdx vsdm vstx vssx'],
   ['model3d', '3D · Robot Preview', 'stl obj ply glb gltf 3mf off fbx dae step stp stpz iges igs brep urdf xacro'],
   ['cad2d', 'CAD Drawing Preview', 'dxf dwf dwfx'],
-  ['engineering', 'Engineering Preview', 'kicad_sch kicad_pcb kicad_mod kicad_sym kicad_pro sldprt sldasm slddrw slddrt prtdot asmdot drwdot elk ell elr els elp elx ela zw1 zx1 edz ema emp']
+  ['engineering', 'Engineering Preview', 'kicad_sch kicad_pcb kicad_mod kicad_sym kicad_pro kicad_wks sldprt sldasm slddrw slddrt prtdot asmdot drwdot elk ell elr els elp elx ela zw1 zx1 edz ema emp']
 ]
 
 /** Text documents: one editor per family, entry editor/text/<family>.ts. */
@@ -35,7 +35,7 @@ export const TEXT_FAMILIES = [
   ['web', 'HTML Preview', 'html htm xhtml'],
   ['diagram', 'Diagram Preview', 'drawio dio'],
   ['model3d', '3D Preview', 'stl obj ply gltf off fbx dae step stp iges igs brep'],
-  ['kicad', 'KiCad Preview', 'kicad_sch kicad_pcb kicad_mod kicad_sym kicad_pro'],
+  ['kicad', 'KiCad Preview', 'kicad_sch kicad_pcb kicad_mod kicad_sym kicad_pro kicad_wks'],
   ['dxf', 'CAD Drawing Preview', 'dxf'],
   ['robot', 'Robot Preview', 'urdf xacro'],
   ['office', 'Office Preview', 'doc xls'],

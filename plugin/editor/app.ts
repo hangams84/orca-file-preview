@@ -77,6 +77,7 @@ export const RENDERERS: Record<string, Loader> = {
   kicad_mod: () => import('./renderers/kicad.ts'),
   kicad_sym: () => import('./renderers/kicad.ts'),
   kicad_pro: () => import('./renderers/kicad.ts'),
+  kicad_wks: () => import('./renderers/kicad.ts'),
   urdf: () => import('./renderers/urdf.ts'),
   xacro: () => import('./renderers/urdf.ts')
 }
@@ -235,6 +236,7 @@ export function textType(family: string, bytes: Uint8Array): string {
       if (/^\(\s*kicad_sch\b/.test(start)) return 'kicad_sch'
       if (/^\(\s*kicad_pcb\b/.test(start)) return 'kicad_pcb'
       if (/^\(\s*kicad_symbol_lib\b/.test(start)) return 'kicad_sym'
+      if (/^\(\s*(kicad_wks|page_layout)\b/.test(start)) return 'kicad_wks'
       return 'kicad_mod' // (footprint …) or the older (module …)
     case 'model3d':
       if (/^ISO-10303-21\s*;/.test(start)) return 'step'

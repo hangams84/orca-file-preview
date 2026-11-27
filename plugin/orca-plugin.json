@@ -112,6 +112,7 @@
           ".kicad_mod",
           ".kicad_sym",
           ".kicad_pro",
+          ".kicad_wks",
           ".sldprt",
           ".sldasm",
           ".slddrw",
@@ -210,7 +211,8 @@
           ".kicad_pcb",
           ".kicad_mod",
           ".kicad_sym",
-          ".kicad_pro"
+          ".kicad_pro",
+          ".kicad_wks"
         ],
         "entry": "editor/text/kicad.ts",
         "contentKind": "text",
