@@ -154,7 +154,7 @@ Windows 7/8은 Orca가 지원하지 않으므로 설치 프로그램이 안내 �
 플러그인, 설치 스크립트, 테스트 도구의 변경 사항이 `main`에 푸시되면 워크플로가 자동으로 실행되고 표도 함께 갱신됩니다.
 
 <!-- ci-matrix:start -->
-**Orca compatibility CI** — ✅ all passing · 2026-11-27 07:07 UTC · [run](https://github.com/hangams84/orca-file-preview/actions/runs/45954026948)
+**Orca compatibility CI** — ✅ all passing · 2026-11-27 10:45 UTC · [run](https://github.com/hangams84/orca-file-preview/actions/runs/45981742783)
 
 | Orca | Ubuntu 24.04 (Docker) | Ubuntu 26.04 (Docker) | macOS 15 arm64 | Windows 10 kernel (Server 2022) | Windows 11 kernel (Server 2025) |
 | --- | --- | --- | --- | --- | --- |
