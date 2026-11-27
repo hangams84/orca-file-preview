@@ -32,8 +32,8 @@ File Preview 是一款 [Orca](https://github.com/stablyai/orca) 插件，可在 
 | KiCad | `.kicad_sch` `.kicad_pcb` `.kicad_mod` `.kicad_sym` `.kicad_pro` `.kicad_wks` | 自研 S-expression 解析器 + SVG 渲染器（KiCad 6–10，KiCad 笔画字体 newstroke）：原理图、PCB（图层显示/隐藏、正反面翻转）、封装、符号库、项目摘要，焊盘、引脚与网络信息提示。提供项目文件夹后可浏览层次图纸并显示自定义图框 |
 | SolidWorks | `.sldprt` `.sldasm` `.slddrw` `.slddrt` `.prtdot` `.asmdot` `.drwdot` | 自研容器读取器（2014 及更早的 OLE/CFB、2015 及以后的格式）：保存的预览图、零件的显示网格（3D）、**装配体 3D**（保存的位置 + 网格，若无则使用通过 📁 提供的零件文件）、属性、配置、参考文件、特征名称、保存记录 |
 | EPLAN Electric P8 | `.edz` `.zw1` `.elk` `.ell` `.elr` `.els` `.ela` `.elp` `.elx` `.zx1` `.ema` `.emp` | 自研 7z（LZMA/LZMA2）与 ZIP 读取器：EDZ 部件数据、图片与 PDF 文档，**宏图形**（PXF：直线、圆弧、曲线、文字，按宏变量分别显示），项目备份中的属性、页描述、**部件列表**、图片与目录树，链接文件 + 📁 项目文件夹（`.edb`） |
-| AI 模型（PyTorch） | `.pt` `.pth` `.ckpt` `.chkpt` `.pt2` `.ptl` `.safetensors` | 自研 pickle 解释器，**绝不执行代码**：state_dict、整体保存的模块、TorchScript、torch.export、Lightning 检查点、旧版 pickle 以及 safetensors。七种视图（**算子图**、模块树、层表、参数图、推断的架构图、**张量检查器**、检查点信息），可导出 SVG/PNG/JSON/Markdown。File Preview 面板按范围读取，可打开数 GB 的文件，也能打开按内容识别的 bin、pkl 文件 |
-| AI 模型（ONNX、TFLite、GGUF、Keras、NumPy） | `.onnx` `.tflite` `.gguf` `.keras` `.h5` `.hdf5` `.npy` `.npz` | 使用同样的视图：ONNX、TFLite、Keras 的算子图，GGUF 元数据与量化张量（Q4_K 等）的数值，HDF5 与 NumPy 数组。ONNX 外部数据通过 📁 文件夹关联 |
+| AI 模型（PyTorch） | `.pt` `.pth` `.ckpt` `.chkpt` `.pt2` `.ptl` `.safetensors` | 自研 pickle 解释器，**绝不执行代码**：state_dict、完整保存的模块、TorchScript、torch.export、Lightning 检查点、旧版 pickle 以及 safetensors。七种视图（**算子图**、模块树、层表、参数图、推断的架构图、**张量检查器**、检查点信息），可导出 SVG/PNG/JSON/Markdown。File Preview 面板按字节范围分段读取，可打开数 GB 的文件，也能打开根据内容识别出的 bin、pkl 文件 |
+| AI 模型（ONNX、TFLite、GGUF、Keras、NumPy） | `.onnx` `.tflite` `.gguf` `.keras` `.h5` `.hdf5` `.npy` `.npz` | 以相同的视图显示：ONNX、TFLite、Keras 的算子图，GGUF 元数据与量化张量（Q4_K 等）的数值，HDF5 与 NumPy 数组。ONNX 外部数据通过 📁 文件夹关联 |
 | （无法读取的文件） | 以上全部格式 | 通用检查器：格式识别、大小、熵、十六进制转储、字符串 |
 | **File Preview 面板** | 以上全部格式 | 右侧边栏中的面板，详见下文 [File Preview 面板](#file-preview-面板) |
 
@@ -90,7 +90,7 @@ Orca 只把您打开的那一个文件交给编辑器。点击工具栏中的 �
 # 从 GitHub 安装最新版本（Orca 1.4.252+）。Orca 会输出所请求的权限和批准指纹。
 orca plugin install https://github.com/hangams84/orca-file-preview
 orca plugin install https://github.com/hangams84/orca-file-preview --approve <fingerprint>
-# 指定版本：https://github.com/hangams84/orca-file-preview#v0.4.0
+# 指定版本：https://github.com/hangams84/orca-file-preview#v0.5.0
 
 # 或从本地文件夹安装
 orca plugin install ./plugin

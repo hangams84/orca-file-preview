@@ -33,8 +33,8 @@ and in browser/mobile clients.
 | KiCad | `.kicad_sch` `.kicad_pcb` `.kicad_mod` `.kicad_sym` `.kicad_pro` `.kicad_wks` | Own S-expression parser + SVG renderer (KiCad 6–10, KiCad's newstroke stroke font): schematics, boards (layer toggles, front/back flip), footprints, symbol libraries, project summary, tooltips for pads, pins and nets. With the project folder: hierarchical sheet navigation and custom drawing sheets |
 | SolidWorks | `.sldprt` `.sldasm` `.slddrw` `.slddrt` `.prtdot` `.asmdot` `.drwdot` | Own container reader (OLE/CFB for 2014 and earlier, the 2015+ format): stored preview pictures, the part's display mesh in 3D, **3D assembly** (stored placements + meshes, or part files given with 📁), properties, configurations, referenced files, feature names, save history |
 | EPLAN Electric P8 | `.edz` `.zw1` `.elk` `.ell` `.elr` `.els` `.ela` `.elp` `.elx` `.zx1` `.ema` `.emp` | Own 7z (LZMA/LZMA2) and ZIP reader: EDZ part data, pictures and PDF documents, **macro graphics** (PXF: lines, arcs, curves, text, per variant), project backups with properties, page descriptions, **parts list**, pictures and contents tree, link files + the 📁 project folder (`.edb`) |
-| AI models (PyTorch) | `.pt` `.pth` `.ckpt` `.chkpt` `.pt2` `.ptl` `.safetensors` | Own pickle interpreter that **never runs code**: state_dict, whole pickled modules, TorchScript, torch.export, Lightning checkpoints, legacy pickles, safetensors. Seven views (**operator graph**, module tree, layer table, parameter map, inferred architecture diagram, **tensor inspector**, checkpoint info) and SVG/PNG/JSON/Markdown export. The File Preview panel reads by range, so multi-GB files open, and it also opens bin and pkl files recognised by content |
-| AI models (ONNX, TFLite, GGUF, Keras, NumPy) | `.onnx` `.tflite` `.gguf` `.keras` `.h5` `.hdf5` `.npy` `.npz` | Same views: operator graphs for ONNX, TFLite and Keras, GGUF metadata and quantized tensor values (Q4_K …), HDF5 and NumPy arrays. ONNX external data via the 📁 folder |
+| AI models (PyTorch) | `.pt` `.pth` `.ckpt` `.chkpt` `.pt2` `.ptl` `.safetensors` | Own pickle interpreter that **never runs code**: state_dict, whole pickled modules, TorchScript, torch.export, Lightning checkpoints, legacy pickles, safetensors. Seven views (**operator graph**, module tree, layer table, parameter map, inferred architecture diagram, **tensor inspector**, checkpoint info) and SVG/PNG/JSON/Markdown export. The File Preview panel reads files in byte ranges, so it opens multi-GB files as well as bin and pkl files recognized by content |
+| AI models (ONNX, TFLite, GGUF, Keras, NumPy) | `.onnx` `.tflite` `.gguf` `.keras` `.h5` `.hdf5` `.npy` `.npz` | Shown in the same views: operator graphs for ONNX, TFLite and Keras, GGUF metadata and quantized tensor values (Q4_K and more), HDF5 and NumPy arrays. ONNX external data via the 📁 folder |
 | (unreadable files) | All of the above | Generic inspector: format identification, size, entropy, hex dump, strings |
 | **File Preview panel** | All of the above | A panel in the right sidebar; see [File Preview panel](#file-preview-panel) below |
 
@@ -93,7 +93,7 @@ For `.dwg` and `.dwt`, install `https://github.com/hangams84/orca-file-preview-d
 # Install the latest version from GitHub (Orca 1.4.252+). Orca prints the requested access and an approval fingerprint.
 orca plugin install https://github.com/hangams84/orca-file-preview
 orca plugin install https://github.com/hangams84/orca-file-preview --approve <fingerprint>
-# A specific version: https://github.com/hangams84/orca-file-preview#v0.4.0
+# A specific version: https://github.com/hangams84/orca-file-preview#v0.5.0
 
 # Or from a local folder
 orca plugin install ./plugin

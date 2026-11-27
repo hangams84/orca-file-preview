@@ -3,7 +3,10 @@
 All notable changes per release. Each release on GitHub carries its verification results
 (`docs/release-notes/<tag>.md`) and SHA-256 checksums for every file.
 
-## Unreleased
+## [0.5.0] — 2026-11-27
+
+AI model visualization (PyTorch, safetensors, ONNX, TFLite, GGUF, Keras, NumPy) with seven views, plus READMEs and a
+screenshot install guide in 11 languages. Checked in real Orca: `docs/evidence/v0.5.0/`, `docs/evidence/aimodel/`.
 
 ### Added
 - **AI Model Preview** (`.pt` `.pth` `.ckpt` `.chkpt` `.pt2` `.ptl` `.safetensors` `.onnx` `.tflite` `.gguf` `.keras`
@@ -38,7 +41,6 @@ All notable changes per release. Each release on GitHub carries its verification
 - `tools/check-readmes.mjs`: checks the language bar, relative links and anchors, the CI markers, and that every
   language's format table has the same rows and extensions and covers every extension in both manifests.
 - `plugin/README.md` links the language READMEs on GitHub.
-### Added
 - **Screenshot install guide** in 11 languages (`docs/install-guide/<lang>.md`, index `docs/install-guide/README.md`):
   Settings → Plugins → Add plugin → From a Git URL → Install → trust prompt → Enable → preview, plus the optional DWG
   companion and troubleshooting. Captured from a real Orca 1.4.279 in Docker over CDP, one fresh profile per UI

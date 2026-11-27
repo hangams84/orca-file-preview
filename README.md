@@ -91,7 +91,7 @@ Orca **1.4.252** 이상에서 사용할 수 있습니다.
 # GitHub에서 최신 버전 설치 (Orca 1.4.252+). Orca가 요청 권한과 승인 지문을 출력합니다.
 orca plugin install https://github.com/hangams84/orca-file-preview
 orca plugin install https://github.com/hangams84/orca-file-preview --approve <fingerprint>
-# 특정 버전: https://github.com/hangams84/orca-file-preview#v0.4.0
+# 특정 버전: https://github.com/hangams84/orca-file-preview#v0.5.0
 
 # 또는 로컬 폴더
 orca plugin install ./plugin
