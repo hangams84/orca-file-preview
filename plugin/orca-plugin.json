@@ -2,7 +2,7 @@
   "manifestVersion": 2,
   "id": "file-preview",
   "name": "File Preview",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Read-only previews for Word (doc, docx), Hangul (hwp, hwpx), PowerPoint (ppt, pptx), Excel (xls, xlsx, xlsm, ods), PDF, text, CSV/TSV, HTML, SVG, GIF/BMP, 3D models and CAD (STL, OBJ, PLY, glTF, 3MF, OFF, FBX, DAE, STEP, IGES, BREP), 2D CAD drawings (DXF, DWF, DWFx), diagrams (draw.io, Visio), KiCad (schematic, board, footprint, symbol, project), SolidWorks (previews, properties, part meshes), EPLAN (part data, project archives) and ROS robot descriptions (URDF, xacro) inside Orca, on desktop and mobile.",
   "engines": {
     "orca": ">=1.4.248"

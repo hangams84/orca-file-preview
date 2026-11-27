@@ -35,7 +35,7 @@ limit, up to 1 GB; files outside a workspace too).
 # Orca 설정 → 플러그인 → 설치 → Git URL 에 https://github.com/hangams84/orca-file-preview.git 을 붙여넣어도 됩니다.
 orca plugin install https://github.com/hangams84/orca-file-preview
 orca plugin install https://github.com/hangams84/orca-file-preview --approve <fingerprint>
-# 특정 버전: https://github.com/hangams84/orca-file-preview#v0.3.0
+# 특정 버전: https://github.com/hangams84/orca-file-preview#v0.4.0
 
 # 또는 로컬 폴더
 orca plugin install ./plugin
