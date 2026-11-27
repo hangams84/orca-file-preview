@@ -189,7 +189,48 @@ async function onnx() {
   }
 }
 
-const sections = { numpy, gguf, onnx }
+// ---------------------------------------------------------------- TFLite
+const TFL_DT = { FLOAT32: 'f32', INT8: 'i8', INT32: 'i32', INT64: 'i64', UINT8: 'u8', FLOAT16: 'f16', BOOL: 'bool', INT16: 'i16' }
+async function tflite() {
+  for (const [f, t] of Object.entries(truth.tflite)) {
+    if (f.startsWith('__')) continue
+    const ir = await readers.tflite.read(source(file(f), f))
+    check('tflite', f, 'schema version', t.version, ir.metadata.schema_version)
+    const graphs = [ir.graph, ...(ir.graph.subgraphs ?? [])]
+    check('tflite', f, 'subgraphs', t.subgraphs.map((s) => s.name || null), graphs.map((g, i) => (g.name === (i ? `subgraph_${i}` : 'main') && !t.subgraphs[i].name ? null : g.name)))
+    for (const [i, s] of t.subgraphs.entries()) {
+      const g = graphs[i]
+      if (!g) continue
+      check('tflite', f, `${s.name} ops`, s.ops, g.nodes.map((n) => (n.op === n.op.toUpperCase() ? n.op : 'CUSTOM:' + n.op)))
+      check('tflite', f, `${s.name} inputs`, s.inputs.map((k) => s.tensors[k].name), g.inputs.map((x) => x.replace(/#\d+$/, '')))
+      check('tflite', f, `${s.name} outputs`, s.outputs.map((k) => s.tensors[k].name), g.outputs.map((x) => x.replace(/#\d+$/, '')))
+      for (const e of s.tensors) {
+        const v = g.values.find((x) => x.id === e.name)
+        if (!v) continue
+        check('tflite', f, `${s.name} ${e.name} shape`, e.shape, v.shape.map((d) => (d === '?' ? -1 : d)).map((d, k) => (e.shape[k] === 1 && d === -1 ? 1 : d)))
+        check('tflite', f, `${s.name} ${e.name} dtype`, TFL_DT[e.type] ?? e.type.toLowerCase(), v.dtype)
+        const stored = t.buffers[e.buffer] > 0
+        check('tflite', f, `${s.name} ${e.name} stored`, stored, !!v.tensor)
+        if (stored) {
+          const x = ir.tensors.find((y) => y.name === v.tensor)
+          check('tflite', f, `${e.name} bytes`, t.buffers[e.buffer], x.byteLength)
+          if (e.scale) checkClose('tflite', f, `${e.name} scale`, e.scale, x.quant?.scale?.slice(0, 4), 1e-6)
+          if (e.zero_point) check('tflite', f, `${e.name} zero point`, e.zero_point, x.quant?.zeroPoint?.slice(0, 4))
+          if (t.values[e.name] && i === 0) checkClose('tflite', f, `${e.name} values`, t.values[e.name], await head(x, 4))
+        }
+      }
+    }
+    const sigs = (ir.metadata.signatures ?? []).map((s) => ({ key: s.key, subgraph: graphs.findIndex((g) => g.name === s.subgraph), inputs: Object.keys(s.inputs).sort(), outputs: Object.keys(s.outputs).sort() }))
+    check('tflite', f, 'signatures', t.signatures, sigs)
+    check('tflite', f, 'metadata names', Object.keys(t.metadata), Object.keys(ir.metadata.metadata ?? {}))
+    if (t.interp_ops) check('tflite', f, 'ops vs interpreter', t.interp_ops, ir.graph.nodes.map((n) => n.op))
+  }
+  const table = truth.tflite.__ops__
+  const mod = await import(pathToFileURL(join(FMT, 'tflite-schema.ts')).href)
+  check('tflite', 'schema', 'builtin op table', Object.entries(table).map(([k, v]) => [Number(k), v]).filter(([k, v]) => mod.BUILTIN_OPS[k] !== v).length, 0)
+}
+
+const sections = { numpy, gguf, onnx, tflite }
 const only = arg('only')
 for (const [k, fn] of Object.entries(sections)) {
   if (only && only !== k) continue
