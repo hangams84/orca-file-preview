@@ -47,6 +47,8 @@ export interface PreviewContext {
   onTheme(listener: (theme: ThemeName) => void): void
   /** Small screens (phones): renderers should prefer fit-to-width layouts. */
   compact: boolean
+  /** Renders the same file again from scratch (e.g. after the user supplied companion files). */
+  rerender?: () => void
 }
 
 /** A renderer module exports `render`. It may return a cleanup function. */

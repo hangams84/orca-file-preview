@@ -105,9 +105,33 @@ interface Common {
   alpha?: number
 }
 
-export function buildScene(doc: DxfDoc): Scene {
-  return new Builder(doc).build()
+/** Files a drawing refers to: external references (xref blocks) and raster images (IMAGEDEF). */
+export interface DxfRefs {
+  xrefs: { block: string; path: string }[]
+  images: { handle: string; path: string }[]
 }
+
+export function dxfReferences(doc: DxfDoc): DxfRefs {
+  const xrefs: DxfRefs['xrefs'] = []
+  for (const [key, b] of doc.blocks) if (b.flags & 4 && b.xref) xrefs.push({ block: key, path: b.xref })
+  const images: DxfRefs['images'] = []
+  for (const [handle, path] of doc.imageDefs) images.push({ handle, path })
+  return { xrefs, images }
+}
+
+/** What the user supplied for those references: parsed xref drawings (by block key, upper case;
+ *  each may carry its own resolved references) and decoded images (by IMAGEDEF handle). */
+export interface DxfResolved {
+  xrefs?: Map<string, { doc: DxfDoc; resolved?: DxfResolved }>
+  images?: Map<string, { src: CanvasImageSource; w: number; h: number }>
+}
+
+export function buildScene(doc: DxfDoc, resolved: DxfResolved = {}): Scene {
+  return new Builder(doc, resolved).build()
+}
+
+/** Prefix of names an xref brings in (AutoCAD shows xref layers as `XREF|layer`). */
+const xrefName = (xref: string, name: string) => `${xref}|${name}`
 
 class Builder {
   scene: Scene = emptyScene('DXF')
@@ -123,7 +147,10 @@ class Builder {
   private refCount = 0
   private pdsize: number
 
-  constructor(private doc: DxfDoc) {
+  constructor(
+    private doc: DxfDoc,
+    private resolved: DxfResolved = {}
+  ) {
     this.t = doc.t
     this.ltscale = Number(hdr(doc, '$LTSCALE') ?? 1) || 1
     const dimscale = Number(hdr(doc, '$DIMSCALE') ?? 1) || 1
@@ -147,6 +174,11 @@ class Builder {
     for (const [key, b] of doc.blocks) {
       if (/^\*(MODEL|PAPER)_SPACE/.test(key)) continue
       const items: Item[] = []
+      const xref = b.flags & 4 ? this.resolved.xrefs?.get(key) : undefined
+      if (xref) {
+        this.mergeXref(key, b.name, xref)
+        continue
+      }
       if (b.flags & 4) bump(scene.skipped, 'external reference (xref)')
       else this.entities(b.ents, items, true)
       scene.blocks.set(key, { name: b.name, items: mergePaths(items) })
@@ -196,6 +228,26 @@ class Builder {
     }
     scene.info.push(`${scene.blocks.size} blocks`)
     return scene
+  }
+
+  /** An external reference: the referenced drawing's model space becomes this block; its layers and
+   *  blocks come along under `BLOCK|name`. */
+  private mergeXref(key: string, name: string, xref: { doc: DxfDoc; resolved?: DxfResolved }): void {
+    const sub = buildScene(xref.doc, xref.resolved ?? {})
+    const layerMap = sub.layers.map((l) => this.addLayer(xrefName(name, l.name), l.color, l.visible, 'CONTINUOUS', -3, ''))
+    sub.layers.forEach((l, i) => (this.scene.layers[layerMap[i]].count += l.count))
+    const remap = (items: Item[]): Item[] =>
+      items
+        .filter((it) => it.k !== 'viewport')
+        .map((it) => {
+          const out = { ...it, layer: it.layer >= 0 ? layerMap[it.layer] : it.layer }
+          if (out.k === 'ref') out.block = xrefName(key, out.block)
+          return out as Item
+        })
+    for (const [bk, blk] of sub.blocks) this.scene.blocks.set(xrefName(key, bk), { name: xrefName(name, blk.name), items: remap(blk.items) })
+    const model = sub.views.find((v) => v.kind === 'model')
+    this.scene.blocks.set(key, { name, items: remap(model?.items ?? []) })
+    for (const [k, n] of sub.skipped) bump(this.scene.skipped, k, n)
   }
 
   private addLayer(name: string, color: number, visible: boolean, ltype: string, lw: number, handle: string): number {
@@ -1192,8 +1244,11 @@ class Builder {
       out.push(this.path(cm, p.d, { fill: true, fillColor: C.BG, stroke: false }))
       return
     }
-    bump(this.scene.skipped, 'external image (frame only)')
-    out.push({ k: 'image', layer: cm.layer, color: cm.color, lw: 0, src: null, m: [ux * W, uy * W, vx * H, vy * H, ix, iy] })
+    const def = str(t, S, E, 340).toUpperCase()
+    const img = def ? this.resolved.images?.get(def) : undefined
+    const label = def ? this.doc.imageDefs.get(def) : undefined
+    if (!img) bump(this.scene.skipped, 'external image (frame only)')
+    out.push({ k: 'image', layer: cm.layer, color: cm.color, lw: 0, src: img?.src ?? null, m: [ux * W, uy * W, vx * H, vy * H, ix, iy], pw: img?.w, ph: img?.h, label })
   }
 
   private viewport(e: Ent, out: Item[]): void {

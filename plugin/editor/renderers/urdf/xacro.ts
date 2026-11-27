@@ -5,12 +5,12 @@
  *  `$(arg)`, `$(find)`, `$(optenv)`, `$(env)`, `$(eval)` substitutions. Expressions go through the
  *  safe evaluator in expr.ts.
  *
- *  The preview only receives the opened file, so `xacro:include` cannot be read: each include is
- *  recorded and skipped, and calls to macros that were probably defined there become notes instead
- *  of errors. Where xacro itself would stop at an error, this processor records a note and carries
+ *  The preview only receives the opened file. `xacro:include` is read through `opts.include` (files
+ *  the user handed to the preview, core/companions.ts); an include it cannot supply is recorded and
+ *  skipped, and calls to macros that were probably defined there become notes instead of errors. Where xacro itself would stop at an error, this processor records a note and carries
  *  on, so a preview still shows the rest of the robot. */
 import { evaluate, ExprError, globalNames, parsePyFloat, pyStr, PyFloat, truthy, type Value } from './expr.ts'
-import { attr, cloneNode, elements, removeAttr, setAttr, type XElement, type XNode } from './xml.ts'
+import { attr, cloneNode, elements, parseXml, removeAttr, setAttr, XmlError, type XElement, type XNode } from './xml.ts'
 
 export interface Note {
   level: 'error' | 'warning' | 'info'
@@ -23,6 +23,8 @@ export interface XacroResult {
   notes: Note[]
   /** `xacro:include` file names (evaluated) that could not be read. */
   includes: { filename: string; line: number; optional: boolean }[]
+  /** Includes that were read and expanded in place (`path`: the file that supplied them). */
+  included: { filename: string; path: string; line: number }[]
   /** Macro names called but never defined in this file. */
   unresolvedMacros: string[]
   /** Args after defaults. */
@@ -50,7 +52,14 @@ export interface XacroOptions {
   maxDepth?: number
   /** Limit on elements produced (expansion bombs). */
   maxElements?: number
+  /** Supplies the text of an included file: `filename` as evaluated (`package://pkg/…` for
+   *  `$(find pkg)/…`, relative or absolute paths), `from` the path of the including file (undefined
+   *  for the opened file). Returns null when the file is not available. */
+  include?: (filename: string, from: string | undefined) => { text: string; path: string } | null
 }
+
+/** Nesting limit for includes (a file that includes itself through others). */
+const MAX_INCLUDE_DEPTH = 32
 
 const XACRO_NS = /^https?:\/\/(www\.)?ros\.org\/wiki\/xacro\/?$/
 
@@ -217,6 +226,10 @@ const PY_KEYWORDS = new Set(
 class Processor {
   notes: Note[] = []
   includes: XacroResult['includes'] = []
+  included: XacroResult['included'] = []
+  /** Paths of the files being expanded (the opened file is ''). */
+  private readonly fileStack: string[] = ['']
+  private readonly include: XacroOptions['include']
   unresolved = new Set<string>()
   defined = new Map<string, { name: string; params: string; line: number }>()
   args: Record<string, string>
@@ -233,6 +246,7 @@ class Processor {
     this.args = { ...(opts.args ?? {}) }
     this.maxDepth = opts.maxDepth ?? 100
     this.maxElements = opts.maxElements ?? 200_000
+    this.include = opts.include
     this.globals = new Table(null, this)
     const names = globalNames((n) => this.args[n])
     for (const [k, v] of Object.entries(names)) this.globals.set(k, v, false)
@@ -303,7 +317,12 @@ class Processor {
       case 'env':
         this.note('warning', `$(env ${rest}): environment variables are not available in the preview; used an empty value`)
         return ''
-      case 'dirname':
+      case 'dirname': {
+        // The directory of the file being expanded, as far as it is known (a companion path).
+        const cur = this.fileStack[this.fileStack.length - 1]
+        const cut = cur.lastIndexOf('/')
+        return cut > 0 ? cur.slice(0, cut) : '.'
+      }
       case 'cwd':
         return '.'
       case 'anon':
@@ -400,8 +419,38 @@ class Processor {
           const spec = attr(el, 'filename') ?? ''
           const filename = this.safeText(spec, symbols, 'xacro:include filename')
           const optional = /^(true|1)$/i.test(attr(el, 'optional') ?? '')
-          this.includes.push({ filename, line: el.line, optional })
-          return []
+          const from = this.fileStack[this.fileStack.length - 1] || undefined
+          const got = filename ? this.include?.(filename, from) : null
+          if (!got) {
+            this.includes.push({ filename, line: el.line, optional })
+            return []
+          }
+          if (this.fileStack.includes(got.path) || this.fileStack.length > MAX_INCLUDE_DEPTH) {
+            this.note('error', `xacro:include ${filename}: ${got.path} includes itself; skipped`)
+            return []
+          }
+          let inc: XElement
+          try {
+            inc = parseXml(got.text)
+          } catch (e) {
+            if (!(e instanceof XmlError)) throw e
+            this.note('error', `xacro:include ${got.path}: the XML is not well-formed: ${e.message}`)
+            this.includes.push({ filename, line: el.line, optional })
+            return []
+          }
+          if (attr(el, 'ns')) this.note('warning', `xacro:include ns="${attr(el, 'ns')}": namespaced includes are expanded without the namespace`)
+          this.included.push({ filename, path: got.path, line: el.line })
+          // xacro's process_include: the included document is evaluated in the current scope and its
+          // root's children replace the include element.
+          this.fileStack.push(got.path)
+          const line = this.line
+          try {
+            this.evalAll(inc, macros, symbols)
+          } finally {
+            this.fileStack.pop()
+            this.line = line
+          }
+          return inc.children
         }
         case 'xacro:property':
           this.grabProperty(el, symbols)
@@ -601,5 +650,5 @@ export function processXacro(root: XElement, opts: XacroOptions = {}): XacroResu
     setAttr(root, 'xmlns', target)
   }
   proc.evalAll(root, new MacroTable(null), doc)
-  return { root, notes: proc.notes, includes: proc.includes, unresolvedMacros: [...proc.unresolved], args: proc.args, macros: [...proc.defined.values()] }
+  return { root, notes: proc.notes, includes: proc.includes, included: proc.included, unresolvedMacros: [...proc.unresolved], args: proc.args, macros: [...proc.defined.values()] }
 }

@@ -15,7 +15,7 @@ its own license; the license texts are included in the bundles' trailing comment
 | `vendor/metafile.js` | [rtf.js](https://github.com/tbluemel/rtf.js) — WMFJS only (WMF → SVG) | 3.0.9 | MIT |
 | `vendor/tiff.js` | [UTIF.js](https://github.com/photopea/UTIF.js) (`utif`) | 3.1.0 | MIT |
 | `vendor/tiff.js` (bundled dependency) | [pako](https://github.com/nodeca/pako) | 1.0.x | MIT (dual MIT / Zlib) |
-| `vendor/three.js` | [three.js](https://github.com/mrdoob/three.js) (core subset incl. primitive geometries and Raycaster, loaders STL/OBJ/PLY/GLTF/3MF/FBX/COLLADA/DRACO, OrbitControls, RoomEnvironment, BufferGeometryUtils) | 0.179.1 | MIT |
+| `vendor/three.js` | [three.js](https://github.com/mrdoob/three.js) (core subset incl. primitive geometries and Raycaster, loaders STL/OBJ/MTL/PLY/GLTF/3MF/FBX/COLLADA/DRACO, OrbitControls, RoomEnvironment, BufferGeometryUtils) | 0.179.1 | MIT |
 | `vendor/three.js` (bundled dependency of the 3MF/FBX loaders) | [fflate](https://github.com/101arrowz/fflate) (copy shipped in three.js) | 0.8.x | MIT |
 | `vendor/meshopt.js` | [meshoptimizer](https://github.com/zeux/meshoptimizer) decoder (copy shipped in three.js) | three 0.179.1 | MIT |
 | `vendor/occt/occt-import-js.js`, `vendor/occt/occt-import-js.csp.js` (modified copy), `vendor/occt/occt-import-js.wasm` | [occt-import-js](https://github.com/kovacsv/occt-import-js) (OpenCascade Technology compiled to WebAssembly) | 0.0.23 | LGPL-2.1 (occt-import-js); OCCT: LGPL-2.1 with the Open CASCADE exception. Shipped unchanged, plus `occt-import-js.csp.js`, a modified copy in which two `new Function` code-generation calls are swapped for closures (CSP, see `vendor/occt/README.md`); licence texts in `vendor/occt/license.*.txt`; see `vendor/occt/README.md` |

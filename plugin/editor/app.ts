@@ -2,7 +2,7 @@
  *  file; it re-renders when the file changes on disk. Renderers load lazily per format. */
 import { formatBytes, makeTr } from './core/i18n.ts'
 import { PreviewError, type PreviewContext, type Renderer, type ThemeName } from './core/types.ts'
-import { createShell, installStyles, showLoading, showMessage } from './core/ui.ts'
+import { createShell, installStyles, showLoading, showMessage, type Shell } from './core/ui.ts'
 
 type Loader = () => Promise<{ render: Renderer }>
 
@@ -85,6 +85,35 @@ export function boot(textFamily?: string): void {
   installStyles()
   const tr = makeTr(orca.locale)
   const shell = createShell()
+  const { show } = createPreview(shell, tr)
+
+  function toBytes(content: { kind: 'text'; text: string } | { kind: 'bytes'; bytes: ArrayBuffer }): Uint8Array {
+    return content.kind === 'bytes' ? new Uint8Array(content.bytes) : new TextEncoder().encode(content.text)
+  }
+
+  const api = orca.document
+  if (!api) {
+    showMessage(shell.root, 'File Preview', tr('이 파일은 편집기 탭에서만 열 수 있습니다.', 'This page runs as a custom editor.'))
+  } else {
+    // Orca can deliver the same document more than once (the replay on subscribe, a re-open, a
+    // capture): re-render only when the bytes or the file type really changed.
+    let lastBytes: Uint8Array | null = null
+    let lastType = ''
+    api.onDidChange((doc) => {
+      const bytes = toBytes(doc.content)
+      // Text documents (contentKind "text") carry no fileType: their entry passes it (editor/text/<ext>.ts).
+      const type = textFamily ? textType(textFamily, bytes) : (doc.fileType ?? '').replace(/^\./, '').toLowerCase()
+      if (type === lastType && lastBytes && sameBytes(lastBytes, bytes)) return
+      lastBytes = bytes
+      lastType = type
+      void show(bytes, type)
+    })
+  }
+}
+
+/** The preview inside a shell: `show` renders bytes of a type (a RENDERERS key), replacing what was
+ *  shown. Used by the custom editors (boot) and by the File Preview panel (panel/main.ts). */
+export function createPreview(shell: Shell, tr: (ko: string, en: string) => string): { show(bytes: Uint8Array, fileType: string): Promise<void> } {
   const themeListeners = new Set<(t: ThemeName) => void>()
   const currentTheme = (): ThemeName => (document.documentElement.classList.contains('light') ? 'light' : 'dark')
   orca.on('theme', () => {
@@ -132,7 +161,10 @@ export function boot(textFamily?: string): void {
       onTheme: (l) => {
         themeListeners.add(l)
       },
-      compact: window.matchMedia('(max-width: 600px)').matches
+      compact: window.matchMedia('(max-width: 600px)').matches,
+      rerender: () => {
+        if (gen === generation) void show(bytes, fileType)
+      }
     }
     try {
       const mod = await load()
@@ -167,28 +199,7 @@ export function boot(textFamily?: string): void {
     }
   }
 
-  function toBytes(content: { kind: 'text'; text: string } | { kind: 'bytes'; bytes: ArrayBuffer }): Uint8Array {
-    return content.kind === 'bytes' ? new Uint8Array(content.bytes) : new TextEncoder().encode(content.text)
-  }
-
-  const api = orca.document
-  if (!api) {
-    showMessage(shell.root, 'File Preview', tr('이 파일은 편집기 탭에서만 열 수 있습니다.', 'This page runs as a custom editor.'))
-  } else {
-    // Orca can deliver the same document more than once (the replay on subscribe, a re-open, a
-    // capture): re-render only when the bytes or the file type really changed.
-    let lastBytes: Uint8Array | null = null
-    let lastType = ''
-    api.onDidChange((doc) => {
-      const bytes = toBytes(doc.content)
-      // Text documents (contentKind "text") carry no fileType: their entry passes it (editor/text/<ext>.ts).
-      const type = textFamily ? textType(textFamily, bytes) : (doc.fileType ?? '').replace(/^\./, '').toLowerCase()
-      if (type === lastType && lastBytes && sameBytes(lastBytes, bytes)) return
-      lastBytes = bytes
-      lastType = type
-      void show(bytes, type)
-    })
-  }
+  return { show }
 }
 
 /** The suffix a text document most likely has, from its family (see tools/gen-text-editors.mjs) and its
