@@ -7,6 +7,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { TEXT, LANGS } from './text.mjs'
 
+const FORCE = process.argv.includes('--force')
 const HERE = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.resolve(HERE, '../..')
 const DOCS = path.join(ROOT, 'docs/install-guide')
@@ -60,8 +61,16 @@ for (const { code, name } of LANGS) {
   for (const item of t.trouble) lines.push(`- ${item}`)
   lines.push('')
   lines.push(`---`, '', t.footer, '')
-  fs.writeFileSync(path.join(DOCS, `${code}.md`), lines.join('\n'))
+  // The committed pages were reviewed by native speakers against the screenshots and corrected by hand, so they
+  // are the source of truth: rewriting them from text.mjs would undo that review. Only --force rewrites them
+  // (e.g. after Orca's UI changed); then have each language reviewed again.
+  const out = path.join(DOCS, `${code}.md`)
   index.push({ code, name, steps: meta.steps.length, version: meta.orcaVersion })
+  if (fs.existsSync(out) && !FORCE) {
+    console.log(`${code}.md: kept (reviewed page; --force rewrites it)`)
+    continue
+  }
+  fs.writeFileSync(out, lines.join('\n'))
   console.log(`${code}.md: ${meta.steps.length} steps`)
 }
 
