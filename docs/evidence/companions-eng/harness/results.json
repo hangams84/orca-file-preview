@@ -1,0 +1,180 @@
+[
+  {
+    "group": "eplan",
+    "name": "link-folder",
+    "file": "samples/eplan-project/Plant.elk",
+    "checks": [
+      {
+        "ok": true,
+        "what": "opened"
+      },
+      {
+        "ok": true,
+        "what": "📁 button present"
+      },
+      {
+        "ok": true,
+        "what": "hint to pick the .edb folder"
+      },
+      {
+        "ok": true,
+        "what": "project properties from the folder"
+      },
+      {
+        "ok": true,
+        "what": "page descriptions"
+      },
+      {
+        "ok": true,
+        "what": "5 parts incl. a zlib-compressed record"
+      }
+    ],
+    "errors": [],
+    "shots": [
+      "eplan-link-folder-overview.png",
+      "eplan-link-folder-parts.png"
+    ],
+    "state": "ready",
+    "before": "This .elk file is a link to a project. The project data (pages, devices, parts) lives in the \"Plant.edb\" directory next to it, which this preview cannot see. Open a backup (.zw1) of the project to see its contents.Pick the project folder (.edb, or the folder that holds it) with 📁 or drop it here to read the project properties, the page list and the parts list.KindEPLAN projectData directoryPlant.edbDatabase version18.0EncodingUTF-16LEFile size32 B",
+    "tabs": [
+      "Overview",
+      "Pages",
+      "Parts",
+      "Pictures & documents (1)",
+      "Project properties (7)",
+      "Contents"
+    ],
+    "overview": "Schematic pages are stored in EPLAN’s own binary databases and cannot be drawn. The project properties, page descriptions, pictures and the archive contents are shown.Read from the project folder \"eplan-project/Plant.edb\". It is EPLAN's own object store (.eod/.eox files), not SQLite, SQL CE or XML: only ProjectInfo.xml, the page descriptions and the parts list can be read.KindEPLAN project · folder eplan-project/Plant.edbLink file data directoryPlant.edbDatabase version18.0Project descriptionFilling plantProject numberFP-0002CompanyOrca File Preview (synthetic)Created byFPCreated2025-11-26 09:00:00 UTCModified2025-11-26 10:00:00 UTCLast saved with EPLAN2026.0.3",
+    "pages": "Page descriptions found in Page.eod, in stored order. Page numbers and the schematic content are not decoded, and pages without a description do not appear.Title page400 V feed-inPump motorPLC inputs",
+    "parts": [
+      "ORCA.CABLE-3G1.5Cable · 3G1.5, PVC",
+      "ORCA.MCB-C16Circuit breaker · C16, 1-pole",
+      "ORCA.PLC-DI16Digital input module · 16 inputs, 24 V DC",
+      "ORCA.PUMP-2K2Pump motor · 2.2 kW, 400 V",
+      "ORCA.TB-100Feed-through terminal · 2.5 mm², 800 V"
+    ],
+    "ms": 1861,
+    "pass": true
+  },
+  {
+    "group": "eplan",
+    "name": "macro-ema",
+    "file": "samples/sample-terminal.ema",
+    "checks": [
+      {
+        "ok": true,
+        "what": "opened"
+      },
+      {
+        "ok": true,
+        "what": "macro and variant named"
+      },
+      {
+        "ok": true,
+        "what": "texts drawn"
+      },
+      {
+        "ok": true,
+        "what": "second variant"
+      }
+    ],
+    "errors": [],
+    "shots": [
+      "eplan-macro-ema-variant-1.png",
+      "eplan-macro-ema-variant-2.png"
+    ],
+    "state": "ready",
+    "info": "EPLAN WindowMacro · Orca-Terminal · EPLAN 2.9.0 · Representation 1 · variant A · 8 lines · 3 arcs · 1 curves · 4 texts · 3.1 KB",
+    "paths": 4,
+    "texts": [
+      "-X1",
+      "1",
+      "2",
+      "Jumper"
+    ],
+    "info2": "EPLAN WindowMacro · Orca-Terminal · EPLAN 2.9.0 · Representation 4 · variant A · Panel layout · 3 lines · 0 arcs · 0 curves · 1 texts · 3.1 KB",
+    "ms": 692,
+    "pass": true
+  },
+  {
+    "group": "eplan",
+    "name": "edz-macro-draw",
+    "file": "samples/sample.edz",
+    "checks": [
+      {
+        "ok": true,
+        "what": "opened"
+      },
+      {
+        "ok": true,
+        "what": "macro opened from the part package"
+      }
+    ],
+    "errors": [],
+    "shots": [
+      "eplan-edz-macro-draw-macro.png"
+    ],
+    "state": "ready",
+    "embedded": "items/macro/Orca/TB-100.ema · EPLAN WindowMacro · TB-100 · EPLAN 2.9.0 · Representation 1 · variant A · 4 lines · 2 arcs · 0 curves · 1 texts · 936 B",
+    "ms": 835,
+    "pass": true
+  },
+  {
+    "group": "eplan",
+    "name": "macro-real",
+    "file": ".orca/bach/AI204_1.ema",
+    "checks": [
+      {
+        "ok": true,
+        "what": "opened"
+      },
+      {
+        "ok": true,
+        "what": "real macro drawn"
+      }
+    ],
+    "errors": [],
+    "shots": [
+      "eplan-macro-real-variant-1.png"
+    ],
+    "state": "ready",
+    "info": "EPLAN WindowMacro · AI204_1 · EPLAN 2.8.12830 · Representation 1 · variant A · 132 lines · 46 arcs · 424 curves · 6 texts · 533.1 KB",
+    "ms": 786,
+    "pass": true
+  },
+  {
+    "group": "eplan",
+    "name": "link-folder-real",
+    "file": ".orca/eplan/graphical_edit/cdp_place_only.elk",
+    "checks": [
+      {
+        "ok": true,
+        "what": "opened"
+      },
+      {
+        "ok": true,
+        "what": "📁 button present"
+      },
+      {
+        "ok": true,
+        "what": "folder used although the link names another .edb"
+      },
+      {
+        "ok": true,
+        "what": "pages 77, parts 97"
+      }
+    ],
+    "errors": [],
+    "shots": [
+      "eplan-link-folder-real-overview.png",
+      "eplan-link-folder-real-pages.png",
+      "eplan-link-folder-real-parts.png"
+    ],
+    "state": "ready",
+    "overview": "Schematic pages are stored in EPLAN’s own binary databases and cannot be drawn. The project properties, page descriptions, pictures and the archive contents are shown.Read from the project folder \"graphical_edit/cdp_place_only.edb\". It is EPLAN's own object store (.eod/.eox files), not SQLite, SQL CE or XML: only ProjectInfo.xml, the page descriptions and the parts list can be read.KindEPLAN project · folder graphical_edit/cdp_place_only.edbLink file data directoryEPLAN_Sample_Project_Education.edbDatabase version18.0Project descriptionGrinding machineProject numberIEC_bas001Project typeGrinding machine, Type 1CompanyEPLAN GmbH & Co. KGInstallation siteHall 17 / Section BYear of construction2016/2017Created byEPLCreated2025-06-05 12:31:55 UTCLast modified bySloanModified2026-03-23 13:19:00 UTCProject managerEPLLast saved with EPLAN2026.0.3EPLAN build25581Highest EPLAN version used2026.0.3.25581",
+    "pageCount": 77,
+    "partCount": 97,
+    "ms": 2106,
+    "pass": true
+  }
+]
