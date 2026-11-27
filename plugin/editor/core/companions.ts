@@ -165,3 +165,38 @@ async function walk(entry: FileSystemEntry, prefix: string, out: CompanionFile[]
     for (const child of batch) await walk(child, path, out)
   }
 }
+
+/** The standard controls every viewer uses for companion files: a toolbar button that picks a folder
+ *  (shift-click: single files) and a drop target on the preview root. `onAdded` runs after files arrive,
+ *  typically to re-render with them. Returns a cleanup that removes the drop handlers. */
+export function companionControls(
+  ctx: { root: HTMLElement; toolbar: { button(spec: { label: string; title: string; onClick: () => void }): HTMLButtonElement }; tr(ko: string, en: string): string },
+  onAdded: (added: CompanionFile[]) => void,
+  opts: { accept?: string; what?: { ko: string; en: string } } = {}
+): () => void {
+  const what = opts.what ?? { ko: '참조 파일', en: 'referenced files' }
+  const button = ctx.toolbar.button({
+    label: '📁',
+    title: ctx.tr(
+      `${what.ko}이 있는 폴더 선택 (Shift: 파일 선택) · 파일/폴더를 끌어다 놓아도 됩니다`,
+      `Pick the folder with the ${what.en} (Shift: pick files) · or drop files/folders here`
+    ),
+    onClick: () => {
+      void pickCompanions({ folder: !shiftDown, accept: opts.accept }).then((added) => {
+        if (added.length) onAdded(added)
+      })
+    }
+  })
+  let shiftDown = false
+  button.addEventListener('pointerdown', (e) => (shiftDown = e.shiftKey))
+  const n = companionFiles().length
+  if (n) button.textContent = `📁 ${n}`
+  const off = onCompanions(() => (button.textContent = `📁 ${companionFiles().length}`))
+  const undrop = installCompanionDrop(ctx.root, (added) => {
+    if (added.length) onAdded(added)
+  })
+  return () => {
+    off()
+    undrop()
+  }
+}
